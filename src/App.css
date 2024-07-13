@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+  font-family: "Satoshi-Black";
+  src: url('./assets/fonts/Satoshi-Variable.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Satoshi-Black";
+  src: url('./assets/fonts/Satoshi-Variable.ttf') format("truetype");
+}
+
+
+@font-face {
+  font-family: "WorkSans-Regular";
+  src: url('./assets/fonts/WorkSans-Regular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Cambria";
+  src: url('./assets/fonts/Cambria.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "./assets/fonts/NunitoSans-Regular.ttf";
+  src: url('./assets/fonts/NunitoSans-Regular.ttf') format("truetype");
+}
+
+
+
+@font-face {
+  font-family: "CormorantGaramond-Regular";
+  src: url('./assets/fonts/CormorantGaramond-Regular.ttf') format("truetype");
+}
+
+
+
+/* Scroll-bar */
+::-webkit-scrollbar {
+  width: 4px;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #50CC4D;
+  border-radius: 15px;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: #50CC4D;
+  border-radius: 15px;
+}
+
+.ReactModal__Overlay{
+  background-color: #0a24092f !important;
+  backdrop-filter: blur(7px);
+}
