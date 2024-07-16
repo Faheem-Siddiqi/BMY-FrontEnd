@@ -1,0 +1,27 @@
+
+input[type="checkbox"] {
+    min-width: 20px;
+    min-height: 20px;
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #50CC4D; 
+    border-color: #50CC4D;
+  }
+  
+  input[type="checkbox"]:checked::after {
+    content: '✔';
+    position: absolute;
+    top: -2px;
+  
+    left:2px;
+    font-size: 14px;
+    color: white;
+  }

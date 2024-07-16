@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../../AppContext';
 import { BiLogOut } from 'react-icons/bi';
 import { useState } from 'react';
 import { MdDashboard, MdMarkEmailUnread } from 'react-icons/md';
@@ -8,51 +9,151 @@ import { Link } from 'react-router-dom';
 import { IoDocuments } from "react-icons/io5";
 import profileImage from '../../assets/images/bena.jpg';
 import { VscThreeBars } from "react-icons/vsc";
-const sidebarItems = [
-    // RE-SEARCHERS
-    {
-        id: 1,
-        icon: <MdDashboard
-            className='text-xl' />,
-        text: 'Dashboard',
-        link: '/',
-        page: 'researcher-dashboard'
-    },
-    {
-        id: 2,
-        icon: <FaUsers
-            className='text-xl' />,
-        text: 'Teams',
-        link: '/team-members',
-        page: 'team-members'
-    },
-    {
-        id: 3,
-        icon: <MdMarkEmailUnread
-            className='text-xl' />,
-        text: 'Supervisors',
-        link: '/supervisor',
-        page: 'supervisors'
-    },
-    // only researcher with status as team head
-    {
-        id: 4,
-        icon: <IoDocuments
-            className='text-xl' />,
-        text: 'Proposals',
-        link: '/researcher-proposal',
-        page: 'researcher-proposals'
-    },
-    {
-        id: 5,
-        icon: <IoDocuments
-            className='text-xl' />,
-        text: 'Proposals',
-        link: '/teamLead-proposal',
-        page: 'teamLead-proposals'
-    },
-];
+import { PiUserCircleGearFill } from "react-icons/pi";
 const Sidebar = ({ pageName }) => {
+    const { role } = useContext(AppContext);
+    if (role === 'group-lead') {
+        var sidebarItems = [
+            // RE-SEARCHERS
+            {
+                id: 1,
+                icon: <MdDashboard
+                    className='text-xl' />,
+                text: 'Dashboard',
+                link: '/',
+                page: 'researcher-dashboard'
+            },
+            {
+                id: 2,
+                icon: <FaUsers
+                    className='text-xl' />,
+                text: 'Teams',
+                link: '/researcher-team',
+                page: 'team-members'
+            },
+            {
+                id: 3,
+                icon: <MdMarkEmailUnread
+                    className='text-xl' />,
+                text: 'Supervisors',
+                link: '/supervisor',
+                page: 'supervisors'
+            },
+        
+            {
+                id: 4,
+                icon: <IoDocuments
+                    className='text-xl' />,
+                text: 'Proposals',
+                link: '/researcher-proposal',
+                page: 'researcher-proposals'
+            },
+            {
+                id: 5,
+                icon: <FaUsers
+                    className='text-xl' />,
+                text: 'LeadProposals',
+                link: '/group-lead-proposal',
+                page: 'teamLead-proposals'
+            },
+            {
+                id: 6,
+                icon: <IoDocuments
+                    className='text-xl' />,
+                text: 'teamLead-team',
+                link: '/group-lead-team',
+                page: 'LeadTeams'
+            },
+        ];
+    }
+    if (role === 'supervisor') {
+        var sidebarItems = [
+            // RE-SEARCHERS
+            {
+                id: 1,
+                icon: <MdDashboard
+                    className='text-xl' />,
+                text: 'Dashboard',
+                link: '/supervisor-dashboard',
+                page: 'supervisor-dashboard'
+            },
+            {
+                id: 2,
+                icon: <FaUsers
+                    className='text-xl' />,
+                text: 'Teams',
+                link: '/supervisor-teams',
+                page: 'supervisor-teams'
+            },
+            {
+                id: 3,
+                icon: <IoDocuments
+                    className='text-xl' />,
+                text: 'Proposals',
+                link: '/supervisor-proposal',
+                page: 'supervisor-proposal'
+            },
+            {
+                id: 4,
+                icon: <PiUserCircleGearFill
+                    className='text-xl' />,
+                text: 'ERC Panel',
+                link: '/view-erc-team',
+                page: 'view-erc-team'
+            },
+        ];
+    }
+    // var sidebarItems = [
+    //     {
+    //         id: 1,
+    //         icon: <MdDashboard
+    //             className='text-xl' />,
+    //         text: 'Dashboard',
+    //         link: '/',
+    //         page: 'researcher-dashboard'
+    //     },
+    //     {
+    //         id: 2,
+    //         icon: <FaUsers
+    //             className='text-xl' />,
+    //         text: 'Teams',
+    //         link: '/researcher-team',
+    //         page: 'team-members'
+    //     },
+    //     {
+    //         id: 3,
+    //         icon: <MdMarkEmailUnread
+    //             className='text-xl' />,
+    //         text: 'Supervisors',
+    //         link: '/supervisor',
+    //         page: 'supervisors'
+    //     },
+    //     // only researcher with status as team head
+    //     {
+    //         id: 4,
+    //         icon: <IoDocuments
+    //             className='text-xl' />,
+    //         text: 'Proposals',
+    //         link: '/researcher-proposal',
+    //         page: 'researcher-proposals'
+    //     },
+    //     {
+    //         id: 5,
+    //         icon: <FaUsers
+    //             className='text-xl' />,
+    //         text: 'LeadProposals',
+    //         link: '/group-lead-proposal',
+    //         page: 'teamLead-proposals'
+    //     },
+    //     {
+    //         id: 6,
+    //         icon: <IoDocuments
+    //             className='text-xl' />,
+    //         text: 'teamLead-team',
+    //         link: '/group-lead-team',
+    //         page: 'LeadTeams'
+    //     },
+    // ];
     const [propPassedPage, setPageName] = useState(pageName);
     const [hideSidebar, setToggleHideSidebar] = useState(false)
     const sidebarClass = 'font-Satoshi-Black flex justify-between items-center my-1 md:my-2 px-1 cursor-pointer';

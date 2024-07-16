@@ -4,7 +4,7 @@ import DeleteMembers from '../../modals/DeleteMembers.jsx';
 export default function CurrentGroupMembers() {
     return (
         <>
-            <header className='bg-white shadow-sm my-5 p-10'>
+            <header className='bg-white shadow-sm my-10 p-10'>
                 <div className="grid md:grid-cols-2 grid-col-1 md:gap-10">
                     <div>
                         <h1 className='font-semibold  text-lg'>Groud Lead</h1>

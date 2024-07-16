@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import React from 'react';
+import AppContext from "../../../AppContext";
 import { IoDocumentText } from "react-icons/io5";
 const ProposalsTableRow = ({ name, supervisor, groupdLead, status }) => {
+    const { role } = useContext(AppContext);
     return (
         <tr className='w-full font-Satoshi-Black'>
             <td className='p-4 flex items-end justify-start gap-1' >
-            <IoDocumentText className='text-theta text-xl'/>
+                <IoDocumentText className='text-theta text-xl' />
                 {name}</td>
             <td className='p-4'>{supervisor}</td>
             <td className='p-4'>{groupdLead}</td>
