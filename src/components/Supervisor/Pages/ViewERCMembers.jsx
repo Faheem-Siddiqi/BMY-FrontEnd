@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../../layout/Sidebar'
 import profileImage from '../../../assets/images/Profile.png'
+import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 export default function ERCMembers() {
   const members = [
     {
@@ -38,10 +39,10 @@ export default function ERCMembers() {
   ];
   return (
     <>
-      <div className="flex  xl:flex-row flex-col min-h-[100vh]  font-WorkSans-Regular overflow ">
+      <div className="flex  xl:flex-row flex-col  font-WorkSans-Regular  ">
         <Sidebar pageName='view-erc-team' />
-        <section className=' w-full xl:w-[85%] bg-lightBackground '>
-          <nav className='bg-orange-400 w-full'> NAV BAR CONTENT</nav>
+        <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+          <UserNavbar />
           <div className='xl:m-10 m-5  '>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>ERC Panel </h1>
             <h1 className='font-semibold  text-lg'>ERC Committee Members</h1>

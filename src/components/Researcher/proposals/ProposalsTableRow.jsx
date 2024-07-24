@@ -1,12 +1,10 @@
-import { useContext } from "react";
 import React from 'react';
 import AppContext from "../../../AppContext";
 import { IoDocumentText } from "react-icons/io5";
 const ProposalsTableRow = ({ name, supervisor, groupdLead, status }) => {
-    const { role } = useContext(AppContext);
     return (
         <tr className='w-full font-Satoshi-Black'>
-            <td className='p-4 flex items-end justify-start gap-1' >
+            <td className='p-4 flex items-center justify-start gap-1' >
                 <IoDocumentText className='text-theta text-xl' />
                 {name}</td>
             <td className='p-4'>{supervisor}</td>
@@ -15,8 +13,8 @@ const ProposalsTableRow = ({ name, supervisor, groupdLead, status }) => {
             <td className='p-4'>
                 <div className='flex gap-2'>
                     based on status:
-                    <button className='bg-epsilon text-white rounded px-1'>Download</button>
-                    <button className='bg-stone-400 text-white rounded px-3'>Edit</button>
+                    <button className='bg-epsilon text-white rounded h-fit py-1 my-auto px-2'>Download</button>
+                    <button className='bg-stone-400 text-white rounded h-fit py-1 px-2 my-auto'>Edit FOR RESEARCHERS ONLY</button>
                 </div>
             </td>
         </tr>

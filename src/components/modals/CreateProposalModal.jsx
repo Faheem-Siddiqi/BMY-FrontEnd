@@ -47,9 +47,8 @@ export default function CreateProposalModal() {
           {/* <button onClick={closeModal}>close</button> */}
           <div className='font-semibold text-xl'>
             You dont have team members / supervisor to create a proposal </div>
-          <div className='flex-row  flex md:gap-2 gap-5 my-5'>
-            <button className='bg-epsilon py-1 px-5 rounded-md w-fit text-white outline-none'> Yes</button>
-            <button className='bg-white border-epsilon border w-fit outline-none py-1 px-5 rounded-md text-epsilon' onClick={closeModal}>No</button>
+          <div className='flex-row  flex md:gap-2 gap-5 mt-4'>
+            <button className='bg-white border-epsilon border w-fit outline-none py-1 mt-5 px-5 rounded-md text-epsilon' onClick={closeModal}>Close</button>
           </div>
         </Modal>
       </div></>

@@ -1,12 +1,12 @@
 import React from 'react'
-import Sidebar from '../../layout/Sidebar'
+import Sidebar from '../../layout/Sidebar.jsx'
 import profileImage from '../../../assets/images/bena.jpg'
 import { IoTimerOutline } from "react-icons/io5";
 import { MdAdd } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-export default function SupervisorDashboard() {
+export default function ResercherLeadDashboard() {
   const members = [
     {
       name: "Faheem Siddiqi",

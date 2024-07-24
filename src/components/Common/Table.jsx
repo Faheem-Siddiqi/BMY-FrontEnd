@@ -21,7 +21,7 @@ const Table = ({ header, rowData, rowRenderComponent }) => {
         setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages));
     };
     return (
-        <div className="overflow-scroll my-5  border border-opacity-25  rounded-lg">
+        <div className="overflow-x-scroll my-5  border border-opacity-25  rounded-lg">
             <table className="w-full">
                 <thead className=''>
                     <tr className="bg-epsilon  text-white ">

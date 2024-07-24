@@ -21,6 +21,8 @@ export default {
         primary:"#377E31",
         mist: "#647959", 
         epsilon:"#50CC4D",
+        alpha:'#E7FFE6',
+        lambda:'#337E31',
         zeta: "#004700",
         theta:"#647959",
         iota:"#F3FFF3",
@@ -34,5 +36,18 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
+
+  daisyui: {
+    themes: false, 
+    darkTheme: "light", 
+    base: false, 
+    styled: false, 
+    utils: true, 
+    prefix: "", 
+    logs: true, 
+    themeRoot: ":root", 
+  },
 }

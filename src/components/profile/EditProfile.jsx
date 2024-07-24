@@ -3,13 +3,15 @@ import Sidebar from './../layout/Sidebar';
 import Affiliation from './Affiliation';
 import Signature from './Signature';
 import PersonalInformation from './PersonalInformation';
+import UserNavbar from '../layout/Navs/UserNavbar';
 export default function EditProfile() {
   return (
     <>
-      <header className="flex  xl:flex-row flex-col h-[100vh] font-Satoshi-Black   ">
-        <Sidebar pageName='profile' />
-        <header className='w-full xl:w-[85%] bg-lightBackground overflow-y-auto '>
-          <nav className='bg-orange-400 w-full'> NAV BAR CONTENT</nav>
+    {/*  */}
+      <header className="flex  xl:flex-row flex-col  font-Satoshi-Black   ">
+      <Sidebar pageName='profile' />
+                <header className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+                <UserNavbar/>
           <div className='xl:px-10 px-5'>
           <PersonalInformation />
           <Affiliation />

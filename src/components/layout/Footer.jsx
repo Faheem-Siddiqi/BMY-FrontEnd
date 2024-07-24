@@ -6,11 +6,10 @@ import { BsTwitterX } from "react-icons/bs";
 export default function Footer() {
   return (
     <>
-   
       <footer className='bg-iota'>
-        <div className=" px-5  py-10">
+        <div className="xl:p-10 p-5 ">
           <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8   ">
-            <div className="flex flex-col font-CormorantGaramond-Regular lg:items-center">
+            <div className="flex flex-col font-CormorantGaramond-Regular ">
               <h2 className="font-bold  text-zeta text-4xl">BMY </h2>
               <p className=" text-4xl text-primary">Health</p>
               <p className=" text-mist">PAKISTAN</p>
@@ -46,8 +45,9 @@ export default function Footer() {
             </div>
             <div className="flex flex-col">
               <h1 className="font-bold font-WorkSans-Regular text-2xl text-black">Download Our Newsletter</h1>
-              <button className="mt-2 bg-epsilon w-fit text-white p-2 mb-5 rounded">
-                Newsletter
+              <button className="mt-6 px-6 max-w-fit py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                News Letter
               </button>
               <h1 className="font-bold font-WorkSans-Regular rounded-box text-2xl my-2 text-black">Our Socials</h1>
               <div className="flex gap-3 mt-2 items-center">

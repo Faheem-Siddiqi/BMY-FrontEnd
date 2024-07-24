@@ -30,7 +30,14 @@ export default function Affiliation() {
                             <CreateSvg />
                         </div>
                     </div>
-                    <button className='py-2 px-10 rounded-md  text-white w-fit bg-epsilon'>Submit</button>
+
+                    <button
+                                   
+                                   className="mb-2 py-2 px-5 rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                                   <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                                   Update 
+                               </button>
+                  
                 </section>
                 <section>
                     <div className='my-2'>
@@ -53,7 +60,13 @@ export default function Affiliation() {
                             className='border rounded-md block py-2 bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Lahore' />
                         <CreateSvg />
                     </div>
-                    <button className='py-2 px-10 rounded-md my-5 text-white w-fit bg-epsilon'>Submit</button>
+                    <button
+                                   
+                                   className="my-5 py-2 px-5 rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                                   <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                                   Update 
+                               </button>
+                  
                 </section>
             </header>
         </>

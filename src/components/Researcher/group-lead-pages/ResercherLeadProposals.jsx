@@ -3,15 +3,15 @@ import Sidebar from '../../layout/Sidebar.jsx'
 import { MdAdd } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import Table from '../../Common/Table.jsx';
+import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import CreateProposalModal from '../../modals/CreateProposalModal.jsx'
 export default function ResercherLeadProposals() {
   return (
     <>
-    
       <div className="flex  xl:flex-row flex-col min-h-[100vh]   font-Satoshi-Black overflow ">
-        <Sidebar pageName='ResearcherProposal' />
-        <section className=' w-full xl:w-[85%] bg-lightBackground '>
-          <nav className='bg-orange-400 w-full'> NAV BAR CONTENT</nav>
+        <Sidebar pageName='teamLead-proposals' />
+        <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+          <UserNavbar />
           <div className='xl:m-10 m-5  '>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
             <header className='bg-white shadow-sm my-5 p-16'>
@@ -21,8 +21,7 @@ export default function ResercherLeadProposals() {
                   <h1 className='font-semibold text-xl'>Create Proposal</h1>
                 </div>
               </Link>
-
-              <CreateProposalModal/>
+              <CreateProposalModal />
             </header>
             <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
             <Table

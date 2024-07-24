@@ -1,10 +1,12 @@
-import React, { useState } from 'react'; // Import useState
+import React, { useState } from 'react'; 
 import Sidebar from '../../layout/Sidebar';
 import profileImage from '../../../assets/images/bena.jpg';
 import { LuCrown } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { MdAdd } from "react-icons/md";
 import Table from '../../Common/Table';
+import  UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 export default function SupervisorTeam() {
   // Define Groups
   const Groups = [
@@ -86,11 +88,20 @@ export default function SupervisorTeam() {
   };
   return (
     <>
-      <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow">
+      <div className="flex xl:flex-row flex-col font-WorkSans-Regular ">
         <Sidebar pageName='supervisor-teams' />
-        <section className='w-full xl:w-[85%] bg-lightBackground'>
-          <nav className='bg-orange-400 w-full'>NAV BAR CONTENT</nav>
+        <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+        <UserNavbar/>
           <div className='xl:m-10 m-5'>
+            <header className='bg-white shadow-sm my-8 p-5 md:p-16 '>
+              <p >
+                <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon  p-10 rounded-md'>
+                  <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
+                  <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Researchers</h1>
+                  <p className='font-semibold my-2'>Not Researcher Found.</p>
+                </div>
+              </p>
+            </header>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Teams Requests</h1>
             <Table
               className='w-[99%]  md:[50vh] '

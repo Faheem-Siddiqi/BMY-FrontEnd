@@ -3,13 +3,14 @@ import Sidebar from '../../layout/Sidebar.jsx'
 import { MdAdd } from "react-icons/md";
 import CurrentMembers from '../group-members/CurrentGroupMembers.jsx'
 import { Link } from 'react-router-dom';
+import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 export default function ResercherLeadTeam() {
     return (
         <>
-            <div className="flex  xl:flex-row flex-col min-h-[100vh]   font-Satoshi-Black overflow ">
+            <div className="flex  xl:flex-row flex-col   font-Satoshi-Black  ">
                 <Sidebar pageName='teamLead-team' />
-                <section className=' w-full xl:w-[85%] bg-lightBackground '>
-                    <nav className='bg-orange-400 w-full'> NAV BAR CONTENT</nav>
+                <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+                    <UserNavbar />
                     <div className='xl:m-10 m-5  '>
                         <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Group Members</h1>
                         <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
