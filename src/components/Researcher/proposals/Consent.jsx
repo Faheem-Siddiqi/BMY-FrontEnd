@@ -16,7 +16,7 @@ export default function Consent() {
     };
     return (
         <>
-            <div className='xl:m-10 m-5  font-WorkSans-Regular'>
+            <div className='font-WorkSans-Regular'>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Consent  </h1>
                 <header className='bg-white shadow-sm my-5 p-10'>
                     <section className=' my-5  md:w-[50%]'>

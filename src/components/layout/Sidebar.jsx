@@ -25,7 +25,7 @@ const Sidebar = ({ pageName }) => {
                 icon: <MdMarkEmailUnread
                     className='text-xl' />,
                 text: 'Supervisors',
-                link: '/supervisor',
+                link: '/supervisor-details',
                 page: 'supervisors'
             },
             {
@@ -42,7 +42,7 @@ const Sidebar = ({ pageName }) => {
                     className='text-xl' />,
                 text: 'Team',
                 link: '/group-lead-team',
-                page: 'LeadTeams'
+                page: 'group-lead-team'
             },
         ];
     }
@@ -89,26 +89,26 @@ const Sidebar = ({ pageName }) => {
                 icon: <MdDashboard className='text-xl' />,
                 text: 'Dashboard',
                 link: '/dashboard',
-                page: 'researcher-dashboard'
+                page: 'dashboard'
             },
             {
                 id: 2,
                 icon: <FaUsers className='text-xl' />,
-                text: 'Teams',
+                text: 'Team',
                 link: '/researcher-team',
                 page: 'team-members'
             },
             {
                 id: 3,
                 icon: <MdMarkEmailUnread className='text-xl' />,
-                text: 'Supervisors',
+                text: 'Supervisor',
                 link: '/supervisor',
                 page: 'supervisors'
             },
             {
                 id: 4,
                 icon: <IoDocuments className='text-xl' />,
-                text: 'Proposals',
+                text: 'Proposal',
                 link: '/researcher-proposal',
                 page: 'researcher-proposals'
             },

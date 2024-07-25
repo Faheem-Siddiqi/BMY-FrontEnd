@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
     <Navbar/>
-    
+    <Proposal/>
       <section className="xl:p-10 p-5 bg-alpha">
         <div className="w-full mx-auto text-left">
           <h1 className="text-4xl lg:text-5xl font-bold xl:w-[60%] text-black">

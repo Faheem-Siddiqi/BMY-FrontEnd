@@ -7,10 +7,8 @@ export default function Information() {
     };
     return (
         <>
-        Navigation 
-        approve 
-        comment add 
-            <div className='xl:p-10 p-5  font-WorkSans-Regular'>
+        
+            <div className='font-WorkSans-Regular'>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Information </h1>
                 <header className='bg-white shadow-sm my-5 p-10'>
                     <section className='mb-4'>

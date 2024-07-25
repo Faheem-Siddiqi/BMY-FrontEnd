@@ -12,7 +12,7 @@ export default function EthicalReview() {
     const [Table5Score, setTable5Score] = useState(0)
     const Risk = Table1Score + Table2Score + Table4Score + Table5Score
     return (
-        <div className='xl:m-10 m-5 font-WorkSans-Regular'>
+        <div className='WorkSans-Regular'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black '>Ethical Review</h1>
             <header className='bg-white shadow-sm my-5 p-10'>
                 <Table1 setTable1Score={setTable1Score} />

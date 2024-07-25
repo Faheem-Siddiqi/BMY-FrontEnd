@@ -4,6 +4,7 @@ import SupervisorTableRow from '../Researcher/supervisor/SupervisorTableRow.jsx'
 import ProposalsTableRow from '../Researcher/proposals/ProposalsTableRow.jsx'
 import ResercherLeadTableRow from '../Researcher/group-lead-pages/ResercherLeadTableRow.jsx'
 import TeamRequestsRow from '../Supervisor/TeamRequestsRow.jsx'
+import AssignResearcherTableRow from '../Researcher/group-members/AssignResearcherTableRow .jsx'
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 const Table = ({ header, rowData, rowRenderComponent }) => {
@@ -31,11 +32,24 @@ const Table = ({ header, rowData, rowRenderComponent }) => {
                     </tr>
                 </thead>
                 <tbody >
+
+
+
+                
+
+                {currentPageData.map((rowDataItem, index) => (
+                        rowRenderComponent === 'AssignResearcherTableRow' && (
+                            <AssignResearcherTableRow key={rowDataItem.id || index} {...rowDataItem} />
+                        )
+                    ))}
+
+
                     {currentPageData.map((rowDataItem, index) => (
                         rowRenderComponent === 'TeamRequestsRow' && (
                             <TeamRequestsRow key={rowDataItem.id || index} {...rowDataItem} />
                         )
                     ))}
+
                     {currentPageData.map((rowDataItem, index) => (
                         rowRenderComponent === 'ShowResearcherLeads' && (
                             <ResercherLeadTableRow key={rowDataItem.id || index} {...rowDataItem} />

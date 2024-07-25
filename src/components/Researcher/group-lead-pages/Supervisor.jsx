@@ -11,7 +11,7 @@ export default function Supervisor() {
             <div className="flex  xl:flex-row flex-col min-h-[100vh]    font-Satoshi-Black overflow ">
                 <Sidebar pageName='supervisors' />
                 <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
-                <UserNavbar/>
+                    <UserNavbar />
                     <header className='xl:px-10 px-5 my-5'>
                         <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Supervisors </h1>
                         <p className='font-semibold my-2'>All Supervisors Available</p>
@@ -88,6 +88,12 @@ export default function Supervisor() {
                                         <p className='text-light'>email</p>
                                     </div>
                                 </section>
+                            </div>
+                        </header>
+                        <header className='bg-white shadow-sm my-5 p-10'>
+                            <div className="">
+                                <p className=' font-bold my-4'>Project Supervisor </p>
+                                <p className=' '>Project Supervisor Not Found</p>
                             </div>
                         </header>
                     </div>

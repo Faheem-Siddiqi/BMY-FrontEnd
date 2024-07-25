@@ -58,7 +58,7 @@ export default function DiscussionModal() {
                             </span>
                         </span>
                         <span className="ease absolute gap-2  flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full ">
-                            <button className=' bg-red-600 top-0 -right-2  rounded-full  w-[10px] h-[10px]'>
+                            <button className=' bg-epsilon top-0 -right-2  rounded-full  w-[10px] h-[10px]'>
                             </button>
                             Reviews</span>
                         <span className="invisible relative"> x Reviews </span>
@@ -72,13 +72,8 @@ export default function DiscussionModal() {
                     contentLabel="Delete Confirmation Modal"
                 >
                     <div className="flex gap-5 flex-col">
-
-
-
                         <div className='h-[75vh] overflow-auto p-4 border rounded-md border-zeta w-full'>
                             <div className="min-h-screen flex flex-col   ">
-
-
                                 <div className="flex flex-col  mb-4">
                                     <h1 className="text-xl text-zeta font-bold mb-2">Project Name</h1>
                                     <p className="text-lg text-zeta font-semibold mb-2">Add Review</p>
@@ -100,17 +95,14 @@ export default function DiscussionModal() {
                                         </div>
                                     </div>
                                     {/* reviews */}
-
                                     <div className="bg-epsilon bg-opacity-10 my-4 border-l-4 border-epsilon p-4 mt-4 rounded-md" role="alert">
-  <p className="font-semibold">
-    Reminder:
-  </p>
-  <p>
-    Please remain polite and respectful when adding your review or reply. Thank you!
-  </p>
-</div>
-
-
+                                        <p className="font-semibold">
+                                            Reminder:
+                                        </p>
+                                        <p>
+                                            Please remain polite and respectful when adding your review or reply. Thank you!
+                                        </p>
+                                    </div>
                                     <div className="w-full md:w-[50%]">
                                         <p className="text-lg text-zeta font-semibold mb-2">Previous Reviews</p>
                                         {reviews.map((review) => (
@@ -168,12 +160,7 @@ export default function DiscussionModal() {
                                         ))}
                                     </div>
                                 </div>
-
-
-
                             </div>
-
-
                         </div>
                         <div className='h-[10vh] '>
                             <button

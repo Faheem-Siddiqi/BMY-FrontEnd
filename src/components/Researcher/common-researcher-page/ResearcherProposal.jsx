@@ -2,6 +2,7 @@ import React from 'react'
 import Sidebar from '../../layout/Sidebar.jsx'
 import Table from '../../Common/Table.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
+
 export default function ResearcherProposal() {
   const profileImage = '../../../assets/images/Profile.png'
   return (
@@ -73,7 +74,11 @@ export default function ResearcherProposal() {
                 <h2 className='font-semibold '>No Section assigned yet</h2>
                 <p>The Team Lead hasn’t assigned any section yet</p>
                 <p>Request Section Assignment</p>
-                <button className='bg-epsilon my-5 text-white px-6 py-2 rounded-md'>Request</button>
+                <button
+                  className="my-5 py-2 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                  <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                  Request / View My Section
+                </button>
               </header>
             </section>
             <section className='md:my-10 my-5'>

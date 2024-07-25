@@ -1,60 +1,53 @@
-import React from 'react'
-import Information from './ProposalSections/Information';
-import ScientificReview from './ProposalSections/ScientificReview';
-import EthicalReview from './ProposalSections/EthicalReview';
-import { MdFileDownloadDone } from "react-icons/md";
-import { MdOutlineAddTask } from "react-icons/md";
-import Consent from './Consent';
-
-import DiscussionModal from './proposal-reviews/DiscussionModal';
+import React, { useState } from 'react';
+import Information from './ProposalSections/Information.jsx';
+import ScientificReview from './ProposalSections/ScientificReview.jsx';
+import EthicalReview from './ProposalSections/EthicalReview.jsx';
+import Consent from './Consent.jsx';
 export default function Proposal() {
+    const sections = [
+        'Information',
+        'Scientific Review (Synopsis)',
+        'Ethical Review',
+        'Consent'
+    ];
+    const [clickedSection, setClickedSection] = useState('');
+    const handleButtonClick = (section) => {
+        setClickedSection(section);
+    };
+    const renderSection = () => {
+        switch (clickedSection) {
+            case 'Information':
+                return <Information />;
+            case 'Scientific Review (Synopsis)':
+                return <ScientificReview />;
+            case 'Ethical Review':
+                return <EthicalReview />;
+            case 'Consent':
+                return <Consent />;
+            default:
+                return <Information />;
+        }
+    };
     return (
         <>
-
-<DiscussionModal/>
-            <button
-                className="  py-2 px-5 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                    <MdOutlineAddTask className='text-2xl' />   <span className='mx-2'>
-                    Upload
-                    </span>
-                </span>
-                <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Upload</span>
-                <span className="invisible relative"> x Upload </span>
-            </button>
-
-
-            <button
-                className="  py-2 px-5 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                    <MdOutlineAddTask className='text-2xl' />   <span className='mx-2'>
-                    Submit
-                    </span>
-                </span>
-                <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Submit</span>
-                <span className="invisible relative"> x Submit </span>
-            </button>
-
-
-            <button
-                className="  py-2 px-5 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                    <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>Approve </span>
-                </span>
-                <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Approve</span>
-                <span className="invisible relative"> x Approve </span>
-            </button>
-            <div className='bg-stone-200'>
-
-                <Information />
-                <ScientificReview />
-                <EthicalReview />
-                <Consent />
-
-
-
+            <div className="md:my-10  my-5">
+                <div className="flex  itesm-center md:justify-center flex-wrap gap-5 text-xl text-epsilon">
+                    {sections.map((section, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleButtonClick(section)}
+                            className={`py-2 px-5 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ${clickedSection === section ? 'bg-epsilon-dark' : ''
+                                }`}
+                        >
+                            <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                            {section}
+                        </button>
+                    ))}
+                </div>
             </div>
-
+            <div>
+                {renderSection()}
+            </div>
         </>
-    )
+    );
 }

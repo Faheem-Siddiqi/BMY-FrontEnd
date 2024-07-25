@@ -6,7 +6,7 @@ import { TiEdit } from 'react-icons/ti';
 export default function UserNavbar() {
   return (
     <>
-      <div className="navbar px-4 md:h-20 md:py-0 py-5 bg-iota ">
+      <div className="navbar px-4 md:h-20 md:py-0 py-5 bg-iota shadow-sm ">
         <div className="flex-1">
         </div>
         <div className="flex-none gap-2">

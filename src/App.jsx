@@ -13,8 +13,9 @@ import Signup from './components/registration/Signup.jsx';
 import ForgetPassword from './components/registration/ForgetPassword.jsx';
 import ResetPassword from './components/registration/ResetPassword.jsx';
 import OTP from './components/registration/Otp.jsx';
-// ERC Dashboard
-import ErcHeadDashboard from './components/ErcDashboard/ErcHeadDashboard.jsx';
+// ERC Head and ERC TeamMembers
+
+
 // Profile
 import Profile from './components/profile/Profile.jsx';
 import EditProfile from './components/profile/EditProfile.jsx';
@@ -22,12 +23,17 @@ import EditProfile from './components/profile/EditProfile.jsx';
 import TeamMembers from './components/Researcher/common-researcher-page/TeamMembers.jsx';
 import ResearcherProposal from './components/Researcher/common-researcher-page/ResearcherProposal.jsx';
 import AddTeamMembers from './components/Researcher/group-members/AddTeamMembers.jsx';
-import Supervisor from './components/Researcher/common-researcher-page/Supervisor.jsx';
+import Supervisor from './components/Researcher/group-lead-pages/Supervisor.jsx';
 import ResercherLeadProposals from './components/Researcher/group-lead-pages/ResercherLeadProposals.jsx';
 import ResercherLeadTeam from './components/Researcher/group-lead-pages/ResercherLeadTeam.jsx';
-import Proposal from './components/Researcher/proposals/Proposal.jsx';
+import ResearcherSupervisor from './components/Researcher/common-researcher-page/ResearcherSupervisor.jsx';
+import ResearcherProposalPage from './components/Researcher/group-lead-pages/LeadProposalPage.jsx';
+
 import Dashboard from './components/Researcher/common-researcher-page/Dashboard.jsx';
 import ResearcherDashboard from './components/Researcher/group-lead-pages/ResercherLeadDashboard.jsx';
+import ResercherLeadNewProposal from './components/Researcher/group-lead-pages/ResercherLeadNewProposal.jsx'
+
+
 // Supervisor Components
 import SupervisorDashboard from './components/Supervisor/Pages/SupervisorDashboard.jsx';
 import SupervisorProposals from './components/Supervisor/Pages/SupervisorProposals.jsx';
@@ -50,23 +56,29 @@ function App() {
           {/* Researchers */}
           <Route path="/researcher-team" element={<TeamMembers />} />
           <Route path="/add-team-members" element={<AddTeamMembers />} />
-          <Route path="/dashboard" element={<ErcHeadDashboard />} />
           <Route path="/researcher-proposal" element={<ResearcherProposal />} />
           <Route path="/dashboard" element={<Dashboard />} />
+
+
           {/* Researchers-Lead */}
           <Route path="/group-lead-team" element={<ResercherLeadTeam />} />
           <Route path="/group-lead-proposal" element={<ResercherLeadProposals />} />
-          <Route path="/supervisor" element={<Supervisor />} />
+          <Route path="/supervisor" element={<ResearcherSupervisor />} />
           <Route path="/group-lead-dashboard" element={<ResearcherDashboard />} />
+          <Route path="/create-new-proposal" element={<ResercherLeadNewProposal />} />
+          <Route path="/lead-proposal" element={<ResearcherProposalPage />} />
+          {/*  */}
           <Route path="/Letter" element={<Letter />} />
+
           {/* Supervisors */}
           <Route path="/supervisor-dashboard" element={<SupervisorDashboard />} />
           <Route path="/supervisor-teams" element={<SupervisorTeam />} />
           <Route path="/supervisor-proposal" element={<SupervisorProposals />} />
+          <Route path="/supervisor-details" element={<Supervisor />} />
           <Route path="/view-erc-team" element={<ViewERCMembers />} />
           {/* <Route path="/contact" element={<Contact/>}/> */}
           {/* <Route path="*" element={</>} */}
-          <Route path="*"  element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         {/* <Footer/> */}
       </AppContextProvider>

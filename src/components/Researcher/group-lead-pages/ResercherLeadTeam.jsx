@@ -7,8 +7,9 @@ import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 export default function ResercherLeadTeam() {
     return (
         <>
+       
             <div className="flex  xl:flex-row flex-col   font-Satoshi-Black  ">
-                <Sidebar pageName='teamLead-team' />
+                <Sidebar pageName='group-lead-team' />
                 <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                     <UserNavbar />
                     <div className='xl:m-10 m-5  '>
@@ -23,9 +24,15 @@ export default function ResercherLeadTeam() {
                         </header>
                         <p className='font-semibold my-2'>6 Members</p>
                         <CurrentMembers />
-                        <Link className='bg-epsilon py-2 px-3 rounded text-white w-fit' to='/add-team-members'>
-                            Add Members
-                        </Link>
+
+
+                        <Link
+                        to='/add-team-members'
+                  className="my-5 py-3 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                  <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                  Add Members
+                  </Link>
+                       
                     </div>
                 </section>
             </div>
