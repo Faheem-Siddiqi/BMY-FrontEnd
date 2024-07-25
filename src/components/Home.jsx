@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Counter from './Home/Counter.jsx';
 import Vision from '../assets/images/homeImage1.png';
 import Mission from '../assets/images/HomeImage2.png';
-
 import Footer from './layout/Footer.jsx'
-import Proposal from './Researcher/proposals/Proposal.jsx'
+import Navbar from './layout/Navs/Navbar.jsx'
+import Proposal from './Researcher/proposals/Proposal.jsx';
 export default function Home() {
   useEffect(() => {
     AOS.init({
@@ -17,7 +18,7 @@ export default function Home() {
   }, []);
   return (
     <>
-
+    <Navbar/>
     <Proposal/>
       <section className="xl:p-10 p-5 bg-alpha">
         <div className="w-full mx-auto text-left">
@@ -31,7 +32,9 @@ export default function Home() {
           </p>
           <button className="mt-6 px-6 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
             <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-            Learn More
+           <Link
+           to='login'>
+           Learn More</Link>
           </button>
         </div>
       </section>
@@ -68,7 +71,6 @@ export default function Home() {
           </div>
         </header>
       </section>
-
       <Footer/>
     </>
   );

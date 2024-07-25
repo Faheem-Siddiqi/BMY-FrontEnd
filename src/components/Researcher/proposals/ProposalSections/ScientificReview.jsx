@@ -86,18 +86,12 @@ export default function ScientificReview() {
     const handleOptionAnswer17 = (e) => {
         setAnswer17(e.target.value);
     };
-
     // Question-18  Random Sampling Methods..
     const [answer18, setAnswer18] = useState('');
     const handleOptionAnswer18 = (e) => {
         setAnswer18(e.target.value);
-
-
     };
-
-
     const [answer19, setAnswer19] = useState('');
-
     const [answer20, setAnswer20] = useState('');
     const [answer21, setAnswer21] = useState('');
     const [answer22, setAnswer22] = useState('');
@@ -109,29 +103,22 @@ export default function ScientificReview() {
                 <header className='bg-white shadow-sm my-5 p-10'>
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>Supervisor </label>
-
                         <input
                             type='text'
                             name='supervisor-name'
                             id='supervisor-name'
                             className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Backend Value of group supervisor' />
-
-
                     </section>
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>Applicant Name </label>
-
                         <input
                             type='text'
                             name='applicant-name'
                             id='applicant-name'
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Backend Value of group lead' />
-
-
                     </section>
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="research-title" className='text-zeta  font-semibold '>Research Title</label>
-
                         <input
                             value={'Backend'}
                             type='text'
@@ -139,32 +126,26 @@ export default function ScientificReview() {
                             id='research-title'
                             onChange={(e) => { setResearchTitle(e.target.value) }}
                             className=' mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
-
-
                     </section>
                     {/* Question-2 */}
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="start-date" className='text-zeta  font-semibold '>Start Date of Data Collection (as planned) </label>
-
                         <input
                             type='date'
                             name='start-date'
                             id='start-date'
                             onChange={(e) => { setAnswer2(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
-
                     </section>
                     {/* Question-3 */}
                     <section className='mb-4 w-full md:w-[50%]'>
                         <label htmlFor="end-date" className='text-zeta  font-semibold '>End Date of Data Collection (expected) </label>
-
                         <input
                             onChange={(e) => { setAnswer3(e.target.value) }}
                             type='date'
                             name='end-date'
                             id='end-date'
                             className='border  mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
-
                     </section>
                     {/* Question-4*/}
                     <section className="mb-4">
@@ -249,28 +230,22 @@ export default function ScientificReview() {
                     {/* Question-8 */}
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label className='text-zeta  font-semibold md:' htmlFor="research-objectives   ">Objectives of Research</label>
-
                         <input
                             value={answer8}
                             name='research-objectives'
                             id='research-objectives'
                             onChange={(e) => { setAnswer8(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Purpose Map' />
-
-
                     </section>
                     {/* Question-9 */}
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="question9" className='text-zeta  font-semibold '>Main Variable under Study</label>
-
                         <input
                             value={answer9}
                             name='question9'
                             id='question9'
                             onChange={(e) => { setAnswer9(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Virus' />
-
-
                     </section>
                     {/* question-10 */}
                     <section className="mb-4">
@@ -293,9 +268,7 @@ export default function ScientificReview() {
                         <p className="mb-2  text-zeta  font-semibold   w-full md:w-[50%]">
                             Study Design
                         </p>
-
                         <div className="border rounded-md block p-5 ">
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -394,59 +367,105 @@ export default function ScientificReview() {
                             </div>
                         </div>
                     </section>
-
                     {/* Question-12 */}
-
-                    <section className=' my-5  md:w-[50%]'>
-                        <p className="mb-2  text-zeta  font-semibold   w-full md:w-[50%]">
-                            Type of Analysis
-                        </p>
-
-                        <div className=" border rounded-md block p-5 ">
-
-                            <div className="mb-2">
-                                <label className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        value="Estimating prevalence, and/or relating variables using test of significance (inferential analysis)"
-                                        checked={answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)'}
-                                        onChange={handleOptionAnswer12}
-                                        className="mr-2"
-                                    />
-                                    Estimating prevalence, and/or relating variables using test of significance (inferential analysis)
-                                </label>
-                            </div>
-                            <div className="mb-2">
-                                <label className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        value="Calculating frequencies in sample and other descriptive analysis only, no inferential analysis"
-                                        checked={answer12 === 'Calculating frequencies in sample and other descriptive analysis only, no inferential analysis'}
-                                        onChange={handleOptionAnswer12}
-                                        className="mr-2"
-                                    />
-                                    Calculating frequencies in sample and other descriptive analysis only, no inferential analysis
-                                </label>
-                            </div>
-                        </div>
-                    </section>
-
-
+                    {answer11 === 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'   && (
+<section className=' my-5  md:w-[50%]'>
+<p className="mb-2  text-zeta  font-semibold   w-full md:w-[50%]">
+    Type of Analysis
+</p>
+<div className=" border rounded-md block p-5 ">
+    <div className="mb-2">
+        <label className="flex items-center">
+            <input
+                type="radio"
+                value="Estimating prevalence, and/or relating variables using test of significance (inferential analysis)"
+                checked={answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)'}
+                onChange={handleOptionAnswer12}
+                className="mr-2"
+            />
+            Estimating prevalence, and/or relating variables using test of significance (inferential analysis)
+        </label>
+    </div>
+    <div className="mb-2">
+        <label className="flex items-center">
+            <input
+                type="radio"
+                value="Calculating frequencies in sample and other descriptive analysis only, no inferential analysis"
+                checked={answer12 === 'Calculating frequencies in sample and other descriptive analysis only, no inferential analysis'}
+                onChange={handleOptionAnswer12}
+                className="mr-2"
+            />
+            Calculating frequencies in sample and other descriptive analysis only, no inferential analysis
+        </label>
+    </div>
+</div>
+</section>
+                     )
+                    }
                     {/* Question-13 */}
-                    <section className='mb-4 w-full md:w-[50%]'>
-                        <label htmlFor="question13" className='text-zeta  font-semibold '>Sample Size</label>
+                    {
+                    
+                    answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'  
 
+                   
+                     
+                    
+                    
+                    
+                    && (
+                    <section className='my-4 w-full md:w-[50%]'>
+                        <label htmlFor="question13" className='text-zeta  font-semibold '>Sample Size</label>
                         <input
                             value={answer13}
                             name='question13'
                             id='question13'
                             onChange={(e) => { setAnswer13(e.target.value) }}
                             className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='10%' />
-
-
                     </section>
+                    )}
                     {/* Question-14 labels section */}
+                    {answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
+answer11 !== 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' 
+ 
+
+
+
+
+&&
+
+
+
+answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+
+            
+
+                &&
+                 answer11!=='Qualitative study (detailed interviews)'
+                 &&
+                    answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)' 
+
+
+                    &&
+  answer11!=='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
+                    && 
+                    
+                    (
                     <section className="my-5 md:leading-[2rem] md:w-[50%] border rounded-md block p-5">
+                       {
+                       
+                      ( 
+                       answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'  
+                       &&
+
+                       answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+                       
+
+                       &&
+ answer11 !=='Before-after comparison study for 1 group which undergoes an exposure.'
+
+                      )
+                       
+                       && (
                         <div className="">
                             For the case-control study, the sample size was calculated using an online OpenEpi sample size calculator. Keeping the ratio of controls to cases as
                             <input
@@ -491,8 +510,18 @@ export default function ScientificReview() {
                                 onChange={(e) => setAnswer14f(e.target.value)}
                             />
                         </div>
+                       )}
                         {/* Question-15 labels section */}
-                        <div className="md:my-10  my-5">
+
+
+{
+   
+ answer11 !=='Before-after comparison study for 1 group which undergoes an exposure.' 
+
+ && (
+
+
+                        <div className="md:my-10  my-3">
                             For cohort study, sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as
                             <input
                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
@@ -543,8 +572,25 @@ export default function ScientificReview() {
                                 onChange={(e) => setAnswer15g(e.target.value)}
                             />
                         </div>
+
+)}
                         {/* Question-16 labels section */}
-                        <div className="md:my-10  my-5">
+                      
+                      
+                      
+                      
+                        {
+                        
+                        ( 
+                            answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'  
+                            &&
+     
+                            answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+                            
+                           )
+                        
+                        && (
+                        <div className="md:my-10  my-3">
                             For before-after comparison study, sample size was calculated using online OpenEpi sample size calculator. Keeping Mean value for group 1 as
                             <input
                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
@@ -602,19 +648,40 @@ export default function ScientificReview() {
                                 onChange={(e) => setAnswer16g(e.target.value)}
                             />
                         </div>
+                        )}
                     </section>
-
-
+                    
+                    )}
                     {/* Question-17 */}
+                    {
+     (answer12 === 'Calculating frequencies in sample and other descriptive analysis only, no inferential analysis' 
+        ||
+        answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+
+        ||
+          answer11 === 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+||
+        answer11==='Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
 
 
+        ||
+        answer11 ==='Before-after comparison study for 1 group which undergoes an exposure.'
+
+        ||
+        answer11==='Qualitative study (detailed interviews)'
+        ||
+        answer11==='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
+    ) 
+
+    
+
+      && 
+    (
                     <section className=' my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold   w-full ">
                             Non-Random Sampling Methods
                         </p>
-
                         <div className=" border rounded-md block p-5 ">
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -639,7 +706,6 @@ export default function ScientificReview() {
                                     Including all participants fulfilling some judgmental criteria during a given time in the study setting for the purpose of reaching some desired results e.g. selecting more vocal participants (Purposive sampling)
                                 </label>
                             </div>
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -654,20 +720,45 @@ export default function ScientificReview() {
                             </div>
                         </div>
                     </section>
-
-
-
-
+                    )}
                     {/* Question-18 */}
+                    {
 
 
+(
+     answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' ||
+
+     answer11==='Cross-sectional survey (information of a group recorded just once without following-up on them)' ||
+     
+
+     answer11==='Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)' ||
+      answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+    
+||
+
+
+    answer11 === 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+    ||
+    answer11==='Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)') 
+      
+  ||
+        answer11 ==='Before-after comparison study for 1 group which undergoes an exposure.'
+    
+      ||
+        answer11==='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
+      
+      && 
+
+
+     
+     
+     
+     ( 
                     <section className='md:my-10 my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold   w-full ">
                             Random Sampling Methods
                         </p>
-
                         <div className=" border rounded-md block p-5 ">
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -692,7 +783,6 @@ export default function ScientificReview() {
                                     Selecting every nth number fulfilling criteria, from population list (Systematic Random Sampling).
                                 </label>
                             </div>
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -705,7 +795,6 @@ export default function ScientificReview() {
                                     Dividing population in strata/ groups and selecting individuals in all groups by simple random or systematic random method (Stratified Random Sampling)
                                 </label>
                             </div>
-
                             <div className="mb-2">
                                 <label className="flex items-center">
                                     <input
@@ -718,17 +807,16 @@ export default function ScientificReview() {
                                     Dividing population in clusters, and then selecting individuals further using other random method (Cluster sampling)
                                 </label>
                             </div>
-
                         </div>
                     </section>
-
-
-
-
+     )}
                     {/* question-19 */}
+
+                    { answer11 !== 'Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)' &&
+                    (
                     <section className="mb-4">
                         <p className="mt-5 mb-2  text-zeta  font-semibold  w-full md:w-[50%]">
-                            Sample inclusion exclusion criteria and sampling technique in detail for quantitative research *
+                            Sample inclusion exclusion criteria and sampling technique in detail for quantitative research 
                         </p>
                         <div className="w-full md:w-[50%] ">
                             <textarea
@@ -740,14 +828,30 @@ export default function ScientificReview() {
                                 onChange={(e) => { setAnswer19(e.target.value) }}
                             ></textarea>
                         </div>
-                    </section>
-
-
-
+                    </section> )}
                     {/* question-20*/}
+                    {answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'   &&
+                    answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'   
+                    &&
+
+
+
+                        answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+                        &&
+
+                    answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+
+                    &&
+                    answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+
+&&
+answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure.'
+                     
+                    &&
+                    (
                     <section className="mb-4">
                         <p className="mt-5 mb-2  text-zeta font-semibold   w-full md:w-[50%]">
-                            Sample inclusion-exclusion criteria and sampling methods in detail for interviews *
+                            Sample inclusion-exclusion criteria and sampling methods in detail for interviews
                         </p>
                         <div className="w-full md:w-[50%] ">
                             <textarea
@@ -759,10 +863,10 @@ export default function ScientificReview() {
                                 onChange={(e) => { setAnswer20(e.target.value) }}
                             ></textarea>
                         </div>
-                    </section>
+                    </section>)}
                     {/*  Question-21*/}
                     <section className='mb-4 md:w-[50%]'>
-                        <label htmlFor="answer-21" className='text-zeta  font-semibold'>Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.) * </label>
+                        <label htmlFor="answer-21" className='text-zeta  font-semibold'>Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.) </label>
                         <div className='w-full mt-2 '>
                             <input
                                 type='text'
@@ -771,14 +875,8 @@ export default function ScientificReview() {
                                 onChange={(e) => { setAnswer21(e.target.value) }}
                                 id='answer-21'
                                 className='border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='ABC, XYZ, NYC, USA' />
-
                         </div>
                     </section>
-
-
-
-
-
                     {/* question-22*/}
                     <section className="mb-4">
                         <p className="mt-5 mb-2  text-zeta  font-semibold w-full md:w-[50%]">
@@ -795,9 +893,6 @@ export default function ScientificReview() {
                             ></textarea>
                         </div>
                     </section>
-
-
-
                     <section className='md:w-[50%]'>
                         <p className='text-zeta  font-semibold '>Proforma/ Questionnaire * </p>
                         <label
@@ -814,18 +909,14 @@ export default function ScientificReview() {
                                 id='performa' className='w-0' type="file"
                             />
                         </label>
-
                         <section className='mb-4'>
-
                             <label className='text-zeta '>For online questionnaires/ google forms, share link  *  </label>
                             <div className='w-full  '>
                                 <input
                                     onChange={(e) => { setPerforma(e.target.value) }}
                                     type='text'
                                     value={performa}
-
                                     className='border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Enter Link' />
-
                             </div>
                         </section>
                     </section>

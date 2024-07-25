@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-export default function Table4() {
+export default function Table4({ setTable4Score }) {
     const [answer2, setAnswer2] = useState('');
-    const [answer3, setAnswer3] = useState('')
+    const [answer3, setAnswer3] = useState('');
     const [answers, setAnswers] = useState({
         table4a: '',
         table4b: '',
@@ -14,18 +14,11 @@ export default function Table4() {
             ...answers,
             [id]: selectedValue
         });
-        if (id === 'table4a') {
+        if (id === 'table4a' || id === 'table4b') {
             if (selectedValue === 'No' && answers[id] !== 'No') {
-                setScore(score + 10)
+                setScore(score + 10);
             } else if (selectedValue !== 'No' && answers[id] === 'No') {
-                setScore(score - 10)
-            }
-        }
-        if (id === 'table4b') {
-            if (selectedValue === 'No' && answers[id] !== 'No') {
-                setScore(score + 10)
-            } else if (selectedValue !== 'No' && answers[id] === 'No') {
-                setScore(score - 10)
+                setScore(score - 10);
             }
         }
     };
@@ -36,19 +29,17 @@ export default function Table4() {
         setAnswer3(e.target.value);
     };
     useEffect(() => {
-        if (answer2 === 'Yes') {
-            setFinalScore(score);
-            if (answer3 === 'Yes') {
-                setFinalScore(score + 1);
-            }
-        }
+        let calculatedFinalScore = score;
         if (answer2 === 'No') {
-            setFinalScore(0);
-            if (answer3 === 'Yes') {
-                setFinalScore(1);
-            }
+            calculatedFinalScore = 0;
         }
-    }, [answer2, answer3, score]);
+        if (answer3 === 'Yes') {
+            calculatedFinalScore = calculatedFinalScore + 1;
+        }
+        // Update finalScore state
+        setFinalScore(calculatedFinalScore);
+        setTable4Score(finalScore);
+    }, [answer2, answer3, score, setTable4Score]);
     const questions = [
         { id: 'table4a', text: 'Are you considering special care for taking informed consent, with no coercion?' },
         { id: 'table4b', text: 'Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?' },
@@ -79,7 +70,7 @@ export default function Table4() {
                                     value="Yes"
                                     checked={answers[question.id] === "Yes"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -89,7 +80,7 @@ export default function Table4() {
                                     value="No"
                                     checked={answers[question.id] === "No"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                         </tr>
@@ -160,7 +151,7 @@ export default function Table4() {
                     </div>
                 </div>
             </section>
-            <p className="mt-2">Final Score: {finalScore}</p>
+       
         </section>
     );
 }

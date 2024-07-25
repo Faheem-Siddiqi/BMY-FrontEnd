@@ -23,7 +23,7 @@ export default function Counter() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg   border border-opacity-15 text-center">
-              <h2 className="text-5xl my-5 font-bold text-green-600 font-WorkSans-Regular">
+              <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
                   <CountUp start={0} end={110} duration={2} delay={0} />
                 )}
@@ -31,7 +31,7 @@ export default function Counter() {
               <p className="my-5 text-gray-600 font-Satoshi-Black">Healthcare Professionals trained in Research Methodology</p>
             </div>
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg  border border-opacity-15 text-center">
-              <h2 className="text-5xl my-5 font-bold text-green-600 font-WorkSans-Regular">
+              <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
                   <CountUp start={0} end={110} duration={2} delay={0} />
                 )}
@@ -40,7 +40,7 @@ export default function Counter() {
               <p className="my-5 text-gray-600">Healthcare Researchers Successfully Completed Internship</p>
             </div>
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg  border border-opacity-15 text-center">
-              <h2 className="text-5xl my-5 font-bold text-green-600 font-WorkSans-Regular">
+              <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
                   <CountUp start={0} end={110} duration={2} delay={0} />
                 )}
@@ -48,7 +48,7 @@ export default function Counter() {
               <p className="my-5 text-gray-600 font-Satoshi-Black">Research Internship Batches Facilitated</p>
             </div>
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg  border border-opacity-15 text-center">
-              <h2 className="text-5xl my-5 font-bold text-green-600 font-WorkSans-Regular">
+              <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
                   <CountUp start={0} end={500} duration={2} delay={0} />
                 )}

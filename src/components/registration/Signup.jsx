@@ -1,6 +1,8 @@
   import React, { useState } from 'react'
   import { Link } from 'react-router-dom'
-  export default function Signup() {
+  import Footer from '../layout/Footer'
+  import Navbar from './../layout/Navs/Navbar';
+export default function Signup() {
 
   
 
@@ -54,6 +56,7 @@
     };
     return (
       <>
+      <Navbar/>
         <div className=" flex items-center justify-center my-10">
           <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
             <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -100,7 +103,7 @@
                       id='name'
                       type="text"
                       placeholder="Jane Doe"
-                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                       onChange={(e) => { setName(e.target.value) }}
                     />
                   </section>
@@ -114,7 +117,7 @@
                       id='email'
                       type="email"
                       placeholder="jane.doe@example.com"
-                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                       onChange={(e) => { setEmail(e.target.value) }}
                     />
                   </section>
@@ -130,7 +133,7 @@
                       max='1'
                       type="tel"
                       placeholder="+1234567890 "
-                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                       onChange={(e) => { setPhone(e.target.value) }}
                     />
                   </section>
@@ -139,7 +142,7 @@
                     <span className="text-xs text-red-600">
                       {!role && requiredError && " * Required"}
                     </span>
-                    <select className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none   focus:border-gray-500"
+                    <select className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon   focus:border-gray-500"
                       onChange={(e) => setRole(e.target.value)}
                     >
                       <option value=''>Select Role</option>
@@ -158,7 +161,7 @@
                       id='password'
                       type="password"
                       placeholder="8+ characters"
-                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                       onChange={(e) => { setPassword(e.target.value) }}
                     />
                   </section>
@@ -171,7 +174,7 @@
                       id='confirm-password'
                       type="password"
                       placeholder="8+ characters"
-                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                       onChange={(e) => { setConfirmPassword(e.target.value) }}
                     />
                   </section>
@@ -180,18 +183,23 @@
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="bg-epsilon w-full text-white my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-epsilon w-full text-white my-2 py-2 px-4 rounded focus:outline-epsilon focus:shadow-outline"
                   >
                     Submit
                   </button>
                 </div>
-                <p className="text-center text-sm font-Satoshi-Black my-3">
-                Already  have an Account? <Link to="/login" className="text-primary border-b border-b-transparent hover:border-b-primary duration-500">Login in</Link>
-                </p>
+                <p className="text-center text-sm font-Satoshi-Black my-3 flex gap-1">
+                Already have an Account? 
+               
+                
+                
+                <Link to="/login" className="relative text-primary w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-epsilon after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left">Login</Link>
+              </p>
               </div>
             </div>
           </div>
         </div>
+        <Footer/>
       </>
     )
   }

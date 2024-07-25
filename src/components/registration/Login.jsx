@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Footer from '../layout/Footer';
+import Navbar from './../layout/Navs/Navbar';
 export default function Login() {
   const [showRequireError, setShowRequireError] = useState(false)
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleSubmit = (e) => {
-    
     e.preventDefault();
     setShowRequireError(false)
     if (!email || !password || !role) {
@@ -17,6 +18,7 @@ export default function Login() {
   };
   return (
     <>
+    <Navbar/>
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
           <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -58,10 +60,10 @@ export default function Login() {
                   <span className="text-xs text-red-600">
                     {!role && showRequireError && " * Required"}
                   </span>
-                  <select className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none   focus:border-gray-500"
+                  <select className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon   focus:border-gray-500"
                     onChange={(e) => setRole(e.target.value)}
                   >
-                      <option value=''>Select Role</option>
+                    <option value=''>Select Role</option>
                     <option value='researcher'>Researcher</option>
                     <option value='supervisor'>Supervisor</option>
                     <option vale='ercHead'>ERC Head</option>
@@ -78,7 +80,7 @@ export default function Login() {
                     id='email'
                     type="email"
                     placeholder="jane.doe@example.com"
-                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                     onChange={(e) => { setEmail(e.target.value) }}
                   />
                 </div>
@@ -91,30 +93,32 @@ export default function Login() {
                     id='password'
                     type="password"
                     placeholder="8+ characters"
-                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-none  focus:border-gray-500"
+                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                     onChange={(e) => { setPassword(e.target.value) }}
                   />
                 </div>
                 <div className="flex items-center justify-end mb-4">
-                  <Link to="/forget-password" className="  text-sm text-zeta border-b border-b-transparent hover:border-b-zeta duration-500">
+                  <Link to="/forget-password" className="relative text-zeta w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-zeta after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left">
                     Forgot Password?
                   </Link>
                 </div>
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="bg-epsilon w-full text-white my-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-epsilon w-full text-white my-2 py-2 px-4 rounded focus:outline-epsilon focus:shadow-outline"
                 >
                   Submit
                 </button>
               </div>
-              <p className="text-center text-sm font-Satoshi-Black my-3">
-                Don’t have an Account? <Link to="/sign-up" className="text-primary border-b border-b-transparent hover:border-b-primary duration-500">Sign up</Link>
+              <p className="text-center text-sm font-Satoshi-Black my-3 flex gap-1">
+                Don’t have an Account?
+                <Link to="/sign-up" className="relative text-primary w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-epsilon after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left">Sign up</Link>
               </p>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

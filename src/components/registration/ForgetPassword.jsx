@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import Navbar from './../layout/Navs/Navbar';
+import Footer from '../layout/Footer.jsx'
 export default function ForgetPassword() {
   const [email, setEmail] = useState('');
   const [showRequireError, setShowRequireError] = useState(false)
@@ -22,6 +24,7 @@ export default function ForgetPassword() {
   };
   return (
     <>
+    <Navbar/>
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-7 md:p-20 shadow-sm bg-iota rounded-box flex  flex-col items-center gap-5 ">
           <div className='font-CormorantGaramond-Regular items-center justify-center  flex flex-col w-fit mb-4 ' >
@@ -62,6 +65,7 @@ export default function ForgetPassword() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-export default function Table5() {
+import React, { useState, useEffect } from 'react';
+export default function Table5({ setTable5Score }) {
     const [answer2, setAnswer2] = useState('');
     const [answers, setAnswers] = useState({
         table5a: '',
@@ -25,9 +25,6 @@ export default function Table5() {
             }
         }
     };
-    const handleOptionAnswer2 = (e) => {
-        setAnswer2(e.target.value);
-    };
     const questions = [
         { id: 'table5a', text: 'Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training' },
         { id: 'table5b', text: 'Contact with harmful agents or risk of physical injury' },
@@ -37,11 +34,13 @@ export default function Table5() {
         { id: 'table5f', text: 'Industry funded research with conditions of not disclosing risks to patients' },
         { id: 'table5g', text: 'Research findings having the potential to expose big industry/mafia trends' }
     ];
+    useEffect(() => {
+        setTable5Score(score);
+    }, [score, setTable5Score]);
     return (
         <section className='mb-4 overflow-x-scroll'>
-            {score}
             <p className="mb-2 text-zeta font-semibold">
-            Any Risk to researchers
+                Any Risk to researchers
             </p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>
@@ -65,7 +64,8 @@ export default function Table5() {
                                     value="Yes"
                                     checked={answers[question.id] === "Yes"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                        className="w-[20px] h-[20px] cursor-pointer"
+
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -75,7 +75,8 @@ export default function Table5() {
                                     value="No"
                                     checked={answers[question.id] === "No"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                        className="w-[20px] h-[20px] cursor-pointer"
+
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -85,7 +86,8 @@ export default function Table5() {
                                     value="N/A"
                                     checked={answers[question.id] === "N/A"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                        className="w-[20px] h-[20px] cursor-pointer"
+
                                 />
                             </td>
                         </tr>

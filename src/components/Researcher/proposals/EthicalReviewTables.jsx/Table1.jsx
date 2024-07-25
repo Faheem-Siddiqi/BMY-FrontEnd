@@ -74,7 +74,7 @@ export default function Table1({ setTable1Score }) {
                                     value="Yes"
                                     checked={answers[question.id] === "Yes"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -84,7 +84,7 @@ export default function Table1({ setTable1Score }) {
                                     value="No"
                                     checked={answers[question.id] === "No"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                        className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -94,7 +94,7 @@ export default function Table1({ setTable1Score }) {
                                     value="N/A"
                                     checked={answers[question.id] === "N/A"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                    className="w-[20px] h-[20px]"
+                                        className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                         </tr>
