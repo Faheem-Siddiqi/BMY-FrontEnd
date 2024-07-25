@@ -100,6 +100,17 @@ export default function DiscussionModal() {
                                         </div>
                                     </div>
                                     {/* reviews */}
+
+                                    <div className="bg-epsilon bg-opacity-10 my-4 border-l-4 border-epsilon p-4 mt-4 rounded-md" role="alert">
+  <p className="font-semibold">
+    Reminder:
+  </p>
+  <p>
+    Please remain polite and respectful when adding your review or reply. Thank you!
+  </p>
+</div>
+
+
                                     <div className="w-full md:w-[50%]">
                                         <p className="text-lg text-zeta font-semibold mb-2">Previous Reviews</p>
                                         {reviews.map((review) => (

@@ -21,7 +21,7 @@ export default function Navbar() {
                         <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                         Login
                     </Link>
-                    <Link to='sign-up'
+                    <Link to='/sign-up'
                         className=" max-h-fit h-fit  min-h-fit py-2 px-3 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
                         <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                             <BiSolidLogInCircle className='text-2xl' />   <span className='mx-2'>Signup</span>
