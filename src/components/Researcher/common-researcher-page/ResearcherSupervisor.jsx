@@ -1,9 +1,9 @@
 import React from 'react'
 import Sidebar from '../../layout/Sidebar.jsx'
 import profileImage from '../../../assets/images/Profile.png'
-import Table from '../../Common/Table.jsx'
-import CreateSvg from '../../../assets/svgs/CreateSvg.jsx'
+import { MdOutlineGroupOff } from "react-icons/md";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
+
 export default function ResearcherSupervisor() {
     return (
         <>
@@ -30,10 +30,11 @@ export default function ResearcherSupervisor() {
 
 
                         <header className='bg-white shadow-sm my-5 p-10'>
-                            <div className="">
-                            <p className=' font-bold my-4'>Project Supervisor </p>
-                            <p className=' '>Project Supervisor Not Found</p>
-                            </div>
+                        <h1 className='font-semibold  flex items-center gap-2'
+             >
+               <MdOutlineGroupOff className='text-2xl'/>
+               Supervisor Not Found
+             </h1>
                         </header>
                     </div>
                 </section>

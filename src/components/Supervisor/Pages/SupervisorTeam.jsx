@@ -93,15 +93,7 @@ export default function SupervisorTeam() {
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
         <UserNavbar/>
           <div className='xl:m-10 m-5'>
-            <header className='bg-white shadow-sm my-8 p-5 md:p-16 '>
-              <p >
-                <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon  p-10 rounded-md'>
-                  <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
-                  <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Researchers</h1>
-                  <p className='font-semibold my-2'>Not Researcher Found.</p>
-                </div>
-              </p>
-            </header>
+          
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Teams Requests</h1>
             <Table
               className='w-[99%]  md:[50vh] '
@@ -139,17 +131,34 @@ export default function SupervisorTeam() {
               header={[' Lead Details', 'Institution', 'Members', 'Action']}
               rowRenderComponent='TeamRequestsRow'
             />
+
+or
+
+            <header className='bg-white shadow-sm my-8 p-5 md:p-16 '>
+             
+             <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon  p-10 rounded-md'>
+               <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
+               <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Researchers</h1>
+               <p className='font-semibold my-2'>Not Researcher Request Found.</p>
+             </div>
+         
+         </header>
+         or
             <header>
               <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'> My Teams</h1>
               <div className='flex my-5 gap-2 '>
                 <p className='font-semibold'>Number of Teams</p>
                 <p className=''>6</p>
               </div>
+             
               <header className='bg-white shadow-sm my-5 p-10'>
-                <section className='h-[40vh] md:h-[50vh] overflow-scroll'>
+                
+                <section className='h-[50vh] md:h-[60vh]  overflow-scroll'>
+                <h1 className=' text-lg text-epsilon'>BMY-136 id </h1>
+
                   <div className="grid md:grid-cols-2 my-5 grid-col-1 md:gap-10">
                     <div>
-                      <h1 className='font-semibold text-lg'>Group</h1>
+                      <h1 className='font-semibold text-lg mb-5'>Group</h1>
                       <div id='members' className="grid md:grid-cols-2 grid-cols-1">
                         {members.map((member, index) => (
                           <section key={index} className='flex gap-2 items-center font-Satoshi-Black'>
@@ -165,7 +174,7 @@ export default function SupervisorTeam() {
                       </div>
                     </div>
                     <div>
-                      <div className="flex gap-1 items-center justify-start">
+                      <div className="flex gap-1 items-center justify-start mb-5">
                         <h1 className='font-semibold text-lg'>Team Lead</h1>
                         <LuCrown className='text-yellow-600' />
                       </div>

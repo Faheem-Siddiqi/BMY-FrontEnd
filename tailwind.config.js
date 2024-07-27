@@ -7,6 +7,14 @@ export default {
   theme: {
     extend: {
 
+
+      width: {
+        'a4': '210mm', 
+      },
+      height: {
+        'a4': '297mm', 
+      },
+
       fontFamily: {
         "CormorantGaramond-Regular": ["CormorantGaramond-Regular  ", "sans-serif"],
         "Satoshi-Black": ["Satoshi-Black", "sans-serif"],

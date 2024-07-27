@@ -5,6 +5,7 @@ import ProposalsTableRow from '../Researcher/proposals/ProposalsTableRow.jsx'
 import ResercherLeadTableRow from '../Researcher/group-lead-pages/ResercherLeadTableRow.jsx'
 import TeamRequestsRow from '../Supervisor/TeamRequestsRow.jsx'
 import AssignResearcherTableRow from '../Researcher/group-members/AssignResearcherTableRow .jsx'
+import SupervisorProposalRow from '../Supervisor/SupervisorProposalRow.jsx';
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 const Table = ({ header, rowData, rowRenderComponent }) => {
@@ -34,6 +35,11 @@ const Table = ({ header, rowData, rowRenderComponent }) => {
                 <tbody >
 
 
+                {currentPageData.map((rowDataItem, index) => (
+                        rowRenderComponent === 'SupervisorProposalRow' && (
+                            <SupervisorProposalRow key={rowDataItem.id || index} {...rowDataItem} />
+                        )
+                    ))}
 
                 
 

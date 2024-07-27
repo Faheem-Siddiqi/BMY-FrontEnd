@@ -6,11 +6,6 @@ import DiscussionModal from '../proposals/proposal-reviews/DiscussionModal.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Proposal from '../proposals/Proposal.jsx';
 export default function LeadProposalPage() {
-
-
-
-
-
   return (
     <>
       <div className="flex  xl:flex-row flex-col min-h-[100vh] font-Satoshi-Black overflow ">
@@ -18,7 +13,7 @@ export default function LeadProposalPage() {
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className='xl:m-10 m-5  '>
-            <div className="flex flex-col  md:justify-between justify-start md:items-center items-start md:flex-row">
+            <div className="flex flex-col gap-5 md:justify-between justify-start md:items-center items-start md:flex-row">
               <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
               <div className='group flex items-center gap-1'>
                 <MdOutlineKeyboardBackspace className=' group-hover:-translate-x-1  duration-500 ' />
@@ -28,7 +23,7 @@ export default function LeadProposalPage() {
               </div>
             </div>
             <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full '>
-              <h1 className='text-lg md:text-xl font-semibold font-Satoshi-Black  '>Proposal Name  </h1>
+              <h1 className='text-lg md:text-xl font-semibold font-Satoshi-Black  '>Proposal ID  </h1>
               <div>
                 <span className='font-bold my-2'>Supervisor</span>
                 <span className='mx-2 my-2'>Name</span>
@@ -51,7 +46,6 @@ export default function LeadProposalPage() {
                 <DiscussionModal />
               </div>
             </header>
-           
             <Proposal />
           </div>
         </section>
