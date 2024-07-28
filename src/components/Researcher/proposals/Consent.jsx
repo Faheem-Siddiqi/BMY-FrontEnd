@@ -50,11 +50,8 @@ export default function Consent() {
                             </div>
                         </div>
                     </section>
-
-
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>
-
                             From where additional IRB approval is required
                         </label>
                         <input
@@ -65,9 +62,6 @@ export default function Consent() {
                             className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                             placeholder='Add Details' />
                     </section>
-
-
-
                     <section className=' my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold ">
                             Have the research team and data collectors got the relevant training? This includes guiding them to ensure respect of humans during data collection, selecting suitable timing and appropriate ways of data collection according to target population and community norms, esp. for collecting sensitive information (involving stigma/ shame).
@@ -99,8 +93,6 @@ export default function Consent() {
                             </div>
                         </div>
                     </section>
-
-
                     <section className=' my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold ">
                             Are there any financial or other interests to the researcher(s) or department arising from this study, known to you?
@@ -132,19 +124,16 @@ export default function Consent() {
                             </div>
                         </div>
                     </section>
-
                     <section className=' my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold ">
-                        I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically. 
+                            I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically.
                         </p>
-                      
-                        </section>
-
-                  
-
-                    
-                    
+                    </section>
                 </header>
+                <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                    <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                    Save
+                </button>
             </div>
         </>
     )

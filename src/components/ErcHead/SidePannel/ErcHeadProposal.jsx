@@ -4,11 +4,11 @@ import Table from '../../Common/Table.jsx';
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
-export default function ErcMemberProposal() {
+export default function ErcHeadProposal() {
   return (
     <>
       <div className="flex xl:flex-row flex-col  font-WorkSans-Regular ">
-        <Sidebar pageName="assigned-proposals" />
+        <Sidebar pageName="all-proposals" />
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className="xl:m-10 m-5">
@@ -16,7 +16,7 @@ export default function ErcMemberProposal() {
             <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
               <h1 className='font-semibold mb-4 flex items-center gap-2' >
                 <ImFilesEmpty className='text-2xl' />
-                <Link to='/evaluate-proposal'>
+                <Link to='/head-evaluate-proposal'>
                   Propsal ID BMY-24</Link>
               </h1>
               <h1 className='font-semibold mb-4  flex items-center gap-2' >
@@ -42,7 +42,7 @@ export default function ErcMemberProposal() {
             </header>
             {/* */}
             <section className="my-5 md:my-10">
-              <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Previous Proposals</h1>
+              <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black"> All Proposals</h1>
               <Table
                 className="w-[99%]"
                 rowData={[

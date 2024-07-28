@@ -1,4 +1,5 @@
 import './App.css';
+import Test from './components/Test.jsx';
 import { Link } from 'react-router-dom';
 // Context
 import { AppContextProvider } from './AppContext.jsx';
@@ -15,7 +16,6 @@ import Signup from './components/registration/Signup.jsx';
 import ForgetPassword from './components/registration/ForgetPassword.jsx';
 import ResetPassword from './components/registration/ResetPassword.jsx';
 import OTP from './components/registration/Otp.jsx';
-
 // Profile
 import Profile from './components/profile/Profile.jsx';
 import EditProfile from './components/profile/EditProfile.jsx';
@@ -44,11 +44,21 @@ import ErcMemberDashboard from './components/ErcMembers/SidePannel/ErcMemberDash
 import AssignedTeams from './components/ErcMembers/SidePannel/ErcMemberAssignedTeams.jsx'
 import ErcCommittee from './components/ErcMembers/SidePannel/ErcCommittee.jsx'
 import ErcMemberViewProposal from './components/ErcMembers/ErcMemberViewProposal';
+//ERC Head components
+import ErcHeadDashboard from './components/ErcHead/SidePannel/ErcHeadDashboard.jsx'
+import ErcHeadProposal from './components/ErcHead/SidePannel/ErcHeadProposal.jsx'
+import ErcHeadTeam from './components/ErcHead/SidePannel/ErcHeadTeam.jsx'
+import ErcHeadViewProposal from './components/ErcHead/ErcHeadViewProposal.jsx'
+import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
+// Admin Components
+import Admin from './components/Admin/Admin.jsx'
 function App() {
   return (
     <>
+      {/*  */}
 
 
+      
 <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/login">Login</Link></li>
@@ -88,10 +98,12 @@ function App() {
         <li><Link to="/erc-panel">ERC Panel</Link></li>
         <li><Link to="*">Page Not Found</Link></li>
       </ul>
-
       <AppContextProvider>
         {/* <Table data={data} colNames={columnNames} renderRow={renderRow} /> */}
         <Routes>
+          {/* Admin */}
+          <Route path="/admin" element={<Admin />} />
+          {/* Rest */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
@@ -123,11 +135,18 @@ function App() {
           <Route path="/view-erc-team" element={<ViewERCMembers />} />
           <Route path="/mentor-proposal" element={<MentorProposal />} />
           {/* Erc Members */}
-          <Route path="/Erc-member-dashboard" element={<ErcMemberDashboard />} />
-          <Route path="/Erc-member-proposals" element={<ErcMemberProposal />} />
+          <Route path="/erc-member-dashboard" element={<ErcMemberDashboard />} />
+          <Route path="/assigned-proposals" element={<ErcMemberProposal />} />
           <Route path="/assigned-teams" element={<AssignedTeams />} />
           <Route path="/evaluate-proposal" element={<ErcMemberViewProposal />} />
           <Route path="/erc-panel" element={<ErcCommittee />} />
+          <Route path="*" element={<PageNotFound />} />
+          {/* Erc Head */}
+          <Route path="/erc-head-dashboard" element={<ErcHeadDashboard />} />
+          <Route path="/all-proposals" element={<ErcHeadProposal />} />
+          <Route path="/all-bmy-teams" element={<ErcHeadTeam />} />
+          <Route path="/head-evaluate-proposal" element={<ErcHeadViewProposal />} />
+          <Route path="/all-reearchers-teams" element={<AllTeams />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AppContextProvider>

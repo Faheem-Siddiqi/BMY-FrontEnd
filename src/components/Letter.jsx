@@ -2,8 +2,7 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import React from 'react';
-import LetterBg from '../assets/images/LetterBg.png'; // Background image
-import Logo from '../assets/images/BMYLogoLetter.png'; // Logo image
+
 function Letter() {
   const generatePDF = () => {
     const input = document.getElementById('pdf-content');

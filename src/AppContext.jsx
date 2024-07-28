@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
-  const [role, setRole] = useState('supervisor');
+  const [role, setRole] = useState('erc-head');
   // group-lead
   // supervisor
   // researchers
@@ -9,10 +9,10 @@ export const AppContextProvider = ({ children }) => {
   //erc-members
 
 
-  //Information
-  //Scientific Review (Synopsis)
-  //Ethical Review
-  //Consent
+  //information
+  //scientific-review
+  //ethical-review
+  //consent
   return (
     <AppContext.Provider value={{ role, setRole }}>
       {children}

@@ -5,7 +5,6 @@ import { MdDashboard, MdMarkEmailUnread } from 'react-icons/md';
 import { FaUsers } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { IoDocuments } from "react-icons/io5";
-import profileImage from '../../assets/images/bena.jpg';
 import { VscThreeBars } from "react-icons/vsc";
 import { PiUserCircleGearFill } from "react-icons/pi";
 const Sidebar = ({ pageName }) => {
@@ -111,6 +110,72 @@ const Sidebar = ({ pageName }) => {
                 text: 'Proposal',
                 link: '/researcher-proposal',
                 page: 'researcher-proposals'
+            },
+        ];
+    }
+    if (role === 'erc-members') {
+        var sidebarItems = [
+            {
+                id: 1,
+                icon: <MdDashboard className='text-xl' />,
+                text: 'Dashboard',
+                link: '/erc-member-dashboard',
+                page: 'erc-member-dashboard'
+            },
+            {
+                id: 2,
+                icon: <FaUsers className='text-xl' />,
+                text: 'Assigned Teams',
+                link: '/assigned-teams',
+                page: 'assigned-teams'
+            },
+            {
+                id: 3,
+                icon: <PiUserCircleGearFill
+                className='text-2xl' />,
+                text: 'ERC Panel',
+                link: '/erc-panel',
+                page: 'erc-panel'
+            },
+            {
+                id: 4,
+                icon: <IoDocuments className='text-xl' />,
+                text: 'Proposals',
+                link: '/assigned-proposals',
+                page: 'assigned-proposals'
+            },
+        ];
+    }
+    if (role === 'erc-head') {
+        var sidebarItems = [
+            {
+                id: 1,
+                icon: <MdDashboard className='text-xl' />,
+                text: 'Dashboard',
+                link: '/erc-head-dashboard',
+                page: 'erc-head-dashboard'
+            },
+            {
+                id: 2,
+                icon: <FaUsers className='text-xl' />,
+                text: 'All Teams',
+                link: '/all-reearchers-teams',
+                page: 'all-reearchers-teams'
+            },
+            {
+                id: 3,
+                icon: <PiUserCircleGearFill
+                className='text-2xl' />,
+                text: 'ERC Panel',
+                link: '/all-bmy-teams',
+                page: 'all-bmy-teams'
+            },
+            {
+                id: 4,
+                icon: <IoDocuments className='text-xl' />,
+                text: 'Proposals',
+                link: '/all-proposals',
+                page: 'all-proposals'
             },
         ];
     }

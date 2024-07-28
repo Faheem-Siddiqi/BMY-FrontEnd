@@ -1,12 +1,12 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import Sidebar from '../../layout/Sidebar';
 import profileImage from '../../../assets/images/bena.jpg';
 import { LuCrown } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdOutlineGroupOff } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
-import  UserNavbar from '../../layout/Navs/UserNavbar.jsx'
-export default function ErcMemberAssignedTeams() {
+import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
+export default function AllTeams() {
   // Define Groups
   const Groups = [
     [
@@ -88,27 +88,27 @@ export default function ErcMemberAssignedTeams() {
   return (
     <>
       <div className="flex xl:flex-row flex-col font-WorkSans-Regular ">
-        <Sidebar pageName='assigned-teams' />
+        <Sidebar pageName='all-reearchers-teams' />
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
-        <UserNavbar/>
+          <UserNavbar />
           <div className='xl:m-10 m-5'>
-                        <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                            <h1 className='font-semibold  flex items-center gap-2'
-                            >
-                                <MdOutlineGroupOff className='text-2xl' />
-                                Team Not Found
-                            </h1>
-                        </header>
-                        or
+            <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+              <h1 className='font-semibold  flex items-center gap-2'
+              >
+                <MdOutlineGroupOff className='text-2xl' />
+                Teams Not Found
+              </h1>
+            </header>
+            or
             <header>
-              <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'> Assigned Teams</h1>
+              <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'> All Researches Teams</h1>
               <div className='flex my-5 gap-2 '>
                 <p className='font-semibold'>Number of Teams</p>
                 <p className=''>6</p>
               </div>
               <header className='bg-white shadow-sm my-5 p-10'>
                 <section className='h-[50vh] md:h-[60vh]  overflow-scroll'>
-                <h1 className=' text-lg text-epsilon'>BMY-136 id </h1>
+                  <h1 className=' text-lg text-epsilon'>BMY-136 id </h1>
                   <div className="grid md:grid-cols-2 my-5 grid-col-1 md:gap-10">
                     <div>
                       <h1 className='font-semibold text-lg mb-5'>Group</h1>
@@ -127,11 +127,23 @@ export default function ErcMemberAssignedTeams() {
                       </div>
                     </div>
                     <div>
-                      <div className="flex gap-1 items-center justify-start mb-5">
-                        <h1 className='font-semibold text-lg'>Team Lead</h1>
+                      <div className="flex gap-1 items-center justify-start ">
+                        <h1 className='font-semibold text-lg my-5'>Team Supervisor</h1>
+                      </div>
+                      <section className='flex gap-2  items-center px-2 font-Satoshi-Black'>
+                        <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
+                          <img className='rounded-full' src={profileImage} alt='profile image' />
+                        </div>
+                        <div className='py-5'>
+                          <p className='text-[1rem] font-bold'>Name</p>
+                          <p className='text-[0.9rem] '>email</p>
+                        </div>
+                      </section>
+                      <div className="flex gap-1 items-center justify-start my-5">
+                        <h1 className='font-semibold   text-lg'>Team Lead</h1>
                         <LuCrown className='text-yellow-600' />
                       </div>
-                      <section className='flex gap-2 my-5 items-center px-2 font-Satoshi-Black'>
+                      <section className='flex gap-2  items-center px-2 font-Satoshi-Black'>
                         <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
                           <img className='rounded-full' src={profileImage} alt='profile image' />
                         </div>

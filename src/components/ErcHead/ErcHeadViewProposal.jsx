@@ -4,10 +4,11 @@ import UserNavbar from '../layout/Navs/UserNavbar.jsx';
 import { MdOutlineKeyboardBackspace, MdFileDownloadDone } from "react-icons/md";
 import DiscussionModal from '../Researcher/proposals/proposal-reviews/DiscussionModal.jsx';
 import Proposal from '../Researcher/proposals/Proposal.jsx';
-export default function ErcMemberViewProposal() {
+import AssignERCs from './AssignERCs.jsx';
+export default function ErcHeadViewProposal() {
     return (
         <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow-hidden">
-            <Sidebar pageName='assigned-proposals' />
+            <Sidebar pageName='all-proposals' />
             <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                 <UserNavbar />
                 <div className='xl:m-10 m-5'>
@@ -35,16 +36,8 @@ export default function ErcMemberViewProposal() {
                             <span className='mx-2'>Lead</span>
                         </div>
                       <div className='flex md:flex-row flex-col mt-5 gap-5 md:gap-3 md:items-center'>
-                <button
-                  className="  w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                  <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                    <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
-                      Accept
-                    </span>
-                  </span>
-                  <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Accept</span>
-                  <span className="invisible relative"> x Accept </span>
-                </button>
+            
+                <AssignERCs />
                 <DiscussionModal />
               </div>
                     </header>

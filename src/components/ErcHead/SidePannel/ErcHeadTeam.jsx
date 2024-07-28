@@ -61,7 +61,7 @@ const membersGroups = [
     },
   ],
 ];
-export default function ErcCommittee() {
+export default function ErcHeadTeam() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const currentMembers = membersGroups[currentGroupIndex];
   const nextGroup = () => {
@@ -77,7 +77,7 @@ export default function ErcCommittee() {
   return (
     <>
       <div className="flex xl:flex-row flex-col font-WorkSans-Regular">
-        <Sidebar pageName='erc-panel' />
+        <Sidebar pageName='all-bmy-teams' />
         <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className='xl:m-10 m-5 '>
@@ -85,11 +85,11 @@ export default function ErcCommittee() {
                             <h1 className='font-semibold  flex items-center gap-2'
                             >
                                 <MdOutlineGroupOff className='text-2xl' />
-                                No Assigned Panel
+                                No  Panel To Show
                             </h1>
                         </header>
                         or
-            <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>My Panel</h1>
+            <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>ERC Panel</h1>
             <h1 className='font-semibold my-1 text-lg'>ERC Committee Members</h1>
             <header className='bg-white shadow-sm my-5 p-10'>
               <p className='mb-5 text-epsilon text-lg'>BMY_134 id of proposal</p>
