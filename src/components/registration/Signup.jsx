@@ -34,7 +34,7 @@ export default function Signup() {
 
     if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(confirmPassword)) {
       setSignUpError(
-        "Password must have one alpha, uppercase, lowercase, and number e.g., Password@123"
+        "Password must have one alpha, uppercase, lowercase, and number e.g., bmyHealth@123"
       );
       return;
     }
