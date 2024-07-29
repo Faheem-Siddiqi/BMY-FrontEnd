@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../layout/Footer";
-import toast, { Toaster } from "react-hot-toast";
 import Navbar from "./../layout/Navs/Navbar";
+// Backend-Integration
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
-
+// Backend-Integration
 export default function Login() {
   const navigate = useNavigate();
-
   const SuccessLogin = () => toast.success("Login Successful");
-
   const FailLogin = () => toast.error("Incorrect email or password");
-
   const [showRequireError, setShowRequireError] = useState(false);
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
@@ -26,7 +23,6 @@ export default function Login() {
       setShowRequireError(true);
       return;
     }
-
     try {
       const response = await axios.post("/api/v1/user/login", {
         workemail: email,
@@ -40,11 +36,9 @@ export default function Login() {
       console.error("Login error:", error);
     }
   };
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-
       <Navbar />
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
@@ -133,10 +127,11 @@ export default function Login() {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="">Select Role</option>
-                    <option value="researcher">Researcher</option>
-                    <option value="supervisor">Supervisor</option>
-                    <option vale="ercHead">ERC Head</option>
-                    <option value="ercMember">ERC Member</option>
+                    <option value="group-lead">Researcher Lead</option>
+                    <option value="researchers">Researcher</option>
+                    <option vale="supervisor">Supervisor</option>
+                    <option vale="erc-head">ERC Head</option>
+                    <option value="erc-members">ERC Member</option>
                   </select>
                 </div>
                 <div className="mb-4 font-NunitoSans-Regular ">

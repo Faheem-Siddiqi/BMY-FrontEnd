@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../layout/Footer";
 import Navbar from "./../layout/Navs/Navbar";
+// Backend-Integration
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
-
+// Backend-Integration
 export default function Signup() {
+  const SuccessSignUp = () => toast.success("Sign Up Successful");
+  const FailSignUp = () => toast.error("Sign Up Failed");
   const [requiredError, setRequiredError] = useState(false);
   const [signUpError, setSignUpError] = useState("");
   const [role, setRole] = useState("");
@@ -16,7 +20,6 @@ export default function Signup() {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setRequiredError(false);
@@ -26,26 +29,20 @@ export default function Signup() {
       setRequiredError(true);
       return;
     }
-
     if (password !== confirmPassword) {
       setSignUpError("Password and Confirm Password Doesn't Match");
       return;
     }
-
     if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(confirmPassword)) {
       setSignUpError(
         "Password must have one alpha, uppercase, lowercase, and number e.g., bmyHealth@123"
       );
       return;
     }
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setSignUpError("Invalid Email Address");
       return;
     }
-
-    
-
     try {
       const response = await axios.post("/api/v1/user/register", {
         fullname: name,
@@ -54,16 +51,16 @@ export default function Signup() {
         password,
         role,
       });
-
-      console.log("Form submitted:", response.data);
+      SuccessSignUp()
       navigate('/login');
     } catch (error) {
       setSignUpError(error.response?.data?.message || "An error occurred");
+      FailSignUp()
     }
   };
-
   return (
     <>
+<Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
@@ -202,10 +199,11 @@ export default function Signup() {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="">Select Role</option>
-                    <option value="researcher">Researcher</option>
-                    <option value="supervisor">Supervisor</option>
-                    <option vale="ercHead">ERC Head</option>
-                    <option value="ercMember">ERC Member</option>
+                    <option value="group-lead">Researcher Lead</option>
+                    <option value="researchers">Researcher</option>
+                    <option vale="supervisor">Supervisor</option>
+                    <option vale="erc-head">ERC Head</option>
+                    <option value="erc-members">ERC Member</option>
                   </select>
                 </section>
                 <section className="mb-4">
@@ -240,7 +238,6 @@ export default function Signup() {
                     }}
                   />
                 </section>
-
                 <p className="text-red-600 text-xs"> {signUpError}</p>
                 <button
                   type="submit"

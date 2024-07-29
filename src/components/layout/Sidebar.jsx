@@ -132,7 +132,7 @@ const Sidebar = ({ pageName }) => {
             {
                 id: 3,
                 icon: <PiUserCircleGearFill
-                className='text-2xl' />,
+                    className='text-2xl' />,
                 text: 'ERC Panel',
                 link: '/erc-panel',
                 page: 'erc-panel'
@@ -165,7 +165,7 @@ const Sidebar = ({ pageName }) => {
             {
                 id: 3,
                 icon: <PiUserCircleGearFill
-                className='text-2xl' />,
+                    className='text-2xl' />,
                 text: 'ERC Panel',
                 link: '/all-bmy-teams',
                 page: 'all-bmy-teams'
@@ -203,7 +203,7 @@ const Sidebar = ({ pageName }) => {
                     {sidebarItems.map(item => (
                         <section
                             key={item.id}
-                            className={` ${propPassedPage === item.page ? 'bg-lightBg font-semibold  font-semibold text-primary' : 'hover:bg-lightBg hover:text-primary duration-200 '} ${sidebarClass}`}
+                            className={` ${propPassedPage === item.page ? 'bg-lightBg   font-semibold text-primary' : 'hover:bg-lightBg hover:text-primary duration-200 '} ${sidebarClass}`}
                         >
                             <Link to={item.link} className={sidebarLinks}>
                                 {item.icon}
