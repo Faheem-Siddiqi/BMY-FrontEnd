@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../layout/Footer';
+import toast, { Toaster } from 'react-hot-toast';
 import Navbar from './../layout/Navs/Navbar';
+
 export default function Login() {
+
+
+
+  const SuccessLogin = () => toast.success('Login Successful');
+  
+  const FailLogin = () => toast.error('Incorrect email or password');
+
   const [showRequireError, setShowRequireError] = useState(false)
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleSubmit = (e) => {
-    
+    // call funciton of toast
+    SuccessLogin()
+    FailLogin()
     e.preventDefault();
     setShowRequireError(false)
     if (!email || !password || !role) {
@@ -19,6 +30,11 @@ export default function Login() {
   };
   return (
     <>
+   <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
+
     <Navbar/>
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
