@@ -56,48 +56,6 @@ function App() {
   return (
     <>
       {/*  */}
-
-
-      
-<ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/sign-up">Sign Up</Link></li>
-        <li><Link to="/forget-password">Forget Password</Link></li>
-        <li><Link to="/forget-password-otp">Forget Password OTP</Link></li>
-        <li><Link to="/reset-password">Reset Password</Link></li>
-        <li><Link to="/profile">Profile</Link></li>
-        <li><Link to="/edit-profile">Edit Profile</Link></li>
-        {/* Researchers */}
-        <li><Link to="/researcher-team">Researcher Team</Link></li>
-        <li><Link to="/add-team-members">Add Team Members</Link></li>
-        <li><Link to="/researcher-proposal">Researcher Proposal</Link></li>
-        <li><Link to="/proposal-section">Proposal Section</Link></li>
-        <li><Link to="/dashboard">Dashboard</Link></li>
-        {/* Researchers-Lead */}
-        <li><Link to="/group-lead-team">Group Lead Team</Link></li>
-        <li><Link to="/group-lead-proposal">Group Lead Proposal</Link></li>
-        <li><Link to="/supervisor">Supervisor</Link></li>
-        <li><Link to="/group-lead-dashboard">Group Lead Dashboard</Link></li>
-        <li><Link to="/create-new-proposal">Create New Proposal</Link></li>
-        <li><Link to="/lead-proposal">Lead Proposal</Link></li>
-        {/*  */}
-        <li><Link to="/Letter">Letter</Link></li>
-        {/* Supervisors */}
-        <li><Link to="/supervisor-dashboard">Supervisor Dashboard</Link></li>
-        <li><Link to="/supervisor-teams">Supervisor Teams</Link></li>
-        <li><Link to="/supervisor-proposal">Supervisor Proposal</Link></li>
-        <li><Link to="/supervisor-details">Supervisor Details</Link></li>
-        <li><Link to="/view-erc-team">View ERC Team</Link></li>
-        <li><Link to="/mentor-proposal">Mentor Proposal</Link></li>
-        {/* Erc Members */}
-        <li><Link to="/Erc-member-dashboard">ERC Member Dashboard</Link></li>
-        <li><Link to="/Erc-member-proposals">ERC Member Proposals</Link></li>
-        <li><Link to="/assigned-teams">Assigned Teams</Link></li>
-        <li><Link to="/evaluate-proposal">Evaluate Proposal</Link></li>
-        <li><Link to="/erc-panel">ERC Panel</Link></li>
-        <li><Link to="*">Page Not Found</Link></li>
-      </ul>
       <AppContextProvider>
         {/* <Table data={data} colNames={columnNames} renderRow={renderRow} /> */}
         <Routes>
