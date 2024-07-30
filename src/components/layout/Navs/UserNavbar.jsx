@@ -3,6 +3,12 @@ import Notifications from './Notifications.jsx'
 import { Link } from 'react-router-dom'
 import { CgLogOut } from "react-icons/cg";
 import { TiEdit } from 'react-icons/ti';
+// Backend-Integration-Imports
+
+
+
+
+// Backend-Integration-Imports
 export default function UserNavbar() {
   return (
     <>

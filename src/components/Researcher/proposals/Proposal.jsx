@@ -18,7 +18,7 @@ export default function Proposal({ assignProposal, role }) {
         switch (clickedSection) {
             case 'Information':
                 return <Information role={role} />;
-            case 'Scientific Review (Synopsis)':
+            case 'Scientific Review':
                 return <ScientificReview />;
             case 'Ethical Review':
                 return <EthicalReview />;

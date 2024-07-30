@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 // Backend-Integration
+
 export default function Signup() {
   const SuccessSignUp = () => toast.success("Sign Up Successful");
   const FailSignUp = () => toast.error("Sign Up Failed");
