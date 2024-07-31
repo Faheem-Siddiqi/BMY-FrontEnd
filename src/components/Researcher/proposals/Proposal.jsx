@@ -3,25 +3,26 @@ import Information from './ProposalSections/Information.jsx';
 import ScientificReview from './ProposalSections/ScientificReview.jsx';
 import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
-// Backend-Integration
 import toast, { Toaster } from "react-hot-toast";
 export default function Proposal({ assignProposal, role }) {
     //************************     Information Component 
     //Values-Required
     const [informationData, setInformationData] = useState({
         question1: 'Fetch the group lead email from backend',
-        question2: '',
+        // list contain answer checked
+        question2: ['Feasible (have manpower, budget, time for data collection and writing)', 'Addressing research question on right time as community/decision makers are looking for the answers'],
         question3: '',
     });
-    // For checkbox 
+    //Checkbox update
     const handleUpdateInformationData = (updatedData) => {
         setInformationData(updatedData);
     };
+    // Update
     const handleInformationChange = (e) => {
-        const { name, value, } = e.target;
+        const { name, value } = e.target;
         setInformationData(prevState => ({ ...prevState, [name]: value }));
     };
-    // Handle Submission
+    // Submission
     const handleInformationSubmission = async () => {
         try {
             console.log(informationData);
@@ -30,32 +31,41 @@ export default function Proposal({ assignProposal, role }) {
             toast.error("Failed to update data.");
         }
     };
-     //************************     Consent Component 
- //Values-Required
- const [consentData, setConsentData] = useState({
-    question1: 'Yes',
-    question2: 'No',
-    question3: 'Yes',
-    question4: 'Yes',
-});
-//for checkbox and radios
-const handleUpdateConsent = (updatedData) => {
-    setFormData(updatedData);
-};
-const handleConsentChange = (e) => {
-    const { name, value, } = e.target;
-    setConsentData(prevState => ({ ...prevState, [name]: value }));
-};
-// Handle Submission
-const handleConsentSubmission = async () => {
-    try {
-        console.log(consentData);
-        toast.success("Data updated successfully!");
-    } catch (error) {
-        toast.error("Failed to update data.");
-    }
-};
-    // Sections Management
+    //************************     Consent Component 
+    //Values-Required
+    const [consentData, setConsentData] = useState({
+        // Yes and No are radio value
+        question1: 'Yes',
+        question2: '',
+        question3: 'No',
+        question4: 'No',
+    });
+    //Radiobox Update update
+    const handleUpdateConsent = (updatedData) => {
+        setConsentData(updatedData);
+    };
+    //Update
+    const handleConsentChange = (e) => {
+        if (e.target) {
+            const { name, value } = e.target;
+            if (name && value !== undefined) {
+                setConsentData(prevState => ({ ...prevState, [name]: value }));
+            } else {
+                console.error('Event target does not have name or value');
+            }
+        } else {
+            console.error('Event target is missing');
+        }
+    };
+    //Submission
+    const handleConsentSubmission = async () => {
+        try {
+            console.log(consentData);
+            toast.success("Data updated successfully!");
+        } catch (error) {
+            toast.error("Failed to update data.");
+        }
+    };
     const sections = [
         'Information',
         'Scientific Review',
@@ -79,24 +89,19 @@ const handleConsentSubmission = async () => {
                 );
             case 'Scientific Review':
                 return (
-                    <ScientificReview
-                   
-                    />
+                    <ScientificReview />
                 )
             case 'Ethical Review':
                 return <EthicalReview />;
             case 'Consent':
-                return(
-<Consent 
-                
-                    formData={consentData}
-                    onInputChange={handleConsentChange}
-                    onSubmit={handleConsentSubmission}
-                    onUpdateConsent={handleUpdateConsent}
+                return (
+                    <Consent
+                        formData={consentData}
+                        onInputChange={handleConsentChange}
+                        onSubmit={handleConsentSubmission}
+                        onUpdateConsent={handleUpdateConsent}
                     />
-
                 )
-                
             default:
                 return <Information />;
         }
