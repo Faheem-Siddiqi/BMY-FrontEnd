@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
-  const [role, setRole] = useState('erc-head');
+  const [role, setRole] = useState('group-lead');
   // group-lead
   // supervisor
   // researchers

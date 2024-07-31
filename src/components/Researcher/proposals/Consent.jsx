@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SignaturePad from '../../profile/Signature.jsx'
-export default function Consent() {
+export default function Consent ({ formData, onInputChange, onSubmit }) {
     const [answer1, setAnswer1] = useState('')
     const [answer3, setAnswer3] = useState('')
     const [answer2, setAnswer2] = useState('')
@@ -51,14 +51,15 @@ export default function Consent() {
                         </div>
                     </section>
                     <section className='mb-4 w-full md:w-[50%] '>
-                        <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>
+                        <label htmlFor="question2" className='text-zeta  font-semibold '>
                             From where additional IRB approval is required
                         </label>
                         <input
                             type='text'
-                            name='answer2'
-                            onChange={(e) => { setAnswer2(e.target.value) }}
-                            id='answer2'
+                             id='question2'
+                            name='question2'
+                            value={formData.question2}
+                            onChange={onInputChange}
                             className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                             placeholder='Add Details' />
                     </section>
@@ -130,7 +131,10 @@ export default function Consent() {
                         </p>
                     </section>
                 </header>
-                <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                <button
+                
+                onClick={onSubmit}
+                className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                     <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                     Save
                 </button>

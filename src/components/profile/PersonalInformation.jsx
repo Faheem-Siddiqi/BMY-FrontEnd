@@ -41,7 +41,7 @@ export default function PersonalInformation({ formData, onInputChange, onSubmit 
                 htmlFor='profile-image'
                 className='w-[33px] h-[33px] rounded-full cursor-pointer right-[0.15rem] bg-epsilon p-1 absolute bottom-[0.25rem]'
               >
-                <MdModeEditOutline className='text-xl text-white mt-[.2rem] ml-[.2rem]' />
+                <MdModeEditOutline className='text-xl x text-white mt-[.2rem] ml-[.2rem]' />
               </label>
             </div>
           </div>

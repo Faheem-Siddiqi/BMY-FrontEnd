@@ -50,7 +50,7 @@ export default function DiscussionModal() {
             <div>
                 <div
                     onClick={openModal}>
-                    <button
+                    <div
                         className="  py-2 px-5 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
                         <span className="ease absolute  inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                             <span className='mb-1 mr-1'>
@@ -62,7 +62,7 @@ export default function DiscussionModal() {
                             </button>
                             Reviews</span>
                         <span className="invisible relative"> x Reviews </span>
-                    </button>
+                    </div>
                 </div>
                 <Modal
                     className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95vw] h-[95vh] md:p-10 p-5 bg-white shadow-sm outline-none border rounded-lg'

@@ -11,8 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function EditProfile() {
   const dataUpdateSuccess = () => toast.success("Data Update Successfully");
   const dataUpdateFail = () => toast.error("Data Update Failed");
-  
-//************************     Personal Component 
+  //************************     Personal Component 
   //Values-Required
   const [personalInformation, setPersonalInformation] = useState({
     profileImg: DefaultDisplayPic,
@@ -37,8 +36,8 @@ export default function EditProfile() {
   const [affiliationInformation, setAffiliationInformation] = useState({
     designation: '',
     institute: '',
-    country:'',
-    city:''
+    country: '',
+    city: ''
   });
   const handleAffiliationInformation = (e) => {
     const { name, value } = e.target;
@@ -50,8 +49,27 @@ export default function EditProfile() {
     dataUpdateFail()
     console.log(affiliationInformation);
   };
-//************************     Signature Component
-  // abi rhta ha
+  //************************     Signature Component
+  //Values-Required
+  const [signatureInformation, setSignatureInformation] = useState({
+    userSignature: '',
+    signatuerLink: '',
+  });
+  const handleSignatureInformation = (e) => {
+    const { name, value, type, files } = e.target;
+    if (type === 'file') {
+      setSignatureInformation(prevState => ({ ...prevState, [name]: files[0] }));
+    } else {
+      setSignatureInformation(prevState => ({ ...prevState, [name]: value }));
+    }
+  };
+  //Integration-Method
+  const handleSignatureSubmission = async () => {
+    // We need to add check if file is upload or link is added 
+    console.log(signatureInformation);
+    dataUpdateSuccess()
+    dataUpdateFail()
+  };
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -65,17 +83,18 @@ export default function EditProfile() {
               onInputChange={handlePersonalInformation}
               onSubmit={handlePersonalInformationSubmission}
             />
-            <Affiliation 
-            
-            formData={affiliationInformation}
-            onInputChange={handleAffiliationInformation}
-            onSubmit={handleAffiliationInformationSubmission}
+            <Affiliation
+              formData={affiliationInformation}
+              onInputChange={handleAffiliationInformation}
+              onSubmit={handleAffiliationInformationSubmission}
             />
             <Signature
-            formData={personalInformation}
-            onInputChange={handlePersonalInformation}
-            onSubmit={handlePersonalInformationSubmission}/>
+              formData={signatureInformation}
+              onInputChange={handleSignatureInformation}
+              onSubmit={handleSignatureSubmission} />
           </div>
+
+        
         </header>
       </header>
     </>
