@@ -204,7 +204,7 @@ export default function Signup() {
                     <option value="researchers">Researcher</option>
                     <option vale="supervisor">Supervisor</option>
                     <option vale="erc-head">ERC Head</option>
-                    <option value="erc-members">ERC Member</option>
+                    <option value="erc-members">ERC Member</option>
                   </select>
                 </section>
                 <section className="mb-4">
