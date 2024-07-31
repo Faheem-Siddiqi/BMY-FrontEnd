@@ -29,8 +29,11 @@ export default function Login() {
         password,
         role,
       });
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      console.log("toh", token);
       SuccessLogin();
-      navigate("/profile");
+     
     } catch (error) {
       FailLogin(error.response.data.message || "Login failed");
       console.error("Login error:", error);
@@ -131,7 +134,7 @@ export default function Login() {
                     <option value="researchers">Researcher</option>
                     <option vale="supervisor">Supervisor</option>
                     <option vale="erc-head">ERC Head</option>
-                    <option value="erc-members">ERC Member</option>
+                    <option value="erc-members">ERC Member</option>
                   </select>
                 </div>
                 <div className="mb-4 font-NunitoSans-Regular ">

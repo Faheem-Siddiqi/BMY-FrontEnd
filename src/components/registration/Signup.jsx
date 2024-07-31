@@ -196,7 +196,7 @@ export default function Signup() {
                     {!role && requiredError && " * Required"}
                   </span>
                   <select
-                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon   focus:border-gray-500"
+                    className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon   focus:border-gray-500"
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="">Select Role</option>
@@ -204,7 +204,7 @@ export default function Signup() {
                     <option value="researchers">Researcher</option>
                     <option vale="supervisor">Supervisor</option>
                     <option vale="erc-head">ERC Head</option>
-                    <option value="erc-members">ERC Member</option>
+                    <option value="erc-members">ERC Member</option>
                   </select>
                 </section>
                 <section className="mb-4">
