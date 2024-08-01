@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../layout/Footer";
 import Navbar from "./../layout/Navs/Navbar";
+
+import { setCookie } from 'cookies-next';
+
+
 // Backend-Integration
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -30,7 +34,8 @@ export default function Login() {
         role,
       });
       const token = response.data.token;
-      localStorage.setItem('token', token);
+      //localStorage.setItem('token', token);
+      setCookie('token', token);
       SuccessLogin();
      navigate('/edit-profile')
     } catch (error) {

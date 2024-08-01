@@ -16,25 +16,45 @@ export default function EditProfile() {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      try {
-        const token = localStorage.getItem("token");
+      // try {
+      //   const token = localStorage.getItem("token");
 
-        const response = await axios.get("/api/v1/user/getuserdetails", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      //   const response = await axios.get("/api/v1/user/getuserdetails", {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   });
 
-        if (response.data.success) {
-          setUserDetails(response.data.user);
-        } else {
-          toast.error("Failed to load user details.");
-          navigate("/login"); 
-        }
-      } catch (error) {
-        toast.error("Error fetching user details.");
-        navigate("/login"); 
-      }
+      //   if (response.data.success) {
+      //     setUserDetails(response.data.user);
+      //   } else {
+      //     toast.error("Failed to load user details.");
+      //     navigate("/login"); 
+      //   }
+      // } catch (error) {
+      //   toast.error("Error fetching user details.");
+      //   navigate("/login"); 
+      // }
+      
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+        credentials:"include"
+      };
+      
+      fetch("http://localhost:3000/api/v1/user/getuserdetails", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          //console.log(result)
+          if (result.success){
+            setUserDetails(result.user)
+          }
+          else{
+            toast.error("Failed to load user details.");
+            navigate("/login")
+          }
+        })
+        .catch((error) => console.error(error));
     };
 
     fetchUserDetails();
