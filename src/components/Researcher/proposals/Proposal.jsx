@@ -5,11 +5,13 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 export default function Proposal({ assignProposal, role }) {
+    
     //************************     Information Component 
+
     //Values-Required
     const [informationData, setInformationData] = useState({
         question1: 'Fetch the group lead email from backend',
-        // list contain answer checked
+    // list contain answer checked
         question2: ['Feasible (have manpower, budget, time for data collection and writing)', 'Addressing research question on right time as community/decision makers are looking for the answers'],
         question3: '',
     });
@@ -45,17 +47,8 @@ export default function Proposal({ assignProposal, role }) {
         setConsentData(updatedData);
     };
     //Update
-    const handleConsentChange = (e) => {
-        if (e.target) {
-            const { name, value } = e.target;
-            if (name && value !== undefined) {
-                setConsentData(prevState => ({ ...prevState, [name]: value }));
-            } else {
-                console.error('Event target does not have name or value');
-            }
-        } else {
-            console.error('Event target is missing');
-        }
+    const handleConsentChange = (updatedData) => {
+        setConsentData(updatedData);
     };
     //Submission
     const handleConsentSubmission = async () => {
@@ -96,11 +89,11 @@ export default function Proposal({ assignProposal, role }) {
             case 'Consent':
                 return (
                     <Consent
-                        formData={consentData}
-                        onInputChange={handleConsentChange}
-                        onSubmit={handleConsentSubmission}
-                        onUpdateConsent={handleUpdateConsent}
-                    />
+    formData={consentData}
+    onInputChange={handleConsentChange}
+    onSubmit={handleConsentSubmission}
+    onUpdateConsent={handleUpdateConsent}
+/>
                 )
             default:
                 return <Information />;
