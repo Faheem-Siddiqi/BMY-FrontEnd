@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import profile from '../../assets/images/Profile.png';
 import { MdModeEditOutline } from "react-icons/md";
 import CreateSvg from '../../assets/svgs/CreateSvg';
-
-export default function PersonalInformation({ formData, onInputChange, onSubmit }) {
+export default function PersonalInformation({ formData, onInputChange, onSubmit, email }) {
   const [localImage, setLocalImage] = useState(null);
-
-  // Handle image upload
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -14,19 +11,17 @@ export default function PersonalInformation({ formData, onInputChange, onSubmit 
       onInputChange(event); // Ensure the parent component also gets the updated image
     }
   };
-
   // Determine the image source
   const imageSrc = localImage ? URL.createObjectURL(localImage) : formData.profileImg || profile;
-
   return (
     <>
       <div className='flex my-5 items-center justify-start gap-3'>
         <div className='w-[70px] h-[70px] rounded-full border-epsilon border-2'>
-          <img src={imageSrc} className='w-full rounded-full h-full' alt="profile" />
+          <img src={imageSrc} className='w-full object-cover rounded-full h-full' alt="profile" />
         </div>
         <div>
-          <h1 className='font-bold text-lg'>User Name</h1>
-          <p className='text-stone-700 text-sm'>Researcher</p>
+          <h1 className='font-bold text-lg'>{formData.fullName}</h1>
+          <p className='text-stone-700 text-sm'>{email}</p>
         </div>
       </div>
       <h1 className='text-3xl font-bold font-Satoshi-Black'>Profile</h1>

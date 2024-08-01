@@ -31,12 +31,12 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
                         {signUrl === 'no' && (
                             <div className=''>
                                 <span className=''>Upload your signature </span>
-                                {formData.userSignature === '' && (<>
+                               
                                     <span className='inline'>
                                         or
                                         <span className='ml-1 text-epsilon cursor-pointer font-semibold  border-b border-b-epsilon' onClick={() => setSignUrl('')}>Change to Create Sign</span>
                                     </span>
-                                </>)}
+                                
                                 <div className='border-2  my-5 rounded-xl w-full md:w-[60%] overflow-hidden bg-iota border-epsilon border-dashed '>
                                     <label htmlFor="upload-sign">
                                         <img
@@ -73,13 +73,13 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
                         )}
                         {signUrl !== 'no' && (<>
                             <span className=''>Click on the box below to draw you signature using Mouse or pen </span>
-                            {formData.signatuerLink === '' && (<>
+                          
                                 <span className='' onClick={() => setSignUrl('no')}>  <span className='text-black mr-1'>or</span>
                                     <span className='ml-1 text-epsilon cursor-pointer font-semibold border-b border-b-epsilon'>
                                         Change to Upload Sign
                                     </span>
                                 </span>
-                            </>)}
+                          
                             <div className='border-2 my-5 rounded-xl w-full md:w-[60%] overflow-hidden border-epsilon border-dashed'>
                                 <SignatureCanvas
                                     backgroundColor='white'

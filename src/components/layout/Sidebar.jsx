@@ -192,7 +192,7 @@ const Sidebar = ({ pageName }) => {
     const sidebarLinks = 'flex w-full py-2 px-4 items-center gap-2 hover:text-darkGolden duration-200';
     return (
         <>
-            <div className='xl:w-[15%] xl:h-screen  bg-iota w-full relative font-Satoshi-Black  text-black text-[18px]'>
+            <div className='xl:w-[15%] xl:h-screen xl:border-none border-b bg-iota w-full relative font-Satoshi-Black  text-black text-[18px]'>
                 <div className='flex xl:justify-center items-center justify-between xl:mx-0 mx-5 mt-5'>
                     <section className='font-CormorantGaramond-Regular items-center justify-center flex flex-col w-fit mb-4'>
                         <h1 className='text-3xl text-center gap-1 flex'>
