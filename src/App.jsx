@@ -62,7 +62,7 @@ function App() {
           {/* Admin */}
           <Route path="/admin" element={<Admin />} />
           {/* Rest */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/forget-password" element={<ForgetPassword />} />

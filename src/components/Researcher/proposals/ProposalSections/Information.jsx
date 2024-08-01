@@ -90,10 +90,13 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                         Save
                     </button>
-                    <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
-                        <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                        Hide Save in case role is erc-member / supervisor / head also add disable attribute in case of role do in integration
-                    </button>
+                    {/* Conditional rendering based on role */}
+          <br/>
+                        <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                            <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                            Hide Save in case of erc had n supervisor
+                        </button>
+                   
                 </header>
             </div>
         </>
