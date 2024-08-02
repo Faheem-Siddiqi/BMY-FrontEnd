@@ -30,7 +30,7 @@ export default function EditProfile() {
     const fetchUserDetails = async () => {
       setLoading(true); // Show loader during data fetching
       try {
-        const response = await fetch("http://localhost:3000/api/v1/user/getuserdetails", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           redirect: "follow",
           credentials: "include",
@@ -93,7 +93,7 @@ export default function EditProfile() {
         try {
           const formData = new FormData();
           formData.append("filename", file);
-          const response = await fetch("http://localhost:3000/api/v1/uploadFile?filename", {
+          const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
             method: "POST",
             body: formData,
             redirect: "follow"
