@@ -15,8 +15,8 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
         if (signPad) {
             const newSignUrl = signPad.getTrimmedCanvas().toDataURL('image/png');
             setSignUrl(newSignUrl);
-            formData.signatuerLink = newSignUrl;
-            console.log(formData.signatuerLink)
+            formData.userSignature = newSignUrl;
+            console.log(formData.userSignature)
             onSubmit()
         }
     };
@@ -31,34 +31,32 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
                         {signUrl === 'no' && (
                             <div className=''>
                                 <span className=''>Upload your signature </span>
-                               
-                                    <span className='inline'>
-                                        or
-                                        <span className='ml-1 text-epsilon cursor-pointer font-semibold  border-b border-b-epsilon' onClick={() => setSignUrl('')}>Change to Create Sign</span>
-                                    </span>
-                                
+                                <span className='inline'>
+                                    or
+                                    <span className='ml-1 text-epsilon cursor-pointer font-semibold  border-b border-b-epsilon' onClick={() => setSignUrl('')}>Change to Create Sign</span>
+                                </span>
                                 <div className='border-2  my-5 rounded-xl w-full md:w-[60%] overflow-hidden bg-iota border-epsilon border-dashed '>
                                     <label htmlFor="upload-sign">
                                         <img
-                                            className='m-auto' src={Sign} alt="sign" /></label>
+                                            className='m-auto object-cover' src={formData.userSignature || formData.signatureLink || Sign} alt="sign" /></label>
                                 </div>
                                 <div className='flex md:gap-3 md:flex-row flex-col'>
                                     <label
-                                        htmlFor='userSignature'
+                                        htmlFor='signatureLink'
                                         className=" py-2 px-5 w-fit rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
                                         <span className="ease absolute right-0  h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                                         Upload
                                     </label>
                                     <input
-                                        name='userSignature'
-                                        id='userSignature'
+                                        name='signatureLink'
+                                        id='signatureLink'
                                         type="file"
                                         accept="image/png,image/jpeg"
                                         onChange={onInputChange}
                                         className='w-0' />
                                     <button
                                         onClick={(event) => {
-                                            if (!formData.userSignature) {
+                                            if (!formData.signatureLink) {
                                                 alert('Please select a file before submitting.');
                                                 return;
                                             }
@@ -71,15 +69,15 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
                                 </div>
                             </div>
                         )}
+                      
+                      
                         {signUrl !== 'no' && (<>
                             <span className=''>Click on the box below to draw you signature using Mouse or pen </span>
-                          
-                                <span className='' onClick={() => setSignUrl('no')}>  <span className='text-black mr-1'>or</span>
-                                    <span className='ml-1 text-epsilon cursor-pointer font-semibold border-b border-b-epsilon'>
-                                        Change to Upload Sign
-                                    </span>
+                            <span className='' onClick={() => setSignUrl('no')}>  <span className='text-black mr-1'>or</span>
+                                <span className='ml-1 text-epsilon cursor-pointer font-semibold border-b border-b-epsilon'>
+                                    Change to Upload Sign
                                 </span>
-                          
+                            </span>
                             <div className='border-2 my-5 rounded-xl w-full md:w-[60%] overflow-hidden border-epsilon border-dashed'>
                                 <SignatureCanvas
                                     backgroundColor='white'

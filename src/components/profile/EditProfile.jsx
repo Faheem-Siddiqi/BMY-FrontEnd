@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./../layout/Sidebar";
 import Affiliation from "./Affiliation";
-import DefaultProfile from '../../assets/images/Profile.png';
 import Signature from "./Signature";
 import PersonalInformation from "./PersonalInformation";
 import UserNavbar from "../layout/Navs/UserNavbar";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Loader from "../layout/Loader"; // Import the Loader component
-
+import Loader from "../layout/Loader";
 export default function EditProfile() {
-  const [userEmail,setUseEmail]=useState('')
-  const [loading, setLoading] = useState(true); // Loader state for initial data fetching
+  const [userEmail, setUseEmail] = useState('')
+  const [loading, setLoading] = useState(true);
   const [personalInformation, setPersonalInformation] = useState({
     profileImg: '',
     fullName: '',
@@ -26,9 +24,8 @@ export default function EditProfile() {
     userSignature: "",
     signatureLink: "",
   });
-
+  // GET METHOD FOR CHILD COMPONENTS
   const navigate = useNavigate();
-
   useEffect(() => {
     let isMounted = true; // Flag to prevent state updates on unmounted components
     const fetchUserDetails = async () => {
@@ -39,23 +36,34 @@ export default function EditProfile() {
           redirect: "follow",
           credentials: "include",
         });
-
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
         const result = await response.json();
-        if (isMounted) { // Only update state if the component is still mounted
+        if (isMounted) {
           if (result.success) {
-            const { fullname, pfp , workemail} = result.user;
-
+            // console.log(result.user) all user detail
+            const { fullname, pfp, workemail, experience, residence, signature } = result.user;
             setUseEmail(workemail)
             setPersonalInformation((prevState) => ({
               ...prevState,
               fullName: fullname || '',
               profileImg: pfp || '',
+              designation: experience.designation || "",
             }));
-            setLoading(false); // Hide loader after data is fetched
+            setAffiliationInformation((prevState) => ({
+              ...prevState,
+              designation: experience.designation || "",
+              institute: experience.company || "",
+              country: residence.country || "",
+              city: residence.city || "",
+            }));
+            setSignatureInformation((prevState) => ({
+              ...prevState,
+              signatureLink: signature || "",
+              userSignature: signature || "",
+            }));
+            setLoading(false);
           } else {
             toast.error("Failed to load user details.");
             navigate("/login");
@@ -69,23 +77,20 @@ export default function EditProfile() {
         }
       }
     };
-
     fetchUserDetails();
     return () => {
       isMounted = false;
     };
   }, [navigate]);
-
   const dataUpdateSuccess = () => toast.success("Data Update Successfully");
   const dataUpdateFail = () => toast.error("Data Update Failed");
-
-  // Handle changes in the personal information form
+  // HANDLE PARENT AND LOCAL STATE CHANGES FOR PEROSONAL INFORMATION COMPONENT. USING ASYC SINCE WE NEED URL FOR IMAGE
   const handlePersonalInformation = async (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
       const file = files[0];
       if (file) {
-        setLoading(true); // Show loader during file upload
+        setLoading(true);
         try {
           const formData = new FormData();
           formData.append("filename", file);
@@ -94,7 +99,6 @@ export default function EditProfile() {
             body: formData,
             redirect: "follow"
           });
-
           const result = await response.json();
           if (response.ok) {
             const fileUrl = result.url;
@@ -108,7 +112,7 @@ export default function EditProfile() {
         } catch (error) {
           console.error('Error uploading file:', error);
         }
-        setLoading(false); // Hide loader after file upload
+        setLoading(false);
       }
     } else {
       setPersonalInformation((prevState) => ({
@@ -117,10 +121,9 @@ export default function EditProfile() {
       }));
     }
   };
-
-  // Handle submission of personal information form
+  //PUT RESQUEST FOR PERSONAL  INFORMATION
   const handlePersonalInformationSubmission = async () => {
-    setLoading(true); // Show loader during submission
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
         method: 'PUT',
@@ -128,14 +131,13 @@ export default function EditProfile() {
           "Content-Type": "application/json",
           "Cookie": "token=your_token_here"
         },
-        credentials: 'include', // Include cookies if necessary
+        credentials: 'include',
         body: JSON.stringify({
           fullname: personalInformation.fullName,
           pfp: personalInformation.profileImg
         }),
         redirect: "follow"
       });
-
       const data = await response.json();
       if (response.ok) {
         console.log('Profile updated successfully:', data);
@@ -148,48 +150,134 @@ export default function EditProfile() {
       console.error('Error:', error);
       dataUpdateFail();
     }
-    setLoading(false); // Hide loader after submission
+    setLoading(false);
   };
-
-  // Handle changes in the affiliation form
+  // HANDLE PARENT AND LOCAL STATE CHANGES FOR AFFILIATION COMPONENT 
   const handleAffiliationInformation = (e) => {
     const { name, value } = e.target;
     setAffiliationInformation((prevState) => ({ ...prevState, [name]: value }));
   };
-
-  // Handle submission of affiliation form
+  //PUT RESQUEST FOR AFFILIATION COMPONENT
   const handleAffiliationInformationSubmission = async () => {
-    dataUpdateSuccess();
-    dataUpdateFail();
-    console.log(affiliationInformation);
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          experience: {
+            designation: affiliationInformation.designation,
+            company: affiliationInformation.institute
+          },
+          residence: {
+            country: affiliationInformation.country,
+            city: affiliationInformation.city
+          }
+        }),
+        redirect: "follow"
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Profile updated successfully:', data);
+        dataUpdateSuccess();
+      } else {
+        console.error('Profile update failed:', data);
+        dataUpdateFail();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      dataUpdateFail();
+    }
+    setLoading(false);
   };
-
-  // Handle changes in the signature form
-  const handleSignatureInformation = (e) => {
+  // HANDLE PARENT AND LOCAL STATE CHANGES FOR SIGNATURE COMPONENT . ASYNC SINCE WE NEET TO CONVERT IAMGE TO URL 
+  const handleSignatureInformation = async (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
+      const file = files[0];
+      if (file) {
+        setLoading(true);
+        try {
+          const formData = new FormData();
+          formData.append("filename", file);
+          const response = await fetch("http://localhost:3000/api/v1/uploadFile?filename", {
+            method: "POST",
+            body: formData,
+            redirect: "follow"
+          });
+          const result = await response.json();
+          if (response.ok) {
+            const fileUrl = result.url;
+            setSignatureInformation((prevState) => ({
+              ...prevState,
+              signatureLink: fileUrl,
+            }));
+          } else {
+            console.error('Error uploading file:', result.message || 'Unknown error');
+          }
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+        setLoading(false);
+      }
+    } else {
       setSignatureInformation((prevState) => ({
         ...prevState,
-        [name]: files[0],
+        [name]: value,
       }));
-    } else {
-      setSignatureInformation((prevState) => ({ ...prevState, [name]: value }));
     }
   };
 
-  // Handle submission of signature form
-  const handleSignatureSubmission = async () => {
-    dataUpdateSuccess();
-    dataUpdateFail();
-    console.log(signatureInformation);
+
+
+  //PUT RESQUEST FOR SIGNATURE COMPONENT
+ const handleSignatureSubmission = async () => {
+ var sign =''
+  if ( signatureInformation.userSignature && signatureInformation.signatureLink) {
+    sign = signatureInformation.signatureLink; 
+  } else if (signatureInformation.userSignature) {
+    sign = signatureInformation.userSignature;
+  } else if (signatureInformation.signatureLink) {
+    sign = signatureInformation.signatureLink; 
+  }
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          signature: sign,
+        }),
+        redirect: "follow"
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Profile updated successfully:', data);
+        dataUpdateSuccess();
+      } else {
+        console.error('Profile update failed:', data);
+        dataUpdateFail();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      dataUpdateFail();
+    }
+    setLoading(false);
   };
 
   if (loading) {
-    return <Loader />; // Display loader if loading is true
+    return <Loader />;
   }
-
   return (
     <>
+
+   
       <Toaster position="top-center" reverseOrder={false} />
       <header className="flex xl:flex-row flex-col font-Satoshi-Black">
         <Sidebar pageName="profile" />
@@ -199,7 +287,7 @@ export default function EditProfile() {
           </section>
           <div className="xl:px-10 px-5">
             <PersonalInformation
-            email={userEmail}
+              email={userEmail}
               formData={personalInformation}
               onInputChange={handlePersonalInformation}
               onSubmit={handlePersonalInformationSubmission}

@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Notifications from './Notifications.jsx';
 import { CgLogOut } from 'react-icons/cg';
 import { TiEdit } from 'react-icons/ti';
-import toast from 'react-hot-toast'; 
-import Loader from '../Loader.jsx'; 
+import toast from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png'
-
 export default function UserNavbar() {
   const navigate = useNavigate(); // Initialize useNavigate
   const location = useLocation();
-  const[loading,setLoading]=useState(false)
   const [shouldShowBanner, setShouldShowBanner] = useState(false);
-  const [profilePic, setProfilePic]=useState('')
-
+  const [profilePic, setProfilePic] = useState('')
   // Handle logout
   const handleLogout = async () => {
     try {
@@ -22,14 +18,11 @@ export default function UserNavbar() {
         method: 'GET',
         credentials: 'include',
       });
-
       const result = await response.json();
-      
       if (response.ok) {
         toast.success('Logged out successfully');
-        navigate('/'); 
+        navigate('/');
       } else {
-      
         toast.error(result.message || 'Logout failed');
       }
     } catch (error) {
@@ -37,31 +30,24 @@ export default function UserNavbar() {
       toast.error('An error occurred during logout');
     }
   };
-
-// fetching user image
+  // fetching user image
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
     const fetchUserDetails = async () => {
-      setLoading(true); 
       try {
         const response = await fetch("http://localhost:3000/api/v1/user/getuserdetails", {
           method: "GET",
           redirect: "follow",
           credentials: "include",
         });
-
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
         const result = await response.json();
-        if (isMounted) { 
+        if (isMounted) {
           if (result.success) {
-            const { pfp} = result.user;
+            const { pfp } = result.user;
             setProfilePic(pfp)
-          
-          
-            setLoading(false); 
           } else {
             toast.error("Failed to load user details.");
             navigate("/login");
@@ -70,21 +56,15 @@ export default function UserNavbar() {
       } catch (error) {
         if (isMounted) {
           console.error(error);
-        
-      
         }
       }
     };
-
     fetchUserDetails();
     return () => {
       isMounted = false;
     };
   }, []);
-
-
   useEffect(() => {
-    
     const pathname = location.pathname.toLowerCase();
     if (pathname.includes('admin')) {
       setShouldShowBanner(true);
@@ -92,12 +72,6 @@ export default function UserNavbar() {
       setShouldShowBanner(false);
     }
   }, [location.pathname]);
-
-
-  if (loading) {
-    return <Loader />
-  }
-
   return (
     <>
       <div className="navbar px-4 md:h-20 md:py-0 py-5 bg-iota border-b">
@@ -118,7 +92,7 @@ export default function UserNavbar() {
             <div tabIndex={0} role="button" className="avatar">
               <div className="w-10 rounded-full">
                 <img
-                className='object-cover'
+                  className='object-cover'
                   alt="Profile"
                   src={profilePic || DefaultImage}
                 />
