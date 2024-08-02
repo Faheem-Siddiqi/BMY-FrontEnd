@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./../layout/Navs/Navbar";
 import Footer from "../layout/Footer.jsx";
-import axios from "axios";
 
-axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [showRequireError, setShowRequireError] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
@@ -26,15 +24,30 @@ export default function ForgetPassword() {
       return;
     }
 
-    /* try {
-      const response = await axios.post('/api/v1/user/forgetpassword', { workemail: email });
-      if (response.data.success) {
-        setSuccessMessage(response.data.message);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/forgetpassword`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ workemail: email }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(data.message);
+        navigate("/forget-password-otp");
+      } else {
+        setSubmitError(data.message || "An error occurred. Please try again.");
       }
     } catch (error) {
       setSubmitError("An error occurred. Please try again.");
-    }*/
-  }
+    }
+  };
 
   return (
     <>
