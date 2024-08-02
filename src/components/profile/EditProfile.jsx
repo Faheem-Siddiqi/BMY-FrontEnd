@@ -7,11 +7,9 @@ import UserNavbar from "../layout/Navs/UserNavbar";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../layout/Loader";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default function EditProfile() {
   const [userEmail, setUseEmail] = useState('')
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [personalInformation, setPersonalInformation] = useState({
     profileImg: '',
     fullName: '',
@@ -32,10 +30,7 @@ export default function EditProfile() {
     const fetchUserDetails = async () => {
       setLoading(true); // Show loader during data fetching
       try {
-        const response = await 
-        
-        
-        fetch("http://localhost:3000/api/v1/user/getuserdetails", {
+        const response = await fetch("http://localhost:3000/api/v1/user/getuserdetails", {
           method: "GET",
           redirect: "follow",
           credentials: "include",
@@ -144,8 +139,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success('Profile updated successfully')
-        // console.log('Profile updated successfully:', data);
+        console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -186,8 +180,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success('Profile updated successfully')
-        // console.log('Profile updated successfully:', data);
+        console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -205,6 +198,7 @@ export default function EditProfile() {
     if (type === "file") {
       const file = files[0];
       if (file) {
+        setLoading(true);
         try {
           const formData = new FormData();
           formData.append("filename", file);
@@ -226,6 +220,7 @@ export default function EditProfile() {
         } catch (error) {
           console.error('Error uploading file:', error);
         }
+        setLoading(false);
       }
     } else {
       setSignatureInformation((prevState) => ({
@@ -234,8 +229,12 @@ export default function EditProfile() {
       }));
     }
   };
+
+
+
   //PUT RESQUEST FOR SIGNATURE COMPONENT
-  const handleSignatureSubmission = async () => {
+ const handleSignatureSubmission = async () => {
+
     setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
@@ -251,9 +250,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-       
-        // console.log('Profile updated successfully:', data);
-        toast.success('Profile updated successfully')
+        console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -265,12 +262,15 @@ export default function EditProfile() {
     }
     setLoading(false);
   };
+
   if (loading) {
     return <Loader />;
   }
   return (
     <>
-      <Toaster position="bottom-right" reverseOrder={false} />
+
+   
+      <Toaster position="top-center" reverseOrder={false} />
       <header className="flex xl:flex-row flex-col font-Satoshi-Black">
         <Sidebar pageName="profile" />
         <header className="w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll">
