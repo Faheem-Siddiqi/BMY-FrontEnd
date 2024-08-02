@@ -14,6 +14,7 @@ function Loader() {
       >
         <div className='font-CormorantGaramond-Regular items-center justify-center flex flex-col w-fit'>
           <h1 className="text-3xl gap-1 flex">
+          
             <p className='text-zeta font-bold'>BMY</p>
             <p className='text-primary font-semibold'>Health</p>
           </h1>

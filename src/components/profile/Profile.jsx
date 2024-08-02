@@ -4,11 +4,7 @@ import Affiliation from './Affiliation';
 import Signature from './Signature';
 import PersonalInformation from './PersonalInformation';
 import UserNavbar from '../layout/Navs/UserNavbar';
-
-
 export default function Profile() {
- 
-
   return (
     <>
       <Toaster />
@@ -17,13 +13,11 @@ export default function Profile() {
         <header className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className='xl:px-10 px-5'>
-          
-              <>
-                <PersonalInformation/>
-                <Affiliation />
-                <Signature />
-              </>
-           
+            <>
+              <PersonalInformation />
+              <Affiliation />
+              <Signature />
+            </>
           </div>
         </header>
       </header>
