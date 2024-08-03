@@ -1,34 +1,55 @@
-import React from 'react'
+import React from 'react';
 import { MdDeleteOutline } from "react-icons/md";
 import Modal from 'react-modal';
-export default function DeleteMembers() {
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      width: '50%',
-      padding: '10% 2% 10% 2%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
+import toast, { Toaster } from 'react-hot-toast';
+
+export default function DeleteMembers({ ownerId, memberId }) {
+  const handleDelete = async () => {
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify({ ownerId, researcherId: memberId }), 
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/remove-researcher`, requestOptions);
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Member removed successfully.");
+        closeModal(); 
+        window.location.reload(); 
+      } else {
+        toast.error(result.message || "Failed to remove member.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while removing the member.");
+    }
   };
-  //   Modal.setAppElement('#yourAppElement');
-  let subtitle;
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
+
   function openModal() {
     setIsOpen(true);
   }
+
   function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = '#f00';
+    // Custom styles for the modal after opening, if needed
   }
+
   function closeModal() {
     setIsOpen(false);
   }
+
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <div>
         <MdDeleteOutline className='text-red-600 cursor-pointer' onClick={openModal} />
         <Modal
@@ -36,16 +57,27 @@ export default function DeleteMembers() {
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
-          // style={customStyles}
           contentLabel="Delete Confirmation Modal"
         >
           <div className='font-semibold text-xl'>
-            Are you sure you want to remove member?</div>
-          <div className='flex-row  flex md:gap-2 gap-5 md:mt-5'>
-            <button className='bg-epsilon py-1 px-5 rounded-md w-fit mt-5 text-white outline-none'> Yes</button>
-            <button className='bg-white border-epsilon border w-fit outline-none md:mt-5 py-1 px-5 rounded-md text-epsilon' onClick={closeModal}>No</button>
+            Are you sure you want to remove this member?
+          </div>
+          <div className='flex-row flex md:gap-2 gap-5 md:mt-5'>
+            <button
+              className='bg-epsilon py-1 px-5 rounded-md w-fit mt-5 text-white outline-none'
+              onClick={handleDelete}
+            >
+              Yes
+            </button>
+            <button
+              className='bg-white border-epsilon border w-fit outline-none md:mt-5 py-1 px-5 rounded-md text-epsilon'
+              onClick={closeModal}
+            >
+              No
+            </button>
           </div>
         </Modal>
-      </div></>
-  )
+      </div>
+    </>
+  );
 }

@@ -14,12 +14,13 @@ export default function UserNavbar() {
   const handleLogout = async () => {
     try {
       // Perform the logout request
-      const response = await fetch('http://localhost:3000/api/v1/user/logout', {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/logout`, {
         method: 'GET',
         credentials: 'include',
       });
       const result = await response.json();
       if (response.ok) {
+        localStorage.removeItem('role');
         toast.success('Logged out successfully');
         navigate('/');
       } else {
@@ -35,7 +36,7 @@ export default function UserNavbar() {
     let isMounted = true;
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/v1/user/getuserdetails", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           redirect: "follow",
           credentials: "include",
