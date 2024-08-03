@@ -7,9 +7,11 @@ import UserNavbar from "../layout/Navs/UserNavbar";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../layout/Loader";
+import { getCookie } from "cookies-next";
+
 export default function EditProfile() {
   const [userEmail, setUseEmail] = useState('')
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [personalInformation, setPersonalInformation] = useState({
     profileImg: '',
     fullName: '',
@@ -81,7 +83,7 @@ export default function EditProfile() {
       isMounted = false;
     };
   }, [navigate]);
-  const dataUpdateSuccess = () => toast.success("Data Update Successfully");
+  const dataUpdateSuccess = () => toast.success("Data Updated Successfully");
   const dataUpdateFail = () => toast.error("Data Update Failed");
   // HANDLE PARENT AND LOCAL STATE CHANGES FOR PEROSONAL INFORMATION COMPONENT. USING ASYC SINCE WE NEED URL FOR IMAGE
   const handlePersonalInformation = async (e) => {
@@ -89,7 +91,6 @@ export default function EditProfile() {
     if (type === "file") {
       const file = files[0];
       if (file) {
-        setLoading(true);
         try {
           const formData = new FormData();
           formData.append("filename", file);
@@ -111,7 +112,6 @@ export default function EditProfile() {
         } catch (error) {
           console.error('Error uploading file:', error);
         }
-        setLoading(false);
       }
     } else {
       setPersonalInformation((prevState) => ({
@@ -122,13 +122,14 @@ export default function EditProfile() {
   };
   //PUT RESQUEST FOR PERSONAL  INFORMATION
   const handlePersonalInformationSubmission = async () => {
-    setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
+
+      const SignUser = getCookie('role');
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
-          "Cookie": "token=your_token_here"
+          "Cookie": SignUser
         },
         credentials: 'include',
         body: JSON.stringify({
@@ -139,7 +140,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('Profile updated successfully:', data);
+        // console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -149,7 +150,6 @@ export default function EditProfile() {
       console.error('Error:', error);
       dataUpdateFail();
     }
-    setLoading(false);
   };
   // HANDLE PARENT AND LOCAL STATE CHANGES FOR AFFILIATION COMPONENT 
   const handleAffiliationInformation = (e) => {
@@ -158,9 +158,8 @@ export default function EditProfile() {
   };
   //PUT RESQUEST FOR AFFILIATION COMPONENT
   const handleAffiliationInformationSubmission = async () => {
-    setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +179,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('Profile updated successfully:', data);
+        // console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -190,7 +189,6 @@ export default function EditProfile() {
       console.error('Error:', error);
       dataUpdateFail();
     }
-    setLoading(false);
   };
   // HANDLE PARENT AND LOCAL STATE CHANGES FOR SIGNATURE COMPONENT . ASYNC SINCE WE NEET TO CONVERT IAMGE TO URL 
   const handleSignatureInformation = async (e) => {
@@ -198,11 +196,10 @@ export default function EditProfile() {
     if (type === "file") {
       const file = files[0];
       if (file) {
-        setLoading(true);
         try {
           const formData = new FormData();
           formData.append("filename", file);
-          const response = await fetch("http://localhost:3000/api/v1/uploadFile?filename", {
+          const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
             method: "POST",
             body: formData,
             redirect: "follow"
@@ -220,7 +217,6 @@ export default function EditProfile() {
         } catch (error) {
           console.error('Error uploading file:', error);
         }
-        setLoading(false);
       }
     } else {
       setSignatureInformation((prevState) => ({
@@ -229,15 +225,10 @@ export default function EditProfile() {
       }));
     }
   };
-
-
-
   //PUT RESQUEST FOR SIGNATURE COMPONENT
- const handleSignatureSubmission = async () => {
-
-    setLoading(true);
+  const handleSignatureSubmission = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/user/updateprofile", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json",
@@ -250,7 +241,7 @@ export default function EditProfile() {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('Profile updated successfully:', data);
+        // console.log('Profile updated successfully:', data);
         dataUpdateSuccess();
       } else {
         console.error('Profile update failed:', data);
@@ -260,16 +251,12 @@ export default function EditProfile() {
       console.error('Error:', error);
       dataUpdateFail();
     }
-    setLoading(false);
   };
-
   if (loading) {
     return <Loader />;
   }
   return (
     <>
-
-   
       <Toaster position="top-center" reverseOrder={false} />
       <header className="flex xl:flex-row flex-col font-Satoshi-Black">
         <Sidebar pageName="profile" />

@@ -36,8 +36,9 @@ export default function Login() {
       const token = response.data.token;
       //localStorage.setItem('token', token);
       setCookie('token', token);
+      localStorage.setItem('role', role);;
       SuccessLogin();
-     navigate('/edit-profile')
+       navigate('/edit-profile')
     } catch (error) {
       FailLogin(error.response.data.message || "Login failed");
       console.error("Login error:", error);
