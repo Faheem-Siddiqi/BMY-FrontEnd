@@ -129,16 +129,18 @@ export default function Login() {
                   <label>Role</label>
                   <span className="text-xs text-red-600">
                     {!role && showRequireError && " * Required"}
+                    
                   </span>
                   <select
                     className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon   focus:border-gray-500"
                     onChange={(e) => setRole(e.target.value)}
+                    
                   >
                     <option value="">Select Role</option>
                     <option value="group-lead">Researcher Lead</option>
                     <option value="researchers">Researcher</option>
-                    <option vale="supervisor">Supervisor</option>
-                    <option vale="erc-head">ERC Head</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="erc-head">ERC Head</option>
                     <option value="erc-members">ERC Member</option>
                   </select>
                 </div>
