@@ -1,49 +1,20 @@
-import React, { useState, useEffect } from 'react';
-export default function Table4({ setTable4Score }) {
-    const [answer2, setAnswer2] = useState('');
-    const [answer3, setAnswer3] = useState('');
-    const [answers, setAnswers] = useState({
-        table4a: '',
-        table4b: '',
-    });
-    const [score, setScore] = useState(0);
-    const [finalScore, setFinalScore] = useState(0);
-    const handleChange = (e, id) => {
-        const selectedValue = e.target.value;
-        setAnswers({
-            ...answers,
-            [id]: selectedValue
-        });
-        if (id === 'table4a' || id === 'table4b') {
-            if (selectedValue === 'No' && answers[id] !== 'No') {
-                setScore(score + 10);
-            } else if (selectedValue !== 'No' && answers[id] === 'No') {
-                setScore(score - 10);
-            }
-        }
-    };
-    const handleOptionAnswer2 = (e) => {
-        setAnswer2(e.target.value);
-    };
-    const handleOptionAnswer3 = (e) => {
-        setAnswer3(e.target.value);
-    };
-    useEffect(() => {
-        let calculatedFinalScore = score;
-        if (answer2 === 'No') {
-            calculatedFinalScore = 0;
-        }
-        if (answer3 === 'Yes') {
-            calculatedFinalScore = calculatedFinalScore + 1;
-        }
-        // Update finalScore state
-        setFinalScore(calculatedFinalScore);
-        setTable4Score(finalScore);
-    }, [answer2, answer3, score, setTable4Score]);
+import React from 'react';
+
+export default function Table4({
+    table4Answers,
+    question2,
+    question3,
+    onAnswerChange,
+    onQuestion2Change,
+    onQuestion3Change
+}) {
+    const { table4a, table4b } = table4Answers;
+
     const questions = [
         { id: 'table4a', text: 'Are you considering special care for taking informed consent, with no coercion?' },
         { id: 'table4b', text: 'Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?' },
     ];
+
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
@@ -68,8 +39,8 @@ export default function Table4({ setTable4Score }) {
                                     type="radio"
                                     name={question.id}
                                     value="Yes"
-                                    checked={answers[question.id] === "Yes"}
-                                    onChange={(e) => handleChange(e, question.id)}
+                                    checked={table4Answers[question.id] === "Yes"}
+                                    onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -78,8 +49,8 @@ export default function Table4({ setTable4Score }) {
                                     type="radio"
                                     name={question.id}
                                     value="No"
-                                    checked={answers[question.id] === "No"}
-                                    onChange={(e) => handleChange(e, question.id)}
+                                    checked={table4Answers[question.id] === "No"}
+                                    onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -98,8 +69,8 @@ export default function Table4({ setTable4Score }) {
                             <input
                                 type="radio"
                                 value="Yes"
-                                checked={answer2 === 'Yes'}
-                                onChange={handleOptionAnswer2}
+                                checked={question2 === 'Yes'}
+                                onChange={onQuestion2Change}
                                 className="mr-2"
                             />
                             Yes
@@ -110,8 +81,8 @@ export default function Table4({ setTable4Score }) {
                             <input
                                 type="radio"
                                 value="No"
-                                checked={answer2 === 'No'}
-                                onChange={handleOptionAnswer2}
+                                checked={question2 === 'No'}
+                                onChange={onQuestion2Change}
                                 className="mr-2"
                             />
                             No
@@ -130,8 +101,8 @@ export default function Table4({ setTable4Score }) {
                             <input
                                 type="radio"
                                 value="Yes"
-                                checked={answer3 === 'Yes'}
-                                onChange={handleOptionAnswer3}
+                                checked={question3 === 'Yes'}
+                                onChange={onQuestion3Change}
                                 className="mr-2"
                             />
                             Yes
@@ -142,8 +113,8 @@ export default function Table4({ setTable4Score }) {
                             <input
                                 type="radio"
                                 value="No"
-                                checked={answer3 === 'No'}
-                                onChange={handleOptionAnswer3}
+                                checked={question3 === 'No'}
+                                onChange={onQuestion3Change}
                                 className="mr-2"
                             />
                             No
@@ -151,7 +122,6 @@ export default function Table4({ setTable4Score }) {
                     </div>
                 </div>
             </section>
-       
         </section>
     );
 }

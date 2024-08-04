@@ -5,13 +5,11 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 export default function Proposal({ assignProposal, role }) {
-    
     //************************     Information Component 
-
     //Values-Required
     const [informationData, setInformationData] = useState({
         question1: 'Fetch the group lead email from backend',
-    // list contain answer checked
+        // list contain answer checked
         question2: ['Feasible (have manpower, budget, time for data collection and writing)', 'Addressing research question on right time as community/decision makers are looking for the answers'],
         question3: '',
     });
@@ -33,6 +31,20 @@ export default function Proposal({ assignProposal, role }) {
             toast.error("Failed to update data.");
         }
     };
+
+
+    //************************     Ethical Review Component 
+
+
+    const [ethicalData, setEthicalData] = useState({
+        // Yes and No are radio value
+        question1: 'Yes',
+        question2: '',
+        question3: 'No',
+       
+    });
+
+
     //************************     Consent Component 
     //Values-Required
     const [consentData, setConsentData] = useState({
@@ -85,18 +97,31 @@ export default function Proposal({ assignProposal, role }) {
                     <ScientificReview />
                 )
             case 'Ethical Review':
-                return <EthicalReview />;
+                return <EthicalReview
+                formData={ethicalData}
+                onInputChange={handleInformationChange}
+                onSubmit={handleInformationSubmission}
+                updateFormData={handleUpdateInformationData}
+                
+                />;
             case 'Consent':
                 return (
                     <Consent
-    formData={consentData}
-    onInputChange={handleConsentChange}
-    onSubmit={handleConsentSubmission}
-    onUpdateConsent={handleUpdateConsent}
-/>
+                        formData={consentData}
+                        onInputChange={handleConsentChange}
+                        onSubmit={handleConsentSubmission}
+                        onUpdateConsent={handleUpdateConsent}
+                    />
                 )
             default:
-                return <Information />;
+                return (
+                    <Information
+                    formData={informationData}
+                    onInputChange={handleInformationChange}
+                    onSubmit={handleInformationSubmission}
+                    updateFormData={handleUpdateInformationData}
+                />
+                );
         }
     };
     return (

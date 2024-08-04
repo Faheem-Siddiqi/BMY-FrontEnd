@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
-export default function Table6() {
+import React from 'react';
+
+export default function Table6({ answers, onAnswerChange }) {
     const questions = [
-        { id: 'table3a', text: 'New knowledge gained and scientific development' },
-        { id: 'table3b', text: 'Trainings/ educational interventions for participants' },
-        { id: 'table3c', text: 'Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.' },
+        { id: 'table6a', text: 'New knowledge gained and scientific development' },
+        { id: 'table6b', text: 'Trainings/ educational interventions for participants' },
+        { id: 'table6c', text: 'Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.' },
     ];
-    const [answers, setAnswers] = useState({
-        table3a: '',
-        table3b: '',
-        table3c: '',
-        table3d: '',
-        table3e: '',
-        table3f: '',
-        table3g: '',
-    });
+
     const handleChange = (e, id) => {
         const selectedValue = e.target.value;
-        setAnswers({
-            ...answers,
-            [id]: selectedValue
-        });
+        onAnswerChange(id, selectedValue);
     };
+
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
@@ -30,10 +21,10 @@ export default function Table6() {
                 <thead>
                     <tr>
                         <th className='opacity-0 selection-none'>Category</th>
-                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px] py-3'>Minor gains </th>
-                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px]  py-3'>Moderate gains </th>
-                        <th className='bg-epsilon text-white font-bold  text-[0.91rem]  w-[70px] py-3'>Major gains</th>
-                        <th className='bg-epsilon text-white font-bold  text-[0.91rem]  w-[70px] py-3'>N/A</th>
+                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px] py-3'>Minor gains</th>
+                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px] py-3'>Moderate gains</th>
+                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px] py-3'>Major gains</th>
+                        <th className='bg-epsilon text-white font-bold text-[0.91rem]  w-[70px] py-3'>N/A</th>
                     </tr>
                 </thead>
                 <tbody>

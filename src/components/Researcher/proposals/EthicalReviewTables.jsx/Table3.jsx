@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-export default function Table3() {
+import React from 'react';
+
+export default function Table3({ table3Answers,  handleTable3AnswerChange }) {
     // Define the questions
     const questions = [
         { id: 'table3a', text: 'People with impaired decision making capacity' },
@@ -10,22 +11,7 @@ export default function Table3() {
         { id: 'table3f', text: 'Racial or ethnic minorities' },
         { id: 'table3g', text: 'Institutionalized persons (correctional facilities, nursing homes, or mental health)' },
     ];
-    const [answers, setAnswers] = useState({
-        table3a: '',
-        table3b: '',
-        table3c: '',
-        table3d: '',
-        table3e: '',
-        table3f: '',
-        table3g: '',
-    });
-    const handleChange = (e, id) => {
-        const selectedValue = e.target.value;
-        setAnswers({
-            ...answers,
-            [id]: selectedValue
-        });
-    };
+
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
@@ -50,9 +36,9 @@ export default function Table3() {
                                     type="radio"
                                     name={question.id}
                                     value="Yes"
-                                    checked={answers[question.id] === "Yes"}
-                                    onChange={(e) => handleChange(e, question.id)}
-                                        className="w-[20px] h-[20px] cursor-pointer"
+                                    checked={table3Answers[question.id] === "Yes"}
+                                    onChange={(e) => handleTable3AnswerChange(e, question.id)}
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -60,9 +46,9 @@ export default function Table3() {
                                     type="radio"
                                     name={question.id}
                                     value="No"
-                                    checked={answers[question.id] === "No"}
-                                    onChange={(e) => handleChange(e, question.id)}
-                                        className="w-[20px] h-[20px] cursor-pointer"
+                                    checked={table3Answers[question.id] === "No"}
+                                    onChange={(e) => handleTable3AnswerChange(e, question.id)}
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                         </tr>
