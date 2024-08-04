@@ -2,51 +2,51 @@ import React from 'react';
 import { MdDeleteOutline } from "react-icons/md";
 import Modal from 'react-modal';
 import toast, { Toaster } from 'react-hot-toast';
-
 export default function DeleteMembers({ ownerId, memberId }) {
   const handleDelete = async () => {
     const myHeaders = new Headers({
       "Content-Type": "application/json",
     });
-
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: JSON.stringify({ ownerId, researcherId: memberId }), 
+      body: JSON.stringify({ ownerId, researcherId: memberId }),
       redirect: "follow",
     };
-
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/remove-researcher`, requestOptions);
       const result = await response.json();
-
       if (response.ok) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
         toast.success("Member removed successfully.");
-        closeModal(); 
-        window.location.reload(); 
+        closeModal();
+        window.location.reload();
       } else {
         toast.error(result.message || "Failed to remove member.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // Reload after 1 second
       }
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while removing the member.");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // Reload after 1 second
     }
   };
-
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
   function openModal() {
     setIsOpen(true);
   }
-
   function afterOpenModal() {
     // Custom styles for the modal after opening, if needed
   }
-
   function closeModal() {
     setIsOpen(false);
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

@@ -22,12 +22,25 @@ const ResearcherTableRow = ({ id, profileImage, name, email, institution, design
       const data = await response.json();
       if (response.ok) {
         toast.success(`Request ${status} successfully!`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); 
+      
+     
       } else {
         toast.error(`Error: ${data.message}`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // Reload after 1 second
+       
+      
       }
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred while processing the request.");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // Reload after 1 second
     }
   };
   return (
