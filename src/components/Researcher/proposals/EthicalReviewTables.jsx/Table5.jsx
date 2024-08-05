@@ -1,28 +1,5 @@
 import React from 'react';
-
-export default function Table5({ answers, setAnswers, setTable5Score }) {
-    // Handle input change and update answers
-    const handleChange = (e, id) => {
-        const selectedValue = e.target.value;
-        setAnswers(prevAnswers => ({
-            ...prevAnswers,
-            [id]: selectedValue
-        }));
-    };
-
-    React.useEffect(() => {
-        // Calculate the score based on the answers
-        let score = 0;
-        for (const key in answers) {
-            if (key !== 'table5g') {
-                if (answers[key] === 'Yes') {
-                    score += 1;
-                }
-            }
-        }
-        setTable5Score(score);
-    }, [answers, setTable5Score]);
-
+export default function Table5({  table5Answers, onAnswerChange }) {
     const questions = [
         { id: 'table5a', text: 'Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training' },
         { id: 'table5b', text: 'Contact with harmful agents or risk of physical injury' },
@@ -32,12 +9,9 @@ export default function Table5({ answers, setAnswers, setTable5Score }) {
         { id: 'table5f', text: 'Industry funded research with conditions of not disclosing risks to patients' },
         { id: 'table5g', text: 'Research findings having the potential to expose big industry/mafia trends' }
     ];
-
     return (
         <section className='mb-4 overflow-x-scroll'>
-            <p className="mb-2 text-zeta font-semibold">
-                Any Risk to researchers
-            </p>
+            <p className="mb-2 text-zeta font-semibold">Any Risk to researchers</p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>
                     <tr>
@@ -58,8 +32,8 @@ export default function Table5({ answers, setAnswers, setTable5Score }) {
                                     type="radio"
                                     name={question.id}
                                     value="Yes"
-                                    checked={answers[question.id] === "Yes"}
-                                    onChange={(e) => handleChange(e, question.id)}
+                                    checked={table5Answers[question.id] === "Yes"}
+                                    onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -68,8 +42,8 @@ export default function Table5({ answers, setAnswers, setTable5Score }) {
                                     type="radio"
                                     name={question.id}
                                     value="No"
-                                    checked={answers[question.id] === "No"}
-                                    onChange={(e) => handleChange(e, question.id)}
+                                    checked={table5Answers[question.id] === "No"}
+                                    onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -78,8 +52,8 @@ export default function Table5({ answers, setAnswers, setTable5Score }) {
                                     type="radio"
                                     name={question.id}
                                     value="N/A"
-                                    checked={answers[question.id] === "N/A"}
-                                    onChange={(e) => handleChange(e, question.id)}
+                                    checked={table5Answers[question.id] === "N/A"}
+                                    onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>

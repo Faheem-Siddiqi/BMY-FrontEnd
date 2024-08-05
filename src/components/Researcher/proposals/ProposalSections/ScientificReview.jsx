@@ -1,10 +1,13 @@
 import { React, useState } from 'react'
 import { BsFillCloudUploadFill } from "react-icons/bs"
 export default function ScientificReview() {
+    const [supervisorName, setSupervisorName] = useState('Supervisor');
+    const [applicantName, setApplicantName] = useState('Applicant');
+    const [researchTitle, setResearchTitle] = useState('Title');
     //Question-2 Start date..
-    const [answer2, setAnswer2] = useState('');
+    const [startDate, setStartDate] = useState('');
     //Question-3 End Date...
-    const [answer3, setAnswer3] = useState('');
+    const [endDate, setEndDate] = useState('');
     //Question: 4  Name the beneficiary group...
     const [answer4, setAnswer4] = useState('');
     const questionFourLimit = 250;
@@ -42,11 +45,11 @@ export default function ScientificReview() {
         setRemainingAnswer7(questionSevenLimit - newText.length);
     };
     // Question-8 Objective..
-    const [answer8, setAnswer8] = useState('')
+    const [researchObjectives, setResearchObjectives] = useState('')
     // Question-9 Main Varaible..
-    const [answer9, setAnswer9] = useState('')
+    const [mainVariable, setMainVariable] = useState('')
     // Question-10 Main Varaible..
-    const [answer10, setAnswer10] = useState('')
+    const [operationalDefinition, setOperationalDefinition] = useState('')
     // Question-11 Study Design..
     const [answer11, setAnswer11] = useState('')
     const handleOptionAnswer11 = (e) => {
@@ -102,49 +105,55 @@ export default function ScientificReview() {
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Scientific Review (Synopsis)  </h1>
                 <header className='bg-white shadow-sm my-5 p-10'>
                     <section className='mb-4 w-full md:w-[50%] '>
-                        <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>Supervisor </label>
+                        <label htmlFor="supervisorName" className='text-zeta  font-semibold '>Supervisor </label>
                         <input
+                          name={supervisorName}
+                          value={supervisorName} 
                             type='text'
-                            name='supervisor-name'
-                            id='supervisor-name'
-                            className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Backend Value of group supervisor' />
+                      onChange={(e)=>{setSupervisorName(e.target.val)}}
+                            id={supervisorName}
+                            className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'  />
                     </section>
                     <section className='mb-4 w-full md:w-[50%] '>
-                        <label htmlFor="supervisor-name" className='text-zeta  font-semibold '>Applicant Name </label>
+                        <label htmlFor="applicantName" className='text-zeta  font-semibold '>Applicant Name </label>
                         <input
+                        value={applicantName}
+                        onChange={(e)=>{setApplicantName(e.target.val)}}
                             type='text'
-                            name='applicant-name'
-                            id='applicant-name'
-                            className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Backend Value of group lead' />
+                            name='applicantName'
+                            id='applicantName'
+                            className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'/>
                     </section>
                     <section className='mb-4 w-full md:w-[50%] '>
-                        <label htmlFor="research-title" className='text-zeta  font-semibold '>Research Title</label>
+                        <label htmlFor="researchTitle" className='text-zeta  font-semibold '>Research Title</label>
                         <input
-                            value={'Backend'}
+                        value={researchTitle}
+                        onChange={(e)=>{setResearchTitle(e.target.val)}}
                             type='text'
-                            name='research-title'
-                            id='research-title'
-                            onChange={(e) => { setResearchTitle(e.target.value) }}
+                            name='researchTitle'
+                            id='researchTitle'
                             className=' mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
                     </section>
                     {/* Question-2 */}
                     <section className='mb-4 w-full md:w-[50%] '>
-                        <label htmlFor="start-date" className='text-zeta  font-semibold '>Start Date of Data Collection (as planned) </label>
+                        <label htmlFor="startDate" className='text-zeta  font-semibold '>Start Date of Data Collection (as planned) </label>
                         <input
                             type='date'
-                            name='start-date'
-                            id='start-date'
-                            onChange={(e) => { setAnswer2(e.target.value) }}
+                            value={startDate}
+                            name='startDate'
+                            id='startDate'
+                            onChange={(e) => { setStartDate(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
                     </section>
                     {/* Question-3 */}
                     <section className='mb-4 w-full md:w-[50%]'>
-                        <label htmlFor="end-date" className='text-zeta  font-semibold '>End Date of Data Collection (expected) </label>
+                        <label htmlFor="endDate" className='text-zeta  font-semibold '>End Date of Data Collection (expected) </label>
                         <input
-                            onChange={(e) => { setAnswer3(e.target.value) }}
+                            onChange={(e) => { setEndDate(e.target.value) }}
                             type='date'
-                            name='end-date'
-                            id='end-date'
+                            value={endDate}
+                            name='endDate'
+                            id='endDate'
                             className='border  mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' />
                     </section>
                     {/* Question-4*/}
@@ -231,20 +240,20 @@ export default function ScientificReview() {
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label className='text-zeta  font-semibold md:' htmlFor="research-objectives   ">Objectives of Research</label>
                         <input
-                            value={answer8}
+                            value={researchObjectives}
                             name='research-objectives'
                             id='research-objectives'
-                            onChange={(e) => { setAnswer8(e.target.value) }}
+                            onChange={(e) => { setResearchObjectives(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Purpose Map' />
                     </section>
                     {/* Question-9 */}
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="question9" className='text-zeta  font-semibold '>Main Variable under Study</label>
                         <input
-                            value={answer9}
+                            value={mainVariable}
                             name='question9'
                             id='question9'
-                            onChange={(e) => { setAnswer9(e.target.value) }}
+                            onChange={(e) => { setMainVariable(e.target.value) }}
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Virus' />
                     </section>
                     {/* question-10 */}
@@ -254,12 +263,12 @@ export default function ScientificReview() {
                         </p>
                         <div className="w-full md:w-[50%] ">
                             <textarea
-                                value={answer10}
+                                value={operationalDefinition}
                                 className="border rounded-md block p-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
                                 placeholder="Add Definition"
-                                onChange={(e) => { setAnswer10(e.target.value) }}
+                                onChange={(e) => { setOperationalDefinition(e.target.value) }}
                             ></textarea>
                         </div>
                     </section>
@@ -404,14 +413,7 @@ export default function ScientificReview() {
                     }
                     {/* Question-13 */}
                     {
-                    
                     answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'  
-
-                   
-                     
-                    
-                    
-                    
                     && (
                     <section className='my-4 w-full md:w-[50%]'>
                         <label htmlFor="question13" className='text-zeta  font-semibold '>Sample Size</label>
@@ -426,45 +428,25 @@ export default function ScientificReview() {
                     {/* Question-14 labels section */}
                     {answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
 answer11 !== 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' 
- 
-
-
-
-
 &&
-
-
-
 answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
-
-            
-
                 &&
                  answer11!=='Qualitative study (detailed interviews)'
                  &&
                     answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)' 
-
-
                     &&
   answer11!=='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
                     && 
-                    
                     (
                     <section className="my-5 md:leading-[2rem] md:w-[50%] border rounded-md block p-5">
                        {
-                       
                       ( 
                        answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'  
                        &&
-
                        answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
-                       
-
                        &&
  answer11 !=='Before-after comparison study for 1 group which undergoes an exposure.'
-
                       )
-                       
                        && (
                         <div className="">
                             For the case-control study, the sample size was calculated using an online OpenEpi sample size calculator. Keeping the ratio of controls to cases as
@@ -512,15 +494,9 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                         </div>
                        )}
                         {/* Question-15 labels section */}
-
-
 {
-   
  answer11 !=='Before-after comparison study for 1 group which undergoes an exposure.' 
-
  && (
-
-
                         <div className="md:my-10  my-3">
                             For cohort study, sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as
                             <input
@@ -572,23 +548,14 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                                 onChange={(e) => setAnswer15g(e.target.value)}
                             />
                         </div>
-
 )}
                         {/* Question-16 labels section */}
-                      
-                      
-                      
-                      
                         {
-                        
                         ( 
                             answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'  
                             &&
-     
                             answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
-                            
                            )
-                        
                         && (
                         <div className="md:my-10  my-3">
                             For before-after comparison study, sample size was calculated using online OpenEpi sample size calculator. Keeping Mean value for group 1 as
@@ -650,31 +617,23 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                         </div>
                         )}
                     </section>
-                    
                     )}
                     {/* Question-17 */}
                     {
      (answer12 === 'Calculating frequencies in sample and other descriptive analysis only, no inferential analysis' 
         ||
         answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
-
         ||
           answer11 === 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
 ||
         answer11==='Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
-
-
         ||
         answer11 ==='Before-after comparison study for 1 group which undergoes an exposure.'
-
         ||
         answer11==='Qualitative study (detailed interviews)'
         ||
         answer11==='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
     ) 
-
-    
-
       && 
     (
                     <section className=' my-5  md:w-[50%]'>
@@ -723,36 +682,20 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                     )}
                     {/* Question-18 */}
                     {
-
-
 (
      answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' ||
-
      answer11==='Cross-sectional survey (information of a group recorded just once without following-up on them)' ||
-     
-
      answer11==='Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)' ||
       answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
-    
 ||
-
-
     answer11 === 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
     ||
     answer11==='Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)') 
-      
   ||
         answer11 ==='Before-after comparison study for 1 group which undergoes an exposure.'
-    
       ||
         answer11==='Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
-      
       && 
-
-
-     
-     
-     
      ( 
                     <section className='md:my-10 my-5  md:w-[50%]'>
                         <p className="mb-2  text-zeta  font-semibold   w-full ">
@@ -811,7 +754,6 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                     </section>
      )}
                     {/* question-19 */}
-
                     { answer11 !== 'Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)' &&
                     (
                     <section className="mb-4">
@@ -833,20 +775,13 @@ answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; de
                     {answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'   &&
                     answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'   
                     &&
-
-
-
                         answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                         &&
-
                     answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
-
                     &&
                     answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
-
 &&
 answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure.'
-                     
                     &&
                     (
                     <section className="mb-4">
