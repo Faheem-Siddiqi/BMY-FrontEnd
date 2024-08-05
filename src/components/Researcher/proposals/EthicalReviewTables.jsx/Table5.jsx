@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react';
-export default function Table5({ setTable5Score }) {
-    const [answer2, setAnswer2] = useState('');
-    const [answers, setAnswers] = useState({
-        table5a: '',
-        table5b: '',
-        table5c: '',
-        table5d: '',
-        table5e: '',
-        table5f: '',
-        table5g: ''
-    });
-    const [score, setScore] = useState(0);
+import React from 'react';
+
+export default function Table5({ answers, setAnswers, setTable5Score }) {
+    // Handle input change and update answers
     const handleChange = (e, id) => {
         const selectedValue = e.target.value;
-        setAnswers({
-            ...answers,
+        setAnswers(prevAnswers => ({
+            ...prevAnswers,
             [id]: selectedValue
-        });
-        if (id !== 'table5g') {
-            if (selectedValue === 'Yes' && answers[id] !== 'Yes') {
-                setScore(score => score + 1);
-            } else if (selectedValue === 'No' && answers[id] === 'Yes') {
-                setScore(score => score - 1);
+        }));
+    };
+
+    React.useEffect(() => {
+        // Calculate the score based on the answers
+        let score = 0;
+        for (const key in answers) {
+            if (key !== 'table5g') {
+                if (answers[key] === 'Yes') {
+                    score += 1;
+                }
             }
         }
-    };
+        setTable5Score(score);
+    }, [answers, setTable5Score]);
+
     const questions = [
         { id: 'table5a', text: 'Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training' },
         { id: 'table5b', text: 'Contact with harmful agents or risk of physical injury' },
@@ -34,9 +32,7 @@ export default function Table5({ setTable5Score }) {
         { id: 'table5f', text: 'Industry funded research with conditions of not disclosing risks to patients' },
         { id: 'table5g', text: 'Research findings having the potential to expose big industry/mafia trends' }
     ];
-    useEffect(() => {
-        setTable5Score(score);
-    }, [score, setTable5Score]);
+
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold">
@@ -64,8 +60,7 @@ export default function Table5({ setTable5Score }) {
                                     value="Yes"
                                     checked={answers[question.id] === "Yes"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                        className="w-[20px] h-[20px] cursor-pointer"
-
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -75,8 +70,7 @@ export default function Table5({ setTable5Score }) {
                                     value="No"
                                     checked={answers[question.id] === "No"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                        className="w-[20px] h-[20px] cursor-pointer"
-
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                             <td className='border-epsilon border p-3'>
@@ -86,8 +80,7 @@ export default function Table5({ setTable5Score }) {
                                     value="N/A"
                                     checked={answers[question.id] === "N/A"}
                                     onChange={(e) => handleChange(e, question.id)}
-                                        className="w-[20px] h-[20px] cursor-pointer"
-
+                                    className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
                         </tr>

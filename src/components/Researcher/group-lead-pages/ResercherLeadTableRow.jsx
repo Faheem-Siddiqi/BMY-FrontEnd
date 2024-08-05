@@ -22,13 +22,11 @@ const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, des
       );
       // Parse the response
       const data = await response.json();
-
       console.log(data.message)
       if (response.ok) {
         toast.success("Request sent successfully!");
       } else {
         toast.error(` ${data.message}`);
-
       }
     } catch (error) {
       console.error("Error:", error);

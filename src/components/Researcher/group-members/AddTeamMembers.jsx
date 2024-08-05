@@ -16,7 +16,7 @@ export default function AddTeamMembers() {
   useEffect(() => {
     let isMounted = true; // Flag to prevent state updates on unmounted components
     const fetchLeadTeam = async () => {
-      setLoading(true); // Show loader during data fetching
+      setLoading(true); 
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
@@ -116,8 +116,7 @@ export default function AddTeamMembers() {
                 header={['Researchers', 'Institution', 'Designation', 'Requests']}
                 rowRenderComponent='researchersRow'
               />
-              <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Group Members</h1>
-              <CurrentMembers />
+         
             </div>
           </div>
         </section>

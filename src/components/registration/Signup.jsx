@@ -8,7 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 // Backend-Integration
-
 export default function Signup() {
   const SuccessSignUp = () => toast.success("Sign Up Successful");
   const FailSignUp = () => toast.error("Sign Up Failed");
@@ -25,7 +24,6 @@ export default function Signup() {
     e.preventDefault();
     setRequiredError(false);
     setSignUpError("");
-
     if (!email || !password || !role || !confirmPassword || !phone || !name) {
       setRequiredError(true);
       return;
@@ -61,7 +59,7 @@ export default function Signup() {
   };
   return (
     <>
-<Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <div className=" flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-5 md:p-20 shadow-sm bg-iota rounded-box">
@@ -202,8 +200,8 @@ export default function Signup() {
                     <option value="">Select Role</option>
                     <option value="group-lead">Researcher Lead</option>
                     <option value="researchers">Researcher</option>
-                    <option vale="supervisor">Supervisor</option>
-                    <option vale="erc-head">ERC Head</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="erc-head">ERC Head</option>
                     <option value="erc-members">ERC Member</option>
                   </select>
                 </section>
