@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 export default function OTP() {
   const [otp, setOtp] = useState(''); 
@@ -8,8 +9,35 @@ export default function OTP() {
   const [submitError, setSubmitError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const decodedToken= jwtDecode(token);
+  const workemail2 = decodedToken.workemail;
 
-  const handleTime = () => {
+  const handleTime = async() => {
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/forgetpassword`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ workemail: workemail2 }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage("OTP sent again to your email.");
+       
+      } else {
+        setSubmitError(data.message || "An error occurred. Please try again.");
+      }
+    } catch (error) {
+      setSubmitError("An error occurred. Please try again.");
+    }
     setCount(59);  
     const interval = setInterval(() => {
       setCount(prevCount => {
@@ -46,8 +74,10 @@ export default function OTP() {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccessMessage(data.message);
-        navigate('/reset-password')
+        setSuccessMessage("OTP verified");
+        setTimeout(() => {
+          navigate('/reset-password');
+        }, 4000); 
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
       }
@@ -69,7 +99,7 @@ export default function OTP() {
           </section>
           <div className="md:px-10 px-5 md:py-12 py-10 w-full md:w-96 bg-white rounded-sm shadow-sm">
             <h2 className="text-xl md:text-3xl font-bold font-WorkSans-Regular">OTP Confirmation</h2>
-            <p className='text-light font-NunitoSans-Regular text-sm mb-4 mt-1'>OTP Sent to email: faheem.siddiqi@yahoo.com</p>
+            <p className='text-light font-NunitoSans-Regular text-sm mb-4 mt-1'>OTP Sent to email: {workemail2}</p>
             <section className="font-NunitoSans-Regular">
               <label htmlFor='otp'>OTP</label>
               <input
