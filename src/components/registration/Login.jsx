@@ -34,7 +34,7 @@ export default function Login() {
         role,
       });
       const token = response.data.token;
-      //localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
       setCookie('token', token);
       localStorage.setItem('role', role);;
       SuccessLogin();

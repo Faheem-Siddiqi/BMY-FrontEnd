@@ -1,65 +1,25 @@
 import React from 'react'
 import { Link , useNavigate } from 'react-router-dom';
 import { useState ,useEffect } from 'react';
-import Loader from "../layout/Loader";
 import toast, { Toaster } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+
 
 export default function ResetPassword() {
   const [requiredError, setRequiredError] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userEmail, setUseEmail] = useState('')
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const SuccessReset = () => toast.success("Reset Password Successful");
   const FailReset= () => toast.error("Fail to reset the password");
-  useEffect(() => {
-    let isMounted = true; // Flag to prevent state updates on unmounted components
-    const fetchUserDetails = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
-          method: "GET",
-          redirect: "follow",
-          credentials: "include",
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        if (isMounted) {
-          if (result.success) {
-            // console.log(result.user) all user detail
-            const { fullname, pfp, workemail, experience, residence, signature } = result.user;
-            setUseEmail(workemail)
-            setLoading(false);
-          } else {
-            toast.error("Failed to load user details.");
-            navigate("/login");
-          }
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error(error);
-          toast.error("An error occurred while fetching user details.");
-          navigate("/login");
-        }
-      }
-    };
-    fetchUserDetails();
-    return () => {
-      isMounted = false;
-    };
-  }, [navigate]);
+  const token = localStorage.getItem('token');
+  const decodedToken= jwtDecode(token);
+  const workemail2 = decodedToken.workemail;
 
-  
-  if (loading) {
-    return <Loader />;
-  }
-
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setRequiredError(false);
     setSubmitError("");
@@ -86,7 +46,7 @@ export default function ResetPassword() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          workemail: userEmail, 
+          workemail: workemail2, 
           password,
         }),
       });
@@ -95,7 +55,9 @@ export default function ResetPassword() {
 
       if (result) {
         SuccessReset();
-       
+        setTimeout(() => {
+          navigate('/login');
+        }, 4000);      
       } else {
         FailReset();
       }
@@ -103,7 +65,6 @@ export default function ResetPassword() {
       setSubmitError('An unexpected error occurred');
     }
   };
-
   return (
     <>
     <Toaster position="top-center" reverseOrder={false} />
