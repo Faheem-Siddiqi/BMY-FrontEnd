@@ -2,7 +2,7 @@ import React from 'react'
 import { Link , useNavigate } from 'react-router-dom';
 import { useState ,useEffect } from 'react';
 import toast, { Toaster } from "react-hot-toast";
-import { jwtDecode } from "jwt-decode";
+import { useLocation } from 'react-router-dom';
 
 
 export default function ResetPassword() {
@@ -15,9 +15,9 @@ export default function ResetPassword() {
 
   const SuccessReset = () => toast.success("Reset Password Successful");
   const FailReset= () => toast.error("Fail to reset the password");
-  const token = localStorage.getItem('token');
-  const decodedToken= jwtDecode(token);
-  const workemail2 = decodedToken.workemail;
+  const location = useLocation();
+  const email = location.state?.email;
+ 
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +46,7 @@ const handleSubmit = async (e) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          workemail: workemail2, 
+          workemail: email, 
           password,
         }),
       });

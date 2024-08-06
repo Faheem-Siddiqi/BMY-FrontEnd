@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
+import { useLocation } from 'react-router-dom';
 
 export default function OTP() {
   const [otp, setOtp] = useState(''); 
@@ -9,10 +9,9 @@ export default function OTP() {
   const [submitError, setSubmitError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const decodedToken= jwtDecode(token);
-  const workemail2 = decodedToken.workemail;
-
+  const location = useLocation();
+  const email = location.state?.email;
+ 
   const handleTime = async() => {
 
     try {
@@ -23,7 +22,7 @@ export default function OTP() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ workemail: workemail2 }),
+          body: JSON.stringify({ workemail: email }),
         }
       );
 
@@ -76,7 +75,7 @@ export default function OTP() {
       if (response.ok) {
         setSuccessMessage("OTP verified");
         setTimeout(() => {
-          navigate('/reset-password');
+          navigate('/reset-password', { state: { email } });
         }, 4000); 
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
@@ -99,7 +98,7 @@ export default function OTP() {
           </section>
           <div className="md:px-10 px-5 md:py-12 py-10 w-full md:w-96 bg-white rounded-sm shadow-sm">
             <h2 className="text-xl md:text-3xl font-bold font-WorkSans-Regular">OTP Confirmation</h2>
-            <p className='text-light font-NunitoSans-Regular text-sm mb-4 mt-1'>OTP Sent to email: {workemail2}</p>
+            <p className='text-light font-NunitoSans-Regular text-sm mb-4 mt-1'>OTP Sent to email: {email}</p>
             <section className="font-NunitoSans-Regular">
               <label htmlFor='otp'>OTP</label>
               <input
