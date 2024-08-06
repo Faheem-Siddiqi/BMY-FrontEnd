@@ -18,7 +18,7 @@ export default function ScientificReview() {
         researchObjectives: '',
         mainVariable: '',
         operationalDefinition: '',
-        answer11: 'Cross-sectional survey (information of a group recorded just once, without following-up on them)', 
+        answer11: 'Cross-sectional survey (information of a group recorded just once, without following-up on them)',
         answer12: '',
         answer13: '',
         answer14a: '',
@@ -53,7 +53,6 @@ export default function ScientificReview() {
     });
     const handleScientificDataChange = (event) => {
         const { name, value, type, files } = event.target;
-     
         if (type === 'radio') {
             // Handle radio button changes
             setScienificData(prevState => ({
@@ -61,10 +60,9 @@ export default function ScientificReview() {
                 [name]: value
             }));
         } else if (type === 'file') {
-          
             setScienificData(prevState => ({
                 ...prevState,
-                [name]: files[0] 
+                [name]: files[0]
             }));
         } else {
             setScienificData(prevState => ({
@@ -73,7 +71,6 @@ export default function ScientificReview() {
             }));
         }
     };
-   
     return (
         <>
             {scientificData.answer11}

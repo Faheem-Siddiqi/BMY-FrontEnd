@@ -15,7 +15,7 @@ export default function DiscussionModal() {
     function closeModal() {
         setIsOpen(false);
     }
-    // Handle Discussion
+  
     const [reviews, setReviews] = useState([
         { id: 1, user: "John Doe", role: "ERC Member", review: "Great service!", replies: [] },
         { id: 2, user: "Jane Smith", role: "Supervisor", review: "Very satisfied!", replies: [] },
@@ -145,7 +145,7 @@ export default function DiscussionModal() {
                                                             <button
                                                                 onClick={() => handleReply(review.id)}
                                                                 className=" mb-2 py-2 px-5 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                                                                <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
+                                                                <span className="ease  absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                                                                     <FaReplyAll className='text-1xl' />   <span className='mx-2'>
                                                                         Reply
                                                                     </span>

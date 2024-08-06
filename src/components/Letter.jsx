@@ -1,96 +1,117 @@
-
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import React from 'react';
+import jsPDF from 'jspdf';
 
-function Letter() {
-  const generatePDF = () => {
-    const input = document.getElementById('pdf-content');
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 295; // A4 height in mm
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-      pdf.save('letter.pdf');
+export default function Letter() {
+  const createAndDownloadPDF = () => {
+    const data = [
+      { "question": "What is the capital of France?", "answer": "Paris" },
+      { "question": "Who wrote 'To Kill a Mockingbird'?", "answer": "Harper Lee" },
+      { "question": "What is the chemical symbol for gold?", "answer": "Au" },
+      { "question": "What is the largest planet in our solar system?", "answer": "Jupiter" },
+      { "question": "What year did the Titanic sink?", "answer": "1912" },
+      { "question": "Who painted the Mona Lisa?", "answer": "Leonardo da Vinci" },
+      { "question": "What is the hardest natural substance on Earth?", "answer": "Diamond" },
+      { "question": "What is the smallest prime number?", "answer": "2" },
+      { "question": "Who is known as the father of modern physics?", "answer": "Albert Einstein" },
+      { "question": "Which planet is known as the Red Planet?", "answer": "Mars" },
+      { "question": "What is the largest ocean on Earth?", "answer": "Pacific Ocean" },
+      { "question": "What element does 'O' represent on the periodic table?", "answer": "Oxygen" },
+      { "question": "In what year did World War I begin?", "answer": "1914" },
+      { "question": "What is the longest river in the world?", "answer": "Nile" },
+      { "question": "What is the main language spoken in Brazil?", "answer": "Portuguese" },
+      { "question": "Who is the author of '1984'?", "answer": "George Orwell" },
+      { "question": "What planet is known for its rings?", "answer": "Saturn" },
+      { "question": "What gas do plants primarily use for photosynthesis?", "answer": "Carbon dioxide" },
+      { "question": "Which country is known as the Land of the Rising Sun?", "answer": "Japan" },
+      { "question": "What is the largest mammal in the world?", "answer": "Blue whale" }
+    ];
+
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
     });
+
+    // Define margins and initial vertical position
+    const marginLeft = 10;
+    const marginTop = 20;
+    const lineHeight = 10;
+    const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
+    let verticalPosition = marginTop;
+
+    // Add a header
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    const companyName = 'Company Name';
+    const companyNameWidth = doc.getTextWidth(companyName);
+    const companyNameX = (pageWidth - companyNameWidth) / 2;
+    doc.text(companyName, companyNameX, verticalPosition);
+    verticalPosition += 10;
+
+  
+
+    // Add a
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    const paragraph = `Hello, my name is [Your Name]. I am a [Your Profession/Role] with a passion for [Your Interests]. I have been working in [Your Industry/Field] for [Number] years, and I am excited to share this information with you.`;
+    doc.text(paragraph, marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
+    verticalPosition += 15; 
+
+
+      // Section Header
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      const sectionName = 'Section: Information';
+      const sectionNameWidth = doc.getTextWidth(sectionName);
+      const sectionNameX = (pageWidth - sectionNameWidth) / 2;
+      doc.text(sectionName, sectionNameX, verticalPosition);
+      verticalPosition += 15;
+
+      
+    // Main content
+    doc.setFontSize(12);
+    data.forEach(item => {
+      if (verticalPosition + lineHeight * 2 > pageHeight - marginTop) {
+        // Add a new page if necessary
+        doc.addPage();
+        verticalPosition = marginTop;
+      }
+      // Set font weight to bold for the question
+      doc.setFont('helvetica', 'bold');
+      doc.text(item.question, marginLeft, verticalPosition);
+      // Move to the next line for the answer
+      verticalPosition += lineHeight;
+      // Set font weight to normal for the answer
+      doc.setFont('helvetica', 'normal');
+      doc.text(item.answer, marginLeft, verticalPosition);
+      // Increase y position for the next item
+      verticalPosition += lineHeight;
+    });
+
+    // Footer
+    doc.setFontSize(8);
+    const footerText = [
+      'BMY Health Pakistan',
+      'Phone: (123) 456-7890',
+      'Email: contact@company.com'
+    ];
+    footerText.forEach((text, index) => {
+      if (verticalPosition + lineHeight > pageHeight - marginTop) {
+        doc.addPage();
+        verticalPosition = 5;
+      }
+      doc.text(text, marginLeft, pageHeight - 20 + index * 5);
+    });
+
+    // Save the document
+    doc.save('questions_and_answers.pdf');
   };
+
   return (
     <div>
-      <div className="relative min-h-screen overflow-scroll p-5 md:p-10 flex items-center justify-center bg-iota">
-        {/* Background Overlay */}
-      
-        {/* Main Content */}
-        <div   id="pdf-content"  className="relative md:w-a4 md:h-a4 bg-white p-8 overflow-scroll shadow-lg z-10">
-          {/* Header with Logos */}
-          <div className="flex justify-between items-center ">
-            <div className="font-CormorantGaramond-Regular flex flex-col items-center justify-center  ">
-              <h1 className="text-2xl gap-1 flex">
-                <p className="text-zeta font-bold">BMY</p>
-                <p className="text-primary  font-semibold">Health</p>
-              </h1>
-              <p className="font-light text-xl text-mist">Pakistan</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-light">https://bmyhealth.com</p>
-              <p className="text-sm font-light">Tel: (123) 456-7890 | Email: contact@bmyhealth.com</p>
-            </div>
-          </div>
-          <hr className='my-5 border-zeta' />
-          {/* Main Title */}
-          <h3 className="text-2xl uppercase text-center font-bold font-CormorantGaramond-Regular">Clearance Letter</h3>
-          {/* Letter Content */}
-          <div className='mb-4 font-WorkSans-Regular my-5'>
-            <div className='my-2'>
-              <b>Department:</b> <u>Ethical Review Committee</u>
-            </div>
-            <div className='my-2'>
-              <b>Date:</b> <span>12 Jan 2020</span>
-            </div>
-            <div className='my-2'>
-              <b>Subject:</b> <span>Approval Letter of Research Project “ ” by Ethical Review Committee (ERC), BMY Health</span>
-            </div>
-            <div className='my-2'>
-              <b>Submitted By:</b> <span>Dr. Faheem</span>
-            </div>
-            <div className='my-2'>
-              <b>Protocol Number:</b> <span>BMY-ERC2-06-2024</span>
-            </div>
-          </div>
-          <div className='my-4'>
-            The project titled 'Assessing Health and Economic Ramifications of Smog' received clearance from BMY Health on date…, having met the ethical guidelines and standards established by the Ethical Review Committee (ERC) at BMY Health. This clearance ensures that the team demonstrated compliance with all necessary ethical protocols required by BMY Health Ethics Review Committee.
-            Approved version of manuscript: [link to submission]
-          </div>
-          {/* Footer */}
-          <div className='flex flex-col gap-10 mt-8'>
-            <div>
-              <b>Dated:</b> <span>06-2024</span>
-            </div>
-            <div>
-              <b>For Chair</b>
-              <button onClick={generatePDF} className="p-2 bg-blue-500 text-white rounded">Download PDF</button>
-            </div>
-          </div>
-          {/* Contact Details at the Bottom */}
-          <div className="absolute bottom-8 left-8 text-sm font-light">
-            <p>Contact Information:</p>
-            <p>123 Health Street, Medical City</p>
-            <p>Tel: (123) 456-7890 | Email: contact@bmyhealth.com</p>
-          </div>
-        </div>
-      </div>
-    
+      <h1>Download Letter</h1>
+      <button onClick={createAndDownloadPDF}>Download PDF</button>
     </div>
   );
 }
-export default Letter;
