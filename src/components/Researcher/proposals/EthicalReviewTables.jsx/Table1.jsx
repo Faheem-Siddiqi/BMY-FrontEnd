@@ -1,5 +1,12 @@
 import React from 'react';
-export default function Table1({ table1answers, question1, table1InnerScore, onAnswerChange, onAnswer1Change }) {
+
+export default function Table1({
+    table1Answers, // Ensure this matches the prop name in the parent component
+    question1,
+    table1InnerScore,
+    onAnswerChange,
+    onAnswer1Change
+}) {
     const questions = [
         { id: 'table1a', text: 'Is there any contact with potentially harmful items or substances?' },
         { id: 'table1b', text: 'Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?' },
@@ -9,6 +16,7 @@ export default function Table1({ table1answers, question1, table1InnerScore, onA
         { id: 'table1f', text: 'Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise.' },
         { id: 'table1g', text: 'Are any of the above risks to participants more than what they experience in everyday life?' }
     ];
+
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold">
@@ -34,7 +42,7 @@ export default function Table1({ table1answers, question1, table1InnerScore, onA
                                     type="radio"
                                     name={question.id}
                                     value="Yes"
-                                    checked={table1answers[question.id] === "Yes"}
+                                    checked={table1Answers[question.id] === "Yes"}
                                     onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
@@ -44,7 +52,7 @@ export default function Table1({ table1answers, question1, table1InnerScore, onA
                                     type="radio"
                                     name={question.id}
                                     value="No"
-                                    checked={table1answers[question.id] === "No"}
+                                    checked={table1Answers[question.id] === "No"}
                                     onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
@@ -54,7 +62,7 @@ export default function Table1({ table1answers, question1, table1InnerScore, onA
                                     type="radio"
                                     name={question.id}
                                     value="N/A"
-                                    checked={table1answers[question.id] === "N/A"}
+                                    checked={table1Answers[question.id] === "N/A"}
                                     onChange={(e) => onAnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />

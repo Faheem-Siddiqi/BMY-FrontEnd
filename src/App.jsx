@@ -51,6 +51,7 @@ import ErcHeadTeam from './components/ErcHead/SidePannel/ErcHeadTeam.jsx'
 import ErcHeadViewProposal from './components/ErcHead/ErcHeadViewProposal.jsx'
 import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
 // Admin Components
+
 import Admin from './components/Admin/Admin.jsx'
 function App() {
   return (
@@ -60,7 +61,7 @@ function App() {
         {/* <Table data={data} colNames={columnNames} renderRow={renderRow} /> */}
         <Routes>
           {/* Admin */}
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<Letter />} />
           {/* Rest */}
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
