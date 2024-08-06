@@ -40,7 +40,7 @@ export default function ForgetPassword() {
 
       if (response.ok) {
         setSuccessMessage(data.message);
-        navigate("/forget-password-otp");
+        navigate("/forget-password-otp", { state: { email } });
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
       }

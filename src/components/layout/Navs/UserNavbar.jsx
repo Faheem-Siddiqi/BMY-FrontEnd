@@ -21,6 +21,7 @@ export default function UserNavbar() {
       const result = await response.json();
       if (response.ok) {
         localStorage.removeItem('role');
+        localStorage.removeItem('token');
         toast.success('Logged out successfully');
         navigate('/');
       } else {
