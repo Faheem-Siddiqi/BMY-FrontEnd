@@ -71,11 +71,17 @@ const Table = ({ header, rowData, rowRenderComponent }) => {
                             <ResearcherTableRow key={rowDataItem.id || index} {...rowDataItem} />
                         )
                     ))}
-                    {currentPageData.map((rowDataItem, index) => (
-                        rowRenderComponent === 'supervisorsRow' && (
-                            <SupervisorTableRow key={rowDataItem.id || index} {...rowDataItem} />
-                        )
-                    ))}
+                
+                
+                 {currentPageData.map((rowDataItem, index) => {
+    // console.log('Row Data Item:', rowDataItem); // Debug log
+    return rowRenderComponent === 'supervisorsRow' && (
+        <SupervisorTableRow
+            key={rowDataItem.supervisorId} // Ensure unique key is used
+            {...rowDataItem}
+        />
+    );
+})}
                 </tbody>
             </table>
             <div className="flex justify-between items-center w-fit gap-2 mx-auto my-5 mt-4">

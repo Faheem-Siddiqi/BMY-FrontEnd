@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState ,useEffect } from 'react'; 
 import Sidebar from '../../layout/Sidebar';
 import profileImage from '../../../assets/images/bena.jpg';
 import { LuCrown } from "react-icons/lu";
@@ -7,8 +7,67 @@ import { IoIosArrowBack } from "react-icons/io";
 import { MdAdd } from "react-icons/md";
 import Table from '../../Common/Table';
 import  UserNavbar from '../../layout/Navs/UserNavbar.jsx'
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import Loader from '../../layout/Loader.jsx';
 export default function SupervisorTeam() {
-  // Define Groups
+
+
+  const [showNoTeam, setShowNoTeam] = useState(true);
+  const [team, setTeam] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [groupLeads, setGroupLeads] = useState([]);
+  useEffect(() => {
+    let isMounted = true; // Flag to prevent state updates on unmounted components
+    let hasFetched = false; // Flag to prevent multiple fetches
+    const fetchResearcherTeam = async () => {
+      if (hasFetched) return; // Prevent additional fetch
+      hasFetched = true;
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getSupervisorTeams`, {
+          method: "GET",
+          redirect: "follow",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          setLoading(false);
+        
+          return;
+        }
+        const result = await response.json();
+        if (isMounted) {
+          if (result.success) {
+            console.log(result)
+            setLoading(false);
+            if (result.team && Object.keys(result.team).length > 0) {
+            
+              // setTeam(result.team);
+            } else {
+            
+             
+            }
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error(error);
+          toast.error("An error occurred while fetching user details.");
+        }
+      }
+    };
+   
+    fetchResearcherTeam();
+   
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+  useEffect(() => {
+  }, [team]);
+
+
+
   const Groups = [
     [
       {
@@ -80,20 +139,27 @@ export default function SupervisorTeam() {
       setCurrentTeamIndex(currentTeamIndex + 1);
     }
   };
-  // Function to navigate to the previous team
   const previousTeam = () => {
     if (currentTeamIndex > 0) {
       setCurrentTeamIndex(currentTeamIndex - 1);
     }
   };
+
+
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <>
+     <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
       <div className="flex xl:flex-row flex-col font-WorkSans-Regular ">
         <Sidebar pageName='supervisor-teams' />
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
         <UserNavbar/>
           <div className='xl:m-10 m-5'>
-          
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Teams Requests</h1>
             <Table
               className='w-[99%]  md:[50vh] '
@@ -131,17 +197,13 @@ export default function SupervisorTeam() {
               header={[' Lead Details', 'Institution', 'Members', 'Action']}
               rowRenderComponent='TeamRequestsRow'
             />
-
 or
-
             <header className='bg-white shadow-sm my-8 p-5 md:p-16 '>
-             
              <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon  p-10 rounded-md'>
                <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Researchers</h1>
                <p className='font-semibold my-2'>Not Researcher Request Found.</p>
              </div>
-         
          </header>
          or
             <header>
@@ -150,12 +212,9 @@ or
                 <p className='font-semibold'>Number of Teams</p>
                 <p className=''>6</p>
               </div>
-             
               <header className='bg-white shadow-sm my-5 p-10'>
-                
                 <section className='h-[50vh] md:h-[60vh]  overflow-scroll'>
                 <h1 className=' text-lg text-epsilon'>BMY-136 id </h1>
-
                   <div className="grid md:grid-cols-2 my-5 grid-col-1 md:gap-10">
                     <div>
                       <h1 className='font-semibold text-lg mb-5'>Group</h1>

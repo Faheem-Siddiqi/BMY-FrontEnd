@@ -6,7 +6,7 @@ import { AppContextProvider } from './AppContext.jsx';
 // Routing
 import { Route, Routes } from 'react-router-dom';
 // General Components
-import Letter from './components/Letter';
+import Letter from './components/letters/Letter.jsx';
 import Home from './components/Home.jsx';
 import Loader from './components/layout/Loader.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
@@ -58,11 +58,13 @@ function App() {
     <>
       {/*  */}
       <AppContextProvider>
-        {/* <Table data={data} colNames={columnNames} renderRow={renderRow} /> */}
+        {/* <Table data={data} colNames={columnNames} renderRow={renderR
+        ow} /> */}
         <Routes>
           {/* Admin */}
-          <Route path="/admin" element={<Letter />} />
+          <Route path="/admin" element={<Admin />} />
           {/* Rest */}
+          <Route path="/letter" element={<Letter/>} />
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />

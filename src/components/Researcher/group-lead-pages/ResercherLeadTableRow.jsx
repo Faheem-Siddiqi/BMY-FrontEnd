@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, designation }) => {
   const handleRequest = async (leadId) => {
     try {
-      // Set up the request payload
+     
       const payload = JSON.stringify({
         ownerId: leadId,
       });
@@ -15,7 +15,7 @@ const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, des
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            'Cookie': 'token'
+           
           },
           body: payload,
         }

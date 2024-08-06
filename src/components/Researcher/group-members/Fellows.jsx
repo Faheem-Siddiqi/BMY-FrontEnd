@@ -1,13 +1,10 @@
 import React from 'react';
 import profileImage from '../../../assets/images/Profile.png';
-
 export default function Fellows({ myMembers }) {
-
   // Check if myMembers and necessary properties are defined
   if (!myMembers || !myMembers.owner || !myMembers.researchers) {
     return <div>No team data available</div>;
   }
-
   return (
     <>
       <header className='bg-white shadow-sm my-10 md:p-10 p-5'>
@@ -23,7 +20,6 @@ export default function Fellows({ myMembers }) {
                 <p className='text-light text-sm md:full truncate w-[150px]'>{myMembers.owner.workemail}</p>
               </div>
             </section>
-
             <h1 className='font-semibold text-lg'>Group</h1>
             <div id='members' className="flex flex-row  sm:gap-5 flex-wrap">
               {myMembers.researchers.length > 0 ? (
@@ -43,18 +39,31 @@ export default function Fellows({ myMembers }) {
               )}
             </div>
           </div>
-
           <div>
-            <h1 className='font-semibold text-lg'>Supervisor</h1>
-            <section className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
-              <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
-                <img className='rounded-full' src={profileImage} alt='profile image' />
-              </div>
-              <div className='py-5'>
-                <p className='text-[1rem] truncate w-[150px] font-bold'>Select Supervisor</p>
-                <p className='text-light text-sm md:full truncate w-[150px]'>email</p>
-              </div>
-            </section>
+            <div>
+              {myMembers.supervisors && myMembers.supervisors.length > 0 && (
+                <h1 className='font-semibold text-lg'>Supervisor</h1>
+              )}
+              {myMembers.supervisors.map((supervisor, index) => (
+                <section key={index} className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
+                  <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
+                    <img
+                      className='rounded-full'
+                      src={supervisor.profileImage || defaultProfileImage}
+                      alt='profile image'
+                    />
+                  </div>
+                  <div className='py-5'>
+                    <p className='text-[1rem] truncate w-[150px] font-bold'>
+                      {supervisor.fullname || 'No Name Provided'}
+                    </p>
+                    <p className='text-light text-sm md:full truncate w-[150px]'>
+                      {supervisor.workemail || 'No Title Provided'}
+                    </p>
+                  </div>
+                </section>
+              ))}
+            </div>
           </div>
         </div>
       </header>

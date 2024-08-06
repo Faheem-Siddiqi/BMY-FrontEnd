@@ -1,7 +1,7 @@
 import React from 'react';
 import jsPDF from 'jspdf';
 
-export default function Letter() {
+export default function Proposal() {
   const createAndDownloadPDF = () => {
     const data = [
       { "question": "What is the capital of France?", "answer": "Paris" },

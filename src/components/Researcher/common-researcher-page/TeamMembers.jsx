@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar.jsx';
-import CurrentMembers from '../group-members/CurrentGroupMembers.jsx';
 import Table from '../../Common/Table.jsx';
 import { MdOutlineGroupOff } from "react-icons/md";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
@@ -8,17 +7,14 @@ import Loader from '../../layout/Loader.jsx';
 import DefaultImage from '../../../assets/images/Profile.png';
 import toast from 'react-hot-toast';
 import Fellows from '../group-members/Fellows.jsx';
-
 export default function TeamMembers() {
   const [showNoTeam, setShowNoTeam] = useState(true);
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(false);
   const [groupLeads, setGroupLeads] = useState([]);
-
   useEffect(() => {
     let isMounted = true; // Flag to prevent state updates on unmounted components
     let hasFetched = false; // Flag to prevent multiple fetches
-
     const fetchResearcherTeam = async () => {
       if (hasFetched) return; // Prevent additional fetch
       hasFetched = true;
@@ -37,13 +33,14 @@ export default function TeamMembers() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
+            console.log(result)
             setLoading(false);
             if (result.team && Object.keys(result.team).length > 0) {
               setShowNoTeam(false);
               setTeam(result.team);
             } else {
               setShowNoTeam(true);
-              fetchAllLeads(); // Fetch group leads if the team is empty
+              fetchAllLeads(); 
             }
           }
         }
@@ -54,7 +51,6 @@ export default function TeamMembers() {
         }
       }
     };
-
     const fetchAllLeads = async () => {
       setLoading(true);
       try {
@@ -89,23 +85,17 @@ export default function TeamMembers() {
         }
       }
     };
-
     fetchResearcherTeam();
     fetchAllLeads()
-
     return () => {
       isMounted = false;
     };
   }, []);
-
   useEffect(() => {
-  
   }, [team]);
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <div className="flex xl:flex-row flex-col min-h-[100vh] font-Satoshi-Black overflow">

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DefautImage from '../../../assets/images/Profile.png'
 const AssignResearcherTableRow = ({ profileImage, name, email }) => {
   const [section, setSection] = useState('');
   const handleSectionChange = (event) => {
@@ -9,7 +10,7 @@ const AssignResearcherTableRow = ({ profileImage, name, email }) => {
       <td className='px-4'>
         <section className='flex gap-2 items-center  font-Satoshi-Black'>
           <div className='flex justify-center items-center min-w-[50px] min-h-[50px] max-w-[50px] max-h-[50px]'>
-            <img className='rounded-full' src={profileImage} alt='profile-image' />
+            <img className='rounded-full' src={DefautImage} alt='profile-image' />
           </div>
           <div className='py-5'>
             <p className='text-[1rem] font-bold'>{name}</p>
@@ -24,16 +25,17 @@ const AssignResearcherTableRow = ({ profileImage, name, email }) => {
           onChange={handleSectionChange}
           className="p-1 border pr-2 bg-transparent outline-0 rounded"
         >
-          <option value="" disabled>Select a section</option>
-          <option value="Section-A">Section A</option>
-          <option value="Section-B">Section B</option>
-          <option value="Section-C">Section C</option>
+          <option value="" >Select a section</option>
+          <option value="information">Information</option>
+          <option value="scientificReview">Scientific Review</option>
+          <option value="ethicalReview">Ethical Review</option>  
+          <option value="consent">Consent</option>
         </select>
       </td>
       <td className='px-4'>
         <div className='flex gap-2'>
           <button className='bg-epsilon text-white rounded px-1'>Assign</button>
-          <button className='bg-black bg-opacity-30 text-white rounded px-1'>Assigned</button>
+
         </div>
       </td>
     </tr>

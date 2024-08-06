@@ -8,19 +8,24 @@ export default function ForgetPassword() {
   const [showRequireError, setShowRequireError] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
     setSubmitError("");
     setSuccessMessage("");
+    setLoading(true); // Set loading to true when starting request
 
     if (!email) {
       setShowRequireError(true);
+      setLoading(false); // Set loading to false when request ends
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setSubmitError("Invalid Email Address");
+      setLoading(false); // Set loading to false when request ends
       return;
     }
 
@@ -46,6 +51,8 @@ export default function ForgetPassword() {
       }
     } catch (error) {
       setSubmitError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Set loading to false when request ends
     }
   };
 
@@ -88,9 +95,10 @@ export default function ForgetPassword() {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-epsilon w-full mt-5 text-white mb-3 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className={`w-full mt-5 mb-3 py-2 px-4 rounded focus:outline-none ${loading ? 'bg-gray-400' : 'bg-epsilon'} text-white`}
+              disabled={loading} // Disable button when loading
             >
-              Submit
+              {loading ? "Sending OTP..." : "Submit"} {/* Change button text based on loading state */}
             </button>
             {successMessage && (
               <p className="text-green-600">{successMessage}</p>
