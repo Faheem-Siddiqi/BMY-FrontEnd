@@ -2,11 +2,15 @@ import Sidebar from '../../layout/Sidebar.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { MdOutlineKeyboardBackspace, MdFileDownloadDone } from "react-icons/md";
 import Proposal from '../proposals/Proposal.jsx';
-import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx'
 import React, { useEffect, useState } from 'react';
+
+
+
 export default function MemberProposal() {
+
+
     const [sectionAssigned, setSectionAssigned] = useState([]);
     const [loading, setLoading] = useState(true);
     const [purposalDetail, setProposalDetail] = useState({})
@@ -23,7 +27,8 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
-                    console.log(result)
+                    // console.log('researcher get purposal')
+                    // console.log(result)
                     const fromattedProposal = {
                         id: result.notAcceptedProposals[0]._id,
                         title: result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ',
@@ -53,6 +58,7 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
+                console.log(result)
                     setSectionAssigned(result.assignedSections)
                 } else {
                     toast.error('Failed to load proposal details.');
@@ -71,6 +77,7 @@ export default function MemberProposal() {
     }
     return (
         <>
+        
             <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow-hidden">
                 <Sidebar pageName='researcher-proposals' />
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
@@ -112,7 +119,12 @@ export default function MemberProposal() {
                         </header>
                         <div>
                             {sectionAssigned.map((section, index) => (
-                                <Proposal key={index} assignProposal={section.section} />
+                                <Proposal
+                                
+                                
+                                key={index} 
+                                assignProposal={section.section} 
+                                MemberproposalId={purposalDetail.id}/>
                             ))}
                         </div>
                     </div>

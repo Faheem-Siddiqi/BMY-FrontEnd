@@ -48,7 +48,7 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
             <header className='bg-white shadow-sm my-5 p-10'>
                 <section className='my-5 md:w-[50%]'>
                     <p className="mb-2 text-zeta font-semibold">
-                        Will the project require approval by any other ethics committee other than the BMY Ethics Committee? *
+                        Will the project require approval by any other ethics committee other than the BMY Ethics Committee?
                     </p>
                     <div className="border rounded-md block p-5">
                         <div className="mb-2">

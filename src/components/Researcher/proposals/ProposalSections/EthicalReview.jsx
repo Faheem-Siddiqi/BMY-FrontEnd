@@ -11,7 +11,8 @@ export default function EthicalReview({
     onChange,
     onQuestionChange,
     onResearchTitleChange,
-    Risk
+    Risk,
+    handleSubmit
 }) {
     const [localTable5Answers, setLocalTable5Answers] = useState(formState.table5Answers);
     const [localTable5Score, setLocalTable5Score] = useState(formState.table5Score);
@@ -102,7 +103,10 @@ export default function EthicalReview({
                     />
                 </section>
 
-                <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                <button 
+                
+                onClick={handleSubmit}
+                className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                 Save
             </button>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 export default function Table1({
     table1Answers, // Ensure this matches the prop name in the parent component
     question1,
@@ -13,10 +12,9 @@ export default function Table1({
         { id: 'table1c', text: 'Is there a risk of breach of privacy (e.g. subjects\' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?' },
         { id: 'table1d', text: 'Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?' },
         { id: 'table1e', text: 'Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?' },
-        { id: 'table1f', text: 'Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise.' },
+        { id: 'table1f', text: 'Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?' },
         { id: 'table1g', text: 'Are any of the above risks to participants more than what they experience in everyday life?' }
     ];
-
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold">

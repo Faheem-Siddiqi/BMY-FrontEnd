@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react';
-
 export default function Information({ formData, onInputChange, onSubmit, updateFormData }) {
     const [selectedCriteria, setSelectedCriteria] = useState([]);
-
     // Sync local state with formData.question2 when formData changes
     useEffect(() => {
         setSelectedCriteria(formData.question2 || []);
     }, [formData.question2]);
-
     const handleCriteriaChange = (event) => {
         const { name, checked } = event.target;
-
         setSelectedCriteria(prev => {
             const updatedCriteria = checked
                 ? [...prev, name]
                 : prev.filter(criterion => criterion !== name);
-
             // Notify parent component of the change
             updateFormData({ ...formData, question2: updatedCriteria });
             return updatedCriteria;
         });
     };
-
     return (
         <>
             <div className='font-WorkSans-Regular'>
@@ -34,7 +28,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                                 name='question1'
                                 id='question1'
                                 value={formData.question1}
-                                disabled
+                                onChange={onInputChange}
                                 className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                                 type="text"
                             />
@@ -90,13 +84,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                         Save
                     </button>
-                    {/* Conditional rendering based on role */}
-          <br/>
-                        <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
-                            <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                            Hide Save in case of erc had n supervisor
-                        </button>
-                   
+                    <br />
                 </header>
             </div>
         </>
