@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
 import Sidebar from '../../layout/Sidebar.jsx'
 import { MdFileDownloadDone } from "react-icons/md";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import DiscussionModal from '../proposals/proposal-reviews/DiscussionModal.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Proposal from '../proposals/Proposal.jsx';
+
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 export default function LeadProposalPage() {
+
+
+  
   return (
+
     <>
+       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex  xl:flex-row flex-col min-h-[100vh] font-Satoshi-Black overflow ">
         <Sidebar pageName='teamLead-proposals' />
         <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>

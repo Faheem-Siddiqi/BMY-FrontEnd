@@ -73,7 +73,7 @@ export default function ScientificReview() {
     };
     return (
         <>
-            {scientificData.answer11}
+           
             <div className='font-WorkSans-Regular'>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Scientific Review (Synopsis)  </h1>
                 {scientificData.answer1}

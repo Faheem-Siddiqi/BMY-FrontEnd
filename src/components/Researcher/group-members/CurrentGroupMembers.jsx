@@ -5,8 +5,9 @@ export default function CurrentGroupMembers({ myMembers }) {
   if (!myMembers || !myMembers.team) {
     return <div>No team data available</div>;
   }
-  console.log(myMembers)
+  console.log('myMembers')
   const { owner, researchers, supervisors } = myMembers.team;
+  console.log(supervisors)
   return (
     <>
       <header className='bg-white shadow-sm my-10 md:p-10 p-5  w-full '>
@@ -42,14 +43,18 @@ export default function CurrentGroupMembers({ myMembers }) {
             {supervisors && supervisors.length > 0 && (
               <div>
                 <h1 className='font-semibold text-lg'>Supervisor</h1>
-                <section className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
-                  <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
-                    <img className='rounded-full' src={profileImage} alt='profile image' />
-                  </div>
-                  <div className='py-5'>
-                    <p className='text-[1rem] md:full truncate w-[150px] font-bold'>Select Supervisor</p>
-                    <p className='text-light md:full truncate w-[150px] text-sm'>email</p>
-                  </div>
+                <section className='grid md:grid-cols-2 gap-4'>
+                  {supervisors.map((supervisor, index) => (
+                    <section key={index} className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
+                      <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
+                        <img className='rounded-full' src={supervisor.pfp || profileImage} alt='profile image' />
+                      </div>
+                      <div className='py-5'>
+                        <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{supervisor.fullname}</p>
+                        <p className='text-light md:full truncate w-[150px] text-sm'>{supervisor.workemail}</p>
+                      </div>
+                    </section>
+                  ))}
                 </section>
               </div>
             )}

@@ -49,7 +49,7 @@ export default function Fellows({ myMembers }) {
                   <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
                     <img
                       className='rounded-full'
-                      src={supervisor.profileImage || defaultProfileImage}
+                      src={supervisor.profileImage || profileImage}
                       alt='profile image'
                     />
                   </div>

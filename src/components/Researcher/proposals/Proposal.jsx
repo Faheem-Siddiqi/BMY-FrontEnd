@@ -253,15 +253,15 @@ export default function Proposal({ assignProposal, role }) {
     };
 
 
-    // assign section
+    
     const sections = [
-        'Information',
-        'Scientific Review',
-        'Ethical Review',
-        'Consent'
+        'information',
+        'scientificReview',
+        'ethicalReview',
+        'consent'
     ];
 
-    const [clickedSection, setClickedSection] = useState('Information');
+    const [clickedSection, setClickedSection] = useState(assignProposal);
 
     const handleButtonClick = (section) => {
         setClickedSection(section);
@@ -269,7 +269,7 @@ export default function Proposal({ assignProposal, role }) {
 
     const renderSection = () => {
         switch (clickedSection) {
-            case 'Information':
+            case 'information':
                 return (
                     <Information
                         formData={informationData}
@@ -278,9 +278,12 @@ export default function Proposal({ assignProposal, role }) {
                         updateFormData={handleUpdateInformationData}
                     />
                 );
-            case 'Scientific Review':
+            case 'scientificReview':
                 return <ScientificReview />;
-            case 'Ethical Review':
+
+
+
+            case 'ethicalReview':
                 return (
                     <EthicalReview
                         formState={formState}
@@ -290,7 +293,7 @@ export default function Proposal({ assignProposal, role }) {
                         Risk={Risk}
                     />
                 );
-            case 'Consent':
+            case 'consent':
                 return (
                     <Consent
                         formData={consentData}
