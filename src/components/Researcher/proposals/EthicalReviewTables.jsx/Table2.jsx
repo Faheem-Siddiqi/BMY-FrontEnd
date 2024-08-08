@@ -1,5 +1,5 @@
 import React from 'react';
-export default function Table2({ handleTable2AnswerChange, table2Answers }) {
+export default function Table2({ handleTable2AnswerChange, table2Answers={} }) {
     const questions = [
         { id: 'table2a', text: 'Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?' },
         { id: 'table2b', text: 'With questionnaires, will you give participants the option of omitting questions they don’t want to answer?' },

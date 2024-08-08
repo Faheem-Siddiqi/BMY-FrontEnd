@@ -5,18 +5,19 @@ import Proposal from '../proposals/Proposal.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx'
 import React, { useEffect, useState } from 'react';
-
-
-
+import DiscussionModal from '../proposals/proposal-reviews/DiscussionModal.jsx'
 export default function MemberProposal() {
-
-
+    const [memberDataToggle, setMemberDataToggle] = useState(false)
     const [sectionAssigned, setSectionAssigned] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [purposalDetail, setProposalDetail] = useState({})
+    const [loading, setLoading] = useState(false);
+    const [proposalDetail, setProposalDetail] = useState({});
+    const updateMemberDataToggle = (newValue) => {
+        setMemberDataToggle(newValue);
+    };
     useEffect(() => {
         const fetchProposal = async () => {
             try {
+                setLoading(true);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-researchers`, {
                     method: 'GET',
                     redirect: 'follow',
@@ -27,18 +28,19 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
-                    // console.log('researcher get purposal')
-                    // console.log(result)
-                    const fromattedProposal = {
+                    const formattedProposal = {
                         id: result.notAcceptedProposals[0]._id,
-                        title: result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ',
-                        status: result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ',
-                        lead: result.notAcceptedProposals[0].creator.fullname ? result.notAcceptedProposals[0].creator.fullname : ' ',
-                    }
-                    setProposalDetail(fromattedProposal)
-                    // console.log(fromattedProposal)
+                        title: result.notAcceptedProposals[0].title || ' ',
+                        status: result.notAcceptedProposals[0].status || ' ',
+                        lead: result.notAcceptedProposals[0].creator.fullname || ' ',
+                        reviews: Array.isArray(result.notAcceptedProposals[0].reviews) && result.notAcceptedProposals[0].reviews.length > 0
+                            ? result.notAcceptedProposals[0].reviews
+                            : [],
+                    };
+                    setProposalDetail(formattedProposal);
+                    //console.log(proposalDetail)
                 } else {
-                    toast.error('Failed to load proposal details.');
+                    toast.error('No proposals found.');
                 }
             } catch (error) {
                 toast.error(`Error: ${error.message}`);
@@ -47,6 +49,7 @@ export default function MemberProposal() {
             }
         };
         const fetchAssignSection = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-section-researcher`, {
                     method: 'GET',
@@ -58,10 +61,9 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
-                console.log(result)
-                    setSectionAssigned(result.assignedSections)
+                    setSectionAssigned(result.assignedSections);
                 } else {
-                    toast.error('Failed to load proposal details.');
+                    toast.error('Failed to load assigned sections.');
                 }
             } catch (error) {
                 toast.error(`Error: ${error.message}`);
@@ -70,14 +72,13 @@ export default function MemberProposal() {
             }
         };
         fetchProposal();
-        fetchAssignSection()
-    }, []);
+        fetchAssignSection();
+    }, [memberDataToggle]);
     if (loading) {
         return <Loader />;
     }
     return (
         <>
-        
             <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow-hidden">
                 <Sidebar pageName='researcher-proposals' />
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
@@ -93,38 +94,27 @@ export default function MemberProposal() {
                             </div>
                         </div>
                         <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
-                            <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>{purposalDetail.title}</h1>
+                            <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>{proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
                                 <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
-                                    BMY-{purposalDetail.id ? purposalDetail.id.slice(-4) : 'N/A'}
+                                    BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
                                 </span>
                             </div>
                             <div>
                                 <span className='font-bold my-2'>Status</span>
-                                <span className='mx-2 my-2'>{purposalDetail.status}</span>
+                                <span className='mx-2 my-2'>{proposalDetail.status}</span>
                             </div>
                             <div className="flex flex-wrap gap-5 my-5">
-                                <button className="w-fit py-2 px-6 rounded-md group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out">
-                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                                        <MdFileDownloadDone className='text-2xl' />
-                                        <span className='mx-2'>Submit</span>
-                                    </span>
-                                    <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilon transition-all duration-300 group-hover:translate-x-full">
-                                        Submit
-                                    </span>
-                                    <span className="invisible relative">x Submit</span>
-                                </button>
+                                <DiscussionModal memberData={proposalDetail} memberDataToggle={updateMemberDataToggle} />
                             </div>
                         </header>
                         <div>
                             {sectionAssigned.map((section, index) => (
                                 <Proposal
-                                
-                                
-                                key={index} 
-                                assignProposal={section.section} 
-                                MemberproposalId={purposalDetail.id}/>
+                                    key={index}
+                                    assignProposal={section.section}
+                                    MemberproposalId={proposalDetail.id} />
                             ))}
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-export default function Table5({  table5Answers, onAnswerChange }) {
+export default function Table5({  table5Answers={}, onAnswerChange }) {
     const questions = [
         { id: 'table5a', text: 'Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training' },
         { id: 'table5b', text: 'Contact with harmful agents or risk of physical injury' },

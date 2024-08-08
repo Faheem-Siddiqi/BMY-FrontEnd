@@ -1,79 +1,18 @@
-import { React, useState } from 'react'
+import { React } from 'react'
 import { BsFillCloudUploadFill } from "react-icons/bs"
-export default function ScientificReview() {
-    const [scientificData, setScienificData] = useState({
-        supervisorName: 'Supervisor',
-        applicantName: 'Applicant',
-        researchTitle: 'Title',
-        startDate: '2024-08-01', //we have to use this format
-        endDate: '',
-        answer4: '',
-        answer4Limit: 250,
-        answer5: '',
-        answer5Limit: 800,
-        answer6: '',
-        answer6Limit: 100,
-        answer7: '',
-        answer7Limit: 100,
-        researchObjectives: '',
-        mainVariable: '',
-        operationalDefinition: '',
-        answer11: 'Cross-sectional survey (information of a group recorded just once, without following-up on them)',
-        answer12: '',
-        answer13: '',
-        answer14a: '',
-        answer14b: '',
-        answer14c: '',
-        answer14d: '',
-        answer14e: '',
-        answer14f: '',
-        answer14g: '',
-        answer15a: '',
-        answer15b: '',
-        answer15c: '',
-        answer15d: '',
-        answer15e: '',
-        answer15f: '',
-        answer15g: '',
-        answer16a: '',
-        answer16b: '',
-        answer16c: '',
-        answer16d: '',
-        answer16e: '',
-        answer16f: '',
-        answer16g: '',
-        answer17: '',
-        answer18: '',
-        answer19: '',
-        answer20: '',
-        answer21: '',
-        answer22: '',
-        performa: '',
-        onlineQuestionnaires: ''
-    });
+export default function ScientificReview({ scientificData, onChange , onSubmit }) {
     const handleScientificDataChange = (event) => {
         const { name, value, type, files } = event.target;
         if (type === 'radio') {
-            // Handle radio button changes
-            setScienificData(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
+            onChange({ [name]: value });
         } else if (type === 'file') {
-            setScienificData(prevState => ({
-                ...prevState,
-                [name]: files[0]
-            }));
+            onChange({ [name]: files[0] });
         } else {
-            setScienificData(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
+            onChange({ [name]: value });
         }
     };
     return (
         <>
-           
             <div className='font-WorkSans-Regular'>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Scientific Review (Synopsis)  </h1>
                 {scientificData.answer1}
@@ -136,7 +75,7 @@ export default function ScientificReview() {
                         <p className="mt-5 mb-2 w-full md:w-[50%] text-zeta  font-semibold ">
                             Name the beneficiary group clearly identified that will benefit from the information generated in your research
                         </p>
-                        {scientificData.answer4}
+                       
                         <div className="relative w-full md:w-[50%]">
                             <div
                                 className={` ${scientificData.answer4.length >= scientificData.answer4Limit ? 'text-red-600' : ''
@@ -236,7 +175,7 @@ export default function ScientificReview() {
                         <input
                             value={scientificData.researchObjectives}
                             onChange={handleScientificDataChange}
-                            name='researchObjectivesives'
+                            name='researchObjectives'
                             id='researchObjectives'
                             className='mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' type="text" placeholder='Purpose Map' />
                     </section>
@@ -261,8 +200,8 @@ export default function ScientificReview() {
                                 rows="4"
                                 cols="50"
                                 placeholder="Add Definition"
-                                name="answer10"
-                                value={scientificData.answer10}
+                                name="operationalDefinition"
+                                value={scientificData.operationalDefinition}
                                 onChange={handleScientificDataChange}
                             ></textarea>
                         </div>
@@ -378,6 +317,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                name='answer14a'
                                                 value={scientificData.answer14a}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -385,6 +325,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                             name='answer14b'
                                                 value={scientificData.answer14b}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -392,6 +333,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer14c'
                                                 value={scientificData.answer14c}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -399,6 +341,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer14d'
                                                 value={scientificData.answer14d}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -406,6 +349,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer14e'
                                                 value={scientificData.answer14e}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -413,6 +357,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer14f'
                                                 value={scientificData.answer14f}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -427,6 +372,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15a'
                                                 value={scientificData.answer15a}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -434,6 +380,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15b'
                                                 value={scientificData.answer15b}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -441,6 +388,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15c'
                                                 value={scientificData.answer15c}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -448,6 +396,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15d'
                                                 value={scientificData.answer15d}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -455,6 +404,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15e'
                                                 value={scientificData.answer15e}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -462,6 +412,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15f'
                                                 value={scientificData.answer15f}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -469,6 +420,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer15g'
                                                 value={scientificData.answer15g}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -487,6 +439,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16a'
                                                 value={scientificData.answer16a}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -494,6 +447,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16b'
                                                 value={scientificData.answer16b}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -501,6 +455,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16c'
                                                 value={scientificData.answer16c}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -508,6 +463,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16d'
                                                 value={scientificData.answer16d}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -515,6 +471,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16e'
                                                 value={scientificData.answer16e}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -522,6 +479,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16f'
                                                 value={scientificData.answer16f}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -529,6 +487,7 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
+                                                 name='answer16g'
                                                 value={scientificData.answer16g}
                                                 onChange={handleScientificDataChange}
                                             />
@@ -536,7 +495,8 @@ export default function ScientificReview() {
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
-                                                value={scientificData.answer16g}
+                                                 name='answer16h'
+                                                value={scientificData.answer16h}
                                                 onChange={handleScientificDataChange}
                                             />
                                         </div>
@@ -749,7 +709,7 @@ export default function ScientificReview() {
                     {/* question-22*/}
                     <section className="mb-4">
                         <p className="mt-5 mb-2  text-zeta  font-semibold w-full md:w-[50%]">
-                            Data collection procedures and tools *
+                            Data collection procedures and tools 
                         </p>
                         <div className="w-full md:w-[50%] ">
                             <textarea
@@ -764,7 +724,7 @@ export default function ScientificReview() {
                         </div>
                     </section>
                     <section className='md:w-[50%]'>
-                        <p className='text-zeta  font-semibold '>Proforma/ Questionnaire * </p>
+                        {/* <p className='text-zeta  font-semibold '>Proforma/ Questionnaire * </p>
                         <label
                             htmlFor='performa'
                             className="my-5 bg-alpha flex flex-col justify-center items-center gap-2 py-5 border-2 border-dashed border-epsilon   rounded-md  p-5">
@@ -778,9 +738,9 @@ export default function ScientificReview() {
                                 name="performa"
                                 id="performa"
                                 onChange={handleScientificDataChange}
-                                className="w-0" // Hidden input field
+                                className="w-0" 
                             />
-                        </label>
+                        </label> */}
                         <section className='mb-4'>
                             <label
                                 htmlFor='onlineQuestionnaires'
@@ -796,7 +756,9 @@ export default function ScientificReview() {
                             </div>
                         </section>
                     </section>
-                    <button className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                    <button
+                    onClick={onSubmit}
+                    className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                         <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                         Save
                     </button>

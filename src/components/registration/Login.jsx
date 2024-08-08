@@ -35,6 +35,8 @@ export default function Login() {
       localStorage.setItem('token', token);
       setCookie('token', token);
       localStorage.setItem('role', role);
+
+      
       SuccessLogin();
       navigate('/edit-profile');
     } catch (error) {

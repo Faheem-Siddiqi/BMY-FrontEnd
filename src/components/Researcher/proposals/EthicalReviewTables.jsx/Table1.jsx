@@ -1,6 +1,6 @@
 import React from 'react';
 export default function Table1({
-    table1Answers, // Ensure this matches the prop name in the parent component
+    table1Answers ={}, // Ensure this matches the prop name in the parent component
     question1,
     table1InnerScore,
     onAnswerChange,
