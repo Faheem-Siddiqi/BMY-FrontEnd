@@ -6,10 +6,142 @@ import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
 export default function Proposal({ assignProposal, role, MemberproposalId }) {
-
-
-
-    
+    const [risk, setRisk] = useState(0)
+    const [ethicalData, setEthicalData] = useState({
+        table1Answers: {
+            table1a: 'Yes',
+            table1b: '',
+            table1c: '',
+            table1d: 'Yes',
+            table1e: '',
+            table1f: '',
+            table1g: '',
+        },
+        question1: 'No',
+        table1InnerScore: 0,
+        table1Score: 0,
+        table2Answers: {
+            table2a: '',
+            table2b: '',
+            table2c: '',
+        },
+        table2Score: 0,
+        table3Answers: {
+            table3a: '',
+            table3b: '',
+            table3c: '',
+            table3d: '',
+            table3e: '',
+            table3f: 'Yes',
+            table3g: '',
+        },
+        table4Answers: {
+            table4a: '',
+            table4b: '',
+        },
+        question2: '',
+        question3: '',
+        table4Score: 0,
+        table5Answers: {
+            table5a: 'Yes',
+            table5b: '',
+            table5c: '',
+            table5d: 'Yes',
+            table5e: '',
+            table5f: '',
+            table5g: '',
+        },
+        table5Score: 0,
+        table6Answers: {
+            table6a: 'N/A',
+            table6b: 'Moderate gains',
+            table6c: 'Minor gains',
+        },
+        table6Score: 0,
+        ethicalRisk: 0,
+        benefitScore: 0,
+    });
+    const updateState = (updates) => {
+        setEthicalData(prevState => ({ ...prevState, ...updates }));
+    };
+    useEffect(() => {
+        let newScore = 0;
+        for (const key in ethicalData.table1Answers) {
+            if (key !== 'table1g') {
+                if (ethicalData.table1Answers[key] === 'Yes') {
+                    newScore += 1;
+                }
+            }
+        }
+        const finalScore = ethicalData.question1 === 'No' ? newScore * 5 : 0;
+        updateState({
+            table1InnerScore: newScore,
+            table1Score: finalScore
+        });
+    }, [ethicalData.table1Answers, ethicalData.question1]);
+    useEffect(() => {
+        let newScore = 0;
+        for (const key in ethicalData.table2Answers) {
+            if (key === 'table2a' && ethicalData.table2Answers[key] === 'Yes') {
+                newScore += 1;
+            }
+            if (key === 'table2b' && ethicalData.table2Answers[key] === 'No') {
+                newScore += 1;
+            }
+            if (key === 'table2c' && ethicalData.table2Answers[key] === 'No') {
+                newScore += 1;
+            }
+        }
+        updateState({ table2Score: newScore });
+    }, [ethicalData.table2Answers]);
+    useEffect(() => {
+        let newScore = 0;
+        if (ethicalData.table4Answers.table4a === 'No') {
+            newScore += 10;
+        }
+        if (ethicalData.table4Answers.table4b === 'No') {
+            newScore += 10;
+        }
+        if (ethicalData.question2 === 'No') {
+            newScore = 0;
+        }
+        if (ethicalData.question3 === 'Yes') {
+            newScore += 1;
+        }
+        updateState({ table4Score: newScore });
+    }, [ethicalData.table4Answers, ethicalData.question2, ethicalData.question3]);
+    useEffect(() => {
+        let newScore = 0;
+        for (const key in ethicalData.table5Answers) {
+            if (key !== 'table5g') {
+                if (ethicalData.table5Answers[key] === 'Yes') {
+                    newScore += 1;
+                }
+            }
+        }
+        updateState({ table5Score: newScore });
+    }, [ethicalData.table5Answers]);
+    useEffect(() => {
+        let newScore = 0;
+        for (const key in ethicalData.table6Answers) {
+            if (ethicalData.table6Answers[key] === 'Moderate gains') {
+                newScore += 20;
+            }
+            if (ethicalData.table6Answers[key] === 'Minor gains') {
+                newScore += 5;
+            }
+            if (ethicalData.table6Answers[key] === 'Major gains') {
+                newScore += 30;
+            }
+        }
+        updateState({ table6Score: newScore });
+    }, [ethicalData.table6Answers]);
+    useEffect(() => {
+        const Risk = ethicalData.table1Score + ethicalData.table2Score + ethicalData.table4Score + ethicalData.table5Score;
+        setRisk(Risk)
+        updateState({ ethicalRisk: Risk });
+    }, [ethicalData.table4Answers, ethicalData.table2Answers, ethicalData.table1Answers, ethicalData.table5Answers]);
+    const BenefitScore = ethicalData.table6Score
     const [scientificData, setScientificData] = useState({
         supervisorName: '',
         applicantName: '',
@@ -60,58 +192,6 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         answer22: '',
         onlineQuestionnaires: ''
     });
-    const [formState, setFormState] = useState({ //Ethical Review Form
-        table1Answers: {
-            table1a: 'Yes',
-            table1b: '',
-            table1c: '',
-            table1d: 'Yes',
-            table1e: '',
-            table1f: '',
-            table1g: '',
-        },
-        question1: 'No',
-        table1InnerScore: 0,
-        table1Score: 0,
-        table2Answers: {
-            table2a: '',
-            table2b: '',
-            table2c: '',
-        },
-        table2Score: 0,
-        table3Answers: {
-            table3a: '',
-            table3b: '',
-            table3c: '',
-            table3d: '',
-            table3e: '',
-            table3f: 'Yes',
-            table3g: '',
-        },
-        table4Answers: {
-            table4a: '',
-            table4b: '',
-        },
-        question2: '',
-        question3: '',
-        table4Score: 0,
-        table5Answers: {
-            table5a: 'Yes',
-            table5b: '',
-            table5c: '',
-            table5d: 'Yes',
-            table5e: '',
-            table5f: '',
-            table5g: ''
-        },
-        table5Score: 0,
-        table6Answers: {
-            table6a: 'N/A',
-            table6b: 'Moderate gains',
-            table6c: 'Minor gains',
-        },
-        table6Score: 0,
-    });
     const [consentData, setConsentData] = useState({
         question1: '',
         question2: '',
@@ -125,7 +205,6 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         question3: '',
     });
     const [sectionAssigned, setSectionAssigned] = useState([]);
-
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchMemberAssignSection = async () => {
@@ -158,16 +237,15 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                             question1: Questions["Proposal Contact Email"] || '',
                             question2: Questions["Your research topic fulfills which of these criteria"]
                                 ? Questions["Your research topic fulfills which of these criteria"]
-                                    .split(' -- ') // Split the input string by '--'
-                                    .map(item => item.trim()) // Trim whitespace from each item
-                                    .filter(item => item !== '') // Remove any empty or whitespace-only strings
-                                : [], // Default to an empty array if the input is missing or empty
+                                    .split(' -- ')
+                                    .map(item => item.trim())
+                                    .filter(item => item !== '')
+                                : [],
                             question3: Questions["Name the beneficiary group clearly identified that will benefit from the information generated in your research"] || ''
                         });
                     }
                     if (scientificReviewindex !== -1) {
                         const Questions = formattedSections[scientificReviewindex].questions;
-                      
                         setScientificData(prevState => ({
                             ...prevState,
                             supervisorName: Questions["Supervisor Name"] || '',
@@ -226,40 +304,66 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                     }
                     if (ethicalReviewindex !== -1) {
                         const Questions = formattedSections[ethicalReviewindex].questions
-                        setFormState({
-                            question1: Questions['In case of any such risk, is the participant informed about risks in detail at the time of informed consent?'] || '',
-                            question2: Questions['In case of any risk to the special group, have you assigned a member to monitor those risks?'] || '',
-                            question3: Questions['Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?'] || '',
-                            table1a: Questions["Is there any contact with potentially harmful items or substances?"] || '',
-                            table1b: Questions["Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?"] || '',
-                            table1c: Questions["Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?"] || '',
-                            table1d: Questions["Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?"] || '',
-                            table1e: Questions["Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?"] || '',
-                            table1f: Questions["Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?"] || '',
-                            table1g: Questions["Are any of the above risks to participants more than what they experience in everyday life?"] || '',
-                            table2a: Questions["Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?"] || '',
-                            table2b: Questions["With questionnaires, will you give participants the option of omitting questions they don’t want to answer?"] || '',
-                            table2c: Questions["Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?"] || '',
-                            table3a: Questions['People with impaired decision making capacity'] || '',
-                            table3b: Questions['Children under 16'] || '',
-                            table3c: Questions['Medically vulnerable'] || '',
-                            table3d: Questions['Prisoners'] || '',
-                            table3e: Questions['Economically or educationally disadvantaged'] || '',
-                            table3f: Questions['Racial or ethnic minorities'] || '',
-                            table3g: Questions['Institutionalized persons (correctional facilities, nursing homes, or mental health)	'] || '',
-                            table4a: Questions['Are you considering special care for taking informed consent, with no coercion?'] || '',
-                            table4b: Questions['Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?'] || '',
-                            table5a: Questions['Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training'] || '',
-                            table5b: Questions['Contact with harmful agents or risk of physical injury'] || '',
-                            table5c: Questions['Contact with infectious patients and risk to health'] || '',
-                            table5d: Questions['Traveling in unsafe areas and risk of accidents/violence'] || '',
-                            table5e: Questions['Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)'] || '',
-                            table5f: Questions['Industry funded research with conditions of not disclosing risks to patients'] || '',
-                            table5g: Questions['Research findings having the potential to expose big industry/mafia trends'] || '',
-                            table6a: Questions['New knowledge gained and scientific development'] || '',
-                            table6b: Questions['Trainings/ educational interventions for participants'] || '',
-                            table6c: Questions['Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.'] || '',
-                        });
+                        setEthicalData(prevState => ({
+                            ...prevState,
+                            table1Answers: {
+                                ...prevState.table1Answers,
+                                table1a: Questions["Is there any contact with potentially harmful items or substances?"] || '',
+                                table1b: Questions["Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?"] || '',
+                                table1c: Questions["Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?"] || '',
+                                table1d: Questions["Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?"] || '',
+                                table1e: Questions["Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?"] || '',
+                                table1f: Questions["Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?"] || '',
+                                table1g: Questions["Are any of the above risks to participants more than what they experience in everyday life?"] || '',
+                            },
+                            table2Answers: {
+                                ...prevState.table2Answers,
+                                table2a: Questions["Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?"] || '',
+                                table2b: Questions["With questionnaires, will you give participants the option of omitting questions they don’t want to answer?"] || '',
+                                table2c: Questions["Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?"] || '',
+                            },
+                            table3Answers: {
+                                ...prevState.table3Answers,
+                                table3a: Questions["People with impaired decision making capacity"] || '',
+                                table3b: Questions["Children under 16"] || '',
+                                table3c: Questions["Medically vulnerable"] || '',
+                                table3d: Questions["Prisoners"] || '',
+                                table3e: Questions["Economically or educationally disadvantaged"] || '',
+                                table3f: Questions["Racial or ethnic minorities"] || '',
+                                table3g: Questions["Institutionalized persons (correctional facilities, nursing homes, or mental health)"] || '',
+                            },
+                            table4Answers: {
+                                ...prevState.table4Answers,
+                                table4a: Questions["Are you considering special care for taking informed consent, with no coercion?"] || '',
+                                table4b: Questions["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
+                            },
+                            table5Answers: {
+                                ...prevState.table5Answers,
+                                table5a: Questions["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training"] || '',
+                                table5b: Questions["Contact with harmful agents or risk of physical injury"] || '',
+                                table5c: Questions["Contact with infectious patients and risk to health"] || '',
+                                table5d: Questions["Traveling in unsafe areas and risk of accidents/violence"] || '',
+                                table5e: Questions["Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)"] || '',
+                                table5f: Questions["Industry funded research with conditions of not disclosing risks to patients"] || '',
+                                table5g: Questions["Research findings having the potential to expose big industry/mafia trends"] || '',
+                            },
+                            table6Answers: {
+                                ...prevState.table6Answers,
+                                table6a: Questions["New knowledge gained and scientific development"] || '',
+                                table6b: Questions["Trainings/ educational interventions for participants"] || '',
+                                table6c: Questions["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || '',
+                                table6d: Questions["Traveling in unsafe areas and risk of accidents/violence"] || '',
+                                table6e: Questions["Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)"] || '',
+                                table6f: Questions["Industry funded research with conditions of not disclosing risks to patients"] || '',
+                                table6g: Questions["Research findings having the potential to expose big industry/mafia trends"] || '',
+                            },
+                            ethicalRisk: Questions["Ethical Risk"] || 0,
+                            benefitScore: Questions["Benefit Score"] || 0,
+                            table1InnerScore: Questions["Risk"] || 0,
+                            question1: Questions["In case of any such risk, is the participant informed about risks in detail at the time of informed consent?"] || '',
+                            question2: Questions["In case of any risk to the special group, have you assigned a member to monitor those risks?"] || '',
+                            question3: Questions["Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?"] || '',
+                        }));
                     }
                 } else {
                     toast.error('Failed to load proposal details.');
@@ -332,91 +436,82 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         }
     };
     //************************     Ethical Review Component 
-   
-
-    const [ethicalData, setEthicalData] = useState({
-        // Yes and No are radio value
-        question1: 'Yes',
-        question2: '',
-        question3: 'No',
-       
-    });
-
-    // const handleEthicalSectionSubmission = async () => {
-    //     try {
-    //         const payload = {
-    //             "proposalId": MemberproposalId,
-    //             "section": "ethicalReview",
-    //             'questions': {
-    //                 "In case of any such risk, is the participant informed about risks in detail at the time of informed consent?": formState.question1 || '',
-    //                 "In case of any risk to the special group, have you assigned a member to monitor those risks?": formState.question2 || '',
-    //                 "Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?": formState.question3 || '',
-    //                 "Is there any contact with potentially harmful items or substances?": formState.table1Answers.table1a || '',
-    //                 "Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?": formState.table1Answers.table1b || '',
-    //                 "Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?": formState.table1Answers.table1c || '',
-    //                 "Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?": formState.table1Answers.table1d || '',
-    //                 "Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?": formState.table1Answers.table1e || '',
-    //                 "Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?": formState.table1Answers.table1f || '',
-    //                 "Are any of the above risks to participants more than what they experience in everyday life?": formState.table1Answers.table1g || '',
-    //                 "Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?": formState.table2Answers.table2a || '',
-    //                 "With questionnaires, will you give participants the option of omitting questions they don’t want to answer?": formState.table2Answers.table2b || '',
-    //                 "Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?": formState.table2Answers.table2c || '',
-    //                 "People with impaired decision making capacity": formState.table3Answers.table3a || '',
-    //                 "Children under 16": formState.table3Answers.table3b || '',
-    //                 "Medically vulnerable": formState.table3Answers.table3c || '',
-    //                 "Prisoners": formState.table3Answers.table3d || '',
-    //                 "Economically or educationally disadvantaged": formState.table3Answers.table3e || '',
-    //                 "Racial or ethnic minorities": formState.table3Answers.table3f || '',
-    //                 "Institutionalized persons (correctional facilities, nursing homes, or mental health)": formState.table3Answers.table3g || '',
-    //                 "Are you considering special care for taking informed consent, with no coercion?": formState.table4Answers.table4a || '',
-    //                 "Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?": formState.table4Answers.table4b || '',
-    //                 "Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training": formState.table5Answers.table5a || '',
-    //                 "Contact with harmful agents or risk of physical injury": formState.table5Answers.table5b || '',
-    //                 "Contact with infectious patients and risk to health": formState.table5Answers.table5c || '',
-    //                 "Traveling in unsafe areas and risk of accidents/violence": formState.table5Answers.table5d || '',
-    //                 "Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)": formState.table5Answers.table5e || '',
-    //                 "Industry funded research with conditions of not disclosing risks to patients": formState.table5Answers.table5f || '',
-    //                 "Research findings having the potential to expose big industry/mafia trends": formState.table5Answers.table5g || '',
-    //                 "New knowledge gained and scientific development": formState.table6Answers.table6a || '',
-    //                 "Trainings/ educational interventions for participants": formState.table6Answers.table6b || '',
-    //                 "Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.": formState.table6Answers.table6c || '',
-    //             }
-    //         };
-    //         const raw = JSON.stringify(payload);
-    //         const requestOptions = {
-    //             method: "PATCH",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: raw,
-    //             redirect: "follow",
-    //             credentials: 'include',
-    //         };
-    //         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
-    //         const result = await response.json();
-    //         if (response.ok) {
-    //             toast.success("Data updated successfully!");
-    //         } else {
-    //             toast.error(result.message || "Failed to update data.");
-    //         }
-    //     } catch (error) {
-    //         toast.error("Failed to update data.");
-    //         console.log(error);
-    //     }
-    // };
+    const handleEthicalSectionSubmission = async () => {
+        try {
+            const payload = {
+                "proposalId": MemberproposalId,
+                "section": "ethicalReview",
+                'questions': {
+                    "Is there any contact with potentially harmful items or substances?": ethicalData.table1Answers.table1a || '',
+                    "Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?": ethicalData.table1Answers.table1b || '',
+                    "Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?": ethicalData.table1Answers.table1c || '',
+                    "Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?": ethicalData.table1Answers.table1d || '',
+                    "Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?": ethicalData.table1Answers.table1e || '',
+                    "Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?": ethicalData.table1Answers.table1f || '',
+                    "Are any of the above risks to participants more than what they experience in everyday life?": ethicalData.table1Answers.table1g || '',
+                    "Risk": ethicalData.table1InnerScore || 0,
+                    "In case of any such risk, is the participant informed about risks in detail at the time of informed consent?": ethicalData.question1 || '',
+                    "In case of any risk to the special group, have you assigned a member to monitor those risks?": ethicalData.question2 || '',
+                    "Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?": ethicalData.question3 || '',
+                    'Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?': ethicalData.table2Answers.table2a || '',
+                    'With questionnaires, will you give participants the option of omitting questions they don’t want to answer?': ethicalData.table2Answers.table2b || '',
+                    'Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?': ethicalData.table2Answers.table2c || '',
+                    'People with impaired decision making capacity': ethicalData.table3Answers.table3a || '',
+                    'Children under 16': ethicalData.table3Answers.table3b || '',
+                    'Medically vulnerable': ethicalData.table3Answers.table3c || '',
+                    'Prisoners': ethicalData.table3Answers.table3d || '',
+                    'Economically or educationally disadvantaged': ethicalData.table3Answers.table3e || '',
+                    'Racial or ethnic minorities': ethicalData.table3Answers.table3f || '',
+                    'Institutionalized persons (correctional facilities, nursing homes, or mental health)': ethicalData.table3Answers.table3g || '',
+                    'Are you considering special care for taking informed consent, with no coercion?': ethicalData.table4Answers.table4a || '',
+                    'Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?': ethicalData.table4Answers.table4b || '',
+                    'Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training': ethicalData.table5Answers.table5a || '',
+                    'Contact with harmful agents or risk of physical injury': ethicalData.table5Answers.table5b || '',
+                    'Contact with infectious patients and risk to health': ethicalData.table5Answers.table5c || '',
+                    'Traveling in unsafe areas and risk of accidents/violence': ethicalData.table5Answers.table5d || '',
+                    'Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)': ethicalData.table5Answers.table5e || '',
+                    'Industry funded research with conditions of not disclosing risks to patients': ethicalData.table5Answers.table5f || '',
+                    'Research findings having the potential to expose big industry/mafia trends': ethicalData.table5Answers.table5g || '',
+                    'New knowledge gained and scientific development': ethicalData.table6Answers.table6a || '',
+                    'Trainings/ educational interventions for participants': ethicalData.table6Answers.table6b || '',
+                    'Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.': ethicalData.table6Answers.table6c || '',
+                    'Ethical Risk.': ethicalData.ethicalRisk || '',
+                    'Benefit Score.': ethicalData.benefitScore || '',
+                }
+            };
+            const raw = JSON.stringify(payload);
+            const requestOptions = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: raw,
+                redirect: "follow",
+                credentials: 'include',
+            };
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
+            const result = await response.json();
+            if (response.ok) {
+                toast.success("Data updated successfully!");
+            } else {
+                toast.error(result.message || "Failed to update data.");
+            }
+        } catch (error) {
+            toast.error("Failed to update data.");
+            console.log(error);
+        }
+    };
     const handleResearchTitleChange = (e) => {
         setFormState(prevState => ({
             ...prevState,
             researchTitle: e.target.value
         }));
     };
-   
     const ScientificReviewChange = (newData) => {
         setScientificData(prevData => ({ ...prevData, ...newData }));
     };
     const handleScientificDataSubmission = async () => {
         try {
-      
             const questions = {
                 "Supervisor Name": scientificData.supervisorName || '',
                 "Applicant Name": scientificData.applicantName || '',
@@ -492,8 +587,6 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         }
     };
     //************************     Consent Component 
-  
-
     //Radiobox Update update
     const handleUpdateConsent = (updatedData) => {
         setConsentData(updatedData);
@@ -568,9 +661,12 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                 )
             case 'ethicalReview':
                 return (
-                    <EthicalReview 
-                    
-            />
+                    <EthicalReview
+                        ethicalData={ethicalData}
+                        updateState={updateState}
+                        risk={risk}
+                        onSubmit={handleEthicalSectionSubmission}
+                    />
                 );
             case 'consent':
                 return (
