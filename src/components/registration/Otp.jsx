@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 export default function OTP() {
-  const [otp, setOtp] = useState(''); 
+  const [otp, setOtp] = useState('');
   const [count, setCount] = useState(0);
   const [showRequireError, setShowRequireError] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [verifying, setVerifying] = useState(false); // New state for verifying
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
- 
-  const handleTime = async() => {
 
+  const handleTime = async () => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/forgetpassword`,
@@ -30,21 +30,20 @@ export default function OTP() {
 
       if (response.ok) {
         setSuccessMessage("OTP sent again to your email.");
-       
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
       }
     } catch (error) {
       setSubmitError("An error occurred. Please try again.");
     }
-    setCount(59);  
+    setCount(59);
     const interval = setInterval(() => {
       setCount(prevCount => {
         if (prevCount === 1) {
           clearInterval(interval);
-          return 0;  
+          return 0;
         } else {
-          return prevCount - 1;  
+          return prevCount - 1;
         }
       });
     }, 1000);
@@ -55,9 +54,11 @@ export default function OTP() {
     setShowRequireError(false);
     setSubmitError('');
     setSuccessMessage('');
+    setVerifying(true); // Set verifying to true when submitting
 
     if (!otp) {
       setShowRequireError(true);
+      setVerifying(false); // Reset verifying state
       return;
     }
 
@@ -76,12 +77,14 @@ export default function OTP() {
         setSuccessMessage("OTP verified");
         setTimeout(() => {
           navigate('/reset-password', { state: { email } });
-        }, 4000); 
+        }, 4000);
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
       }
     } catch (error) {
       setSubmitError("An error occurred. Please try again.");
+    } finally {
+      setVerifying(false); // Reset verifying state in the finally block
     }
   };
 
@@ -118,8 +121,9 @@ export default function OTP() {
               type="submit"
               onClick={handleSubmit}
               className="bg-epsilon w-full mt-5 text-white mb-3 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={verifying} // Disable button while verifying
             >
-              Submit
+              {verifying ? 'Verifying...' : 'Submit'} {/* Change button text based on verifying state */}
             </button>
             {successMessage && (
               <p className="text-green-600">{successMessage}</p>
