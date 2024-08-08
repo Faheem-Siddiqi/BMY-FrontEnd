@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Table4({
-    table4Answers,
+    table4Answers={},
     question2,
     question3,
     onAnswerChange,

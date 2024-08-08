@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Table6({ answers, onAnswerChange }) {
+export default function Table6({ answers={}, onAnswerChange }) {
     const questions = [
         { id: 'table6a', text: 'New knowledge gained and scientific development' },
         { id: 'table6b', text: 'Trainings/ educational interventions for participants' },
