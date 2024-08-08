@@ -1,17 +1,14 @@
 import React from 'react';
-
-export default function Table6({ answers={}, onAnswerChange }) {
+export default function Table6({ answers, onAnswerChange }) {
     const questions = [
         { id: 'table6a', text: 'New knowledge gained and scientific development' },
         { id: 'table6b', text: 'Trainings/ educational interventions for participants' },
         { id: 'table6c', text: 'Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.' },
     ];
-
     const handleChange = (e, id) => {
         const selectedValue = e.target.value;
         onAnswerChange(id, selectedValue);
     };
-
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">

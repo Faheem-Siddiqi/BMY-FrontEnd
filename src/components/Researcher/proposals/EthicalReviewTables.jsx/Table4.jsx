@@ -1,7 +1,6 @@
 import React from 'react';
-
 export default function Table4({
-    table4Answers={},
+    table4Answers,
     question2,
     question3,
     onAnswerChange,
@@ -9,12 +8,10 @@ export default function Table4({
     onQuestion3Change
 }) {
     const { table4a, table4b } = table4Answers;
-
     const questions = [
         { id: 'table4a', text: 'Are you considering special care for taking informed consent, with no coercion?' },
         { id: 'table4b', text: 'Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?' },
     ];
-
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Table3({ table3Answers={},  handleTable3AnswerChange }) {
+export default function Table3({ table3Answers,  handleTable3AnswerChange }) {
     // Define the questions
     const questions = [
         { id: 'table3a', text: 'People with impaired decision making capacity' },

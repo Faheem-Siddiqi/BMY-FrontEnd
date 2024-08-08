@@ -1,10 +1,6 @@
 import React from 'react';
 export default function Table1({
-    table1Answers ={}, // Ensure this matches the prop name in the parent component
-    question1,
-    table1InnerScore,
-    onAnswerChange,
-    onAnswer1Change
+    table1answers, question1, table1InnerScore, handleTable1AnswerChange, onAnswer1Change
 }) {
     const questions = [
         { id: 'table1a', text: 'Is there any contact with potentially harmful items or substances?' },
@@ -12,7 +8,7 @@ export default function Table1({
         { id: 'table1c', text: 'Is there a risk of breach of privacy (e.g. subjects\' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?' },
         { id: 'table1d', text: 'Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?' },
         { id: 'table1e', text: 'Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?' },
-        { id: 'table1f', text: 'Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?' },
+        { id: 'table1f', text: 'Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise.' },
         { id: 'table1g', text: 'Are any of the above risks to participants more than what they experience in everyday life?' }
     ];
     return (
@@ -40,8 +36,8 @@ export default function Table1({
                                     type="radio"
                                     name={question.id}
                                     value="Yes"
-                                    checked={table1Answers[question.id] === "Yes"}
-                                    onChange={(e) => onAnswerChange(e, question.id)}
+                                    checked={table1answers[question.id] === "Yes"}
+                                    onChange={(e) => handleTable1AnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -50,8 +46,8 @@ export default function Table1({
                                     type="radio"
                                     name={question.id}
                                     value="No"
-                                    checked={table1Answers[question.id] === "No"}
-                                    onChange={(e) => onAnswerChange(e, question.id)}
+                                    checked={table1answers[question.id] === "No"}
+                                    onChange={(e) => handleTable1AnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -60,8 +56,8 @@ export default function Table1({
                                     type="radio"
                                     name={question.id}
                                     value="N/A"
-                                    checked={table1Answers[question.id] === "N/A"}
-                                    onChange={(e) => onAnswerChange(e, question.id)}
+                                    checked={table1answers[question.id] === "N/A"}
+                                    onChange={(e) => handleTable1AnswerChange(e, question.id)}
                                     className="w-[20px] h-[20px] cursor-pointer"
                                 />
                             </td>
@@ -91,6 +87,7 @@ export default function Table1({
                             <input
                                 type="radio"
                                 value="Yes"
+                                name='question1'
                                 checked={question1 === 'Yes'}
                                 onChange={onAnswer1Change}
                                 className="mr-2"
@@ -103,6 +100,7 @@ export default function Table1({
                             <input
                                 type="radio"
                                 value="No"
+                                name='question1'
                                 checked={question1 === 'No'}
                                 onChange={onAnswer1Change}
                                 className="mr-2"
