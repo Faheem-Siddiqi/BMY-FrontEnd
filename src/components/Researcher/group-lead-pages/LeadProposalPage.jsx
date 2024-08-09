@@ -129,18 +129,15 @@ export default function LeadProposalPage() {
       const responseText = await response.text();
       console.log("Response Status:", response.status);
       console.log("Response Text:", responseText);
-
       if (response.ok) {
         const data = JSON.parse(responseText);
         toast.success('Proposal successfully submitted to supervisor');
         return data;
       } else {
-
         const errorData = JSON.parse(responseText);
         throw new Error(errorData.message || 'Failed to submit proposal');
       }
     } catch (error) {
-
       toast.error(`Error submitting proposal: ${error.message}`);
       console.error(`Error submitting proposal: ${error.message}`);
       throw error;
@@ -196,17 +193,9 @@ export default function LeadProposalPage() {
                 {mainSupervisor && mainSupervisor[0] && mainSupervisor[0].fullname ? mainSupervisor[0].fullname : 'Not Available'}
               </span></p>
             </header>
-            {/* {sectionAssigned.map((section, index) => (
-                                  <Proposal
-                                      key={index}
-                                      assignProposal={section.section}
-                                      MemberproposalId={proposalDetail.id} />
-                              ))} */}
             <ProposalForLead
               LeadproposalData={proposalDetail}
             />
-            {/* <Proposal 
-              /> */}
           </div>
         </section>
       </div>

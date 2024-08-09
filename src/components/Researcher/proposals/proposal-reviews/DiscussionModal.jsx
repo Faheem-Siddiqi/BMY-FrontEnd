@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { FaReplyAll } from "react-icons/fa6";
 import Modal from 'react-modal';
@@ -12,14 +11,12 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
     const [activeReview, setActiveReview] = useState(null);
     const [modalIsOpen, setIsOpen] = React.useState(false);
     useEffect(() => {
-        // Set user role from local storage
         const role = localStorage.getItem('role');
         if (role) {
             setUserRole(role);
         } else {
             console.log('Local storage: role not found.');
         }
-        // Initialize reviews from props
         if (memberData && memberData.reviews) {
             setReviews(memberData.reviews);
         }
@@ -64,7 +61,6 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
             content: reply
         };
         try {
-            console.log("Sending reply:", replyData); // Debugging line
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/reply-to-review`, {
                 method: "POST",
                 headers: {
@@ -77,7 +73,6 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                 throw new Error('Failed to add reply');
             }
             const result = await response.json();
-            console.log("Reply added successfully:", result); // Debugging line
             memberDataToggle(prevValue => !prevValue);
             toast.success("Reply added successfully!");
             setReply(""); // Clear reply input

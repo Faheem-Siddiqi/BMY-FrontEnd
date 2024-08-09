@@ -53,6 +53,7 @@ import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
 // Admin Components
 
 import Admin from './components/Admin/Admin.jsx'
+import LearnMore from './components/registration/LearnMore.jsx';
 function App() {
   return (
     <>
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           {/* Rest */}
           <Route path="/letter" element={<Letter/>} />
+          <Route path="/learn-more" element={<LearnMore/>} />
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
@@ -94,7 +96,9 @@ function App() {
           <Route path="/supervisor-proposal" element={<SupervisorProposals />} />
           <Route path="/supervisor-details" element={<Supervisor />} />
           <Route path="/view-erc-team" element={<ViewERCMembers />} />
-          <Route path="/mentor-proposal" element={<MentorProposal />} />
+
+          <Route path="/mentor-proposal/:proposalId" element={<MentorProposal />} />
+          {/* <Route path="/mentor-proposal" element={<MentorProposal />} /> */}
           {/* Erc Members */}
           <Route path="/erc-member-dashboard" element={<ErcMemberDashboard />} />
           <Route path="/assigned-proposals" element={<ErcMemberProposal />} />

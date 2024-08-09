@@ -181,7 +181,7 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                     </label>
                 </section>
             </header>
-            {signUserRole !== 'group-lead' && (<>
+            {signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor' && (<>
                 <button
                     onClick={onSubmit}
                     disabled={!iAgree}

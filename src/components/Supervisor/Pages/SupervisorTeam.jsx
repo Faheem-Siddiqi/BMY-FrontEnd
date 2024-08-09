@@ -11,19 +11,15 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 import DefaultImage from '../../../assets/images/Profile.png';
 import { useNavigate } from 'react-router-dom'; // Added for navigation
-
 export default function SupervisorTeam() {
   const [owners, setOwners] = useState([]);
   const [supervisorId, setSupervisorId] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
   const [Groups, setGroups] = useState([]);
-
   const navigate = useNavigate(); // Initialize navigate for routing
-
   useEffect(() => {
     let isMounted = true;
-
     const fetchUserDetails = async () => {
       setLoading(true);
       try {
@@ -43,20 +39,17 @@ export default function SupervisorTeam() {
             fetchResearcherTeam();
           } else {
             toast.error("Failed to load user details.");
-            navigate("/login");
           }
         }
       } catch (error) {
         if (isMounted) {
           console.error(error);
           toast.error("An error occurred while fetching user details.");
-          navigate("/login");
         }
       } finally {
         setLoading(false);
       }
     };
-
     const fetchResearcherTeam = async () => {
       setLoading(true);
       try {
@@ -95,31 +88,25 @@ export default function SupervisorTeam() {
         setLoading(false);
       }
     };
-
     fetchUserDetails();
     return () => {
       isMounted = false;
     };
   }, [supervisorId, navigate]); // Added dependencies
-
   const members = Groups[currentTeamIndex] || [];
-
   const nextTeam = () => {
     if (currentTeamIndex < Groups.length - 1) {
       setCurrentTeamIndex(currentTeamIndex + 1);
     }
   };
-
   const previousTeam = () => {
     if (currentTeamIndex > 0) {
       setCurrentTeamIndex(currentTeamIndex - 1);
     }
   };
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

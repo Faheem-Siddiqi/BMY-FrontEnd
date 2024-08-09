@@ -1,5 +1,7 @@
 // EthicalReview.js
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import Table1 from '../EthicalReviewTables.jsx/Table1.jsx';
 import Table2 from '../EthicalReviewTables.jsx/Table2.jsx';
 import Table3 from '../EthicalReviewTables.jsx/Table3.jsx';
@@ -9,7 +11,15 @@ import Table6 from '../EthicalReviewTables.jsx/Table6.jsx';
 
 export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit }) {
 
-
+    const [signUserRole, setSignUserRole] = useState('');
+    useEffect(() => {
+        const SignUserRole = localStorage.getItem('role');
+        if (SignUserRole) {
+            setSignUserRole(SignUserRole);
+        } else {
+            console.log('Local storage: role  not found.');
+        }
+    }, []);
    
     return (
         <div className='WorkSans-Regular'>
@@ -84,12 +94,17 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                         className=' mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                     />
                 </section>
+
+
+                {signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor' && (<>
                 <button
                 onClick={onSubmit}
                     className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                     <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                     Save
                 </button>
+
+            </>)}
             </header>
         </div>
     );

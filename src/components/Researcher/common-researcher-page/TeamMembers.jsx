@@ -8,7 +8,7 @@ import DefaultImage from '../../../assets/images/Profile.png';
 import toast from 'react-hot-toast';
 import Fellows from '../group-members/Fellows.jsx';
 export default function TeamMembers() {
-  const [showNoTeam, setShowNoTeam] = useState(true);
+  const [showTeam, setShowTeam] = useState(false);
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(false);
   const [groupLeads, setGroupLeads] = useState([]);
@@ -27,7 +27,7 @@ export default function TeamMembers() {
         });
         if (!response.ok) {
           setLoading(false);
-          setShowNoTeam(true);
+          setShowTeam(true);
           return;
         }
         const result = await response.json();
@@ -36,11 +36,11 @@ export default function TeamMembers() {
             console.log(result)
             setLoading(false);
             if (result.team && Object.keys(result.team).length > 0) {
-              setShowNoTeam(false);
+              setShowTeam(true);
               setTeam(result.team);
             } else {
-              setShowNoTeam(true);
-              fetchAllLeads(); 
+              setShowTeam(false);
+              fetchAllLeads();
             }
           }
         }
@@ -90,7 +90,7 @@ export default function TeamMembers() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [showTeam]);
   useEffect(() => {
   }, [team]);
   if (loading) {
@@ -104,10 +104,12 @@ export default function TeamMembers() {
           <UserNavbar />
           <div className='xl:m-10 m-5'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Group Members</h1>
-            <p className='font-semibold my-2'>Members</p>
-            <Fellows  myMembers={team} />
+            {showTeam && (<>
+              <p className='font-semibold my-2'>Members</p>
+              <Fellows myMembers={team} />
+            </>)}
           </div>
-          {showNoTeam && (
+          {!showTeam && (
             <section className='my-5 xl:m-10 m-5'>
               <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                 <h1 className='font-semibold flex items-center gap-2'>

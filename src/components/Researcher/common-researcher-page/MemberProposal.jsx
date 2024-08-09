@@ -28,7 +28,6 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
-
                     const formattedProposal = {
                         id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
                             ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
