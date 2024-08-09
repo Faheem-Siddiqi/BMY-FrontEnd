@@ -2,7 +2,7 @@ import React from 'react'
 import Sidebar from '../../layout/Sidebar.jsx'
 import { Link } from 'react-router-dom';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { useState  } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
@@ -14,21 +14,21 @@ export default function ResercherLeadNewProposal() {
     const handleNextClick = async () => {
         setLoading(true);
         try {
-                  const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/create-proposal`
-                , { 
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title }),
-            });
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/create-proposal`
+                , {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ title }),
+                });
             const result = await response.json();
             setLoading(false);
             if (response.ok) {
-        navigate('/group-lead-proposal');
-        toast.success('Proposal Created Succsssfully'); 
-            } 
+                navigate('/group-lead-proposal');
+                toast.success('Proposal Created Succsssfully');
+            }
             else {
                 toast.error(result.message || 'An error occurred while creating the proposal');
             }
@@ -37,16 +37,16 @@ export default function ResercherLeadNewProposal() {
             toast.error('An error occurred while creating the proposal');
         }
     };
-    if (loading){
-        return(
+    if (loading) {
+        return (
             <>
-            <Loader/>
+                <Loader />
             </>
         )
     }
     return (
         <>
-<Toaster
+            <Toaster
                 position="top-center"
                 reverseOrder={false}
             />
@@ -61,18 +61,17 @@ export default function ResercherLeadNewProposal() {
                             <input
                                 type='text'
                                 value={title}
-                                onChange={(e)=>{setTitle(e.target.value)}}
+                                onChange={(e) => { setTitle(e.target.value) }}
                                 name='proposal-title'
                                 id='proposal-title'
                                 className=' md:w-[50%] border mt-2   rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none' placeholder='Proposal Title' />
                             <button
-                            onClick={handleNextClick}
-                             disabled={title===''}
+                                onClick={handleNextClick}
+                                disabled={title === ''}
                                 className="my-10 py-2 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                                 Next
                             </button>
-                            Add condition if team is empty then route is /add-team-members else /lead-proposal
                         </section>
                     </div>
                 </section>

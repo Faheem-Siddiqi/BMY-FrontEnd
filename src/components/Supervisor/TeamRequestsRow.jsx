@@ -54,13 +54,13 @@ const TeamRequestsRow = ({ requestId, teamId, profileImage, name, email, institu
         <td className='px-4'>
           <div className='flex gap-2'>
             <button
-              className='text-epsilon'
+              className='text-white bg-epsilon rounded px-2 py-1'
               onClick={() => handleRequest('accepted', requestId, teamId)}
             >
               Accept
             </button>
             <button
-              className='text-red-600'
+              className='text-white bg-red-400 rounded px-2 py-1'
               onClick={() => handleRequest('declined', requestId, teamId)}
             >
               Deny

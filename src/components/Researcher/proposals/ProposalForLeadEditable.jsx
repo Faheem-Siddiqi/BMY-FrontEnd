@@ -5,7 +5,11 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
-export default function Proposal({ assignProposal, role, MemberproposalId }) {
+export default function ProposalForLead({
+    assignProposal,
+    LeadproposalId
+}) {
+    const [risk, setRisk] = useState(0)
     const [ethicalData, setEthicalData] = useState({
         table1Answers: {
             table1a: 'Yes',
@@ -137,8 +141,10 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     }, [ethicalData.table6Answers]);
     useEffect(() => {
         const Risk = ethicalData.table1Score + ethicalData.table2Score + ethicalData.table4Score + ethicalData.table5Score;
+        setRisk(Risk)
         updateState({ ethicalRisk: Risk });
     }, [ethicalData.table4Answers, ethicalData.table2Answers, ethicalData.table1Answers, ethicalData.table5Answers]);
+    const BenefitScore = ethicalData.table6Score
     const [scientificData, setScientificData] = useState({
         supervisorName: '',
         applicantName: '',
@@ -355,7 +361,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                                 table6g: Questions["Research findings having the potential to expose big industry/mafia trends"] || '',
                             },
                             ethicalRisk: Questions["Ethical Risk"] || 0,
-                            table6Score: Questions["Benefit Score"] || 0,
+                            benefitScore: Questions["Benefit Score"] || 0,
                             table1InnerScore: Questions["Risk"] || 0,
                             question1: Questions["In case of any such risk, is the participant informed about risks in detail at the time of informed consent?"] || '',
                             question2: Questions["In case of any risk to the special group, have you assigned a member to monitor those risks?"] || '',
@@ -402,7 +408,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                         .join(', ')
                 : '';
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": LeadproposalId,
                 "section": "information",
                 "questions": {
                     "Proposal Contact Email": informationData.question1 || '',
@@ -436,7 +442,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     const handleEthicalSectionSubmission = async () => {
         try {
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": LeadproposalId,
                 "section": "ethicalReview",
                 'questions': {
                     "Is there any contact with potentially harmful items or substances?": ethicalData.table1Answers.table1a || '',
@@ -472,8 +478,8 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                     'New knowledge gained and scientific development': ethicalData.table6Answers.table6a || '',
                     'Trainings/ educational interventions for participants': ethicalData.table6Answers.table6b || '',
                     'Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection.': ethicalData.table6Answers.table6c || '',
-                    'Ethical Risk': ethicalData.ethicalRisk || '',
-                    'Benefit Score': ethicalData.table6Score || '',
+                    'Ethical Risk.': ethicalData.ethicalRisk || '',
+                    'Benefit Score.': ethicalData.benefitScore || '',
                 }
             };
             const raw = JSON.stringify(payload);
@@ -556,7 +562,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                 "Online questionnaires/ google forms": scientificData.onlineQuestionnaires || 'N/A',
             };
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": LeadproposalId,
                 "section": "scientificReview",
                 "questions": questions
             };
@@ -596,7 +602,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     const handleConsentSubmission = async () => {
         try {
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": LeadproposalId,
                 "section": "consent",
                 "questions": {
                     "Will the project require approval by any other ethics committee other than the BMY Ethics Committee?": consentData.question1 || '',
@@ -633,7 +639,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         'ethicalReview',
         'consent'
     ];
-    const [clickedSection, setClickedSection] = useState(assignProposal);
+    const [clickedSection, setClickedSection] = useState('information');
     const handleButtonClick = (section) => {
         setClickedSection(section);
     };
@@ -661,6 +667,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                     <EthicalReview
                         ethicalData={ethicalData}
                         updateState={updateState}
+                        risk={risk}
                         onSubmit={handleEthicalSectionSubmission}
                     />
                 );

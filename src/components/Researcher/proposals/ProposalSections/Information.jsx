@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 export default function Information({ formData, onInputChange, onSubmit, updateFormData }) {
     const [selectedCriteria, setSelectedCriteria] = useState([]);
-    // Sync local state with formData.question2 when formData changes
+    const [signUserRole, setSignUserRole] = useState('');
+    useEffect(() => {
+        const SignUserRole = localStorage.getItem('role');
+        if (SignUserRole) {
+            setSignUserRole(SignUserRole);
+        } else {
+            console.log('Local storage: role  not found.');
+        }
+    }, []);
     useEffect(() => {
         setSelectedCriteria(formData.question2 || []);
     }, [formData.question2]);
@@ -25,6 +33,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <label className='text-zeta font-semibold' htmlFor="question1">Email</label>
                         <div className='w-full md:w-[50%] h-fit relative'>
                             <input
+                                readOnly={signUserRole === 'group-lead'}
+                                disabled={signUserRole === 'group-lead'}
                                 name='question1'
                                 id='question1'
                                 value={formData.question1}
@@ -41,6 +51,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
                                     type="checkbox"
+                                    readOnly={signUserRole === 'group-lead'}
+                                    disabled={signUserRole === 'group-lead'}
                                     name="Addressing research question on right time as community/decision makers are looking for the answers"
                                     checked={selectedCriteria.includes('Addressing research question on right time as community/decision makers are looking for the answers')}
                                     onChange={handleCriteriaChange}
@@ -50,6 +62,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             </label>
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
+                                    readOnly={signUserRole === 'group-lead'}
+                                    disabled={signUserRole === 'group-lead'}
                                     type="checkbox"
                                     name="Feasible (have manpower, budget, time for data collection and writing)"
                                     checked={selectedCriteria.includes('Feasible (have manpower, budget, time for data collection and writing)')}
@@ -65,6 +79,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <section className='mb-4'>
                             <div className='w-full md:w-[50%] h-fit relative'>
                                 <input
+                                    readOnly={signUserRole === 'group-lead'}
+                                    disabled={signUserRole === 'group-lead'}
                                     name='question3'
                                     id='question3'
                                     value={formData.question3}
@@ -77,13 +93,16 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             </div>
                         </section>
                     </section>
-                    <button
-                        onClick={onSubmit}
-                        className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon"
-                    >
-                        <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                        Save
-                    </button>
+                    {/* {signUserRole !== 'group-lead'  &&  (<> </>)}   */}
+                    {signUserRole !== 'group-lead' && (<>
+                        <button
+                            onClick={onSubmit}
+                            className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon"
+                        >
+                            <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                            Save
+                        </button>
+                    </>)}
                     <br />
                 </header>
             </div>

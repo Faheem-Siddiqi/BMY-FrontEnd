@@ -28,15 +28,39 @@ export default function MemberProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
+
                     const formattedProposal = {
-                        id: result.notAcceptedProposals[0]._id,
-                        title: result.notAcceptedProposals[0].title || ' ',
-                        status: result.notAcceptedProposals[0].status || ' ',
-                        lead: result.notAcceptedProposals[0].creator.fullname || ' ',
-                        reviews: Array.isArray(result.notAcceptedProposals[0].reviews) && result.notAcceptedProposals[0].reviews.length > 0
-                            ? result.notAcceptedProposals[0].reviews
+                        id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
+                            : ' ',
+                        title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ')
+                            : ' ',
+                        status: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ')
+                            : ' ',
+                        lead: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (result.notAcceptedProposals[0].creator && result.notAcceptedProposals[0].creator.fullname
+                                ? result.notAcceptedProposals[0].creator.fullname
+                                : ' ')
+                            : ' ',
+                        reviews: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (Array.isArray(result.notAcceptedProposals[0].reviews)
+                                ? (result.notAcceptedProposals[0].reviews.length > 0
+                                    ? result.notAcceptedProposals[0].reviews
+                                    : [])
+                                : [])
                             : [],
                     };
+                    // const formattedProposal = {
+                    //     id: result.notAcceptedProposals[0]._id,
+                    //     title: result.notAcceptedProposals[0].title || ' ',
+                    //     status: result.notAcceptedProposals[0].status || ' ',
+                    //     lead: result.notAcceptedProposals[0].creator.fullname || ' ',
+                    //     reviews: Array.isArray(result.notAcceptedProposals[0].reviews) && result.notAcceptedProposals[0].reviews.length > 0
+                    //         ? result.notAcceptedProposals[0].reviews
+                    //         : [],
+                    // };
                     setProposalDetail(formattedProposal);
                     //console.log(proposalDetail)
                 } else {
@@ -94,7 +118,7 @@ export default function MemberProposal() {
                             </div>
                         </div>
                         <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
-                            <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>{proposalDetail.title}</h1>
+                            <h1 className='text-lg  font-semibold italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
                                 <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>

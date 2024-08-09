@@ -27,7 +27,7 @@ import Supervisor from './components/Researcher/group-lead-pages/Supervisor.jsx'
 import ResercherLeadProposals from './components/Researcher/group-lead-pages/ResercherLeadProposals.jsx';
 import ResercherLeadTeam from './components/Researcher/group-lead-pages/ResercherLeadTeam.jsx';
 import ResearcherSupervisor from './components/Researcher/common-researcher-page/ResearcherSupervisor.jsx';
-import ResearcherProposalPage from './components/Researcher/group-lead-pages/LeadProposalPage.jsx';
+import ResearcherLeadProposalPage from './components/Researcher/group-lead-pages/LeadProposalPage.jsx';
 import MemberProposalPage from './components/Researcher/common-researcher-page/MemberProposal.jsx'
 import Dashboard from './components/Researcher/common-researcher-page/Dashboard.jsx';
 import ResearcherDashboard from './components/Researcher/group-lead-pages/ResercherLeadDashboard.jsx';
@@ -85,7 +85,7 @@ function App() {
           <Route path="/supervisor" element={<ResearcherSupervisor />} />
           <Route path="/group-lead-dashboard" element={<ResearcherDashboard />} />
           <Route path="/create-new-proposal" element={<ResercherLeadNewProposal />} />
-          <Route path="/lead-proposal" element={<ResearcherProposalPage />} />
+          <Route path="/lead-proposal" element={<ResearcherLeadProposalPage />} />
           {/*  */}
           <Route path="/Letter" element={<Letter />} />
           {/* Supervisors */}

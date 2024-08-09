@@ -1,36 +1,43 @@
 import React, { useState, useEffect } from 'react';
-
 export default function Consent({ formData, onInputChange, onSubmit }) {
     const [answer1, setAnswer1] = useState('');
     const [answer2, setAnswer2] = useState('');
     const [answer3, setAnswer3] = useState('');
     const [answer4, setAnswer4] = useState('');
     const [iAgree, setIAgree] = useState(false);
-
-    // Synchronize local state with props
+    const [signUserRole, setSignUserRole] = useState('');
+    useEffect(() => {
+        const SignUserRole = localStorage.getItem('role');
+        if (SignUserRole) {
+            setSignUserRole(SignUserRole);
+        } else {
+            console.log('Local storage: role  not found.');
+        }
+    }, []);
     useEffect(() => {
         if (formData) {
             setAnswer1(formData.question1 || '');
             setAnswer2(formData.question2 || '');
             setAnswer3(formData.question3 || '');
             setAnswer4(formData.question4 || '');
-            
         } else {
             console.error('formData is undefined or null');
         }
     }, [formData]);
-
     // Handle radio button changes
     const handleOptionChange = (question, setAnswer) => (e) => {
-        if (e && e.target) {
-            const value = e.target.value;
-            setAnswer(value);
-            onInputChange({ ...formData, [question]: value });
-        } else {
-            console.error('Event target is missing');
+        if (  
+            signUserRole !== 'group-lead'
+        ){
+            if (e && e.target) {
+                const value = e.target.value;
+                setAnswer(value);
+                onInputChange({ ...formData, [question]: value });
+            } else {
+                console.error('Event target is missing');
+            }
         }
     };
-
     // Handle checkbox changes
     const handleCheckboxChange = (e) => {
         if (e && e.target) {
@@ -41,7 +48,6 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
             console.error('Event target is missing');
         }
     };
-
     return (
         <div className='font-WorkSans-Regular'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Consent</h1>
@@ -84,6 +90,8 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                         From where additional IRB approval is required
                     </label>
                     <input
+                        readOnly={signUserRole === 'group-lead'}
+                        disabled={signUserRole === 'group-lead'}
                         type='text'
                         id='question2'
                         name='question2'
@@ -173,14 +181,16 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                     </label>
                 </section>
             </header>
-            <button
-                onClick={onSubmit}
-                disabled={!iAgree}
-                className={`mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon ${!iAgree ? 'opacity-50 cursor-not-allowed' : ''} text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
-            >
-                <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                Save
-            </button>
+            {signUserRole !== 'group-lead' && (<>
+                <button
+                    onClick={onSubmit}
+                    disabled={!iAgree}
+                    className={`mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon ${!iAgree ? 'opacity-50 cursor-not-allowed' : ''} text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
+                >
+                    <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                    Save
+                </button>
+            </>)}
         </div>
     );
 }

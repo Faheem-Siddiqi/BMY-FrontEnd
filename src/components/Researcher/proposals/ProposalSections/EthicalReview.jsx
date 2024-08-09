@@ -8,6 +8,9 @@ import Table5 from '../EthicalReviewTables.jsx/Table5.jsx';
 import Table6 from '../EthicalReviewTables.jsx/Table6.jsx';
 
 export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit }) {
+
+
+   
     return (
         <div className='WorkSans-Regular'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Ethical Review</h1>
@@ -50,11 +53,13 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                     })}
                 />
                 <section className='mb-4 w-full md:w-[50%] '>
-                    <label htmlFor="Ethical-Risk" className='text-zeta font-semibold '>ERC Risk Score Total</label>
+                    <label htmlFor="ethicalRisk" className='text-zeta font-semibold '>ERC Risk Score Total</label>
                     <input
                         type='text'
-                        name='Ethical-Risk'
-                        value={risk}
+                        name='ethicalRisk'
+                    
+                        onChange={(e) => updateState({ ethicalRisk: e.target.value })}
+                        value={ethicalData.ethicalRisk}
                         id='Ethical-Risk'
                         className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                         readOnly
@@ -68,12 +73,14 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                 />
                 <section className='mb-4 w-full md:w-[50%] '>
                     <label htmlFor="research-title" className='text-zeta font-semibold '>Benefit Score</label>
+                 
+                
                     <input
                         value={ethicalData.table6Score}
                         type='text'
                         name='table6Score'
                         id='Benefit-Score'
-                        onChange={(e) => updateState({ benefitScore: e.target.value })}
+                        onChange={(e) => updateState({ table6Score: e.target.value })}
                         className=' mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                     />
                 </section>

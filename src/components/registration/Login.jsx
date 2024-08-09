@@ -62,6 +62,8 @@ export default function Login() {
               </div>
               <div className="mb-4 text-primary">
                 {/* Existing SVG and text */}
+
+                SVGS MISSING 
               </div>
             </div>
             <div className="md:p-10 p-5 bg-white rounded-r-lg">

@@ -10,11 +10,11 @@ import DefaultImage from '../../../assets/images/Profile.png';
 import Loader from '../../layout/Loader.jsx';
 import { MdOutlineGroupOff } from "react-icons/md";
 export default function ResercherLeadProposals() {
-
   const [loading, setLoading] = useState(false);
   const [leadTeam, setLeadTeam] = useState([]);
   const [supervisorCheck, setSupervisorCheck] = useState(false);
   const [researchersCheck, setResearcherCheck] = useState(false);
+  const [proposalCheck, setProposalCheck] = useState(false);
   const [notAcceptedProposals, setNotAcceptedProposals] = useState([]);
   const [purposalDetail, setProposalDetail] = useState({})
   useEffect(() => {
@@ -28,21 +28,25 @@ export default function ResercherLeadProposals() {
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
+          setProposalCheck(false);
         }
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
-            console.log(result)
             const fromattedProposal = {
-              id: result.notAcceptedProposals[0]._id,
-              title: result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ',
-              status: result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ',
-              lead: result.notAcceptedProposals[0].creator.fullname ? result.notAcceptedProposals[0].creator.fullname : ' ',
+              id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? result.notAcceptedProposals[0]._id : ' ',
+
+              title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ') : ' ',
+
+              status: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ') : ' ',
+              lead: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].creator && result.notAcceptedProposals[0].creator.fullname ? result.notAcceptedProposals[0].creator.fullname : ' ') : ' ',
             }
-            console.log(fromattedProposal)
+
+
+            
             setProposalDetail(fromattedProposal)
-            if (result.notAcceptedProposals.length !== 0) {
-              setNotAcceptedProposals(true);
+            if (Array.isArray(result.notAcceptedProposals) && result.notAcceptedProposals.length > 0) {
+              setProposalCheck(true);
             }
           }
           else {
@@ -125,85 +129,100 @@ export default function ResercherLeadProposals() {
               </header>
             )}
             {supervisorCheck && (
-              <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                <h1 className='font-semibold flex items-center mb-3 gap-2'>
-                  <MdOutlineGroupOff className='text-2xl' />
-                  Supervisor Not Found
-                </h1>
-                <Link to='supervisor-details'>
-                  Manage Supervisors
-                </Link>
-              </header>
+              <>
+                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                  <h1 className='font-semibold flex items-center mb-3 gap-2'>
+                    <MdOutlineGroupOff className='text-2xl' />
+                    Supervisor Not Found
+                  </h1>
+                  <Link to='/supervisor-details'>
+                    Manage Supervisors
+                  </Link>
+                </header>
+              </>
             )}
-            <header className='bg-white shadow-sm my-5 p-16'>
-              <Link to='/create-new-proposal'>
-                <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon p-10 rounded-md'>
-                  <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
-                  <h1 className='font-semibold text-xl'>Create Proposal</h1>
+            {
+              !proposalCheck && !supervisorCheck && !researchersCheck && (
+                <>
+                  <header className='bg-white shadow-sm my-5 p-16'>
+                    <Link to='/create-new-proposal'>
+                      <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon p-10 rounded-md'>
+                        <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4 ' />
+                        <h1 className='font-semibold text-xl'>Create Proposal</h1>
+                      </div>
+                    </Link>
+                  </header>
+                </>)
+            }
+            {proposalCheck && (<>
+              <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
+                <h1 className='text-lg  mb-2  font-semibold italic font-Satoshi-Black'>{purposalDetail.title}
+                </h1>
+                <div>
+                  <span className='font-bold my-2'> Proposal Id</span>
+                  <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
+                    BMY-{purposalDetail.id ? purposalDetail.id.slice(-4) : 'N/A'}
+                  </span>
                 </div>
-              </Link>
-            </header>
-            <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
-              <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>{purposalDetail.title}</h1>
-              <div>
-                <span className='font-bold my-2'> Proposal Id</span>
-                <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
-                  BMY-{purposalDetail.id ? purposalDetail.id.slice(-4) : 'N/A'}
-                </span>
-              </div>
-              <div>
-                <span className='font-bold my-2'>Status</span>
-                <span className='mx-2 my-2'>{purposalDetail.status}</span>
-              </div>
-              <Link to='/lead-proposal' className='text-epsilon text-sm'>View Details.</Link>
-            </header>
-            <h1 className='font-semibold text-xl my-5'>Assign Section</h1>
-            <Table
-              className='w-[99%]'
-              rowData={leadTeam.map(leadsTeamMember => ({
-                researcherId: leadsTeamMember.id,
-                profileImage: leadsTeamMember.profileImage || DefaultImage,
-                name: leadsTeamMember.name,
-                email: leadsTeamMember.email,
-                institution: leadsTeamMember.institution,
-                designation: leadsTeamMember.designation,
-                proposalId: purposalDetail.id
-              }))}
-              header={['Researcher', 'Section', 'Action']}
-              rowRenderComponent='AssignResearcherTableRow'
-            />
-            <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
-            <Table
-              className='w-[99%]'
-              rowData={[
-                {
-                  name: 'Proposal XYZ',
-                  supervisor: 'ahmed',
-                  groupdLead: 'Faheem',
-                  status: 'Submitted, ERC Approval pending',
-                },
-                {
-                  name: 'Proposal XYZ',
-                  supervisor: 'ahmed',
-                  groupdLead: 'Faheem',
-                  status: 'Group Lead Approval Pending',
-                },
-                {
-                  name: 'Proposal XYZ',
-                  supervisor: 'ahmed',
-                  groupdLead: 'Faheem',
-                  status: 'Accepted',
-                },
-                {
-                  name: 'Proposal XYZ',
-                  supervisor: 'ahmed',
-                  groupdLead: 'Faheem',
-                  status: 'ERC Remarks On Assigned Section',
-                },
-              ]}
-              header={['Name', 'Supervised By', 'Group Lead', 'Status', 'Action']}
-              rowRenderComponent='previousProposalsRow'
-            />
+                <div>
+                  <span className='font-bold my-2'>Status</span>
+                  <span className='mx-2 my-2'>{purposalDetail.status}</span>
+                </div>
+                <Link to='/lead-proposal'
+                  className='text-epsilon font-semibold'>
+                  View Details.</Link>
+              </header>
+            </>)}
+            {!researchersCheck && (
+              <>
+                <h1 className='font-semibold text-xl my-5'>Assign Section</h1>
+                <Table
+                  className='w-[99%]'
+                  rowData={leadTeam.map(leadsTeamMember => ({
+                    researcherId: leadsTeamMember.id,
+                    profileImage: leadsTeamMember.profileImage || DefaultImage,
+                    name: leadsTeamMember.name,
+                    email: leadsTeamMember.email,
+                    institution: leadsTeamMember.institution,
+                    designation: leadsTeamMember.designation,
+                    proposalId: purposalDetail.id
+                  }))}
+                  header={['Researcher', 'Section', 'Action']}
+                  rowRenderComponent='AssignResearcherTableRow'
+                />
+                <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
+                <Table
+                  className='w-[99%]'
+                  rowData={[
+                    {
+                      name: 'Proposal XYZ',
+                      supervisor: 'ahmed',
+                      groupdLead: 'Faheem',
+                      status: 'Submitted, ERC Approval pending',
+                    },
+                    {
+                      name: 'Proposal XYZ',
+                      supervisor: 'ahmed',
+                      groupdLead: 'Faheem',
+                      status: 'Group Lead Approval Pending',
+                    },
+                    {
+                      name: 'Proposal XYZ',
+                      supervisor: 'ahmed',
+                      groupdLead: 'Faheem',
+                      status: 'Accepted',
+                    },
+                    {
+                      name: 'Proposal XYZ',
+                      supervisor: 'ahmed',
+                      groupdLead: 'Faheem',
+                      status: 'ERC Remarks On Assigned Section',
+                    },
+                  ]}
+                  header={['Name', 'Supervised By', 'Group Lead', 'Status', 'Action']}
+                  rowRenderComponent='previousProposalsRow'
+                />
+              </>)}
           </div>
         </section>
       </div>
