@@ -1,11 +1,17 @@
 import React from 'react';
-import pdfmake from "pdfmake/build/pdfmake";
- import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfmake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfmake.vfs;
+import pdfMake from 'pdfmake/build/pdfmake';
 
+// Define the fonts for pdfMake
+(pdfMake ).fonts = {
+  Roboto: {
+    normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
+    bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
+    italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
+    bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
+  },
+};
 
 export default function Proposal({ sections, title }) {
-
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
@@ -44,7 +50,7 @@ export default function Proposal({ sections, title }) {
         ...consentData.map(item => [
           { text: item.question, style: 'question' },
           { text: item.answer, style: 'answer' }
-        ]).flat()
+        ]).flat(),
       ],
       styles: {
         header: { fontSize: 16, bold: true, alignment: 'center' },
@@ -53,18 +59,16 @@ export default function Proposal({ sections, title }) {
         question: { fontSize: 12, bold: true, margin: [0, 5] },
         answer: { fontSize: 12, margin: [0, 5] },
         italic: { fontSize: 12, italics: true, margin: [0, 10] },
-        footer: { fontSize: 8, alignment: 'center', margin: [0, 20] }
+        footer: { fontSize: 8, alignment: 'center', margin: [0, 20] },
       },
       pageMargins: [30, 30, 30, 50], // Left, Top, Right, Bottom
       footer: (currentPage, pageCount) => ({
-        text: [
-          'BMY Health Pakistan',
-        ],
-        style: 'footer'
+        text: 'BMY Health Pakistan',
+        style: 'footer',
       }),
-      pageBreakBefore: (currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) => {
+      pageBreakBefore: (currentNode, followingNodesOnPage) => {
         return followingNodesOnPage.length === 0 && currentNode.pageNumber % 2 === 1;
-      }
+      },
     };
 
     pdfMake.createPdf(docDefinition).download('proposal_report.pdf');
