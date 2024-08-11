@@ -59,8 +59,7 @@ function App() {
     <>
       {/*  */}
       <AppContextProvider>
-        {/* <Table data={data} colNames={columnNames} renderRow={renderR
-        ow} /> */}
+       
         <Routes>
           {/* Admin */}
           <Route path="/admin" element={<Admin />} />
