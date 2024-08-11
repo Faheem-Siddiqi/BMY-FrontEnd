@@ -1,8 +1,11 @@
 import React from 'react';
-import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 
 export default function Proposal({ sections, title }) {
-  // Helper function to map raw questions to data format
+
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
@@ -17,92 +20,55 @@ export default function Proposal({ sections, title }) {
   const ethicalData = mapData(sections.ethicalReview?.questions);
 
   const createAndDownloadPDF = () => {
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    const marginLeft = 10;
-    const marginTop = 20;
-    const lineHeight = 10;
-    const footerMarginBottom = 15; // Space for footer
-    const pageWidth = doc.internal.pageSize.width;
-    const pageHeight = doc.internal.pageSize.height;
-    let verticalPosition = marginTop;
-
-    // Function to add a section
-    const addSection = (title, data) => {
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      const sectionTitleWidth = doc.getTextWidth(title);
-      const sectionTitleX = (pageWidth - sectionTitleWidth) / 2;
-      doc.text(title, sectionTitleX, verticalPosition);
-      verticalPosition += 15;
-
-      doc.setFontSize(12);
-      data.forEach(item => {
-        if (verticalPosition + lineHeight * 2 > pageHeight - footerMarginBottom) {
-          doc.addPage();
-          verticalPosition = marginTop;
-        }
-        doc.setFont('helvetica', 'bold');
-        doc.text(item.question, marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
-        verticalPosition += lineHeight;
-        doc.setFont('helvetica', 'normal');
-        doc.text(String(item.answer), marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
-        verticalPosition += lineHeight;
-      });
+    const docDefinition = {
+      content: [
+        { text: 'BMY Health Pakistan', style: 'header' },
+        { text: 'Proposal Report', style: 'subHeader' },
+        { text: title, style: 'italic' },
+        { text: 'Section: Information', style: 'title' },
+        ...informationData.map(item => [
+          { text: item.question, style: 'question' },
+          { text: item.answer, style: 'answer' }
+        ]).flat(),
+        { text: 'Section: Scientific Review (Synopsis)', style: 'title' },
+        ...scientificData.map(item => [
+          { text: item.question, style: 'question' },
+          { text: item.answer, style: 'answer' }
+        ]).flat(),
+        { text: 'Section: Ethical Review', style: 'title' },
+        ...ethicalData.map(item => [
+          { text: item.question, style: 'question' },
+          { text: item.answer, style: 'answer' }
+        ]).flat(),
+        { text: 'Section: Consent', style: 'title' },
+        ...ConsentData.map(item => [
+          { text: item.question, style: 'question' },
+          { text: item.answer, style: 'answer' }
+        ]).flat()
+      ],
+      styles: {
+        header: { fontSize: 16, bold: true, alignment: 'center' },
+        subHeader: { fontSize: 14, bold: true, alignment: 'center' },
+        title: { fontSize: 14, bold: true, margin: [0, 10] },
+        question: { fontSize: 12, bold: true, margin: [0, 5] },
+        answer: { fontSize: 12, margin: [0, 5] },
+        italic: { fontSize: 12, italics: true, margin: [0, 10] },
+        footer: { fontSize: 8, alignment: 'center', margin: [0, 20] }
+      },
+      pageMargins: [30, 30, 30, 50], // Left, Top, Right, Bottom
+      footer: (currentPage, pageCount) => ({
+        text: [
+          'BMY Health Pakistan',
+        
+        ],
+        style: 'footer'
+      }),
+      pageBreakBefore: (currentNode, followingNodesOnPage, nodesOnNextPage, previousNodesOnPage) => {
+        return followingNodesOnPage.length === 0 && currentNode.pageNumber % 2 === 1;
+      }
     };
 
-    // Add the document header
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    const companyName = 'BMY Health Pakistan';
-    const companyNameWidth = doc.getTextWidth(companyName);
-    const companyNameX = (pageWidth - companyNameWidth) / 2;
-    doc.text(companyName, companyNameX, verticalPosition);
-    verticalPosition += 10;
-
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    const TitleName = 'Proposal Report';
-    const TitleNameWidth = doc.getTextWidth(TitleName);
-    const TitleNameX = (pageWidth - TitleNameWidth) / 2;
-    doc.text(TitleName, TitleNameX, verticalPosition);
-    verticalPosition += 10;
-
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'italic');
-    const paragraph = `${title} `;
-    doc.text(paragraph, marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
-    verticalPosition += 18;
-
-    // Add sections
-    addSection('Section: Information', informationData);
-    addSection('Section: Scientific Review (Synopsis)', scientificData);
-    addSection('Section: Ethical Review', ethicalData);
-    addSection('Section: Consent', ConsentData);
-
-    // Add footer
-    doc.setFontSize(8);
-    const footerText = [
-      'BMY Health Pakistan',
-      'Phone: (123) 456-7890',
-      'Email: contact@company.com'
-    ];
-    doc.setFont('helvetica', 'normal');
-    footerText.forEach((text, index) => {
-      const footerY = pageHeight - footerMarginBottom + index * 5;
-      if (verticalPosition + lineHeight > pageHeight - footerMarginBottom) {
-        doc.addPage();
-        verticalPosition = marginTop;
-      }
-      doc.text(text, marginLeft, footerY);
-    });
-
-    // Save the document
-    doc.save('proposal_report.pdf');
+    pdfMake.createPdf(docDefinition).download('proposal_report.pdf');
   };
 
   return (
