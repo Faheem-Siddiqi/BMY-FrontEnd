@@ -1,18 +1,18 @@
 import React from 'react';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfmake from "pdfmake/build/pdfmake";
+ import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfmake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfmake.vfs;
 
 
 export default function AppointmentLetter() {
   
-pdfMake.vfs = pdfFonts.pdfMake.vfs; 
   const createAndDownloadPDF = () => {
     const docDefinition = {
       content: [
         { text: 'Company Name', style: 'header' },
         { text: 'Appointment Letter', style: 'subHeader' },
         { text: `Date: ${new Date().toLocaleDateString()}`, style: 'date' },
-        { text: '\n' }, // Spacer
+        { text: '\n' }, 
         { text: 'Dear [Employee Name],', style: 'greeting' },
         { text: 'We are pleased to offer you the position of [Position] in the [Department] department, starting from [Start Date].', style: 'bodyText' },
         { text: '\n' },
@@ -23,7 +23,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
             'Position: [Position]',
             'Department: [Department]',
             'Start Date: [Start Date]',
-            // Add more terms and conditions if necessary
+         
           ],
           style: 'list'
         },

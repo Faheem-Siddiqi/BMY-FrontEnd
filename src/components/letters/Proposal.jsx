@@ -1,9 +1,11 @@
 import React from 'react';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfmake from "pdfmake/build/pdfmake";
+ import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfmake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfmake.vfs;
+
 
 export default function Proposal({ sections, title }) {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
@@ -11,10 +13,12 @@ export default function Proposal({ sections, title }) {
       answer: rawData[question] || "N/A"
     }));
   };
+
   const informationData = mapData(sections.information?.questions);
-  const ConsentData = mapData(sections.consent?.questions);
+  const consentData = mapData(sections.consent?.questions);
   const scientificData = mapData(sections.scientificReview?.questions);
   const ethicalData = mapData(sections.ethicalReview?.questions);
+
   const createAndDownloadPDF = () => {
     const docDefinition = {
       content: [
@@ -37,7 +41,7 @@ export default function Proposal({ sections, title }) {
           { text: item.answer, style: 'answer' }
         ]).flat(),
         { text: 'Section: Consent', style: 'title' },
-        ...ConsentData.map(item => [
+        ...consentData.map(item => [
           { text: item.question, style: 'question' },
           { text: item.answer, style: 'answer' }
         ]).flat()
@@ -62,8 +66,10 @@ export default function Proposal({ sections, title }) {
         return followingNodesOnPage.length === 0 && currentNode.pageNumber % 2 === 1;
       }
     };
+
     pdfMake.createPdf(docDefinition).download('proposal_report.pdf');
   };
+
   return (
     <button
       className="
