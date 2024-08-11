@@ -6,12 +6,11 @@ import { ImFilesEmpty } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
-
 export default function ResearcherProposal() {
   const [loading, setLoading] = useState(true);
   const [showNoActive, setShowNoActiveProposal] = useState(false)
   const [showNotAssigned, setShowNotAssign] = useState(false)
-  const [ previousProposals, setFormattedPreviousProposal] = useState([])
+  const [previousProposals, setFormattedPreviousProposal] = useState([])
   useEffect(() => {
     const fetchProposal = async () => {
       try {
@@ -27,36 +26,25 @@ export default function ResearcherProposal() {
         }
         var result = await response.json();
         if (result.success) {
-
           console.log(result)
-
           const formattedPreviousProposal = [];
-
           (result.acceptedProposals || []).forEach(proposal => {
-    
             const sections = proposal.sections || {};
             const ethicalReview = sections.ethicalReview || {};
             const questions = ethicalReview.questions || {};
-          
-           
             const formattedProposal = {
-              id: proposal._id || null, 
-              leadName: proposal.creator?.fullname || 'Unknown', 
-              mainSupervisor: proposal.supervisorId || 'Not assigned', 
+              id: proposal._id || null,
+              leadName: proposal.creator?.fullname || 'Unknown',
+              mainSupervisor: proposal.supervisorId || 'Not assigned',
               sections: sections,
-              title:proposal.title || 'N/A',
-              riskScore: questions['Ethical Risk'] || 0 , 
-              benefitScore: questions['Benefit Score'] || 0, 
+              title: proposal.title || 'N/A',
+              riskScore: questions['Ethical Risk'] || 0,
+              benefitScore: questions['Benefit Score'] || 0,
             };
-          
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
-
-
-         setFormattedPreviousProposal(formattedPreviousProposal)
-
-
+          setFormattedPreviousProposal(formattedPreviousProposal)
           if ((result.notAcceptedProposals.length === 0 || !result.notAcceptedProposals[0].title)) {
             setShowNoActiveProposal(true)
           }
@@ -89,9 +77,7 @@ export default function ResearcherProposal() {
         setLoading(false);
       }
     };
-
     fetchProposal();
-
   }, []);
   if (loading) {
     return <Loader />;
@@ -116,18 +102,18 @@ export default function ResearcherProposal() {
               </>)}
             </section>
             <section className='md:my-10 my-5'>
-              {showNotAssigned &&  
-               !showNoActive && (<>
-                <h2 className='text-xl font-bold'>
-                  Assigned Sections
-                </h2>
-                <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                  <h1 className='font-semibold  mb-3 flex items-center gap-2' >
-                    <ImFilesEmpty className='text-2xl ' />
-                    No Section assigned yet</h1>
-                  <p>The Team Lead hasn’t assigned any section yet</p>
-                </header>
-              </>)}
+              {showNotAssigned &&
+                !showNoActive && (<>
+                  <h2 className='text-xl font-bold'>
+                    Assigned Sections
+                  </h2>
+                  <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+                    <h1 className='font-semibold  mb-3 flex items-center gap-2' >
+                      <ImFilesEmpty className='text-2xl ' />
+                      No Section assigned yet</h1>
+                    <p>The Team Lead hasn’t assigned any section yet</p>
+                  </header>
+                </>)}
               {!showNotAssigned && !showNoActive && (<>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                   <h1 className='font-semibold pb-3 flex items-center gap-2' >
@@ -147,25 +133,17 @@ export default function ResearcherProposal() {
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
               <Table
-            
-            className='w-[99%] '
-
-            // PropossalID, GroupLead, EthicalRisk, BenefitScore
-            rowData={previousProposals.map(proposal => ({
-
-
-        
-
-              PropossalID: proposal.id,
-              GroupLead: proposal.leadName,
-              EthicalRisk: proposal.riskScore,
-              BenefitScore: proposal.benefitScore,
-              sections:proposal.sections,
-              title:proposal.title,
-              
-            }))}
-
-                header={[' Propossal ID', 'Group Lead', 'Ethical Risk',  'Benefit Score', 'Action']}
+                className='w-[99%] '
+                // PropossalID, GroupLead, EthicalRisk, BenefitScore
+                rowData={previousProposals.map(proposal => ({
+                  PropossalID: proposal.id,
+                  GroupLead: proposal.leadName,
+                  EthicalRisk: proposal.riskScore,
+                  BenefitScore: proposal.benefitScore,
+                  sections: proposal.sections,
+                  title: proposal.title,
+                }))}
+                header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
                 rowRenderComponent='previousProposalsRow'
               />
             </section>

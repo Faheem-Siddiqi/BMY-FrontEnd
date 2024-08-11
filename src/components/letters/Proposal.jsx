@@ -1,11 +1,8 @@
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
-import { pdfMake as pdfFonts } from 'pdfmake/build/vfs_fonts'; // Named import
-
-pdfMake.vfs = pdfFonts.pdfMake.vfs; 
-
+import { pdfMake as pdfFonts } from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export default function Proposal({ sections, title }) {
-
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
@@ -13,12 +10,10 @@ export default function Proposal({ sections, title }) {
       answer: rawData[question] || "N/A"
     }));
   };
-
   const informationData = mapData(sections.information?.questions);
   const ConsentData = mapData(sections.consent?.questions);
   const scientificData = mapData(sections.scientificReview?.questions);
   const ethicalData = mapData(sections.ethicalReview?.questions);
-
   const createAndDownloadPDF = () => {
     const docDefinition = {
       content: [
@@ -48,7 +43,7 @@ export default function Proposal({ sections, title }) {
       ],
       styles: {
         header: { fontSize: 16, bold: true, alignment: 'center' },
-        subHeader: { fontSize: 14, bold: true, alignment: 'center'  ,margin: [0, 10] },
+        subHeader: { fontSize: 14, bold: true, alignment: 'center', margin: [0, 10] },
         title: { fontSize: 14, bold: true, margin: [0, 10] },
         question: { fontSize: 12, bold: true, margin: [0, 5] },
         answer: { fontSize: 12, margin: [0, 5] },
@@ -59,7 +54,6 @@ export default function Proposal({ sections, title }) {
       footer: (currentPage, pageCount) => ({
         text: [
           'BMY Health Pakistan',
-        
         ],
         style: 'footer'
       }),
@@ -67,10 +61,8 @@ export default function Proposal({ sections, title }) {
         return followingNodesOnPage.length === 0 && currentNode.pageNumber % 2 === 1;
       }
     };
-
     pdfMake.createPdf(docDefinition).download('proposal_report.pdf');
   };
-
   return (
     <button
       className="
