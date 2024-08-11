@@ -84,7 +84,8 @@ export default function Supervisor() {
                 const result = await response.json();
                 if (isMounted) {
                     if (result.success) {
-                        // console.log(result);
+                        console.log('result')
+                        console.log(result);
                         const formattedSupervisors = result.supervisors.map(supervisors => ({
                             id: supervisors._id,
                             profileImage: supervisors.pfp ? supervisors.pfp : '',
@@ -140,7 +141,7 @@ export default function Supervisor() {
                         )}
                     </header>
                     <div className='xl:m-10 m-5'>
-                        {showNoSupervisor && (
+                       
                             <>
                                 <div className="flex md:justify-end my-5">
                                     <div className='w-full md:px-0 px-5 md:w-[30%] h-fit relative'>
@@ -172,8 +173,8 @@ export default function Supervisor() {
                                     rowRenderComponent='supervisorsRow'
                                 />
                             </>
-                        )}
-                        {!showNoSupervisor && (
+                    
+                        
                             <>
                                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Project Supervisor</h1>
                                 <header className='bg-white shadow-sm my-5 p-10'>
@@ -190,7 +191,7 @@ export default function Supervisor() {
                                     </div>
                                 </header>
                             </>
-                        )}
+                       
                     </div>
                 </section>
             </div>

@@ -56,7 +56,7 @@ const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, des
           <div className='flex gap-2'>
             <button
               onClick={() => handleRequest(id)} // Pass the id as an argument
-              className='hover:text-epsilon border-b border-b-epsilon duration-300'
+            className='bg-epsilon text-white rounded px-2 py-1'
             >
               Send Request
             </button>

@@ -9,8 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
 export default function MentorProposal() {
-
-    const[loginUserid, setLoginUserId]=useState('')
+    const [loginUserid, setLoginUserId] = useState('')
     const [SupervisorDataToggle, setSupervisorToggle] = useState(false)
     const updateSupervisorsDataToggle = (newValue) => {
         setSupervisorToggle(newValue);
@@ -19,37 +18,29 @@ export default function MentorProposal() {
     const [proposalDetail, setProposalDetail] = useState({});
     const { proposalId } = useParams();
     useEffect(() => {
-
-
-
         const fetchUserDetails = async () => {
             setLoading(true);
             try {
-              const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
-                method: "GET",
-                redirect: "follow",
-                credentials: "include",
-              });
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              const result = await response.json();
-             
+                const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
+                    method: "GET",
+                    redirect: "follow",
+                    credentials: "include",
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
                 if (result.success) {
                     const loginUser = result && result.user && result.user._id ? result.user._id : null;
-                setLoginUserId(loginUser)
+                    setLoginUserId(loginUser)
                 } else {
-                  toast.error("Failed to load user details.");
-                 
+                    toast.error("Failed to load user details.");
                 }
-              
             } catch (error) {
-            
             } finally {
-              setLoading(false);
+                setLoading(false);
             }
-          };
-
+        };
         const fetchProposalById = async () => {
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you dont change url');
@@ -57,7 +48,6 @@ export default function MentorProposal() {
             }
             try {
                 setLoading(true);
-                console.log(proposalId)
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-id/${proposalId}`, {
                     method: 'GET',
                     redirect: 'follow',
@@ -74,7 +64,7 @@ export default function MentorProposal() {
                         id: proposal._id || 'N/A',
                         title: proposal.title || 'No title',
                         status: proposal.status || 'Unknown',
-                        lead: proposal.creator?.fullname || 'Unknown',
+                        lead: proposal.creator?.workemail || 'N/A',
                         sections: proposal.sections || {},
                         mainSupervisor: proposal.supervisorId || '',
                         reviews: Array.isArray(proposal.reviews) ? proposal.reviews : [],
@@ -89,7 +79,6 @@ export default function MentorProposal() {
                 setLoading(false);
             }
         };
-   
         fetchProposalById();
         fetchUserDetails()
     }, [proposalId, loginUserid, SupervisorDataToggle]);
@@ -154,33 +143,41 @@ export default function MentorProposal() {
                                 {proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
-                                <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
+                                <span className='mx-2 my-2 font-medium text-epsilon w-[10px] truncate'>
                                     BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
                                 </span>
                             </div>
                             <div>
-                                <span className='font-bold my-2'>Status</span>
-                                <span className='mx-2 my-2'>{proposalDetail.status}</span>
+                                <span className='font-bold my-2'>Lead:</span>
+                                <span className='mx-2 my-2'>{proposalDetail.lead}</span>
+                            </div>
+                            <div className='my-2'>
+                                <span className='font-bold'>Ethical Risk Score:</span>
+                                <span className='mx-2'>
+                                    {proposalDetail?.sections?.ethicalReview?.questions?.['Ethical Risk'] ?? 0}
+                                </span>
+                            </div>
+                            <div className='my-2'>
+                                <span className='font-bold'>Benefit Score:</span>
+                                <span className='mx-2'>
+                                    {proposalDetail?.sections?.ethicalReview?.questions?.['Benefit Score'] ?? 'N/A'}
+                                </span>
                             </div>
                             <div className='flex md:flex-row flex-col mt-5 gap-5 md:gap-3 md:items-center'>
-                                {proposalDetail.mainSupervisor  === loginUserid  && (
-                                    
+                                {proposalDetail.mainSupervisor === loginUserid && (
                                     <>
-                                
-                                
-                                    <button
-                                    onClick={handleApprove}
-                                    className="  w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                                        <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
-                                            Approve
-                                        </span>
-                                    </span>
-                                    <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Approve</span>
-                                    <span className="invisible relative"> x Approve </span>
-                                </button>
-                                </>)}
-                               
+                                        <button
+                                            onClick={handleApprove}
+                                            className="  w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
+                                            <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
+                                                <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
+                                                    Approve
+                                                </span>
+                                            </span>
+                                            <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Approve</span>
+                                            <span className="invisible relative"> x Approve </span>
+                                        </button>
+                                    </>)}
                                 <DiscussionModal memberData={proposalDetail} memberDataToggle={updateSupervisorsDataToggle} />
                             </div>
                         </header>

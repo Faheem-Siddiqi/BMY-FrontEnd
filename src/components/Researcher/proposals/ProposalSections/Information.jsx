@@ -33,8 +33,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <label className='text-zeta font-semibold' htmlFor="question1">Email</label>
                         <div className='w-full md:w-[50%] h-fit relative'>
                             <input
-                                readOnly={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
-                                disabled={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
+                                readOnly={signUserRole !== 'researchers' }
+                                disabled={signUserRole !== 'researchers' }
                                 name='question1'
                                 id='question1'
                                 value={formData.question1}
@@ -51,8 +51,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
                                     type="checkbox"
-                                    readOnly={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
-                                    disabled={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
+                                    readOnly={signUserRole !== 'researchers' }
+                                    disabled={signUserRole !== 'researchers' }
                                     name="Addressing research question on right time as community/decision makers are looking for the answers"
                                     checked={selectedCriteria.includes('Addressing research question on right time as community/decision makers are looking for the answers')}
                                     onChange={handleCriteriaChange}
@@ -62,8 +62,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             </label>
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
-                                    readOnly={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
-                                    disabled={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
+                                    readOnly={signUserRole !== 'researchers' }
+                                    disabled={signUserRole !== 'researchers' }
                                     type="checkbox"
                                     name="Feasible (have manpower, budget, time for data collection and writing)"
                                     checked={selectedCriteria.includes('Feasible (have manpower, budget, time for data collection and writing)')}
@@ -79,8 +79,8 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <section className='mb-4'>
                             <div className='w-full md:w-[50%] h-fit relative'>
                                 <input
-                                    readOnly={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
-                                    disabled={signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor'}
+                                    readOnly={signUserRole !== 'researchers' }
+                                    disabled={signUserRole !=='researchers'}
                                     name='question3'
                                     id='question3'
                                     value={formData.question3}
@@ -93,7 +93,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             </div>
                         </section>
                     </section>
-                    {signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor' && (<>
+                    {signUserRole === 'researchers' && (<>
                         <button
                             onClick={onSubmit}
                             className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon"

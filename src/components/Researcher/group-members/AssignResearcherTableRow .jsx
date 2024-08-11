@@ -38,9 +38,10 @@ const AssignResearcherTableRow = ({ researcherId, proposalId, profileImage, name
     } catch (error) {
       toast.error('An error occurred while assigning the section.');
     } finally {
-      setLoading(false); setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      setLoading(false); 
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }
   };
   return (
@@ -64,7 +65,7 @@ const AssignResearcherTableRow = ({ researcherId, proposalId, profileImage, name
             onChange={handleSectionChange}
             className="p-1 border pr-2 bg-transparent outline-0 rounded"
           >
-            <option value="">Select a section</option>
+            <option disabled value="">Select a section</option>
             <option value="information">Information</option>
             <option value="scientificReview">Scientific Review</option>
             <option value="ethicalReview">Ethical Review</option>

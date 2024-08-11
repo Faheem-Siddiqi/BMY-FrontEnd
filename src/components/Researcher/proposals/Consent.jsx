@@ -26,9 +26,9 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
     }, [formData]);
     // Handle radio button changes
     const handleOptionChange = (question, setAnswer) => (e) => {
-        if (  
+        if (
             signUserRole !== 'group-lead'
-        ){
+        ) {
             if (e && e.target) {
                 const value = e.target.value;
                 setAnswer(value);
@@ -180,8 +180,7 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                         </p>
                     </label>
                 </section>
-            </header>
-            {signUserRole !== 'group-lead' || signUserRole !== 'erc-head' || signUserRole !== 'erc-members' || signUserRole !== 'supervisor' && (<>
+                {signUserRole === 'researchers' && (<>
                 <button
                     onClick={onSubmit}
                     disabled={!iAgree}
@@ -191,6 +190,8 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                     Save
                 </button>
             </>)}
+            </header>
+           
         </div>
     );
 }

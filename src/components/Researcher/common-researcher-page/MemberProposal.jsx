@@ -102,6 +102,7 @@ export default function MemberProposal() {
     }
     return (
         <>
+     
             <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow-hidden">
                 <Sidebar pageName='researcher-proposals' />
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>

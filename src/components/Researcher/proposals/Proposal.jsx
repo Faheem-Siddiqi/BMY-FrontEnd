@@ -8,15 +8,15 @@ import Loader from '../../layout/Loader.jsx';
 export default function Proposal({ assignProposal, role, MemberproposalId }) {
     const [ethicalData, setEthicalData] = useState({
         table1Answers: {
-            table1a: 'Yes',
+            table1a: '',
             table1b: '',
             table1c: '',
-            table1d: 'Yes',
+            table1d: '',
             table1e: '',
             table1f: '',
             table1g: '',
         },
-        question1: 'No',
+        question1: '',
         table1InnerScore: 0,
         table1Score: 0,
         table2Answers: {
@@ -75,9 +75,10 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         const finalScore = ethicalData.question1 === 'No' ? newScore * 5 : 0;
         updateState({
             table1InnerScore: newScore,
+            // ethicalRisk: 0,
             table1Score: finalScore
         });
-    }, [ethicalData.table1Answers, ethicalData.question1]);
+    }, [ethicalData.table1Answers,  ethicalData.table1Score  ,ethicalData.question1]);
     useEffect(() => {
         let newScore = 0;
         for (const key in ethicalData.table2Answers) {

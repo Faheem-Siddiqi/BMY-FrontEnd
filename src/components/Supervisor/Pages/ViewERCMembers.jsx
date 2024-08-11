@@ -5,8 +5,6 @@ import profileImage from '../../../assets/images/Profile.png';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { MdOutlineGroupOff } from 'react-icons/md';
-
-
 const membersGroups = [
   [
     {
@@ -83,17 +81,13 @@ export default function ERCMembers() {
         <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className='xl:m-10 m-5 '>
-
-
-          <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                            <h1 className='font-semibold  flex items-center gap-2'
-                            >
-                                <MdOutlineGroupOff className='text-2xl' />
-                                No Assigned Panel
-                            </h1>
-                        </header>
-
-
+            <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+              <h1 className='font-semibold  flex items-center gap-2'
+              >
+                <MdOutlineGroupOff className='text-2xl' />
+                No Assigned Panel
+              </h1>
+            </header>
             or
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>ERC Panel</h1>
             <h1 className='font-semibold my-1 text-lg'>ERC Committee Members</h1>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar.jsx';
 import profileImage from '../../../assets/images/Profile.png';
-import CurrentMembers from './CurrentGroupMembers.jsx';
 import CreateSvg from '../../../assets/svgs/CreateSvg.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Table from '../../Common/Table.jsx';
@@ -9,6 +8,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 export default function AddTeamMembers() {
+  const [noRequest, setNoRequest] = useState(false)
   const [membersRequesting, setMembersRequesting] = useState([]);
   const [filterMembersRequesting, setFilterMembersRequesting] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export default function AddTeamMembers() {
   useEffect(() => {
     let isMounted = true; // Flag to prevent state updates on unmounted components
     const fetchLeadTeam = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
@@ -29,6 +29,9 @@ export default function AddTeamMembers() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
+            if (Array.isArray(result.team.requests) && result.team.requests.length === 0) {
+              setNoRequest(true)
+            }
             const formattedLeads = result.team.requests.map(request => ({
               id: request._id,
               profileImage: request.researcher.pfp || '',
@@ -86,7 +89,12 @@ export default function AddTeamMembers() {
                     onClick={() => window.history.back()}>Go Back</button>
                 </div>
               </div>
-              <p className='font-semibold my-2'>All Researchers Available</p>
+              {noRequest && (<>
+                <p>No Request Available</p>
+              </>)}
+              {!noRequest && (<>
+                <p className='font-semibold my-2'>All Researchers Available</p>
+              </>)}
             </header>
             <div className='xl:m-10 m-5'>
               <div className="flex md:justify-end my-5">
@@ -116,7 +124,6 @@ export default function AddTeamMembers() {
                 header={['Researchers', 'Institution', 'Designation', 'Requests']}
                 rowRenderComponent='researchersRow'
               />
-         
             </div>
           </div>
         </section>

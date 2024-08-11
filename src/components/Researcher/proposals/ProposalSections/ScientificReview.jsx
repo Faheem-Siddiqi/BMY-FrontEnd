@@ -769,7 +769,7 @@ export default function ScientificReview({ scientificData, onChange , onSubmit }
                         </section>
                     </section>
 
-                    {signUserRole !== 'group-lead'  ||  signUserRole !== 'erc-head'  ||   signUserRole !== 'erc-members'  ||   signUserRole !== 'supervisor'   && (<>
+                    {signUserRole === 'researchers' && (<>
                     <button
                     onClick={onSubmit}
                     className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">

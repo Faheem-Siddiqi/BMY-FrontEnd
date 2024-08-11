@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import React from 'react'
+import React from 'react';
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { MdAssignmentAdd } from "react-icons/md";
-import CreateSvg from '../../assets/svgs/CreateSvg.jsx'
+import CreateSvg from '../../assets/svgs/CreateSvg.jsx';
+import Loader from "../layout/Loader.jsx";
+import toast from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 import Modal from 'react-modal';
-export default function AssignERCs() {
+import { useParams } from 'react-router-dom';
+export default function AssignERCs({ members }) {
+    const { proposalId } = useParams();
+    const [loading, setLoading] = useState(false);
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [displayEmail, setDisplayEmail] = useState("");
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-    // Define ERC members
-    const ercMembers = [
-        { id: 1, name: "John Doe", email: "john.doe@example.com", institute: 'BMY', designation: 'chaprasi' },
-        { id: 2, name: "Jane Smith", email: "jora.smith@example.com", institute: 'BMY', designation: 'chaprasi' },
-        { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", institute: 'BMY', designation: 'chaprasi' },
-    ];
-    // Debounce the searchTerm
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [selectedMemberId, setSelectedMemberId] = useState(null);
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearchTerm(searchTerm);
@@ -24,6 +25,17 @@ export default function AssignERCs() {
             clearTimeout(handler);
         };
     }, [searchTerm]);
+    useEffect(() => {
+        // Check if the current displayEmail is in the list of members
+        const selectedMember = members.find(member => member.workemail === displayEmail);
+        if (selectedMember) {
+            setIsValidEmail(true);
+            setSelectedMemberId(selectedMember._id);
+        } else {
+            setIsValidEmail(false);
+            setSelectedMemberId(null);
+        }
+    }, [displayEmail, members]);
     function openModal() {
         setIsOpen(true);
     }
@@ -34,15 +46,64 @@ export default function AssignERCs() {
         const value = e.target.value;
         setSearchTerm(value);
         // Update displayEmail based on searchTerm
-        const selectedMember = ercMembers.find(member => member.email === value);
+        const selectedMember = members.find(member => member.workemail === value);
         if (selectedMember) {
-            setDisplayEmail(selectedMember.email);
+            setDisplayEmail(selectedMember.workemail);
         } else {
             setDisplayEmail(""); // Reset displayEmail if no match
         }
     };
+    async function handleAssign() {
+        try {
+            if (!proposalId) {
+                toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
+                console.log('Proposal ID is undefined');
+                throw new Error("Proposal ID is required");
+            }
+            if (!selectedMemberId) {
+                toast.error('Please select a valid ERC Member from the list');
+                console.log('ERC Member ID is invalid');
+                throw new Error("Valid ERC Member is required");
+            }
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/assign-to-erc-member`, {
+                method: 'PATCH',
+                redirect: 'follow',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    proposalId: proposalId,
+                    ercMemberId: selectedMemberId,
+                }),
+            });
+            const responseText = await response.text();
+            console.log("Response Status:", response.status);
+            console.log("Response Text:", responseText);
+            if (response.ok) {
+                const data = JSON.parse(responseText);
+                toast.success('Proposal successfully assigned to ERC member');
+                closeModal()
+                return data;
+            } else {
+                closeModal()
+                const errorData = JSON.parse(responseText);
+                throw new Error(errorData.message || 'Failed to assign proposal to ERC member');
+            }
+        } catch (error) {
+            toast.error(`Error assigning proposal: ${error.message}`);
+            console.error(`Error assigning proposal: ${error.message}`);
+            throw error;
+        }
+
+      
+    }
+    if (loading) {
+        return <Loader />;
+    }
     return (
         <>
+            <Toaster position="top-center" reverseOrder={false} />
             <div>
                 <div onClick={openModal}>
                     <button
@@ -75,27 +136,28 @@ export default function AssignERCs() {
                                 className='border rounded-md block py-2 bg-lightBackground border-stone-300 px-2 w-full outline-none'
                                 type="text"
                                 placeholder='Enter Email'
-                                value={displayEmail || searchTerm} // Display email or searchTerm if no email is available
+                                value={displayEmail || searchTerm} 
                                 onChange={handleInputChange}
                                 list="erc-members"
                             />
                             <CreateSvg className='md:block hidden' />
                             <datalist id="erc-members">
-                                {ercMembers
+                                {members
                                     .filter(member =>
-                                        member.email.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+                                        member.workemail.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
                                     )
                                     .map(member => (
-                                        <option key={member.id} value={member.email}>
-                                            {`${member.name} (${member.email})`}
+                                        <option key={member._id} value={member.workemail}>
+                                            {`${member.fullname} (${member.workemail})`}
                                         </option>
                                     ))}
                             </datalist>
                         </div>
                         <div className="flex gap-5 md:flex-row mt-5 flex-col">
                             <button
-                                htmlFor='profile-image'
-                                className="py-[0.6rem] px-5 h-fit rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                                onClick={handleAssign}
+                                disabled={!isValidEmail}
+                                className={`py-[0.6rem] px-5 h-fit rounded-md group relative overflow-hidden ${isValidEmail ? 'bg-epsilon text-white' : 'bg-gray-400 text-white cursor-not-allowed'} transition-all duration-300 ease-out`}>
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                                 Add
                             </button>
@@ -113,5 +175,5 @@ export default function AssignERCs() {
                 </Modal>
             </div>
         </>
-    )
+    );
 }

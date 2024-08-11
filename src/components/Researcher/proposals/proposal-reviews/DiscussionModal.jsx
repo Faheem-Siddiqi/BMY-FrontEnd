@@ -54,7 +54,7 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
             toast.error("Reply cannot be empty.");
             return;
         }
-        alert(reply)
+      
         const replyData = {
             proposalId: memberData.id,
             reviewId: reviewId,
@@ -94,13 +94,13 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                 <div onClick={openModal}>
                     <div className="py-2 px-5 rounded-md group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out">
                         <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                            <span className='mb-1 mr-1'>
-                                {userRole === 'researchers' || 'group-lead' && (
+                            <span className='mb-1 mr-1 cursor-pointer'>
+                             
                                     <>
                                         <span>{memberData?.reviews?.length}</span>
                                         <span> Review/s</span>
                                     </>
-                                )}
+                              
                             </span>
                         </span>
                         <span className="ease absolute gap-2 flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">

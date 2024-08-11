@@ -189,7 +189,7 @@ export default function LeadProposalPage() {
                 </button>
                 <DiscussionModal memberData={proposalDetail} memberDataToggle={updateLeadsDataToggle} />
               </div>
-              <p>*Submit will be submitted to supervisor: <span className='capitalize'>
+              <p>*Supervisor to be submitted: <span className='capitalize'>
                 {mainSupervisor && mainSupervisor[0] && mainSupervisor[0].fullname ? mainSupervisor[0].fullname : 'Not Available'}
               </span></p>
             </header>

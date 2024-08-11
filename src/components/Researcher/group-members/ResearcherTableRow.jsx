@@ -24,16 +24,12 @@ const ResearcherTableRow = ({ id, profileImage, name, email, institution, design
         toast.success(`Request ${status} successfully!`);
         setTimeout(() => {
           window.location.reload();
-        }, 1000); 
-      
-     
+        }, 1000);
       } else {
         toast.error(`Error: ${data.message}`);
         setTimeout(() => {
           window.location.reload();
         }, 1000); // Reload after 1 second
-       
-      
       }
     } catch (error) {
       console.error("Error:", error);
@@ -63,13 +59,13 @@ const ResearcherTableRow = ({ id, profileImage, name, email, institution, design
         <td className='px-4'>
           <div className='flex gap-2'>
             <button
-              onClick={() => handleRequest('accepted')} 
-              className='bg-epsilon text-white rounded px-1'>
+              onClick={() => handleRequest('accepted')}
+              className='bg-epsilon text-white rounded px-2 py-1'>
               Accept
             </button>
             <button
-              onClick={() => handleRequest('declined')} 
-              className='bg-red-500 text-white rounded px-1'>
+              onClick={() => handleRequest('declined')}
+              className='bg-red-500 text-white rounded  px-2 py-1'>
               Decline
             </button>
           </div>

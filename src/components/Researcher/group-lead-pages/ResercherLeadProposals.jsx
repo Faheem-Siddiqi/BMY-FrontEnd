@@ -35,15 +35,10 @@ export default function ResercherLeadProposals() {
           if (result.success) {
             const fromattedProposal = {
               id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? result.notAcceptedProposals[0]._id : ' ',
-
               title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ') : ' ',
-
               status: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ') : ' ',
               lead: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 ? (result.notAcceptedProposals[0].creator && result.notAcceptedProposals[0].creator.fullname ? result.notAcceptedProposals[0].creator.fullname : ' ') : ' ',
             }
-
-
-            
             setProposalDetail(fromattedProposal)
             if (Array.isArray(result.notAcceptedProposals) && result.notAcceptedProposals.length > 0) {
               setProposalCheck(true);
@@ -173,7 +168,7 @@ export default function ResercherLeadProposals() {
                   View Details.</Link>
               </header>
             </>)}
-            {!researchersCheck && (
+            {!researchersCheck &&  !supervisorCheck &&(
               <>
                 <h1 className='font-semibold text-xl my-5'>Assign Section</h1>
                 <Table
@@ -190,6 +185,7 @@ export default function ResercherLeadProposals() {
                   header={['Researcher', 'Section', 'Action']}
                   rowRenderComponent='AssignResearcherTableRow'
                 />
+</>)}
                 <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
                 <Table
                   className='w-[99%]'
@@ -222,7 +218,6 @@ export default function ResercherLeadProposals() {
                   header={['Name', 'Supervised By', 'Group Lead', 'Status', 'Action']}
                   rowRenderComponent='previousProposalsRow'
                 />
-              </>)}
           </div>
         </section>
       </div>

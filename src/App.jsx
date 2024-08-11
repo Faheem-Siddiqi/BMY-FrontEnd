@@ -43,7 +43,7 @@ import ErcMemberProposal from './components/ErcMembers/SidePannel/ErcMemberPropo
 import ErcMemberDashboard from './components/ErcMembers/SidePannel/ErcMemberDashboard.jsx'
 import AssignedTeams from './components/ErcMembers/SidePannel/ErcMemberAssignedTeams.jsx'
 import ErcCommittee from './components/ErcMembers/SidePannel/ErcCommittee.jsx'
-import ErcMemberViewProposal from './components/ErcMembers/ErcMemberViewProposal';
+import ErcMemberViewProposal from './components/ErcMembers/ErcMemberViewProposal.jsx';
 //ERC Head components
 import ErcHeadDashboard from './components/ErcHead/SidePannel/ErcHeadDashboard.jsx'
 import ErcHeadProposal from './components/ErcHead/SidePannel/ErcHeadProposal.jsx'
@@ -51,7 +51,6 @@ import ErcHeadTeam from './components/ErcHead/SidePannel/ErcHeadTeam.jsx'
 import ErcHeadViewProposal from './components/ErcHead/ErcHeadViewProposal.jsx'
 import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
 // Admin Components
-
 import Admin from './components/Admin/Admin.jsx'
 import LearnMore from './components/registration/LearnMore.jsx';
 function App() {
@@ -96,21 +95,21 @@ function App() {
           <Route path="/supervisor-proposal" element={<SupervisorProposals />} />
           <Route path="/supervisor-details" element={<Supervisor />} />
           <Route path="/view-erc-team" element={<ViewERCMembers />} />
-
           <Route path="/mentor-proposal/:proposalId" element={<MentorProposal />} />
           {/* <Route path="/mentor-proposal" element={<MentorProposal />} /> */}
           {/* Erc Members */}
           <Route path="/erc-member-dashboard" element={<ErcMemberDashboard />} />
           <Route path="/assigned-proposals" element={<ErcMemberProposal />} />
           <Route path="/assigned-teams" element={<AssignedTeams />} />
-          <Route path="/evaluate-proposal" element={<ErcMemberViewProposal />} />
+
+          <Route path="/evaluate-proposal/:proposalId" element={<ErcMemberViewProposal />} />
           <Route path="/erc-panel" element={<ErcCommittee />} />
           <Route path="*" element={<PageNotFound />} />
           {/* Erc Head */}
           <Route path="/erc-head-dashboard" element={<ErcHeadDashboard />} />
           <Route path="/all-proposals" element={<ErcHeadProposal />} />
           <Route path="/all-bmy-teams" element={<ErcHeadTeam />} />
-          <Route path="/head-evaluate-proposal" element={<ErcHeadViewProposal />} />
+          <Route path="/head-evaluate-proposal/:proposalId" element={<ErcHeadViewProposal />} />
           <Route path="/all-reearchers-teams" element={<AllTeams />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

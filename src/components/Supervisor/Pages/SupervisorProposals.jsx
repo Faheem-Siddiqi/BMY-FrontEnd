@@ -8,7 +8,7 @@ import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 export default function SupervisorProposals() {
-  const activeProposals = ['proposal1', 'proposal2', 'proposal3', 'proposal4'];
+
   const [loading, setLoading] = useState(false)
   const [noActive, setNoActive] = useState(false)
   const [proposalInfo, setProposalInfo] = useState([])
