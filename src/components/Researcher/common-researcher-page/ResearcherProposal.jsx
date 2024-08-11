@@ -6,10 +6,12 @@ import { ImFilesEmpty } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
+
 export default function ResearcherProposal() {
   const [loading, setLoading] = useState(true);
   const [showNoActive, setShowNoActiveProposal] = useState(false)
-  const [showNotAssigned, setShowNotAssign]= useState(false)
+  const [showNotAssigned, setShowNotAssign] = useState(false)
+  const [ previousProposals, setFormattedPreviousProposal] = useState([])
   useEffect(() => {
     const fetchProposal = async () => {
       try {
@@ -22,63 +24,74 @@ export default function ResearcherProposal() {
           setShowNoActiveProposal(true)
           setShowNotAssign(true)
           throw new Error('No Proposal');
-         
         }
-        const result = await response.json();
+        var result = await response.json();
         if (result.success) {
-          // console.log(result)
-          const fromattedProposal = {
-            id: result.notAcceptedProposals[0]._id,
-            title: result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ',
-            status: result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ',
-            lead: result.notAcceptedProposals[0].creator.fullname ? result.notAcceptedProposals[0].creator.fullname : ' ',
-          }
+
+          console.log(result)
+
+          const formattedPreviousProposal = [];
+
+          (result.acceptedProposals || []).forEach(proposal => {
+    
+            const sections = proposal.sections || {};
+            const ethicalReview = sections.ethicalReview || {};
+            const questions = ethicalReview.questions || {};
+          
+           
+            const formattedProposal = {
+              id: proposal._id || null, 
+              leadName: proposal.creator?.fullname || 'Unknown', 
+              mainSupervisor: proposal.supervisorId || 'Not assigned', 
+              sections: sections,
+              title:proposal.title || 'N/A',
+              riskScore: questions['Ethical Risk'] || 0 , 
+              benefitScore: questions['Benefit Score'] || 0, 
+            };
+          
+            // Add the formatted proposal to the array
+            formattedPreviousProposal.push(formattedProposal);
+          });
+
+
+         setFormattedPreviousProposal(formattedPreviousProposal)
+
+
           if ((result.notAcceptedProposals.length === 0 || !result.notAcceptedProposals[0].title)) {
-            setShowNotAssign(true)
-         
+            setShowNoActiveProposal(true)
           }
-
-
-
+          if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
+            const section = result.notAcceptedProposals[0]?.section;
+            if (!section || Object.keys(section).length === 0) {
+              setShowNotAssign(true);
+            }
+          }
+          else {
+            setShowNoActiveProposal(true)
+          }
           // console.log(fromattedProposal)
         } else {
-          toast.error('Failed to load proposal details.');
+          console.log('Failed to load proposal details.');
         }
       } catch (error) {
-        toast.error(`Error: ${error.message}`);
+        if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
+          const section = result.notAcceptedProposals[0]?.section;
+          if (!section || Object.keys(section).length === 0) {
+            setShowNotAssign(true);
+          }
+        }
+        else {
+          setShowNoActiveProposal(true)
+          setShowNotAssign(false);
+        }
+        console.log(`Error: ${error.message}`);
       } finally {
         setLoading(false);
       }
     };
-    // const fetchAssignSection = async () => {
-    //   try {
-    //     const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-section-researcher`, {
-    //       method: 'GET',
-    //       redirect: 'follow',
-    //       credentials: 'include',
-    //     });
-    //     if (!response.ok) {
-    //       throw new Error('Network response was not ok');
-    //     }
-    //     const result = await response.json();
-    //     if (result.success) {
-    //       const sections = result.assignedSections
-    //       .map(assignedSection => ({
-    //         section: assignedSection.section ? assignedSection.section : '',
-    //       }));
-    //       console.log('sections')
-    //       setSectionAssigned(sections)
-    //     } else {
-    //       toast.error('Failed to load proposal details.');
-    //     }
-    //   } catch (error) {
-    //     toast.error(`Error: ${error.message}`);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+
     fetchProposal();
-    // fetchAssignSection()
+
   }, []);
   if (loading) {
     return <Loader />;
@@ -93,18 +106,18 @@ export default function ResearcherProposal() {
           <div className='xl:m-10 m-5'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Proposal</h1>
             <section className='my-5'>
-              
-               {showNoActive  && (<> 
-                  <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                    <h1 className='font-semibold flex items-center gap-2'>
-                      <ImFilesEmpty className='text-2xl' />
-                      No Active Proposal
-                    </h1>
-                  </header>
-                  </>)}
+              {showNoActive && (<>
+                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                  <h1 className='font-semibold flex items-center gap-2'>
+                    <ImFilesEmpty className='text-2xl' />
+                    No Active Proposal
+                  </h1>
+                </header>
+              </>)}
             </section>
             <section className='md:my-10 my-5'>
-              {showNotAssigned && (<>
+              {showNotAssigned &&  
+               !showNoActive && (<>
                 <h2 className='text-xl font-bold'>
                   Assigned Sections
                 </h2>
@@ -115,7 +128,7 @@ export default function ResearcherProposal() {
                   <p>The Team Lead hasn’t assigned any section yet</p>
                 </header>
               </>)}
-              {!showNotAssigned && (<>
+              {!showNotAssigned && !showNoActive && (<>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                   <h1 className='font-semibold pb-3 flex items-center gap-2' >
                     <ImFilesEmpty className='text-2xl ' />
@@ -129,40 +142,30 @@ export default function ResearcherProposal() {
                     View My Section
                   </Link>
                 </header>
-                </>)}
+              </>)}
             </section>
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
               <Table
-                className='w-[99%] '
-                rowData={[
-                  {
-                    name: 'BMY-124',
-                    supervisor: 'ahmed',
-                    groupdLead: 'Faheem',
-                    status: 'Submitted, ERC Approval pending',
-                  },
-                  {
-                    name: 'Proposal XYZ',
-                    supervisor: 'ahmed',
-                    groupdLead: 'Faheem',
-                    status: 'Group Lead Approval Pending',
-                  },
-                  {
-                    name: 'Proposal XYZ',
-                    supervisor: 'ahmed',
-                    groupdLead: 'Faheem',
-                    status: 'Accepted',
-                  },
-                  {
-                    name: 'BMY-124',
-                    supervisor: 'ahmed',
-                    groupdLead: 'Faheem',
-                    status: 'ERC Remarks On Assigned Section',
-                  },
-                ]
-                }
-                header={[' Propossal ID', 'Supervised By', 'Group Lead', 'Status', 'Action']}
+            
+            className='w-[99%] '
+
+            // PropossalID, GroupLead, EthicalRisk, BenefitScore
+            rowData={previousProposals.map(proposal => ({
+
+
+        
+
+              PropossalID: proposal.id,
+              GroupLead: proposal.leadName,
+              EthicalRisk: proposal.riskScore,
+              BenefitScore: proposal.benefitScore,
+              sections:proposal.sections,
+              title:proposal.title,
+              
+            }))}
+
+                header={[' Propossal ID', 'Group Lead', 'Ethical Risk',  'Benefit Score', 'Action']}
                 rowRenderComponent='previousProposalsRow'
               />
             </section>

@@ -167,7 +167,7 @@ export default function LeadProposalPage() {
               <h1 className='text-lg  font-semibold italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
               <div>
                 <span className='font-bold my-2'> Proposal Id</span>
-                <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
+                <span className='mx-2 my-2 text-epsilon '>
                   BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
                 </span>
               </div>

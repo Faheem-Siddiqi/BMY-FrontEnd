@@ -143,7 +143,7 @@ export default function MentorProposal() {
                                 {proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
-                                <span className='mx-2 my-2 font-medium text-epsilon w-[10px] truncate'>
+                                <span className='mx-2 my-2 font-medium text-epsilon '>
                                     BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
                                 </span>
                             </div>

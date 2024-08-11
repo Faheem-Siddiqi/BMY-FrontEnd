@@ -119,7 +119,7 @@ export default function ErcMemberViewProposal() {
                         <h1 className='text-lg  font-semibold italics mb-2 italic font-Satoshi-Black'>
                             {proposalDetail.title}</h1>
                         <span className='font-bold my-2'> Proposal Id</span>
-                        <span className='mx-2 my-2 font-normal text-epsilon w-[10px] truncate'>
+                        <span className='mx-2 my-2 font-normal text-epsilon'>
                             BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
                         </span>
                         <div className='my-2'>

@@ -53,6 +53,7 @@ import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
 // Admin Components
 import Admin from './components/Admin/Admin.jsx'
 import LearnMore from './components/registration/LearnMore.jsx';
+import Prop from './components/letters/Proposal.jsx'
 function App() {
   return (
     <>
@@ -64,7 +65,7 @@ function App() {
           {/* Admin */}
           <Route path="/admin" element={<Admin />} />
           {/* Rest */}
-          <Route path="/letter" element={<Letter/>} />
+          <Route path="/letter" element={<Prop/>} />
           <Route path="/learn-more" element={<LearnMore/>} />
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />

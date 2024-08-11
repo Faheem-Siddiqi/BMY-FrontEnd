@@ -6,6 +6,27 @@ import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
 export default function Proposal({ assignProposal, role, MemberproposalId }) {
+    const [savingStatus, setSavingStatus] = useState({
+        Information: false,  
+        ScientificReview: false,
+        EthicalReview: false,
+        Consent: false
+    });
+    useEffect(() => {
+        Object.entries(savingStatus).forEach(([section, isSaving]) => {
+            if (isSaving) {
+                toast(`${section} is saving...`, {
+                    icon: '⏳', // Emoji for loading or saving
+                });
+            }
+        });
+    }, [savingStatus]);
+    const updateSavingStatus = (section, status) => {
+        setSavingStatus(prevState => ({
+            ...prevState,
+            [section]: status
+        }));
+    };
     const [ethicalData, setEthicalData] = useState({
         table1Answers: {
             table1a: '',
@@ -60,9 +81,11 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         ethicalRisk: 0,
         benefitScore: 0,
     });
+    // Define updateState to update state based on previous state
     const updateState = (updates) => {
         setEthicalData(prevState => ({ ...prevState, ...updates }));
     };
+    // Use useEffect hooks to update scores and ethicalRisk based on changes
     useEffect(() => {
         let newScore = 0;
         for (const key in ethicalData.table1Answers) {
@@ -75,10 +98,9 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         const finalScore = ethicalData.question1 === 'No' ? newScore * 5 : 0;
         updateState({
             table1InnerScore: newScore,
-            // ethicalRisk: 0,
             table1Score: finalScore
         });
-    }, [ethicalData.table1Answers,  ethicalData.table1Score  ,ethicalData.question1]);
+    }, [ethicalData.table1Answers, ethicalData.question1]);
     useEffect(() => {
         let newScore = 0;
         for (const key in ethicalData.table2Answers) {
@@ -136,10 +158,21 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         }
         updateState({ table6Score: newScore });
     }, [ethicalData.table6Answers]);
+    // Effect to update ethicalRisk based on scores
     useEffect(() => {
-        const Risk = ethicalData.table1Score + ethicalData.table2Score + ethicalData.table4Score + ethicalData.table5Score;
-        updateState({ ethicalRisk: Risk });
-    }, [ethicalData.table4Answers, ethicalData.table2Answers, ethicalData.table1Answers, ethicalData.table5Answers]);
+        const totalRisk = ethicalData.table1Score +
+            ethicalData.table2Score +
+            ethicalData.table4Score +
+            ethicalData.table5Score +
+            ethicalData.table6Score;
+        updateState({ ethicalRisk: totalRisk });
+    }, [
+        ethicalData.table1Score,
+        ethicalData.table2Score,
+        ethicalData.table4Score,
+        ethicalData.table5Score,
+        ethicalData.table6Score
+    ]);
     const [scientificData, setScientificData] = useState({
         supervisorName: '',
         applicantName: '',
@@ -388,6 +421,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     // Submission
     const handleInformationSubmission = async () => {
         try {
+            updateSavingStatus('Information', true);
             const question2Joined = Array.isArray(informationData.question2)
                 ? informationData.question2
                     .map(item => item.trim())
@@ -424,18 +458,22 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
             const result = await response.json();
             if (response.ok) {
+                updateSavingStatus('Information', false);
                 toast.success("Data updated successfully!");
             } else {
+                updateSavingStatus('Information', false);
                 toast.error(result.message || "Failed to update data.");
             }
         } catch (error) {
             toast.error("Failed to update data.");
+            updateSavingStatus('Information', false);
             console.log(error);
         }
     };
     //************************     Ethical Review Component 
     const handleEthicalSectionSubmission = async () => {
         try {
+            updateSavingStatus('EthicalReview', true);
             const payload = {
                 "proposalId": MemberproposalId,
                 "section": "ethicalReview",
@@ -490,25 +528,23 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
             const result = await response.json();
             if (response.ok) {
+                updateSavingStatus('EthicalReview', false);
                 toast.success("Data updated successfully!");
             } else {
+                updateSavingStatus('EthicalReview', false);
                 toast.error(result.message || "Failed to update data.");
             }
         } catch (error) {
+            updateSavingStatus('EthicalReview', false);
             toast.error("Failed to update data.");
             console.log(error);
         }
-    };
-    const handleResearchTitleChange = (e) => {
-        setFormState(prevState => ({
-            ...prevState,
-            researchTitle: e.target.value
-        }));
     };
     const ScientificReviewChange = (newData) => {
         setScientificData(prevData => ({ ...prevData, ...newData }));
     };
     const handleScientificDataSubmission = async () => {
+        updateSavingStatus('ScientificReview', true);
         try {
             const questions = {
                 "Supervisor Name": scientificData.supervisorName || '',
@@ -574,12 +610,15 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
             const result = await response.json();
             if (response.ok) {
+                updateSavingStatus('ScientificReview', false);
                 toast.success("Data updated successfully!");
             } else {
+                updateSavingStatus('ScientificReview', false);
                 console.log(result.message)
                 toast.error(result.message || "Failed to update data.");
             }
         } catch (error) {
+            updateSavingStatus('ScientificReview', false);
             toast.error("Failed to update data.");
             console.log(error);
         }
@@ -595,6 +634,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     };
     //Submission
     const handleConsentSubmission = async () => {
+        updateSavingStatus('Consent', false);
         try {
             const payload = {
                 "proposalId": MemberproposalId,
@@ -619,11 +659,14 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
             const result = await response.json();
             if (response.ok) {
+                updateSavingStatus('Consent', false);
                 toast.success("Data updated successfully!");
             } else {
+                updateSavingStatus('Consent', false);
                 toast.error(result.message || "Failed to update data.");
             }
         } catch (error) {
+            updateSavingStatus('Consent', false);
             toast.error("Failed to update data.");
             console.log(error);
         }
@@ -677,6 +720,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             default:
                 return (
                     <Information
+                    savingStatus={savingStatus}
                         formData={informationData}
                         onInputChange={handleInformationChange}
                         onSubmit={handleInformationSubmission}
@@ -690,7 +734,8 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     }
     return (
         <>
-            <Toaster />
+            <Toaster 
+            />
             {!assignProposal && (
                 <div className="md:my-10 my-5">
                     <div className="flex flex-wrap gap-5 text-xl text-epsilon">
