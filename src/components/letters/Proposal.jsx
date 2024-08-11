@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import pdfMake from 'pdfmake/build/pdfmake';
-
 // Define the fonts for pdfMake
-(pdfMake ).fonts = {
+(pdfMake).fonts = {
   Roboto: {
     normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
     bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
@@ -10,8 +10,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
     bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
   },
 };
-
-export default function Proposal({ sections, title }) {
+const Proposal = ({ sections = {}, title = '' }) => {
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
@@ -19,12 +18,10 @@ export default function Proposal({ sections, title }) {
       answer: rawData[question] || "N/A"
     }));
   };
-
-  const informationData = mapData(sections.information?.questions);
-  const consentData = mapData(sections.consent?.questions);
-  const scientificData = mapData(sections.scientificReview?.questions);
-  const ethicalData = mapData(sections.ethicalReview?.questions);
-
+  const informationData = mapData(sections.information?.questions || {});
+  const consentData = mapData(sections.consent?.questions || {});
+  const scientificData = mapData(sections.scientificReview?.questions || {});
+  const ethicalData = mapData(sections.ethicalReview?.questions || {});
   const createAndDownloadPDF = () => {
     const docDefinition = {
       content: [
@@ -70,10 +67,8 @@ export default function Proposal({ sections, title }) {
         return followingNodesOnPage.length === 0 && currentNode.pageNumber % 2 === 1;
       },
     };
-
     pdfMake.createPdf(docDefinition).download('proposal_report.pdf');
   };
-
   return (
     <button
       className="
@@ -89,4 +84,5 @@ export default function Proposal({ sections, title }) {
       Download
     </button>
   );
-}
+};
+export default Proposal;

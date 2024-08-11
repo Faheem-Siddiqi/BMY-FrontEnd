@@ -26,7 +26,8 @@ export default function ResearcherProposal() {
         }
         var result = await response.json();
         if (result.success) {
-          console.log(result)
+          // console.log(result)
+      
           const formattedPreviousProposal = [];
           (result.acceptedProposals || []).forEach(proposal => {
             const sections = proposal.sections || {};
@@ -48,8 +49,10 @@ export default function ResearcherProposal() {
           if ((result.notAcceptedProposals.length === 0 || !result.notAcceptedProposals[0].title)) {
             setShowNoActiveProposal(true)
           }
+          
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
-            const section = result.notAcceptedProposals[0]?.section;
+            const section = result.notAcceptedProposals[0]?.sections;
+            console.log(section)
             if (!section || Object.keys(section).length === 0) {
               setShowNotAssign(true);
             }

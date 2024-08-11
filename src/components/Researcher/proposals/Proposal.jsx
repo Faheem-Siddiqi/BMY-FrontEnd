@@ -640,10 +640,12 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                 "proposalId": MemberproposalId,
                 "section": "consent",
                 "questions": {
-                    "Will the project require approval by any other ethics committee other than the BMY Ethics Committee?": consentData.question1 || '',
-                    "From where additional IRB approval is required": consentData.question2 || '',
-                    "Have the research team and data collectors got the relevant training?": consentData.question3 || '',
-                    "Are there any financial or other interests to the researcher(s) or department arising from this study, known to you": consentData.question4 || ''
+
+                    "Will the project require approval by any other ethics committee other than the BMY Ethics Committee?": consentData?.question1 || '',
+                    "From where additional IRB approval is required": consentData?.question2 || '',
+                    "Have the research team and data collectors got the relevant training?": consentData?.question3 || '',
+                    "Are there any financial or other interests to the researcher(s) or department arising from this study, known to you": consentData?.question4 || ''
+
                 }
             };
             const raw = JSON.stringify(payload);

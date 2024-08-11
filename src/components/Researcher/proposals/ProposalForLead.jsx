@@ -200,10 +200,10 @@ export default function ProposalForLead({
        
        
         setConsentData({
-            question1: consentSection.questions["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || '',
-            question2: consentSection.questions["From where additional IRB approval is required"] || '',
-            question3: consentSection.questions["Have the research team and data collectors got the relevant training?"] || '',
-            question4: consentSection.questions["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you"] || ''
+            question1: (consentSection?.questions["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || ''),
+            question2: (consentSection?.questions["From where additional IRB approval is required"] || ''),
+            question3: (consentSection?.questions["Have the research team and data collectors got the relevant training?"] || ''),
+            question4: (consentSection?.questions["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you"] || '')
         });
         setInformationData({
             question1: informationSection.questions["Proposal Contact Email"] || '',
