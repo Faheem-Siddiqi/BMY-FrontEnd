@@ -65,7 +65,7 @@ function App() {
           {/* Admin */}
           <Route path="/admin" element={<Admin />} />
           {/* Rest */}
-          <Route path="/letter" element={<Prop/>} />
+          <Route path="/letter" element={<Letter/>} />
           <Route path="/learn-more" element={<LearnMore/>} />
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />

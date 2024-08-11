@@ -1,107 +1,84 @@
 import React from 'react';
-import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export default function Letter() {
+pdfMake.vfs = pdfFonts.pdfMake.vfs; // Set pdfmake fonts
+
+export default function AppointmentLetter() {
   const createAndDownloadPDF = () => {
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
+    const docDefinition = {
+      content: [
+        { text: 'Company Name', style: 'header' },
+        { text: 'Appointment Letter', style: 'subHeader' },
+        { text: `Date: ${new Date().toLocaleDateString()}`, style: 'date' },
+        { text: '\n' }, // Spacer
+        { text: 'Dear [Employee Name],', style: 'greeting' },
+        { text: 'We are pleased to offer you the position of [Position] in the [Department] department, starting from [Start Date].', style: 'bodyText' },
+        { text: '\n' },
+        { text: 'Please find below the terms and conditions of your appointment:', style: 'bodyText' },
+        { text: '\n' },
+        {
+          ul: [
+            'Position: [Position]',
+            'Department: [Department]',
+            'Start Date: [Start Date]',
+            // Add more terms and conditions if necessary
+          ],
+          style: 'list'
+        },
+        { text: '\n' },
+        { text: 'If you accept this offer, please sign and return the enclosed copy of this letter.', style: 'bodyText' },
+        { text: '\n' },
+        { text: 'Sincerely,', style: 'closing' },
+        { text: 'Company Name', style: 'closing' },
+        { text: 'HR Manager', style: 'closing' },
+        { text: '\n' },
+        {
+          text: [
+            'Company Address\n',
+            'Phone: (123) 456-7890\n',
+            'Email: contact@company.com'
+          ],
+          style: 'footer'
+        }
+      ],
+      styles: {
+        header: { fontSize: 18, bold: true, alignment: 'center', margin: [0, 20], color: '#003366' }, // Dark blue
+        subHeader: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 10], color: '#005699' }, // Medium blue
+        date: { fontSize: 12, alignment: 'right', margin: [0, 0, 0, 20], color: '#666666' }, // Gray
+        greeting: { fontSize: 14, margin: [0, 10], color: '#333333' }, // Dark gray
+        bodyText: { fontSize: 12, margin: [0, 10], color: '#000000' }, // Black
+        list: { fontSize: 12, margin: [0, 10], marginLeft: 20, color: '#000000' },
+        closing: { fontSize: 12, margin: [0, 20], color: '#000000' },
+        footer: { fontSize: 10, alignment: 'center', margin: [0, 20], color: '#666666' }
+      },
+      pageMargins: [30, 50, 30, 60], // Left, Top, Right, Bottom
+      footer: (currentPage, pageCount) => ({
+        text: [
+          'Company Address\n',
+          'Phone: (123) 456-7890\n',
+          'Email: contact@company.com'
+        ],
+        style: 'footer'
+      })
+    };
 
-    // Define margins and initial vertical position
-    const marginLeft = 20;
-    const marginTop = 30;
-    const lineHeight = 10;
-    const pageWidth = doc.internal.pageSize.width;
-    const pageHeight = doc.internal.pageSize.height;
-    let verticalPosition = marginTop;
-
-    // Add a header
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    const headerTitle = 'Ethical Review Committee';
-    const headerTitleWidth = doc.getTextWidth(headerTitle);
-    const headerTitleX = (pageWidth - headerTitleWidth) / 2;
-    doc.text(headerTitle, headerTitleX, verticalPosition);
-    verticalPosition += 15;
-
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    const subject = 'Subject: Approval Letter of Research Project “Navigating Antimicrobial Resistance Insights: An In-Depth Analysis Of Healthcare Professionals\' Knowledge, Attitudes, And Practices, With An Emphasis On Precision Medicine In Pakistan” by Ethical Review Committee (ERC), BMY Health';
-    doc.text(subject, marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
-    
-    
-
-
-    
-    const protocolNumber = 'Protocol number: BMY-ERC2-07-2024';
-  
-    const submittedBy = 'Submitted by: Dr Shafaq Mahmood';
-   
-
-    verticalPosition += 25;
-    doc.text(protocolNumber, marginLeft, verticalPosition);
-    verticalPosition += 15;
-    doc.text(submittedBy, marginLeft, verticalPosition);
- 
-
-    // Main Content
-    const content = `The project titled “Navigating Antimicrobial Resistance Insights: An In-Depth Analysis of Healthcare Professionals' Knowledge, Attitudes, And Practices, With An Emphasis On Precision Medicine In Pakistan” was approved in the eleventh meeting of ERC held on 15-01-24 at BMY Health after expedited review. The project was approved with consensus on compliance with research ethics. This approval is valid for two months. In case the project is extended beyond 15-03-24, review will be required again. This initial approval is the first step of research ethics screening. In case of violation of ethics, ERC can terminate the project at any stage. The project will have to remain under continuous monitoring of ERC for two months and project leaders will have to maintain liaison with ERC to report at following steps.
-
-1. After data collection, project leaders will submit proofs of genuine data collection to ERC, including videos/ pictures of data collection, links to data collection forms, and data sheets.
-2. After manuscript completion, they will report ERC regarding plagiarism checks, authors contributions and credits, to ensure publication ethics.
-3. Before the project closure, they will provide a report on research records retention/ disposal for confidentiality of data as decided with ERC.
-
-Journal should note that researcher will submit 2 letters at the time of manuscript submission:
-1. ERC Approval letter after initial project review
-2. ERC Audit letter after project completion`;
-
-    doc.text(content, marginLeft, verticalPosition, { maxWidth: pageWidth - 2 * marginLeft });
-    verticalPosition += 50; // Adjust based on content length
-
-    // Signature and Date
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    doc.text('For Chair ERC-2', marginLeft, verticalPosition);
-    verticalPosition += lineHeight;
-    doc.text('Dated: 15-01-24', marginLeft, verticalPosition);
-    verticalPosition += 20;
-
-    doc.text('for', marginLeft, verticalPosition);
-    verticalPosition += lineHeight;
-    doc.text('Dr. Sana Shaukat Siddiqui', marginLeft, verticalPosition);
-    verticalPosition += lineHeight;
-    doc.text('FCPS Community Medicine', marginLeft, verticalPosition);
-    verticalPosition += lineHeight;
-    doc.text('Research Consultant', marginLeft, verticalPosition);
-    verticalPosition += lineHeight;
-    doc.text('BMY Health, Pakistan', marginLeft, verticalPosition);
-
-    // Footer
-    doc.setFontSize(8);
-    const footerText = [
-      'BMY Health Pakistan',
-      'Phone: (123) 456-7890',
-      'Email: contact@company.com',
-      'Website: www.companywebsite.com'
-    ];
-    footerText.forEach((text, index) => {
-      if (verticalPosition + lineHeight > pageHeight - marginTop) {
-        doc.addPage();
-        verticalPosition = 15;
-      }
-      doc.text(text, marginLeft, pageHeight - 20 + index * 5);
-    });
-
-    // Save the document
-    doc.save('job_appointment_letter.pdf');
+    pdfMake.createPdf(docDefinition).download('appointment_letter.pdf');
   };
 
   return (
-    <div>
-      <h1>Download Job Appointment Letter</h1>
-      <button onClick={createAndDownloadPDF}>Download PDF</button>
-    </div>
+    <button
+      className="
+        relative rounded h-fit py-1 my-auto w-fit block 
+        after:block after:content-[''] after:absolute 
+        after:h-[1px] after:bg-epsilon after:w-full 
+        after:scale-x-0 after:hover:scale-x-100 
+        after:transition after:duration-300 
+        after:origin-center
+      "
+      onClick={createAndDownloadPDF}
+    >
+      Download Appointment Letter
+    </button>
   );
 }

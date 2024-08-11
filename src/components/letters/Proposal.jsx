@@ -1,6 +1,6 @@
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { pdfMake as pdfFonts } from 'pdfmake/build/vfs_fonts'; // Named import
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 
@@ -48,7 +48,7 @@ export default function Proposal({ sections, title }) {
       ],
       styles: {
         header: { fontSize: 16, bold: true, alignment: 'center' },
-        subHeader: { fontSize: 14, bold: true, alignment: 'center' },
+        subHeader: { fontSize: 14, bold: true, alignment: 'center'  ,margin: [0, 10] },
         title: { fontSize: 14, bold: true, margin: [0, 10] },
         question: { fontSize: 12, bold: true, margin: [0, 5] },
         answer: { fontSize: 12, margin: [0, 5] },
