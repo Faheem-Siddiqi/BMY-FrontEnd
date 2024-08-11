@@ -1,10 +1,11 @@
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
-import { pdfMake as pdfFonts } from 'pdfmake/build/vfs_fonts';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs; // Set pdfmake fonts
 
 export default function AppointmentLetter() {
+  
+pdfMake.vfs = pdfFonts.pdfMake.vfs; 
   const createAndDownloadPDF = () => {
     const docDefinition = {
       content: [

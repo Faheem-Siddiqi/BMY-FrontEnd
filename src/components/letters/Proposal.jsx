@@ -1,8 +1,9 @@
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
-import { pdfMake as pdfFonts } from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
 export default function Proposal({ sections, title }) {
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
   const mapData = (rawData) => {
     if (!rawData) return [];
     return Object.keys(rawData).map(question => ({
