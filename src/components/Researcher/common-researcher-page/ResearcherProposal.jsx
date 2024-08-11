@@ -135,9 +135,11 @@ export default function ResearcherProposal() {
             </section>
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
+            
+              {previousProposals && previousProposals.length > 0 ? (
               <Table
                 className='w-[99%] '
-                // PropossalID, GroupLead, EthicalRisk, BenefitScore
+              
                 rowData={previousProposals.map(proposal => ({
                   PropossalID: proposal.id,
                   GroupLead: proposal.leadName,
@@ -149,6 +151,10 @@ export default function ResearcherProposal() {
                 header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
                 rowRenderComponent='previousProposalsRow'
               />
+
+            ) : (
+              <p>No previous proposals</p>
+          )}
             </section>
           </div>
         </section>
