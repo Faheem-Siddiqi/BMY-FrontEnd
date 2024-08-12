@@ -9,16 +9,17 @@ import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 export default function LeadProposalPage() {
+  const[undefineSectionQuestions, setSectionQnasUndefine]=useState(false)
   const [LeadDataToggle, setLeadDataToggle] = useState(false)
   const [loading, setLoading] = useState(false);
   const [proposalDetail, setProposalDetail] = useState({});
-  const [supervisorIds, setSupervisorIds] = useState([])
+ 
   const updateLeadsDataToggle = (newValue) => {
     setLeadDataToggle(newValue);
   };
   const [mainSupervisor, setMainSupervisor] = useState({})
   useEffect(() => {
-    let isMounted = true; // Flag to prevent state updates on unmounted components
+    let isMounted = true;
     const fetchLeadTeam = async () => {
       setLoading(true);
       try {
@@ -66,6 +67,8 @@ export default function LeadProposalPage() {
         }
         const result = await response.json();
         if (result.success) {
+
+          
           const formattedProposal = {
             id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
               ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
@@ -95,6 +98,8 @@ export default function LeadProposalPage() {
               : [],
           };
           setProposalDetail(formattedProposal);
+
+
         } else {
           toast.error('No proposals found.');
         }
@@ -143,6 +148,8 @@ export default function LeadProposalPage() {
       throw error;
     }
   }
+  // console.log('proposalDetail')
+  // console.log(proposalDetail)
   if (loading) {
     return <Loader />;
   }
@@ -156,6 +163,10 @@ export default function LeadProposalPage() {
           <div className='xl:m-10 m-5  '>
             <div className="flex flex-col gap-5 md:justify-between justify-start md:items-center items-start md:flex-row">
               <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
+
+
+
+              
               <div className='group flex items-center gap-1'>
                 <MdOutlineKeyboardBackspace className=' group-hover:-translate-x-1  duration-500 ' />
                 <button
@@ -164,7 +175,7 @@ export default function LeadProposalPage() {
               </div>
             </div>
             <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
-              <h1 className='text-lg  font-semibold italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
+              <h1 className='text-lg   italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
               <div>
                 <span className='font-bold my-2'> Proposal Id</span>
                 <span className='mx-2 my-2 text-epsilon '>
@@ -177,8 +188,9 @@ export default function LeadProposalPage() {
               </div>
               <div className="flex flex-wrap gap-5 mt-5 mb-2">
                 <button
+                disabled={undefineSectionQuestions}
                   onClick={submitProposalToSupervisor}
-                  className="  w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
+                  className={`${undefineSectionQuestions ? ( 'cursor-not-allowed'): ('cursor-pointer')} w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out `}>
                   <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                     <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
                       Submit
@@ -193,9 +205,15 @@ export default function LeadProposalPage() {
                 {mainSupervisor && mainSupervisor[0] && mainSupervisor[0].fullname ? mainSupervisor[0].fullname : 'Not Available'}
               </span></p>
             </header>
-            <ProposalForLead
-              LeadproposalData={proposalDetail}
+
+
+            <ProposalForLead LeadproposalData={proposalDetail}
+            
+            setSectionQnasUndefine={setSectionQnasUndefine}
+            
             />
+
+          
           </div>
         </section>
       </div>

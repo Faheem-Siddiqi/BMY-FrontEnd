@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
 export default function MentorProposal() {
+    const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false)
     const [loginUserid, setLoginUserId] = useState('')
     const [SupervisorDataToggle, setSupervisorToggle] = useState(false)
     const updateSupervisorsDataToggle = (newValue) => {
@@ -58,7 +59,7 @@ export default function MentorProposal() {
                 }
                 const result = await response.json();
                 if (result.success) {
-                    // console.log(result)
+                    console.log(result)
                     const proposal = result.proposal || {};
                     const formattedProposal = {
                         id: proposal._id || 'N/A',
@@ -66,7 +67,7 @@ export default function MentorProposal() {
                         status: proposal.status || 'Unknown',
                         lead: proposal.creator?.workemail || 'N/A',
                         sections: proposal.sections || {},
-                        mainSupervisor: proposal.supervisorId || '',
+                        mainSupervisor: proposal.supervisorId && proposal.supervisorId._id ? proposal.supervisorId._id : '',
                         reviews: Array.isArray(proposal.reviews) ? proposal.reviews : [],
                     };
                     setProposalDetail(formattedProposal);
@@ -164,7 +165,9 @@ export default function MentorProposal() {
                                 </span>
                             </div>
                             <div className='flex md:flex-row flex-col mt-5 gap-5 md:gap-3 md:items-center'>
-                                {proposalDetail.mainSupervisor === loginUserid && (
+                                {/* {loginUserid}
+                     {proposalDetail?.title} */}
+                                {proposalDetail?.mainSupervisor === loginUserid && (
                                     <>
                                         <button
                                             onClick={handleApprove}
@@ -181,8 +184,8 @@ export default function MentorProposal() {
                                 <DiscussionModal memberData={proposalDetail} memberDataToggle={updateSupervisorsDataToggle} />
                             </div>
                         </header>
-                        <ProposalForLead
-                            LeadproposalData={proposalDetail}
+                        <ProposalForLead LeadproposalData={proposalDetail}
+                            setSectionQnasUndefine={setSectionQnasUndefine}
                         />
                     </div>
                 </section>

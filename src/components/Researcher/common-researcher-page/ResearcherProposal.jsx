@@ -26,7 +26,7 @@ export default function ResearcherProposal() {
         }
         var result = await response.json();
         if (result.success) {
-          // console.log(result)
+
       
           const formattedPreviousProposal = [];
           (result.acceptedProposals || []).forEach(proposal => {

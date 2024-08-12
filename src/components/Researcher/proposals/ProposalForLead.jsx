@@ -3,67 +3,91 @@ import Information from './ProposalSections/Information.jsx';
 import ScientificReview from './ProposalSections/ScientificReview.jsx';
 import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
+import { ImFilesEmpty } from "react-icons/im";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
-export default function ProposalForLead({
-    LeadproposalData
-}) {
-    
+export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefine }) {
+    const hasMissingQuestions =
+        !LeadproposalData ||
+        !LeadproposalData.sections ||
+        !LeadproposalData.sections.information ||
+        !LeadproposalData.sections.information.questions ||
+        !LeadproposalData.sections.consent ||
+        !LeadproposalData.sections.consent.questions ||
+        !LeadproposalData.sections.scientificReview ||
+        !LeadproposalData.sections.scientificReview.questions ||
+        !LeadproposalData.sections.ethicalReview ||
+        !LeadproposalData.sections.ethicalReview.questions;
+    if (hasMissingQuestions) {
+        setSectionQnasUndefine(true)
+        return (
+            <>
+                <p>
+                    <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                        <h1 className='font-semibold flex items-center gap-2'>
+                            <ImFilesEmpty className='text-2xl' />
+                            All  Proposal Sections Needs To Be Submitted
+                        </h1>
+                    </header>
+                </p>
+            </>
+        );
+    }
     const [risk, setRisk] = useState(0)
-        const [ethicalData, setEthicalData] = useState({
-            table1Answers: {
-                table1a: '',
-                table1b: '',
-                table1c: '',
-                table1d: '',
-                table1e: '',
-                table1f: '',
-                table1g: '',
-            },
-            question1: '',
-            table1InnerScore: 0,
-            table1Score: 0,
-            table2Answers: {
-                table2a: '',
-                table2b: '',
-                table2c: '',
-            },
-            table2Score: 0,
-            table3Answers: {
-                table3a: '',
-                table3b: '',
-                table3c: '',
-                table3d: '',
-                table3e: '',
-                table3f: '',
-                table3g: '',
-            },
-            table4Answers: {
-                table4a: '',
-                table4b: '',
-            },
-            question2: '',
-            question3: '',
-            table4Score: 0,
-            table5Answers: {
-                table5a: '',
-                table5b: '',
-                table5c: '',
-                table5d: '',
-                table5e: '',
-                table5f: '',
-                table5g: '',
-            },
-            table5Score: 0,
-            table6Answers: {
-                table6a: 'N/A',
-                table6b: 'Moderate gains',
-                table6c: 'Minor gains',
-            },
-            table6Score: 0,
-            ethicalRisk: 0,
-            benefitScore: 0,
-        });
+    const [ethicalData, setEthicalData] = useState({
+        table1Answers: {
+            table1a: '',
+            table1b: '',
+            table1c: '',
+            table1d: '',
+            table1e: '',
+            table1f: '',
+            table1g: '',
+        },
+        question1: '',
+        table1InnerScore: 0,
+        table1Score: 0,
+        table2Answers: {
+            table2a: '',
+            table2b: '',
+            table2c: '',
+        },
+        table2Score: 0,
+        table3Answers: {
+            table3a: '',
+            table3b: '',
+            table3c: '',
+            table3d: '',
+            table3e: '',
+            table3f: '',
+            table3g: '',
+        },
+        table4Answers: {
+            table4a: '',
+            table4b: '',
+        },
+        question2: '',
+        question3: '',
+        table4Score: 0,
+        table5Answers: {
+            table5a: '',
+            table5b: '',
+            table5c: '',
+            table5d: '',
+            table5e: '',
+            table5f: '',
+            table5g: '',
+        },
+        table5Score: 0,
+        table6Answers: {
+            table6a: 'N/A',
+            table6b: 'Moderate gains',
+            table6c: 'Minor gains',
+        },
+        table6Score: 0,
+        ethicalRisk: 0,
+        benefitScore: 0,
+    });
     const [scientificData, setScientificData] = useState({
         supervisorName: '',
         applicantName: '',
@@ -127,17 +151,12 @@ export default function ProposalForLead({
         question3: '',
     });
     useEffect(() => {
+        // Safely initialize sections with default values
         const informationSection = LeadproposalData?.sections?.information || { questions: {} };
         const consentSection = LeadproposalData?.sections?.consent || { questions: {} };
         const scientificReviewSection = LeadproposalData?.sections?.scientificReview || { questions: {} };
         const ethicalReviewSection = LeadproposalData?.sections?.ethicalReview || { questions: {} };
-       
-       
-    
-       
-       
-       
-       
+        // Update ethical data
         setEthicalData(prevState => ({
             ...prevState,
             table1Answers: {
@@ -158,7 +177,6 @@ export default function ProposalForLead({
                 table2b: ethicalReviewSection.questions["Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?"] || '',
                 table2c: ethicalReviewSection.questions["Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?"] || '',
             },
-            //  table2Score: prevState.table2Score,
             table3Answers: {
                 ...prevState.table3Answers,
                 table3a: ethicalReviewSection.questions["With questionnaires, will you give participants the option of omitting ethicalReviewSection.questions they don’t want to answer?"] || '',
@@ -176,7 +194,6 @@ export default function ProposalForLead({
             },
             question2: ethicalReviewSection.questions["Are you considering special care for taking informed consent, with no coercion?"] || '',
             question3: ethicalReviewSection.questions["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
-            // table4Score: prevState.table4Score,
             table5Answers: {
                 ...prevState.table5Answers,
                 table5a: ethicalReviewSection.questions["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training"] || '',
@@ -187,7 +204,6 @@ export default function ProposalForLead({
                 table5f: ethicalReviewSection.questions["Industry funded research with conditions of not disclosing risks to patients"] || '',
                 table5g: ethicalReviewSection.questions["Research findings having the potential to expose big industry/mafia trends"] || '',
             },
-            // table5Score: prevState.table5Score,
             table6Answers: {
                 ...prevState.table6Answers,
                 table6a: ethicalReviewSection.questions["New knowledge gained and scientific development"] || 'N/A',
@@ -195,16 +211,16 @@ export default function ProposalForLead({
                 table6c: ethicalReviewSection.questions["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || 'Minor gains',
             },
             ethicalRisk: ethicalReviewSection.questions["Ethical Risk"] || 0,
-         table6Score: ethicalReviewSection.questions["Benefit Score"] || 0,
+            table6Score: ethicalReviewSection.questions["Benefit Score"] || 0,
         }));
-       
-       
+        // Update consent data
         setConsentData({
-            question1: (consentSection?.questions["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || ''),
-            question2: (consentSection?.questions["From where additional IRB approval is required"] || ''),
-            question3: (consentSection?.questions["Have the research team and data collectors got the relevant training?"] || ''),
-            question4: (consentSection?.questions["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you"] || '')
+            question1: consentSection?.questions?.["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || '',
+            question2: consentSection?.questions?.["From where additional IRB approval is required"] || '',
+            question3: consentSection?.questions?.["Have the research team and data collectors got the relevant training?"] || '',
+            question4: consentSection?.questions?.["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you"] || ''
         });
+        // Update information data
         setInformationData({
             question1: informationSection.questions["Proposal Contact Email"] || '',
             question2: informationSection.questions["Your research topic fulfills which of these criteria"]
@@ -215,6 +231,7 @@ export default function ProposalForLead({
                 : [],
             question3: informationSection.questions["Name the beneficiary group clearly identified that will benefit from the information generated in your research"] || ''
         });
+        // Update scientific data
         setScientificData(prevState => ({
             ...prevState,
             supervisorName: scientificReviewSection.questions["Supervisor Name"] || '',
@@ -261,8 +278,13 @@ export default function ProposalForLead({
             answer22: scientificReviewSection.questions["Data collection procedures and tools"] || 'N/A',
             onlineQuestionnaires: scientificReviewSection.questions["Online questionnaires/ google forms"] || 'N/A',
         }));
-    
-    }, [LeadproposalData]);
+        if (hasMissingQuestions) {
+            setSectionQnasUndefine(true)
+        }
+        else {
+            setSectionQnasUndefine(false)
+        }
+    }, [LeadproposalData, hasMissingQuestions]);
     const sections = [
         'Information',
         'Scientific Review',
@@ -291,7 +313,6 @@ export default function ProposalForLead({
                 return (
                     <EthicalReview
                         ethicalData={ethicalData}
-                      
                     />
                 );
             case 'Consent':

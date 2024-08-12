@@ -5,9 +5,7 @@ import Navbar from "./../layout/Navs/Navbar";
 import { setCookie } from 'cookies-next';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
-
 export default function Login() {
   const navigate = useNavigate();
   const SuccessLogin = () => toast.success("Login Successful");
@@ -17,7 +15,6 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // New state for password visibility
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
@@ -35,8 +32,6 @@ export default function Login() {
       localStorage.setItem('token', token);
       setCookie('token', token);
       localStorage.setItem('role', role);
-
-      
       SuccessLogin();
       navigate('/edit-profile');
     } catch (error) {
@@ -44,7 +39,6 @@ export default function Login() {
       console.error("Login error:", error);
     }
   };
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -62,9 +56,6 @@ export default function Login() {
               </div>
               <div className="mb-4 text-primary">
                 {/* Existing SVG and text */}
-
-
-             
                 <div className=" flex items-center gap-2 mb-4">
                   <svg
                     width="24"
@@ -120,9 +111,6 @@ export default function Login() {
                   </svg>
                   <p> Succeed</p>
                 </div>
-        
-
-
               </div>
             </div>
             <div className="md:p-10 p-5 bg-white rounded-r-lg">

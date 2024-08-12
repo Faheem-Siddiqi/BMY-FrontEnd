@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../layout/Sidebar';
-import profileImage from '../../../assets/images/bena.jpg';
+import profileImage from '../../../assets/images/Profile.png';
 import { LuCrown } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdOutlineGroupOff } from "react-icons/md";

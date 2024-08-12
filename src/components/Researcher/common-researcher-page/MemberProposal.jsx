@@ -1,7 +1,8 @@
 import Sidebar from '../../layout/Sidebar.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { MdOutlineKeyboardBackspace, MdFileDownloadDone } from "react-icons/md";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Proposal from '../proposals/Proposal.jsx';
+import { ImFilesEmpty } from "react-icons/im";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx'
 import React, { useEffect, useState } from 'react';
@@ -102,7 +103,6 @@ export default function MemberProposal() {
     }
     return (
         <>
-     
             <div className="flex xl:flex-row flex-col min-h-[100vh] font-WorkSans-Regular overflow-hidden">
                 <Sidebar pageName='researcher-proposals' />
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
@@ -110,15 +110,17 @@ export default function MemberProposal() {
                     <div className='xl:m-10 m-5'>
                         <div className="flex flex-col gap-5 md:justify-between justify-start md:items-center items-start md:flex-row">
                             <h1 className='text-xl  md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
-                            <div className='group flex items-center gap-1'>
+                            <div
+                             onClick={() => window.history.back()}
+                            className='group flex items-center cursor-pointer gap-1'>
                                 <MdOutlineKeyboardBackspace className=' group-hover:-translate-x-1  duration-500 ' />
                                 <button
                                     className='font-semibold'
-                                    onClick={() => window.history.back()}> Go Back</button>
+                                   > Go Back</button>
                             </div>
                         </div>
                         <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
-                            <h1 className='text-lg  font-semibold italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
+                            <h1 className='text-lg  italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
                                 <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
@@ -134,12 +136,22 @@ export default function MemberProposal() {
                             </div>
                         </header>
                         <div>
-                            {sectionAssigned.map((section, index) => (
-                                <Proposal
-                                    key={index}
-                                    assignProposal={section.section}
-                                    MemberproposalId={proposalDetail.id} />
-                            ))}
+                            {sectionAssigned && sectionAssigned.length > 0 ? (
+                                sectionAssigned.map((section, index) => (
+                                    <Proposal
+                                        key={index}
+                                        assignProposal={section.section}
+                                        MemberproposalId={proposalDetail.id}
+                                    />
+                                ))
+                            ) : (
+                                <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+                                    <h1 className='font-semibold  mb-3 flex items-center gap-2' >
+                                        <ImFilesEmpty className='text-2xl ' />
+                                        No Section assigned yet</h1>
+                                    <p>The Team Lead hasn’t assigned any section yet</p>
+                                </header>
+                            )}
                         </div>
                     </div>
                 </section>

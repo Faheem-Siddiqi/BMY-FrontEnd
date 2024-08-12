@@ -24,8 +24,8 @@ const useDebounce = (value, delay) => {
 };
 export default function Supervisor() {
     const [teamId, setTeamId] = useState('')
-    const [showNoSupervisor, SetShowNoSupervisor] = useState(true);
-    const [team, setTeam] = useState({});
+    const [showNoSupervisor, SetShowNoSupervisor] = useState(false);
+    const [mySupervisors, setMySupervisors] = useState({});
     const [loading, setLoading] = useState(false);
     const [supervisors, setSupervisors] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // Search query state
@@ -51,12 +51,11 @@ export default function Supervisor() {
                 const result = await response.json();
                 if (isMounted) {
                     if (result.success) {
+                        setMySupervisors(result.team.supervisors);
                         setLoading(false);
-                        console.log(result)
                         setTeamId(result.team._id)
                         if (result.supervisors && Object.keys(result.supervisors).length > 0) {
                             SetShowNoSupervisor(false);
-                            setTeam(result.team);
                         } else {
                             SetShowNoSupervisor(true);
                             fetchAllSupervisors();
@@ -85,7 +84,7 @@ export default function Supervisor() {
                 if (isMounted) {
                     if (result.success) {
                         console.log('result')
-                        console.log(result);
+                        // console.log(result.supervisors);
                         const formattedSupervisors = result.supervisors.map(supervisors => ({
                             id: supervisors._id,
                             profileImage: supervisors.pfp ? supervisors.pfp : '',
@@ -130,68 +129,85 @@ export default function Supervisor() {
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                     <UserNavbar />
                     <header className='xl:px-10 px-5 my-5'>
-                        <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Supervisors</h1>
-                        {showNoSupervisor && (
-                            <header className='bg-white shadow-sm my-5 p-10'>
-                                <h1 className='font-semibold flex items-center gap-2'>
-                                    <MdOutlineGroupOff className='text-2xl' />
-                                    Supervisor Not Found
-                                </h1>
-                            </header>
-                        )}
-                    </header>
-                    <div className='xl:m-10 m-5'>
-                       
-                            <>
-                                <div className="flex md:justify-end my-5">
-                                    <div className='w-full md:px-0 px-5 md:w-[30%] h-fit relative'>
-                                        <input
-                                            name='search-name'
-                                            id='search-name'
-                                            className='border rounded-md block py-2 bg-lightBackground border-stone-300 px-2 w-full outline-none'
-                                            type="text"
-                                            placeholder='Search'
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                        />
-                                        <CreateSvg className='md:block hidden' />
-                                    </div>
-                                </div>
-                                <p className='font-semibold my-2'>All Supervisors Available</p>
-                                <Table
-                                    className='w-[99%]'
-                                    rowData={filteredSupervisors.map(supervisor => ({
-                                        supervisorId: supervisor.id,
-                                        profileImage: supervisor.profileImage || DefaultImage,
-                                        name: supervisor.name,
-                                        email: supervisor.email,
-                                        institution: supervisor.institution,
-                                        designation: supervisor.designation,
-                                        teamId: teamId
-                                    }))}
-                                    header={['Supervisors', 'Institution', 'Designation', 'Requests']}
-                                    rowRenderComponent='supervisorsRow'
-                                />
-                            </>
-                    
-                        
+                        {mySupervisors && mySupervisors.length > 0 ? (
                             <>
                                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Project Supervisor</h1>
                                 <header className='bg-white shadow-sm my-5 p-10'>
-                                    <div className="flex flex-wrap gap-5 md:flex-row flex-col">
-                                        <section className='flex gap-2 items-center font-Satoshi-Black'>
-                                            <div className='flex justify-center items-center min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]'>
-                                                <img className='rounded-full' src={profileImage} alt='profile image' />
-                                            </div>
-                                            <div className='py-5'>
-                                                <p className='text-[1rem] font-bold'>Faheem Siddiqi</p>
-                                                <p className='text-light'>email</p>
-                                            </div>
-                                        </section>
+                                    <div className="flex flex-wrap md:gap-10 gap-5 md:flex-row flex-col">
+                                        {mySupervisors.map((supervisor, index) => (
+                                            <section key={index} className='flex gap-2 items-center font-Satoshi-Black'>
+                                                <div className='flex justify-center items-center min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]'>
+                                                    <img className='rounded-full' src={supervisor.pfp || profileImage} alt='profile' />
+                                                </div>
+                                                <div className='py-5'>
+                                                    <p className='text-[1rem] font-bold'>{supervisor.fullname}</p>
+                                                    <p className='text-light'>{supervisor.workemail}</p>
+                                                </div>
+                                            </section>
+                                        ))}
                                     </div>
                                 </header>
                             </>
-                       
+                        )
+                            : (
+                                <>
+                                    <header className='bg-white shadow-sm my-5 p-10'>
+                                        <h1 className='font-semibold flex items-center gap-2'>
+                                            <MdOutlineGroupOff className='text-2xl' />
+                                            Supervisor Not Found
+                                        </h1>
+                                    </header>
+                                </>
+                            )
+                        }
+                    </header>
+                    <div className='xl:m-10 m-5'>
+                        <>
+                            <div>
+                                {supervisors && supervisors.length > 0 ? (
+                                    <>
+                                        <h1 className='font-semibold text-lg flex items-center gap-2'>
+                                            Supervisors Avaiable
+                                        </h1>
+                                        <div className="flex md:justify-end my-5">
+                                            <div className='w-full md:px-0 px-5 md:w-[30%] h-fit relative'>
+                                                <input
+                                                    name='search-name'
+                                                    id='search-name'
+                                                    className='border rounded-md block py-2 bg-lightBackground border-stone-300 px-2 w-full outline-none'
+                                                    type="text"
+                                                    placeholder='Search'
+                                                    value={searchQuery}
+                                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                                />
+                                                <CreateSvg className='md:block hidden' />
+                                            </div>
+                                        </div>
+                                        <Table
+                                            className='w-[99%]'
+                                            rowData={filteredSupervisors.map(supervisor => ({
+                                                supervisorId: supervisor.id,
+                                                profileImage: supervisor.profileImage || DefaultImage,
+                                                name: supervisor.name,
+                                                email: supervisor.email,
+                                                institution: supervisor.institution,
+                                                designation: supervisor.designation,
+                                                teamId: teamId
+                                            }))}
+                                            header={['Supervisors', 'Institution', 'Designation', 'Requests']}
+                                            rowRenderComponent='supervisorsRow'
+                                        />
+                                    </>
+                                ) : (
+                                    <header className='bg-white shadow-sm my-5 p-10'>
+                                        <h1 className='font-semibold flex items-center gap-2'>
+                                            <MdOutlineGroupOff className='text-2xl' />
+                                            Supervisor Not Avaiable
+                                        </h1>
+                                    </header>
+                                )}
+                            </div>
+                        </>
                     </div>
                 </section>
             </div>

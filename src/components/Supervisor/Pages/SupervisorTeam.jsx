@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar';
-import profileImage from '../../../assets/images/bena.jpg';
+import profileImage from '../../../assets/images/Profile.png';
 import { LuCrown } from "react-icons/lu";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { MdAdd } from "react-icons/md";
@@ -9,6 +9,7 @@ import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
+import { PiEmptyBold } from "react-icons/pi";
 import DefaultImage from '../../../assets/images/Profile.png';
 import { useNavigate } from 'react-router-dom'; // Added for navigation
 export default function SupervisorTeam() {
@@ -44,7 +45,7 @@ export default function SupervisorTeam() {
       } catch (error) {
         if (isMounted) {
           console.error(error);
-          toast.error("An error occurred while fetching user details.");
+          toast.error("No Requests Found");
         }
       } finally {
         setLoading(false);
@@ -82,7 +83,7 @@ export default function SupervisorTeam() {
       } catch (error) {
         if (isMounted) {
           console.error(error);
-          toast.error("An error occurred while fetching team details.");
+          toast.error("No Requests Found.");
         }
       } finally {
         setLoading(false);
@@ -131,15 +132,16 @@ export default function SupervisorTeam() {
                 header={['Lead Details', 'Institution', 'Members', 'Action']}
                 rowRenderComponent='TeamRequestsRow'
               />
-            ) : (
-              <header className='bg-white shadow-sm my-8 p-5 md:p-16'>
-                <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon p-10 rounded-md'>
-                  <MdAdd className='text-epsilon text-5xl border-2 border-dashed rounded-full border-epsilon my-4' />
-                  <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Researchers</h1>
-                  <p className='font-semibold my-2'>No Researcher Request Found.</p>
-                </div>
-              </header>
-            )}
+            )
+              : (
+                <header className='bg-white shadow-sm my-8 p-5 md:p-16'>
+                  <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon p-10 rounded-md'>
+                    <PiEmptyBold className='text-epsilon text-5xl  rounded-full border-epsilon my-4' />
+                    <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Researchers</h1>
+                    <p className='font-semibold my-2'>No Researcher Request Found.</p>
+                  </div>
+                </header>
+              )}
             <header>
               <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>My Teams</h1>
               <div className='flex my-5 gap-2'>

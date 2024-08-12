@@ -24,17 +24,19 @@ export default function DeleteMembers({ ownerId, memberId }) {
         closeModal();
         window.location.reload();
       } else {
+        console.log(result.message)
         toast.error(result.message || "Failed to remove member.");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000); // Reload after 1 second
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000); 
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      console.log(error)
       toast.error("An error occurred while removing the member.");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000); // Reload after 1 second
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000); 
     }
   };
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -51,7 +53,7 @@ export default function DeleteMembers({ ownerId, memberId }) {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <div>
-        <MdDeleteOutline className='text-red-600 cursor-pointer' onClick={openModal} />
+        <MdDeleteOutline className='text-red-600 text cursor-pointer' onClick={openModal} />
         <Modal
           className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%]  md:w-[40%] py-16 px-10 bg-white shadow-sm outline-none border rounded-lg'
           isOpen={modalIsOpen}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import profileImage from '../../assets/images/bena.jpg';
+import profileImage from '../../../assets/images/Profile.png';
 import ResearcherTableRow from '../ResearcherTableRow.jsx';
 const researchersData = [
     {

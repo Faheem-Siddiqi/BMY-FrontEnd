@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../layout/Loader.jsx';
 import Sidebar from '../../layout/Sidebar.jsx';
-import profileImage from '../../../assets/images/bena.jpg';
 import { ImFilesEmpty } from "react-icons/im";
 import { MdOutlineGroupOff } from "react-icons/md";
 import { Link } from 'react-router-dom';
@@ -70,6 +69,7 @@ export default function SupervisorDashboard() {
           }
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
             const section = result.notAcceptedProposals[0]?.sections;
+            console.log(section)
             if (!section || Object.keys(section).length === 0) {
               setShowNotAssign(true);
             }
@@ -83,7 +83,7 @@ export default function SupervisorDashboard() {
         }
       } catch (error) {
         if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
-          const section = result.notAcceptedProposals[0]?.section;
+          const section = result.notAcceptedProposals[0]?.sections;
           if (!section || Object.keys(section).length === 0) {
             setShowNotAssign(true);
           }
@@ -113,21 +113,23 @@ export default function SupervisorDashboard() {
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Dashboard</h1>
             <section>
               <div className="flex md:flex flex-col md:flex-row gap-5">
-                <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
-                  <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Section Assigned</h1>
-                  {showNotAssigned && !showNoActive && (<>
-                    <p className='my-3 text-epsilon'>Not Assigned yet by group lead</p>
-                  </>)}
-                  {!showNotAssigned && !showNoActive && (<>
-                    <br />
-                    <Link
-                      to='/proposal-section'
-                      className=" py-3 px-3   rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
-                      <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                      View My Section
-                    </Link>
-                  </>)}
-                </header>
+                {!showNoActive && (<>
+                  <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
+                    <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Section Assigned</h1>
+                    {showNotAssigned && (<>
+                      <p className='my-3 text-epsilon'>Not Assigned yet by group lead</p>
+                    </>)}
+                    {!showNotAssigned && (<>
+                      <br />
+                      <Link
+                        to='/proposal-section'
+                        className=" py-3 px-3   rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                        <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                        View My Section
+                      </Link>
+                    </>)}
+                  </header>
+                </>)}
                 <header className='bg-white shadow-sm md:my-5 mb-5 px-5 py-5 md:py-10 md:w-[35%]'>
                   <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Supervisor</h1>
                   <div>

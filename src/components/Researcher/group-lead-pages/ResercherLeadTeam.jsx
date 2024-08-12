@@ -29,7 +29,7 @@ export default function ResercherLeadTeam() {
                 const result = await response.json();
                 if (isMounted) {
                     if (result.success) {
-                        
+                        console.log(result)
                         setLoading(false);
             
                         if (result.team.researchers.length === 0) {
@@ -88,7 +88,7 @@ export default function ResercherLeadTeam() {
                             myMembers={Team}/>
                             <Link
                                 to='/add-team-members'
-                                className="my-5 py-3 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
+                                className="my-5 py-4 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                                 Add Members
                             </Link>

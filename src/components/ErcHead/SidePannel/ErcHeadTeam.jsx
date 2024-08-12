@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../../layout/Sidebar.jsx';
-import profileImage from '../../../assets/images/bena.jpg'
+import profileImage from '../../../assets/images/Profile.png'
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { MdOutlineGroupOff } from "react-icons/md";
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
