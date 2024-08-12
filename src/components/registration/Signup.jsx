@@ -11,6 +11,7 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 export default function Signup() {
   const SuccessSignUp = () => toast.success("Sign Up Successful");
   const FailSignUp = () => toast.error("Sign Up Failed");
+  const [showPassword, setShowPassword] = useState(false); // New state for password visibility
   const [requiredError, setRequiredError] = useState(false);
   const [signUpError, setSignUpError] = useState("");
   const [role, setRole] = useState("");
@@ -50,11 +51,11 @@ export default function Signup() {
         password,
         role,
       });
-      SuccessSignUp()
-      navigate('/login');
+      SuccessSignUp();
+      navigate("/login");
     } catch (error) {
       setSignUpError(error.response?.data?.message || "An error occurred");
-      FailSignUp()
+      FailSignUp();
     }
   };
   return (
@@ -210,32 +211,53 @@ export default function Signup() {
                   <span className="text-xs text-red-600">
                     {!password && requiredError && " * Required"}{" "}
                   </span>
+                  <div className="relative">
                   <input
                     name="password"
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle password visibility
                     placeholder="8+ characters"
                     className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
                   />
+
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-sm"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle password visibility on button click
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+
+                  </div>
                 </section>
                 <section className="mb-4">
                   <label htmlFor="confirm-password">Confirm Password</label>
                   <span className="text-xs text-red-600">
                     {!confirmPassword && requiredError && " * Required"}{" "}
                   </span>
-                  <input
-                    name="confirm-password"
-                    id="confirm-password"
-                    type="password"
-                    placeholder="8+ characters"
-                    className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                    }}
-                  />
+                  <div className="relative">
+                    <input
+                      name="confirm-password"
+                      id="confirm-password"
+                      type={showPassword ? "text" : "password"} // Toggle password visibility
+                      placeholder="8+ characters"
+                      className="mt-1  w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3  focus:outline-epsilon  focus:border-gray-500"
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
+                    />
+
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 flex items-center px-3 text-sm"
+                      onClick={() => setShowPassword(!showPassword)} // Toggle password visibility on button click
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </section>
                 <p className="text-red-600 text-xs"> {signUpError}</p>
                 <button
