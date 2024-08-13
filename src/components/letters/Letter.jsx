@@ -1,6 +1,8 @@
-  import React from 'react';
-  import pdfmake from "pdfmake/build/pdfmake";
-(pdfMake ).fonts = {
+import { SlEnvolopeLetter } from "react-icons/sl";
+import React from 'react';
+import pdfMake from 'pdfmake/build/pdfmake';
+
+pdfMake.fonts = {
   Roboto: {
     normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
     bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
@@ -8,82 +10,110 @@
     bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
   },
 };
-export default function AppointmentLetter() {
-  
-  const createAndDownloadPDF = () => {
+
+const EthicsApprovalLetter = () => {
+  const generatePDF = () => {
     const docDefinition = {
+      pageMargins: [30, 30, 30, 50], // Left, Top, Right, Bottom
       content: [
-        { text: 'Company Name', style: 'header' },
-        { text: 'Appointment Letter', style: 'subHeader' },
-        { text: `Date: ${new Date().toLocaleDateString()}`, style: 'date' },
-        { text: '\n' }, 
-        { text: 'Dear [Employee Name],', style: 'greeting' },
-        { text: 'We are pleased to offer you the position of [Position] in the [Department] department, starting from [Start Date].', style: 'bodyText' },
-        { text: '\n' },
-        { text: 'Please find below the terms and conditions of your appointment:', style: 'bodyText' },
-        { text: '\n' },
-        {
-          ul: [
-            'Position: [Position]',
-            'Department: [Department]',
-            'Start Date: [Start Date]',
-         
-          ],
-          style: 'list'
-        },
-        { text: '\n' },
-        { text: 'If you accept this offer, please sign and return the enclosed copy of this letter.', style: 'bodyText' },
-        { text: '\n' },
-        { text: 'Sincerely,', style: 'closing' },
-        { text: 'Company Name', style: 'closing' },
-        { text: 'HR Manager', style: 'closing' },
-        { text: '\n' },
+        { text: 'BMY Health Pakistan ', style: 'header' },
+        { text: 'Clearance Letter', style: 'title' ,   margin: [0, 0, 0, 10]},
+
         {
           text: [
-            'Company Address\n',
-            'Phone: (123) 456-7890\n',
-            'Email: contact@company.com'
+            { text: 'faheem: ', fontSize: 11, bold: true },
+            { text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores modi recusandae laudantium eaque dolore expedita, et voluptates rem hic. Blanditiis esse nihil eius ex saepe obcaecati dolores quidem, architecto minus?', fontSize: 11, margin: [0, 0, 0, 5] },
           ],
-          style: 'footer'
-        }
+          margin: [0, 0, 0, 10] // Add margin after this block
+        },
+
+        {
+          text: [
+            { text: 'Subject: ', fontSize: 11, bold: true },
+            { text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores modi recusandae laudantium eaque dolore expedita, et voluptates rem hic. Blanditiis esse nihil eius ex saepe obcaecati dolores quidem, architecto minus?', fontSize: 11 },
+          ],
+          margin: [0, 0, 0, 10] // Add margin after this block
+        },
+
+        {
+          text: [
+            { text: 'Subject: ', fontSize: 11, bold: true },
+            { text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores modi recusandae laudantium eaque dolore expedita, et voluptates rem hic. Blanditiis esse nihil eius ex saepe obcaecati dolores quidem, architecto minus?', fontSize: 11 },
+          ],
+          margin: [0, 0, 0, 10] // Add margin after this block
+        },
+
+        {
+          text: [
+            { text: 'Subject: ', fontSize: 11, bold: true },
+            { text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores modi recusandae laudantium eaque dolore expedita, et voluptates rem hic. Blanditiis esse nihil eius ex saepe obcaecati dolores quidem, architecto minus?', fontSize: 11 },
+          ],
+          margin: [0, 0, 0, 10] // Add margin after this block
+        },
+
+        { text: 'Date: …..-24', style: 'date' },
+        { text: 'Subject: Approval Letter of Research Project “Assessing Health and Economic Ramifications of Smog” by Ethical Review Committee (ERC), BMY Health', style: 'subject', margin: [0, 20, 0, 20] },
+
+        { text: 'Protocol number: BMY-ERC2-06-2024', margin: [0, 0, 0, 10] },
+        { text: 'Submitted by: Dr Sidra Ahmad', margin: [0, 0, 0, 20] },
+
+        { text: "The project titled 'Assessing Health and Economic Ramifications of Smog' received clearance from BMY Health on date…, having met the ethical guidelines and standards established by the Ethical Review Committee (ERC) at BMY Health. This clearance ensures that the team demonstrated compliance with all necessary ethical protocols required by BMY Health Ethics Review Committee.", margin: [0, 0, 0, 20] },
+
+        { text: 'For Chair', alignment: 'right', margin: [0, 0, 0, 70] },
+
+        { text: 'for Dr. Sana Shaukat Siddiqui', style: 'signature', margin: [0, 20, 0, 5] },
+        { text: 'FCPS Community Medicine', style: 'position' },
+        { text: 'Research Consultant', style: 'position' },
+        { text: 'BMY Health, Pakistan', style: 'position' }
       ],
       styles: {
-        header: { fontSize: 18, bold: true, alignment: 'center', margin: [0, 20], color: '#003366' }, // Dark blue
-        subHeader: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 10], color: '#005699' }, // Medium blue
-        date: { fontSize: 12, alignment: 'right', margin: [0, 0, 0, 20], color: '#666666' }, // Gray
-        greeting: { fontSize: 14, margin: [0, 10], color: '#333333' }, // Dark gray
-        bodyText: { fontSize: 12, margin: [0, 10], color: '#000000' }, // Black
-        list: { fontSize: 12, margin: [0, 10], marginLeft: 20, color: '#000000' },
-        closing: { fontSize: 12, margin: [0, 20], color: '#000000' },
-        footer: { fontSize: 10, alignment: 'center', margin: [0, 20], color: '#666666' }
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'center'
+        },
+
+        title: {
+          fontSize: 14,
+          bold: true,
+          alignment: 'center'
+        },
+        date: {
+          fontSize: 12,
+          alignment: 'right',
+          margin: [0, 20, 0, 0]
+        },
+        subject: {
+          fontSize: 14,
+          bold: true
+        },
+        signature: {
+          fontSize: 12,
+          alignment: 'right',
+          bold: true
+        },
+        position: {
+          fontSize: 12,
+          alignment: 'right'
+        }
       },
-      pageMargins: [30, 50, 30, 60], // Left, Top, Right, Bottom
       footer: (currentPage, pageCount) => ({
-        text: [
-          'Company Address\n',
-          'Phone: (123) 456-7890\n',
-          'Email: contact@company.com'
-        ],
-        style: 'footer'
+        text: 'BMY Health Pakistan',
+        style: 'footer',
+        alignment: 'center'
       })
     };
 
-    pdfMake.createPdf(docDefinition).download('appointment_letter.pdf');
+    pdfMake.createPdf(docDefinition).download('ethics_approval_letter.pdf');
   };
 
   return (
-    <button
-      className="
-        relative rounded h-fit py-1 my-auto w-fit block 
-        after:block after:content-[''] after:absolute 
-        after:h-[1px] after:bg-epsilon after:w-full 
-        after:scale-x-0 after:hover:scale-x-100 
-        after:transition after:duration-300 
-        after:origin-center
-      "
-      onClick={createAndDownloadPDF}
-    >
-      Download Appointment Letter
-    </button>
+    <div>
+      <button onClick={generatePDF}>
+        <SlEnvolopeLetter className="text-2xl duration-300 hover:text-epsilon" />
+      </button>
+    </div>
   );
-}
+};
+
+export default EthicsApprovalLetter;

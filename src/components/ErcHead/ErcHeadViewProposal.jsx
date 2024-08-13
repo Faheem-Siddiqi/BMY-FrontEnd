@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
 export default function ErcHeadViewProposal() {
+    const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false)
     const [ErcHeadDataToggle, setHeadDataToggle] = useState(false)
     const updateHeadDataToggle = (newValue) => {
         setHeadDataToggle(newValue);
@@ -35,7 +36,6 @@ export default function ErcHeadViewProposal() {
                 if (result.success) {
                     // console.log(result)
                     setErcMembers(result?.ercMembers ?? []);
-                    // setSupervisors(formattedSupervisors);
                     setLoading(false);
                 } else {
                     toast.error("Failed to load user details.");
@@ -170,6 +170,7 @@ export default function ErcHeadViewProposal() {
                         </header>
                         <ProposalForLead
                             LeadproposalData={proposalDetail}
+                            setSectionQnasUndefine={setSectionQnasUndefine}
                         />
                     </div>
                 </section>

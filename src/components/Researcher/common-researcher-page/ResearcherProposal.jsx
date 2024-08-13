@@ -27,7 +27,9 @@ export default function ResearcherProposal() {
         var result = await response.json();
         if (result.success) {
 
-      
+
+       
+
           const formattedPreviousProposal = [];
           (result.acceptedProposals || []).forEach(proposal => {
             const sections = proposal.sections || {};
@@ -41,15 +43,19 @@ export default function ResearcherProposal() {
               title: proposal.title || 'N/A',
               riskScore: questions['Ethical Risk'] || 0,
               benefitScore: questions['Benefit Score'] || 0,
+              approvalErcMember: proposal.approvalMember || {},
+              ercMembers: proposal.assignedErcMember || [],
             };
+            // console.log(formattedProposal)
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
           setFormattedPreviousProposal(formattedPreviousProposal)
+          
           if ((result.notAcceptedProposals.length === 0 || !result.notAcceptedProposals[0].title)) {
             setShowNoActiveProposal(true)
           }
-          
+
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
             const section = result.notAcceptedProposals[0]?.sections;
             console.log(section)
@@ -135,26 +141,29 @@ export default function ResearcherProposal() {
             </section>
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
-            
-              {previousProposals && previousProposals.length > 0 ? (
-              <Table
-                className='w-[99%] '
-              
-                rowData={previousProposals.map(proposal => ({
-                  PropossalID: proposal.id,
-                  GroupLead: proposal.leadName,
-                  EthicalRisk: proposal.riskScore,
-                  BenefitScore: proposal.benefitScore,
-                  sections: proposal.sections,
-                  title: proposal.title,
-                }))}
-                header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
-                rowRenderComponent='previousProposalsRow'
-              />
 
-            ) : (
-              <p>No previous proposals</p>
-          )}
+              {previousProposals && previousProposals.length > 0 ? (
+                <Table
+                  className='w-[99%] '
+
+                  rowData={previousProposals.map(proposal => ({
+                    PropossalID: proposal.id,
+                    GroupLead: proposal.leadName,
+                    EthicalRisk: proposal.riskScore,
+                    BenefitScore: proposal.benefitScore,
+                    sections: proposal.sections,
+                    title: proposal.title,
+                    approvalErcMember: proposal.approvalErcMember || {},
+                    ercMembers: proposal.ercMembers,
+
+                  }))}
+                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
+                  rowRenderComponent='previousProposalsRow'
+                />
+
+              ) : (
+                <p>No previous proposals</p>
+              )}
             </section>
           </div>
         </section>

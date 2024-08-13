@@ -13,7 +13,7 @@ export default function Fellows({ myMembers }) {
             <h1 className='font-semibold text-lg'>Group Lead</h1>
             <section className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
               <div className='flex justify-center items-center min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]'>
-                <img className='rounded-full' src={myMembers.owner.pfp || profileImage} alt='profile image' />
+                <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={myMembers.owner.pfp || profileImage} alt='profile image' />
               </div>
               <div className='py-5'>
                 <p className='text-[1rem] font-bold md:full truncate w-[150px]'>{myMembers.owner.fullname}</p>

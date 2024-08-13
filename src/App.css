@@ -43,10 +43,6 @@
 
 }
 
-
-
-
-
 input[type=radio] :not(:checked) {
   background-color: white; 
 }

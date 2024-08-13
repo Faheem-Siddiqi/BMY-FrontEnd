@@ -167,19 +167,21 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                         </div>
                     </div>
                 </section>
-                <section className='my-5 text-justify'>
-                    <label className="flex items-start">
-                        <input
-                            type="checkbox"
-                            checked={iAgree}
-                            onChange={handleCheckboxChange}
-                            className="mr-2 mt-1"
-                        />
-                        <p className="mb-2 text-zeta">
-                            I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically.
-                        </p>
-                    </label>
-                </section>
+                {signUserRole === 'researchers' && (<>
+                    <section className='my-5 text-justify'>
+                        <label className="flex items-start">
+                            <input
+                                type="checkbox"
+                                checked={iAgree}
+                                onChange={handleCheckboxChange}
+                                className="mr-2 mt-1"
+                            />
+                            <p className="mb-2 text-zeta">
+                                I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically.
+                            </p>
+                        </label>
+                    </section>
+                </>)}
                 {signUserRole === 'researchers' && (<>
                     <button
                         onClick={onSubmit}

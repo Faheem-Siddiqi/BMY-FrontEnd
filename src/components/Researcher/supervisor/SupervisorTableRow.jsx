@@ -41,7 +41,7 @@ const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, i
                 <td className='px-4'>
                     <section className='flex gap-2 items-center font-Satoshi-Black'>
                         <div className='flex justify-center items-center min-w-[50px] min-h-[50px] max-w-[50px] max-h-[50px]'>
-                            <img className='rounded-full' src={profileImage} alt='profile-image' />
+                            <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={profileImage} alt='profile-image' />
                         </div>
                         <div className='py-5'>
                             <p className='text-[1rem] font-bold'>{name}</p>

@@ -11,8 +11,7 @@ export default function ErcMemberProposal() {
   const [loading, setLoading] = useState(false)
   const [noActive, setNoActive] = useState(false)
   const [proposalInfo, setProposalInfo] = useState([])
-
-
+  const [previousProposals, setFormattedPreviousProposal] = useState(null);
   useEffect(() => {
     const fetchProposals = async () => {
       setLoading(true);
@@ -35,21 +34,37 @@ export default function ErcMemberProposal() {
         } else {
           setNoActive(true);
         }
-
-       
       }
-
-   
       catch (error) {
         console.log(error.message);
       } finally {
         setLoading(false);
-      
+      }
+    };
+    const fetchPreviousProposals = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-ercmember`, {
+          method: 'GET',
+          redirect: "follow",
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch previous proposals');
+        }
+        const result = await response.json();
+        // console.log(result)
+        setFormattedPreviousProposal(result.proposals || []);
+      } catch (error) {
+        console.log(error.message);
+        setFormattedPreviousProposal([]);  // Set to an empty array on error
+      } finally {
+        setLoading(false);
       }
     };
     fetchProposals();
+    fetchPreviousProposals()
   }, []);
-
   if (loading) {
     return <Loader />;
   }
@@ -65,10 +80,12 @@ export default function ErcMemberProposal() {
             {!noActive && (<>
               <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
                 {proposalInfo.map(proposal => (
-                  <h1 key={proposal.proposalid} className='font-semibold mb-4 flex items-center gap-2'>
+                  <h1 key={proposal.proposalid} className=' mb-4 flex items-center gap-2'>
                     <ImFilesEmpty className='text-2xl' />
                     <Link to={`/evaluate-proposal/${proposal.proposalid}`}>
-                      Proposal:
+                      <span className='font-bold'>
+                        Proposal:
+                      </span>
                       <span className='mx-1 text-epsilon w-[10px] truncate'>
                         BMY-{proposal.proposalid ? proposal.proposalid.slice(-4) : 'N/A'}
                       </span>
@@ -77,46 +94,35 @@ export default function ErcMemberProposal() {
                 ))}
               </header>
             </>)}
-
             {noActive && (<>
-            <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-              <h1 className='font-semibold  flex items-center gap-2' >
-                <ImFilesEmpty className='text-2xl' />
-                No Active Proposal</h1>
-            </header>
-
-
+              <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+                <h1 className='font-semibold  flex items-center gap-2' >
+                  <ImFilesEmpty className='text-2xl' />
+                  No Active Proposal</h1>
+              </header>
             </>)}
             {/* */}
             <section className="my-5 md:my-10">
               <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Previous Proposals</h1>
-              <Table
-                className="w-[99%]"
-                rowData={[
-                  {
-                    proposalID: 'BMY-12',
-                    groupdLead: 'Faheem',
-                    status: 'ERC ko submit krana ka bad wala yh doc render krna ha',
-                  },
-                  {
-                    proposalID: 'Proposal XYZ',
-                    groupdLead: 'Faheem',
-                    status: 'Group Lead Approval Pending',
-                  },
-                  {
-                    proposalID: 'Proposal XYZ',
-                    groupdLead: 'Faheem',
-                    status: 'Accepted',
-                  },
-                  {
-                    proposalID: 'Proposal XYZ',
-                    groupdLead: 'Faheem',
-                    status: 'ERC Remarks On Assigned Section',
-                  },
-                ]}
-                header={['Id', 'Group Lead', 'Status', 'Action']}
-                rowRenderComponent="SupervisorProposalRow"
-              />
+              {previousProposals === null ? (
+                <Loader />
+              ) : previousProposals.length > 0 ? (
+                <Table
+                  className='w-[99%]'
+                  rowData={previousProposals.map(proposal => ({
+                    PropossalID: proposal?._id || '',
+                    GroupLead: proposal?.creator?.fullname || '',
+                    EthicalRisk: proposal?.sections?.ethicalReview?.questions['Benefit Score'] || 0,
+                    BenefitScore: proposal?.sections?.ethicalReview?.questions['Ethical Risk'] || 0,
+                    sections: proposal?.sections || {},
+                    title: proposal?.title || '',
+                  }))}
+                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
+                  rowRenderComponent='previousProposalsRow'
+                />
+              ) : (
+                <p>No previous proposals</p>
+              )}
             </section>
           </div>
         </section>

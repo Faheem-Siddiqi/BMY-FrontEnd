@@ -6,12 +6,12 @@ import { setCookie } from 'cookies-next';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
-export default function Login() {
+export default function Adminlogin() {
   const navigate = useNavigate();
   const SuccessLogin = () => toast.success("Login Successful");
   const FailLogin = () => toast.error("Incorrect email or password");
   const [showRequireError, setShowRequireError] = useState(false);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // New state for password visibility
@@ -33,7 +33,7 @@ export default function Login() {
       setCookie('token', token);
       localStorage.setItem('role', role);
       SuccessLogin();
-      navigate('/edit-profile');
+      navigate('/admin');
     } catch (error) {
       FailLogin(error.response.data.message || "Login failed");
       console.error("Login error:", error);
@@ -80,6 +80,7 @@ export default function Login() {
                     />
                   </svg>
                   <p> Create and Carry out Research</p>
+                 
                 </div>
                 <div className="flex items-center gap-2 mb-4">
                   <svg
@@ -111,28 +112,26 @@ export default function Login() {
                   </svg>
                   <p> Succeed</p>
                 </div>
+                
               </div>
             </div>
             <div className="md:p-10 p-5 bg-white rounded-r-lg">
-              <h2 className="text-3xl font-bold font-WorkSans-Regular">Log in</h2>
-              <p className="text-light font-NunitoSans-Regular text-sm mb-4 mt-1">Get Started</p>
+              <h2 className="text-3xl font-bold font-WorkSans-Regular">Admin</h2>
+              <p className="text-light font-NunitoSans-Regular text-sm mb-4 mt-1">Login</p>
               <div className="text-sm text-inputFields">
                 <div className="mb-4">
                   <label>Role</label>
                   <span className="text-xs text-red-600">
                     {!role && showRequireError && " * Required"}
                   </span>
+               
                   <select
-                    className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-epsilon focus:border-gray-500"
-                    onChange={(e) => setRole(e.target.value)}
-                  >
-                    <option value="">Select Role</option>
-                    <option value="group-lead">Researcher Lead</option>
-                    <option value="researchers">Researcher</option>
-                    <option value="supervisor">Supervisor</option>
-                    <option value="erc-head">ERC Head</option>
-                    <option value="erc-members">ERC Member</option>
-                  </select>
+  disabled
+  value="admin"
+  className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-epsilon focus:border-gray-500"
+>
+  <option value="admin">Admin</option>
+</select>
                 </div>
                 <div className="mb-4 font-NunitoSans-Regular">
                   <label htmlFor="email">Work Email</label>
@@ -196,18 +195,6 @@ export default function Login() {
                   Sign up
                 </Link>
               </p>
-
-
-              <p className="text-center text-sm font-Satoshi-Black my-3 flex gap-1">
-               Switch To Admin Login
-                <Link
-                  to="/admin-login"
-                  className="relative text-primary w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-epsilon after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left"
-                >
-                  Switch
-                </Link>
-              </p>
-
             </div>
           </div>
         </div>

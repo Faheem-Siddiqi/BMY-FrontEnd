@@ -10,7 +10,7 @@ import Fellows from '../group-members/Fellows.jsx';
 
 export default function TeamMembers() {
   const [noTeam, setNoTeam] = useState(false);
-  const [team, setTeam] = useState(null); // Initialize with null instead of an empty object
+  const [team, setTeam] = useState(null); 
   const [loading, setLoading] = useState(true); // Initialize loading as true
   const [groupLeads, setGroupLeads] = useState([]);
 

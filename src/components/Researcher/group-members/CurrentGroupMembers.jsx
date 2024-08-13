@@ -16,7 +16,7 @@ function  CurrentGroupMembers({ myMembers }) {
           <h1 className='font-semibold text-lg'>Group Lead</h1>
           <section className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
             <div className='flex justify-center items-center min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]'>
-              <img className='rounded-full' src={owner.pfp || profileImage} alt='profile' />
+              <img className='rounded-full  min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]' src={owner.pfp || profileImage} alt='profile' />
             </div>
             <div className='py-5'>
               <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{owner.fullname}</p>
@@ -28,7 +28,7 @@ function  CurrentGroupMembers({ myMembers }) {
             {researchers.map((researcher) => (
               <section key={researcher._id} className='flex gap-2 items-center font-Satoshi-Black'>
                 <div className='flex justify-center items-center w-[60px] h-[60px]'>
-                  <img className='rounded-full w-full h-full' src={researcher.pfp || profileImage} alt='profile' />
+                  <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px] w-full h-full' src={researcher.pfp || profileImage} alt='profile' />
                 </div>
                 <div className='py-5 break-words'>
                   <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{researcher.fullname}</p>
@@ -47,7 +47,7 @@ function  CurrentGroupMembers({ myMembers }) {
                 {supervisors.map((supervisor) => (
                   <section key={supervisor._id} className='flex gap-2 my-5 items-center md:px-2 font-Satoshi-Black'>
                     <div className='flex justify-center items-center min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]'>
-                      <img className='rounded-full' src={supervisor.pfp || profileImage} alt='profile' />
+                      <img className='rounded-full  min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]' src={supervisor.pfp || profileImage} alt='profile' />
                     </div>
                     <div className='py-5'>
                       <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{supervisor.fullname}</p>

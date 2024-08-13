@@ -18,42 +18,7 @@ const Sidebar = ({ pageName }) => {
   }, []);
   const [loading, setLoading] = useState(false);
   const [userRole, setUserRole] = useState('');
-  //   useEffect(() => {
-  //     let isMounted = true;
-  //     const fetchUserDetails = async () => {
-  //       setLoading(true);
-  //       try {
-  //         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
-  //           method: "GET",
-  //           redirect: "follow",
-  //           credentials: "include",
-  //         });
-  //         if (!response.ok) {
-  //           throw new Error('Network response was not ok');
-  //         }
-  //         const result = await response.json();
-  //         if (isMounted) {
-  //           if (result.success) {
-  //             const { role } = result.user;
-  //             setUserRole(role);
-  //           } else {
-  //             toast.error("Failed to load user details.");
-  //           }
-  //         }
-  //       } catch (error) {
-  //         if (isMounted) {
-  //           console.error(error);
-  //           toast.error("An error occurred while fetching user details.");
-  //         }
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-  //     fetchUserDetails();
-  //     return () => {
-  //       isMounted = false;
-  //     };
-  //   }, []);
+ 
   const getSidebarItems = () => {
     switch (signUserRole) {
       case 'group-lead':
@@ -79,19 +44,23 @@ const Sidebar = ({ pageName }) => {
         ];
       case 'erc-members':
         return [
-          { id: 1, icon: <MdDashboard className='text-xl' />, text: 'Dashboard', link: '/erc-member-dashboard', page: 'erc-member-dashboard' },
+          // { id: 1, icon: <MdDashboard className='text-xl' />, text: 'Dashboard', link: '/erc-member-dashboard', page: 'erc-member-dashboard' },
           { id: 2, icon: <FaUsers className='text-xl' />, text: 'Assigned Teams', link: '/assigned-teams', page: 'assigned-teams' },
           { id: 3, icon: <PiUserCircleGearFill className='text-2xl' />, text: 'ERC Panel', link: '/erc-panel', page: 'erc-panel' },
           { id: 4, icon: <IoDocuments className='text-xl' />, text: 'Proposals', link: '/assigned-proposals', page: 'assigned-proposals' },
         ];
       case 'erc-head':
         return [
-          { id: 1, icon: <MdDashboard className='text-xl' />, text: 'Dashboard', link: '/erc-head-dashboard', page: 'erc-head-dashboard' },
-          { id: 2, icon: <FaUsers className='text-xl' />, text: 'All Teams', link: '/all-reearchers-teams', page: 'all-reearchers-teams' },
+          // { id: 1, icon: <MdDashboard className='text-xl' />, text: 'Dashboard', link: '/erc-head-dashboard', page: 'erc-head-dashboard' },
+          { id: 2, icon: <FaUsers className='text-xl' />, text: 'All Teams', link: '/all-researchers-teams', page: 'all-researchers-teams' },
           { id: 3, icon: <PiUserCircleGearFill className='text-2xl' />, text: 'ERC Panel', link: '/all-bmy-teams', page: 'all-bmy-teams' },
           { id: 4, icon: <IoDocuments className='text-xl' />, text: 'Proposals', link: '/all-proposals', page: 'all-proposals' },
         ];
       default:
+
+
+      
+
         return [];
     }
   };

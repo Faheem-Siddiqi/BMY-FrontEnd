@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
 export default function ErcMemberViewProposal() {
+    const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false)
     const [ErcMemDataToggle, setMemberDataToggle] = useState(false)
     const updateMemberDataToggle = (newValue) => {
         setMemberDataToggle(newValue);
@@ -155,6 +156,7 @@ export default function ErcMemberViewProposal() {
                     </header>
                     <ProposalForLead
                         LeadproposalData={proposalDetail}
+                        setSectionQnasUndefine={setSectionQnasUndefine}
                     />
                 </div>
             </section>

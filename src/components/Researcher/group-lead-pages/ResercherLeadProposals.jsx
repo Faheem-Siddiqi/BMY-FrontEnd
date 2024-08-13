@@ -31,6 +31,7 @@ export default function ResercherLeadProposals() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
+  console.log(result)
             const formattedProposal = {
               id: result.notAcceptedProposals?.[0]?._id || ' ',
               title: result.notAcceptedProposals?.[0]?.title || ' ',
@@ -50,8 +51,13 @@ export default function ResercherLeadProposals() {
                 title: proposal.title || 'N/A',
                 riskScore: questions['Ethical Risk'] || 0,
                 benefitScore: questions['Benefit Score'] || 0,
+                approvalMember: proposal.approvalMember || {},
+                ercMembers: proposal.assignedErcMember || [],
+                
               };
             });
+
+            // console.log(formattedPreviousProposal)
             setFormattedPreviousProposal(formattedPreviousProposal);
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
@@ -204,8 +210,10 @@ export default function ResercherLeadProposals() {
                   BenefitScore: proposal.benefitScore,
                   sections: proposal.sections,
                   title: proposal.title,
+                  approvalErcMember: proposal.approvalMember,
+                  ercMembers: proposal.ercMembers,
                 }))}
-                header={['Proposal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
+                header={['Proposal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                 rowRenderComponent='previousProposalsRow'
               />
             ) : (

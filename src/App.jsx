@@ -54,6 +54,7 @@ import AllTeams from './components/ErcHead/SidePannel/AllTeams.jsx'
 import Admin from './components/Admin/Admin.jsx'
 import LearnMore from './components/registration/LearnMore.jsx';
 import Prop from './components/letters/Proposal.jsx'
+import Adminlogin from './components/Admin/Adminlogin.jsx'
 function App() {
   return (
     <>
@@ -63,6 +64,7 @@ function App() {
         <Routes>
           {/* Admin */}
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin-login" element={<Adminlogin />} />
           {/* Rest */}
           <Route path="/letter" element={<Letter/>} />
           <Route path="/learn-more" element={<LearnMore/>} />
@@ -110,7 +112,7 @@ function App() {
           <Route path="/all-proposals" element={<ErcHeadProposal />} />
           <Route path="/all-bmy-teams" element={<ErcHeadTeam />} />
           <Route path="/head-evaluate-proposal/:proposalId" element={<ErcHeadViewProposal />} />
-          <Route path="/all-reearchers-teams" element={<AllTeams />} />
+          <Route path="/all-researchers-teams" element={<AllTeams />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AppContextProvider>

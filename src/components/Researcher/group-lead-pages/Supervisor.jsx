@@ -137,7 +137,7 @@ export default function Supervisor() {
                                         {mySupervisors.map((supervisor, index) => (
                                             <section key={index} className='flex gap-2 items-center font-Satoshi-Black'>
                                                 <div className='flex justify-center items-center min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]'>
-                                                    <img className='rounded-full' src={supervisor.pfp || profileImage} alt='profile' />
+                                                    <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={supervisor.pfp || profileImage} alt='profile' />
                                                 </div>
                                                 <div className='py-5'>
                                                     <p className='text-[1rem] font-bold'>{supervisor.fullname}</p>
