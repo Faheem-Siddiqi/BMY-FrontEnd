@@ -3,6 +3,7 @@ import AppContext from "../../../AppContext";
 import Proposal from '../../letters/Proposal.jsx';
 import { ImFilesEmpty } from "react-icons/im";
 import Audit from '../../letters/Audit.jsx'
+import Approval from '../../letters/Approval.jsx'
 const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers
 }) => {
      console.log(approvalErcMember)
@@ -49,6 +50,15 @@ const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, 
                                 PropossalID={PropossalID}
                                 approvalErcMember={approvalErcMember}
                             />
+
+
+<Approval
+
+title={title}
+GroupLead={GroupLead}
+PropossalID={PropossalID}
+approvalErcMember={approvalErcMember}
+/>
                             <select
                                 className='w-fit  px-2 bg-transparent outline-none bg-none'
                                 name="options"

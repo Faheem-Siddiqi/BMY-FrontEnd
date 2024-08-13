@@ -6,7 +6,7 @@ import { AppContextProvider } from './AppContext.jsx';
 // Routing
 import { Route, Routes } from 'react-router-dom';
 // General Components
-import Letter from './components/letters/Letter.jsx';
+
 import Home from './components/Home.jsx';
 import Loader from './components/layout/Loader.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
@@ -66,7 +66,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<Adminlogin />} />
           {/* Rest */}
-          <Route path="/letter" element={<Letter/>} />
+   
           <Route path="/learn-more" element={<LearnMore/>} />
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login />} />
@@ -90,7 +90,7 @@ function App() {
           <Route path="/create-new-proposal" element={<ResercherLeadNewProposal />} />
           <Route path="/lead-proposal" element={<ResearcherLeadProposalPage />} />
           {/*  */}
-          <Route path="/Letter" element={<Letter />} />
+          
           {/* Supervisors */}
           <Route path="/supervisor-dashboard" element={<SupervisorDashboard />} />
           <Route path="/supervisor-teams" element={<SupervisorTeam />} />

@@ -13,7 +13,7 @@ pdfMake.fonts = {
     },
 };
 
-const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
+const Approval = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
     console.log(approvalErcMember);
 
     const Approval = {
@@ -35,7 +35,7 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
             pageMargins: [30, 30, 30, 50], // Left, Top, Right, Bottom
             content: [
                 { text: 'BMY Health Pakistan', style: 'header' },
-                { text: 'Clearance Letter \n\n', style: 'title', margin: [0, 0, 0, 10] },
+                { text: 'Approval Letter \n\n', style: 'title', margin: [0, 0, 0, 10] },
                 {
                     text: [
                         { text: 'Department: ', fontSize: 11, bold: true },
@@ -55,27 +55,72 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
                         { text: 'Protocol Number: ', fontSize: 11, bold: true },
                         { text: `BMY-${protocolNumber.slice(-4)}`, fontSize: 11 },
                     ],
-                    margin: [0, 0, 0, 10] // Add margin after this block
+                    margin: [0, 0, 0, 10] 
                 },
                 {
+
+
                     text: [
-                        { text: 'Subject: ', fontSize: 11, bold: true },
-                        { text: ProjectTitle, fontSize: 11 },
-                    ],
-                    margin: [0, 0, 0, 10] // Add margin after this block
+                        { text: `Subject: `, fontSize: 11, bold: true },
+
+
+                       
+                        { text: `Approval Letter of Research Project `, fontSize: 11 },
+
+                        { text: ProjectTitle, fontSize: 11, bold: true },
+                        { text: ` BMY Health.`, fontSize: 11 }
+                    ],  margin: [0, 0, 0, 10] 
                 },
+                
+               
                 {
                     text: [
                         { text: 'Submitted By: ', fontSize: 11, bold: true },
                         { text: groupLeadName, fontSize: 11 },
                     ],
-                    margin: [0, 0, 0, 10] // Add margin after this block
+                    margin: [0, 0, 0, 10] 
                 },
                 {
                     text: [
                         { text: `The project titled `, fontSize: 11 },
                         { text: ProjectTitle, fontSize: 11, bold: true },
-                        { text: ` received clearance from BMY Health on ${todayDate}, having met the ethical guidelines and standards established by the Ethical Review Committee (ERC) at BMY Health. This clearance ensures that the team demonstrated compliance with all necessary ethical protocols required by BMY Health Ethics Review Committee.`, fontSize: 11 }
+                        { text: `  was approved in the eleventh meeting of ERC at BMY Health after expedited review. The project was approved with consensus on compliance with research ethics. This approval is valid for two months. In case the project is extended beyond two months, review will be required again. This initial approval is the first step of research ethics screening. In case of violation of ethics, ERC can terminate the project at any stage. The project will have to remain under continuous monitoring of ERC for two months and project leaders will have to maintain liaison with ERC to report at following steps.\n\n`, fontSize: 11 },
+
+
+
+                      {  text: [
+                        { text: '  1. After data collection, project leaders will submit proofs of genuine data collection to ERC, including videos/ pictures of data collection, links to data collection forms, and data sheets.\n\n', fontSize: 11,  margin: [0, 0, 0, 10] },
+
+                        { text: '  2. After manuscript completion, they will report ERC regarding plagiarism checks, authors contributions and credits, to ensure publication ethics.\n\n', fontSize: 11,  margin: [0, 0, 0, 10]  },
+
+                        { text: '  3. Before the project closure, they will provide a report on research records retention/ disposal for confidentiality of data as decided with ERC.\n\n', fontSize: 11,  margin: [0, 0, 0, 10]  },
+                       
+                    ],
+
+                   
+                
+                },
+
+
+              
+                    { text: 'Journal should note that researcher will submit 2 letters at the time of manuscript submission:\n\n', fontSize: 11,  margin: [0, 0, 0, 10] },
+
+                   
+                   
+               
+                    {  text: [
+                        { text: '  1. ERC Approval letter after initial project review.\n\n', fontSize: 11,  margin: [0, 0, 0, 10] , bold: true},
+
+                        { text: '  2. ERC Audit letter after project completion.\n\n', fontSize: 11,  margin: [0, 0, 0, 10] , bold: true},
+                       
+                       
+                    ],
+                
+                },
+            
+
+                       
+
                     ],
                 },
                 {
@@ -152,7 +197,7 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
             })
         };
 
-        pdfMake.createPdf(docDefinition).download('audit_letter.pdf');
+        pdfMake.createPdf(docDefinition).download('Approval_letter.pdf');
     };
 
     return (
@@ -164,4 +209,4 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
     );
 };
 
-export default Audit;
+export default Approval;
