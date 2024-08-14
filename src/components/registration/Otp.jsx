@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function OTP() {
   const [otp, setOtp] = useState('');
@@ -8,7 +7,7 @@ export default function OTP() {
   const [showRequireError, setShowRequireError] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [verifying, setVerifying] = useState(false); // New state for verifying
+  const [verifying, setVerifying] = useState(false); // State for verifying
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
