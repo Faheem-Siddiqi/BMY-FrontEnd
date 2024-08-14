@@ -6,7 +6,7 @@ import { TiEdit } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png'
 export default function UserNavbar() {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const location = useLocation();
   const [shouldShowBanner, setShouldShowBanner] = useState(false);
   const [profilePic, setProfilePic] = useState('')
