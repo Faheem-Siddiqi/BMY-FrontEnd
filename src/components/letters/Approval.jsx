@@ -1,5 +1,6 @@
 import { SlEnvolopeLetter } from "react-icons/sl";
 import React from 'react';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 import pdfMake from 'pdfmake/build/pdfmake';
 
 
