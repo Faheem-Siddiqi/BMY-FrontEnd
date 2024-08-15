@@ -31,7 +31,7 @@ export default function ResercherLeadProposals() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
-  console.log(result)
+   console.log(result)
             const formattedProposal = {
               id: result.notAcceptedProposals?.[0]?._id || ' ',
               title: result.notAcceptedProposals?.[0]?.title || ' ',
@@ -44,7 +44,7 @@ export default function ResercherLeadProposals() {
               const ethicalReview = sections.ethicalReview || {};
               const questions = ethicalReview.questions || {};
               return {
-                id: proposal._id || null,
+                ProposalID: proposal._id || 'id',
                 leadName: proposal.creator?.fullname || 'Unknown',
                 mainSupervisor: proposal.supervisorId || 'Not assigned',
                 sections: sections,
@@ -53,12 +53,18 @@ export default function ResercherLeadProposals() {
                 benefitScore: questions['Benefit Score'] || 0,
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
-                
+                acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
+      
               };
             });
 
             // console.log(formattedPreviousProposal)
             setFormattedPreviousProposal(formattedPreviousProposal);
+            
+            //  console.log('formattedPreviousProposal')
+            // console.log(formattedPreviousProposal[0].id)
+            // console.log('formattedPreviousProposal')
+        
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
             toast.error('Failed to load proposal details.');
@@ -70,6 +76,7 @@ export default function ResercherLeadProposals() {
         if (isMounted) {
           setLoading(false);
         }
+       
       }
     };
     const fetchLeadsTeam = async () => {
@@ -121,6 +128,9 @@ export default function ResercherLeadProposals() {
   if (loading) {
     return <Loader />;
   }
+
+  console.log(previousProposals[1])
+  // console.log(previousProposals[0])
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -200,11 +210,12 @@ export default function ResercherLeadProposals() {
               </>
             )}
             <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
+           
             {previousProposals.length > 0 ? (
               <Table
                 className='w-[99%]'
                 rowData={previousProposals.map(proposal => ({
-                  ProposalID: proposal.id,
+                  PropossalID: proposal.ProposalID ,
                   GroupLead: proposal.leadName,
                   EthicalRisk: proposal.riskScore,
                   BenefitScore: proposal.benefitScore,
@@ -212,6 +223,7 @@ export default function ResercherLeadProposals() {
                   title: proposal.title,
                   approvalErcMember: proposal.approvalMember,
                   ercMembers: proposal.ercMembers,
+                  acceptedAt:proposal.acceptedAt,
                 }))}
                 header={['Proposal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                 rowRenderComponent='previousProposalsRow'

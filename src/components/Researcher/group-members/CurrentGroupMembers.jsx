@@ -19,8 +19,8 @@ function  CurrentGroupMembers({ myMembers }) {
               <img className='rounded-full  min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]' src={owner.pfp || profileImage} alt='profile' />
             </div>
             <div className='py-5'>
-              <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{owner.fullname}</p>
-              <p className='text-light md:full truncate w-[150px] text-sm'>{owner.workemail}</p>
+              <p className='text-[1rem]  md:w-full truncate w-[150px] font-bold'>{owner.fullname}</p>
+              <p className='text-light  md:w-full truncate w-[150px] text-sm'>{owner.workemail}</p>
             </div>
           </section>
           <h1 className='font-semibold text-lg'>Group</h1>
@@ -31,8 +31,8 @@ function  CurrentGroupMembers({ myMembers }) {
                   <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px] w-full h-full' src={researcher.pfp || profileImage} alt='profile' />
                 </div>
                 <div className='py-5 break-words'>
-                  <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{researcher.fullname}</p>
-                  <p className='text-light md:full truncate w-[150px] text-sm'>{researcher.workemail}</p>
+                  <p className='text-[1rem]  md:w-full truncate w-[150px] font-bold'>{researcher.fullname}</p>
+                  <p className='text-light  md:w-full truncate w-[150px] text-sm'>{researcher.workemail}</p>
                   {/* <DeleteMembers ownerId={owner._id} memberId={researcher._id} /> */}
                 </div>
               </section>
@@ -50,8 +50,8 @@ function  CurrentGroupMembers({ myMembers }) {
                       <img className='rounded-full  min-w-[85px] min-h-[85px] max-w-[85px] max-h-[85px]' src={supervisor.pfp || profileImage} alt='profile' />
                     </div>
                     <div className='py-5'>
-                      <p className='text-[1rem] md:full truncate w-[150px] font-bold'>{supervisor.fullname}</p>
-                      <p className='text-light md:full truncate w-[150px] text-sm'>{supervisor.workemail}</p>
+                      <p className='text-[1rem]  md:w-full truncate w-[150px] font-bold'>{supervisor.fullname}</p>
+                      <p className='text-light  md:w-full truncate w-[150px] text-sm'>{supervisor.workemail}</p>
                     </div>
                   </section>
                 ))}

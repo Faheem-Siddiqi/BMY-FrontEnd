@@ -5,7 +5,7 @@ import SignatureCanvas from 'react-signature-canvas';
 export default function Signature({ formData, onInputChange, onSubmit }) {
     const [localImage, setLocalImage] = useState(null);
     const [signPad, setSignPad] = useState(null);
-    const [signUrl, setSignUrl] = useState('no');
+    const [signUrl, setSignUrl] = useState('yes');
     const handleSignClear = () => {
         if (signPad) {
             signPad.clear();
@@ -73,11 +73,14 @@ export default function Signature({ formData, onInputChange, onSubmit }) {
                         )}
                         {signUrl !== 'no' && (<>
                             <span className=''>Click on the box below to draw you signature using Mouse or pen </span>
-                            <span className='' onClick={() => setSignUrl('no')}>  <span className='text-black mr-1'>or</span>
+                           
+                           
+                            {/* <span className='' onClick={() => setSignUrl('no')}>  <span className='text-black mr-1'>or</span>
                                 <span className='ml-1 text-epsilon cursor-pointer font-semibold border-b border-b-epsilon'>
                                     Change to Upload Sign
                                 </span>
-                            </span>
+                            </span> */}
+
                             <div className='border-2 my-5 rounded-xl w-full md:w-[60%] overflow-hidden border-epsilon border-dashed'>
                                 <SignatureCanvas
                                     backgroundColor='white'

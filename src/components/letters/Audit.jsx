@@ -1,21 +1,23 @@
 import { SlEnvolopeLetter } from "react-icons/sl";
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts'; // Add this for font embedding
+import defaultSign from '../../assets/images/signature.png';
+
 // Define the fonts for pdfMake
-(pdfMake).fonts = {
-  Roboto: {
-    normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
-    bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
-    italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
-    bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
-  },
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.fonts = {
+    Roboto: {
+        normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
+        bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
+        italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
+        bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
+    },
 };
 
-const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
-    console.log(approvalErcMember);
-
+const Audit = ({ title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
     const Approval = {
-        signature: approvalErcMember?.signature || '', // URL to the signature image
+        signature: approvalErcMember?.signature || defaultSign,
         fullname: approvalErcMember?.fullname || 'fullname',
         designation: approvalErcMember?.experience?.designation || 'N/A',
         institution: approvalErcMember?.experience?.company || 'N/A',
@@ -24,9 +26,6 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
     const ProjectTitle = typeof title === 'string' ? title : 'Default Title';
     const groupLeadName = typeof GroupLead === 'string' ? GroupLead : 'Default Name';
     const protocolNumber = typeof PropossalID === 'string' ? PropossalID : '0000';
-
-    // Get today's date
-    const todayDate = new Date().toLocaleDateString();
 
     const generatePDF = async () => {
         const docDefinition = {
@@ -44,7 +43,7 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
                 {
                     text: [
                         { text: 'Date: ', fontSize: 11, bold: true },
-                        { text: todayDate, fontSize: 11 },
+                        { text: `${acceptedAt} : `, fontSize: 11 },
                     ],
                     margin: [0, 0, 0, 10] // Add margin after this block
                 },
@@ -73,7 +72,7 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
                     text: [
                         { text: `The project titled `, fontSize: 11 },
                         { text: ProjectTitle, fontSize: 11, bold: true },
-                        { text: ` received clearance from BMY Health on ${todayDate}, having met the ethical guidelines and standards established by the Ethical Review Committee (ERC) at BMY Health. This clearance ensures that the team demonstrated compliance with all necessary ethical protocols required by BMY Health Ethics Review Committee.`, fontSize: 11 }
+                        { text: ` received clearance from BMY Health on ${acceptedAt}, having met the ethical guidelines and standards established by the Ethical Review Committee (ERC) at BMY Health. This clearance ensures that the team demonstrated compliance with all necessary ethical protocols required by BMY Health Ethics Review Committee.`, fontSize: 11 }
                     ],
                 },
                 {
@@ -83,10 +82,10 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
                     margin: [0, 10, 10, 30]
                 },
                 {
-                    image: Approval.signature, // Add the signature image
-                    width: 100, // Adjust the width as needed
+                    image: Approval.signature, 
+                    width: 100, 
                     alignment: 'right',
-                    margin: [0, 0, 0, 5] 
+                    margin: [0, 0, 0, 5]
                 },
                 {
                     text: Approval.fullname,
@@ -107,7 +106,6 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember }) => {
                     style: 'position',
                     alignment: 'right'
                 },
-              
             ],
             styles: {
                 header: {

@@ -55,7 +55,7 @@ export default function SupervisorProposals() {
           throw new Error('Failed to fetch proposals');
         }
         const result = await response.json();
-        // console.log(result)
+        console.log(result)
         setFormattedPreviousProposal(result.proposals || []);
         // console.log(previousProposals)
       }
@@ -116,10 +116,11 @@ export default function SupervisorProposals() {
                     BenefitScore: proposal?.sections?.ethicalReview?.questions['Ethical Risk'] || 0,
                     sections: proposal?.sections || {},
                     title: proposal?.title || '',
-                    approvalErcMember: proposal?.approvalMember || {},
-                    ercMembers: proposal?.assignedErcMember || [],
+                    // approvalErcMember: proposal?.approvalMember || {},
+                    // ercMembers: proposal?.assignedErcMember || [],
+
                   }))}
-                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
+                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action',]}
                   rowRenderComponent='previousProposalsRow'
                 />
               ) : (

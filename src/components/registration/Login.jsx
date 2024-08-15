@@ -30,8 +30,8 @@ export default function Login() {
       });
       const token = response.data.token;
       localStorage.setItem('token', token);
-      setCookie('token', token);
       localStorage.setItem('role', role);
+      setCookie('token', token);
       SuccessLogin();
       navigate('/edit-profile');
     } catch (error) {
@@ -196,18 +196,14 @@ export default function Login() {
                   Sign up
                 </Link>
               </p>
-
-
               <p className="text-center text-sm font-Satoshi-Black my-3 flex gap-1">
-               Switch To Admin Login
                 <Link
                   to="/admin-login"
                   className="relative text-primary w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-epsilon after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left"
                 >
-                  Switch
+                  Admin Login
                 </Link>
               </p>
-
             </div>
           </div>
         </div>

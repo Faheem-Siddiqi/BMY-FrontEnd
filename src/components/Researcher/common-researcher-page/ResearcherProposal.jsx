@@ -45,8 +45,11 @@ export default function ResearcherProposal() {
               benefitScore: questions['Benefit Score'] || 0,
               approvalErcMember: proposal.approvalMember || {},
               ercMembers: proposal.assignedErcMember || [],
+              acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
+              
+
             };
-            // console.log(formattedProposal)
+            //  console.log(formattedProposal)
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
@@ -155,6 +158,7 @@ export default function ResearcherProposal() {
                     title: proposal.title,
                     approvalErcMember: proposal.approvalErcMember || {},
                     ercMembers: proposal.ercMembers,
+                    acceptedAt:proposal.acceptedAt,
 
                   }))}
                   header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}

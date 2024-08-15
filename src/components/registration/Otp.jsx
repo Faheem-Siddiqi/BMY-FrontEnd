@@ -76,7 +76,7 @@ export default function OTP() {
         setSuccessMessage("OTP verified");
         setTimeout(() => {
           navigate('/reset-password', { state: { email } });
-        }, 4000);
+        }, 0);
       } else {
         setSubmitError(data.message || "An error occurred. Please try again.");
       }

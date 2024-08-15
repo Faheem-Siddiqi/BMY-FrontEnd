@@ -76,9 +76,9 @@ export default function ResearcherSupervisor() {
                                                 <img className="rounded-full" src={supervisor.pfp || profileImage} alt={`profile image`} />
                                             </div>
                                             <div className="py-5">
-                                                <p className="text-[1rem] font-bold  md:full truncate w-[150px]">{supervisor.fullname}</p>
-                                                <p className="text-light  md:full truncate w-[150px]">{supervisor.workemail}</p>
-                                                <p className="text-light  md:full truncate w-[150px]">{supervisor.experience?.company || ''}</p>
+                                                <p className="text-[1rem] font-bold  md:w-full truncate w-[150px]">{supervisor.fullname}</p>
+                                                <p className="text-light  md:w-full truncate w-[150px]">{supervisor.workemail}</p>
+                                                <p className="text-light  md:w-full truncate w-[150px]">{supervisor.experience?.company || ''}</p>
                                             </div>
                                         </section>
                                     </div>

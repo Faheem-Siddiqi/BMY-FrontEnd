@@ -16,8 +16,8 @@ export default function Fellows({ myMembers }) {
                 <img className='rounded-full  min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={myMembers.owner.pfp || profileImage} alt='profile image' />
               </div>
               <div className='py-5'>
-                <p className='text-[1rem] font-bold md:full truncate w-[150px]'>{myMembers.owner.fullname}</p>
-                <p className='text-light text-sm md:full truncate w-[150px]'>{myMembers.owner.workemail}</p>
+                <p className='text-[1rem] font-bold  md:w-full truncate w-[150px]'>{myMembers.owner.fullname}</p>
+                <p className='text-light text-sm  md:w-full truncate w-[150px]'>{myMembers.owner.workemail}</p>
               </div>
             </section>
             <h1 className='font-semibold text-lg'>Group</h1>
@@ -30,7 +30,7 @@ export default function Fellows({ myMembers }) {
                     </div>
                     <div className='py-5 '>
                       <p className='text-[1rem] font-bold'>{researcher.fullname}</p>
-                      <p className='text-light md:w-full text-sm md:full truncate w-[150px]'>{researcher.workemail}</p>
+                      <p className='text-light md:w-full text-sm  md:w-full truncate w-[150px]'>{researcher.workemail}</p>
                     </div>
                   </section>
                 ))
@@ -57,7 +57,7 @@ export default function Fellows({ myMembers }) {
                     <p className='text-[1rem] truncate w-[150px] font-bold'>
                       {supervisor.fullname || 'No Name Provided'}
                     </p>
-                    <p className='text-light text-sm md:full truncate w-[150px]'>
+                    <p className='text-light text-sm  md:w-full truncate w-[150px]'>
                       {supervisor.workemail || 'No Title Provided'}
                     </p>
                   </div>

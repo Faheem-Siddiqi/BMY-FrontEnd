@@ -138,7 +138,7 @@ export default function Admin() {
                                         </h2>
                                         <p
                                             data-aos="fade-right"
-                                            className="max-w-xl mb-4 text-base text-gray-200 md:text-lg"
+                                            className="max-w-xl mb-4 text-base text-gray-200 "
                                         >
                                             We are a firm of Community Health Professionals registered in Pakistan in 2022.
                                             We have Professionals trained from renowned institutes across Pakistan, with diverse backgrounds.

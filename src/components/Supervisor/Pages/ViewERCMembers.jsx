@@ -53,7 +53,7 @@ export default function ERCMembers() {
             title: accepted?.proposal?.title || 'Untitled',
             ownerFullname: accepted?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: accepted?.proposal?.creator?.workemail || 'No Email',
-            ownerPfp: accepted?.proposal?.creator?.pfp || '',  
+            ownerPfp: accepted?.proposal?.creator?.pfp || '',
             supervisors: Array.isArray(accepted.team?.supervisors) ? accepted.team.supervisors : [],
             researchers: Array.isArray(accepted?.team?.researchers) ? accepted.team.researchers : [],
             ercMembers: Array.isArray(accepted?.proposal?.assignedErcMember) ? accepted.proposal.assignedErcMember : [],
@@ -132,10 +132,10 @@ export default function ERCMembers() {
               </select>
             </div>
             {arrayToDisplay.length > 0 ? (
-                  arrayToDisplay.map((proposal, index) => (
-                    <>
-            <header key={index} className='bg-white shadow-sm my-5 p-10'>
-              <div id='members' className="flex  flex-col">
+              arrayToDisplay.map((proposal, index) => (
+                <>
+                  <header key={index} className='bg-white shadow-sm my-5 p-10'>
+                    <div id='members' className="flex  flex-col">
                       {/* id */}
                       <p className=''>
                         <span className='font-bold'>
@@ -163,8 +163,8 @@ export default function ERCMembers() {
                           <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={proposal.ownerPfp || profileImage} alt='profile image' />
                         </div>
                         <div className='py-5'>
-                          <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{proposal.ownerFullname}</p>
-                          <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{proposal.ownerEmail}</p>
+                          <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{proposal.ownerFullname}</p>
+                          <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{proposal.ownerEmail}</p>
                         </div>
                       </section>
                       <h1 className='font-semibold text-lg my-1'>
@@ -181,8 +181,8 @@ export default function ERCMembers() {
                                   <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={supervisor.pfp || profileImage} alt='profile image' />
                                 </div>
                                 <div className='py-5'>
-                                  <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{supervisor.fullname}</p>
-                                  <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{supervisor.workemail}</p>
+                                  <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{supervisor.fullname}</p>
+                                  <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{supervisor.workemail}</p>
                                 </div>
                               </section>
                             </div>
@@ -203,8 +203,8 @@ export default function ERCMembers() {
                                   <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={researcher.pfp || profileImage} alt='profile image' />
                                 </div>
                                 <div className='py-5'>
-                                  <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{researcher.fullname}</p>
-                                  <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{researcher.workemail}</p>
+                                  <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{researcher.fullname}</p>
+                                  <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{researcher.workemail}</p>
                                 </div>
                               </section>
                             </div>
@@ -226,8 +226,8 @@ export default function ERCMembers() {
                                     <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px] ' src={ercMembers.pfp || profileImage} alt='profile image' />
                                   </div>
                                   <div className='py-5'>
-                                    <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{ercMembers.fullname}</p>
-                                    <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{ercMembers.workemail}</p>
+                                    <p className='text-[1rem] font-bold   md:w-full truncate w-[150px]'>{ercMembers.fullname}</p>
+                                    <p className='text-light text-sm  md:w-full truncate w-[150px]'>{ercMembers.workemail}</p>
                                   </div>
                                 </section>
                               </div>
@@ -237,13 +237,13 @@ export default function ERCMembers() {
                       )}
                       <div className='flex md:gap-10 gap-5 flex-wrap'>
                       </div>
-              </div>
-            </header>
-             </>
-                  ))
-                ) : (
-                  <p className='text-center text-gray-500'>ERC Panel not found</p>
-                )}
+                    </div>
+                  </header>
+                </>
+              ))
+            ) : (
+              <p className='text-center text-gray-500'>ERC Panel not found</p>
+            )}
           </div>
         </section>
       </div>

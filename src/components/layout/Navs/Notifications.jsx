@@ -52,7 +52,7 @@ export default function Notifications() {
                     throw new Error('Network response was not ok');
                 }
                 const result = await response.json();
-                console.log(result);
+                // console.log(result);
                 if (result.success) {
                     const formattedNotifications = result.notifications.map(notification => ({
                         id: notification._id,
@@ -97,10 +97,10 @@ export default function Notifications() {
                     ) : hasUnseenNotifications ? (
                         unseenNotifications.map(notification => (
                             <React.Fragment key={notification.id}>
-                                <li className="hover:bg-epsilon w-full hover:bg-opacity-35 rounded-sm duration-300 my-1 px-2 py-1 ">
-                                    <div className="font-semibold">{notification.description}</div>
+                                <li className="hover:bg-epsilon w-full  hover:bg-opacity-35 rounded-sm duration-300 my-1 px-2 py-1 ">
+                                    <div className=" text-sm">{notification.description}</div>
                                     <div className="flex justify-between items-center">
-                                        <div className="text-xs text-gray-500">{new Date(notification.createdAt).toLocaleString()}</div>
+                                        <div className="text-xs text-gray-500 mt-1">{new Date(notification.createdAt).toLocaleString()}</div>
                                         <FaCheck
                                             onClick={() => markAsSeen(notification.id)}
                                             className='text-epsilon cursor-pointer' />

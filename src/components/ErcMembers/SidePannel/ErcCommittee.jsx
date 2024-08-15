@@ -161,8 +161,8 @@ export default function ErcCommittee() {
                           <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={proposal.ownerPfp || profileImage} alt='profile image' />
                         </div>
                         <div className='py-5'>
-                          <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{proposal.ownerFullname}</p>
-                          <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{proposal.ownerEmail}</p>
+                          <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{proposal.ownerFullname}</p>
+                          <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{proposal.ownerEmail}</p>
                         </div>
                       </section>
                       <h1 className='font-semibold text-lg my-1'>
@@ -179,8 +179,8 @@ export default function ErcCommittee() {
                                   <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={supervisor.pfp || profileImage} alt='profile image' />
                                 </div>
                                 <div className='py-5'>
-                                  <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{supervisor.fullname}</p>
-                                  <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{supervisor.workemail}</p>
+                                  <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{supervisor.fullname}</p>
+                                  <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{supervisor.workemail}</p>
                                 </div>
                               </section>
                             </div>
@@ -201,8 +201,8 @@ export default function ErcCommittee() {
                                   <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={researcher.pfp || profileImage} alt='profile image' />
                                 </div>
                                 <div className='py-5'>
-                                  <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{researcher.fullname}</p>
-                                  <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{researcher.workemail}</p>
+                                  <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{researcher.fullname}</p>
+                                  <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{researcher.workemail}</p>
                                 </div>
                               </section>
                             </div>
@@ -224,8 +224,8 @@ export default function ErcCommittee() {
                                     <img className='rounded-full min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px]' src={ercMembers.pfp || profileImage} alt='profile image' />
                                   </div>
                                   <div className='py-5'>
-                                    <p className='text-[1rem] font-bold  md:w-full  md:full truncate w-[150px]'>{ercMembers.fullname}</p>
-                                    <p className='text-light  md:w-full text-sm md:full truncate w-[150px]'>{ercMembers.workemail}</p>
+                                    <p className='text-[1rem] font-bold  md:w-full   md:w-full truncate w-[150px]'>{ercMembers.fullname}</p>
+                                    <p className='text-light  md:w-full text-sm  md:w-full truncate w-[150px]'>{ercMembers.workemail}</p>
                                   </div>
                                 </section>
                               </div>

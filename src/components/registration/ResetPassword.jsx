@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
-
-import Loader from "../layout/Loader" 
+import Loader from "../layout/Loader";
 
 export default function ResetPassword() {
   const [requiredError, setRequiredError] = useState(false);
@@ -11,6 +10,9 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false); // New state for loading
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
@@ -31,7 +33,7 @@ export default function ResetPassword() {
     }
 
     if (password !== confirmPassword) {
-      setSubmitError("Password and Confirm Password Doesn't Match");
+      setSubmitError("Password and Confirm Password Don't Match");
       setLoading(false); // Reset loading state
       return;
     }
@@ -40,10 +42,6 @@ export default function ResetPassword() {
       setSubmitError("Password must have one uppercase letter, one lowercase letter, one number, and be at least 8 characters long");
       setLoading(false); // Reset loading state
       return;
-    }
-
-    if (loading){
-      <Loader/>
     }
 
     try {
@@ -64,7 +62,7 @@ export default function ResetPassword() {
         SuccessReset();
         setTimeout(() => {
           navigate('/login');
-        }, 4000);
+        }, 0); 
       } else {
         FailReset();
       }
@@ -96,28 +94,46 @@ export default function ResetPassword() {
               <p className="text-xs my-1 text-red-600">
                 {!password && requiredError && " * Password Field Required"}
               </p>
-              <input
-                name='password'
-                id='password'
-                type="password"
-                placeholder="8+ characters"
-                className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-none focus:border-gray-500"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  name='password'
+                  id='password'
+                  type={showPassword ? "text" : "password"} // Toggle between text and password
+                  placeholder="8+ characters"
+                  className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-none focus:border-gray-500"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0  text-sm flex items-center px-2"
+                  onClick={() => setShowPassword(prev => !prev)}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </section>
             <section className="mb-4">
               <label htmlFor='confirm-password'>Confirm Password</label>
               <p className="text-xs my-1 text-red-600">
                 {!confirmPassword && requiredError && " * Confirm Password Field Required"}
               </p>
-              <input
-                name='confirm-password'
-                id='confirm-password'
-                type="password"
-                placeholder="8+ characters"
-                className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-none focus:border-gray-500"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  name='confirm-password'
+                  id='confirm-password'
+                  type={showConfirmPassword ? "text" : "password"} // Toggle between text and password
+                  placeholder="8+ characters"
+                  className="mt-1 w-full bg-gray-100 border border-light border-opacity-55 rounded py-2 px-3 focus:outline-none focus:border-gray-500"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex text-sm items-center px-2"
+                  onClick={() => setShowConfirmPassword(prev => !prev)}
+                >
+                  {showConfirmPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </section>
             <span className="text-xs text-red-600">
               {submitError}
@@ -126,9 +142,9 @@ export default function ResetPassword() {
               type="submit"
               onClick={handleSubmit}
               className="bg-epsilon w-full mt-5 text-white mb-3 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              disabled={loading} // Disable button while loading
+              disabled={loading} 
             >
-              {loading ? 'Submitting...' : 'Submit'} {/* Change button text based on loading state */}
+              {loading ? 'Updating...' : 'Submit'} 
             </button>
             <p className="text-center text-sm font-Satoshi-Black my-3">
               Don’t have an Account? <Link to="/sign-up" className="text-primary border-b border-b-transparent hover:border-b-primary duration-500">Sign up</Link>

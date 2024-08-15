@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AppContext from "../../../AppContext";
 import Proposal from '../../letters/Proposal.jsx';
 import { ImFilesEmpty } from "react-icons/im";
 import Audit from '../../letters/Audit.jsx'
 import Approval from '../../letters/Approval.jsx'
-const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers
-}) => {
-     console.log(approvalErcMember)
-      console.log(ercMembers)
+const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers , acceptedAt}) => {
+   
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
@@ -40,25 +37,29 @@ const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, 
                     />
                 </div>
             </td>
-            {(signUserRole === 'supervisor' || signUserRole === 'researchers' || signUserRole === 'group-lead') && (
+            {( signUserRole === 'researchers' || signUserRole === 'group-lead') && (
                 <>
                     <td className='p-4'>
                         <div className='flex  items-center   border-epsilon border py-1 px-2   w-fit  rounded gap-2'>
-                            <Audit
-                                title={title}
-                                GroupLead={GroupLead}
-                                PropossalID={PropossalID}
-                                approvalErcMember={approvalErcMember}
-                            />
-
-
-<Approval
-
-title={title}
-GroupLead={GroupLead}
-PropossalID={PropossalID}
-approvalErcMember={approvalErcMember}
-/>
+                            {
+                                selectedOption === 'option2' ? (
+                                    <Approval
+                                        title={title}
+                                        GroupLead={GroupLead}
+                                        PropossalID={PropossalID}
+                                        approvalErcMember={approvalErcMember}
+                                        acceptedAt={acceptedAt}
+                                    />
+                                ) : (
+                                    <Audit
+                                        title={title}
+                                        GroupLead={GroupLead}
+                                        PropossalID={PropossalID}
+                                        approvalErcMember={approvalErcMember}
+                                        acceptedAt={acceptedAt}
+                                    />
+                                )
+                            }
                             <select
                                 className='w-fit  px-2 bg-transparent outline-none bg-none'
                                 name="options"
@@ -67,7 +68,7 @@ approvalErcMember={approvalErcMember}
                                 onChange={handleChange}
                             >
                                 <option value="option1">Audit</option>
-                                <option value="option2">Synopsis</option>
+                                <option value="option2">Approval</option>
                                 <option value="option3">MOM</option>
                                 <option value="option4">
                                     Approval</option>

@@ -24,17 +24,23 @@ export default function ErcHeadProposal() {
           throw new Error('Failed to fetch proposals');
         }
         const result = await response.json();
-        if (Array.isArray(result.proposals) && result.proposals.length > 0) {
-          const proposalInfo = result.proposals.map(proposal => ({
-            proposalid: proposal._id,
-          }));
-          setProposalInfo(proposalInfo);
-        } else {
-          setProposalInfo([]);  // Set to an empty array if no proposals
-        }
+
+        const formattedProposals = (Array.isArray(result.proposals) && result.proposals.length > 0)
+          ? result.proposals
+              .filter(proposal => proposal && proposal.status === 'submitted to erc head')
+              .map(proposal => ({
+                proposalid: proposal._id,
+                status: proposal.status
+              }))
+          : [];
+
+        setProposalInfo(formattedProposals);
+
+       
+    //  console.log(formattedProposals)
       } catch (error) {
         console.log(error.message);
-        setProposalInfo([]);  // Set to an empty array on error
+        setProposalInfo([]);  
       } finally {
         setLoading(false);
       }
@@ -51,6 +57,8 @@ export default function ErcHeadProposal() {
           throw new Error('Failed to fetch previous proposals');
         }
         const result = await response.json();
+        console.log('result')
+        console.log(result)
         setFormattedPreviousProposal(result.proposals || []);
       } catch (error) {
         console.log(error.message);
