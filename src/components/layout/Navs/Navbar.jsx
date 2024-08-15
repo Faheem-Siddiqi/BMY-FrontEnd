@@ -23,8 +23,8 @@ export default function Navbar() {
                     </Link>
                     <Link to='/sign-up'
                         className=" max-h-fit h-fit  min-h-fit py-2 px-3 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
-                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                            <BiSolidLogInCircle className='text-2xl' />   <span className='mx-2'>Signup</span>
+                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon pr-2 text-white duration-300 group-hover:translate-x-0">
+                              <BiSolidLogInCircle className='text-2xl ' />   <span className='mx-1'>Signup</span>
                         </span>
                         <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Signup</span>
                         <span className="invisible relative"> x Signup </span>
