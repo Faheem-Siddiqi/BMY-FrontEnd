@@ -1,7 +1,7 @@
 import { SlEnvolopeLetter } from "react-icons/sl";
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
-// Define the fonts for pdfMake
+
 (pdfMake).fonts = {
     Roboto: {
         normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
