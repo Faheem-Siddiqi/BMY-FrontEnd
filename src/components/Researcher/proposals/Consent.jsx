@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-export default function Consent({ formData, onInputChange, onSubmit }) {
+export default function Consent({ formData, onInputChange, onSubmit, sectionAssigned }) {
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [assigned, setAssigned] = useState(false)
     const [answer1, setAnswer1] = useState('');
     const [answer2, setAnswer2] = useState('');
     const [answer3, setAnswer3] = useState('');
@@ -24,6 +26,22 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
             console.log('Local storage: role  not found.');
         }
     }, []);
+    useEffect(() => {
+        const isValidRole = (signUserRole, sectionAssigned) => {
+            if (signUserRole === 'erc-head' || signUserRole === 'erc-members') {
+                return true;
+            }
+            if (signUserRole === 'researchers') {
+                return !sectionAssigned.includes('consent');
+            }
+            return false;
+        };
+        if (sectionAssigned.includes('consent')) {
+            setAssigned(true)
+        }
+        const checkBtn = isValidRole(signUserRole, sectionAssigned);
+        setIsButtonEnabled(checkBtn);
+    }, [signUserRole, sectionAssigned]);
     // Handle radio button changes
     const handleOptionChange = (question, setAnswer) => (e) => {
         if (
@@ -52,6 +70,15 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
         <div className='font-WorkSans-Regular'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Consent</h1>
             <header className='bg-white shadow-sm my-5 p-10'>
+                {
+                    signUserRole === 'researchers' && (
+                        <>
+                            <p className='flex justify-end text-epsilon'>
+                                {assigned ? 'Assigned' : 'Not Assigned'}
+                            </p>
+                        </>
+                    )
+                }
                 <section className='my-5 md:w-[50%]'>
                     <p className="mb-2 text-zeta font-semibold">
                         Will the project require approval by any other ethics committee other than the BMY Ethics Committee?
@@ -90,8 +117,6 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                         From where additional IRB approval is required
                     </label>
                     <input
-                        readOnly={signUserRole === 'group-lead'}
-                        disabled={signUserRole === 'group-lead'}
                         type='text'
                         id='question2'
                         name='question2'
@@ -169,29 +194,28 @@ export default function Consent({ formData, onInputChange, onSubmit }) {
                 </section>
                 {signUserRole === 'researchers' && (<>
                     <section className='my-5 text-justify'>
-                        <label className="flex items-start">
+                        <label
+                            className={` ${isButtonEnabled === true && 'hidden'} flex items-start `}>
                             <input
                                 type="checkbox"
                                 checked={iAgree}
                                 onChange={handleCheckboxChange}
                                 className="mr-2 mt-1"
                             />
-                            <p className="mb-2 text-zeta">
+                            <p className={` ${isButtonEnabled === true && 'hidden'} mb-2 text-zeta `}>
                                 I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically.
                             </p>
                         </label>
                     </section>
                 </>)}
-                {signUserRole === 'researchers' && (<>
-                    <button
-                        onClick={onSubmit}
-                        disabled={!iAgree}
-                        className={`mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon ${!iAgree ? 'opacity-50 cursor-not-allowed' : ''} text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
-                    >
-                        <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                        Save
-                    </button>
-                </>)}
+                <button
+                    onClick={onSubmit}
+                    disabled={isButtonEnabled}
+                    className={` ${isButtonEnabled === true && 'hidden'} mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
+                >
+                    <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
+                    Save
+                </button>
             </header>
         </div>
     );

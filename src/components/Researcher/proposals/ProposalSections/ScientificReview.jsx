@@ -1,7 +1,7 @@
 import { React ,useState,useEffect } from 'react'
-import { BsFillCloudUploadFill } from "react-icons/bs"
-export default function ScientificReview({ scientificData, onChange , onSubmit }) {
-
+export default function ScientificReview({ scientificData, onChange , onSubmit , sectionAssigned}) {
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [assigned, setAssigned] = useState(false)
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
@@ -11,8 +11,22 @@ export default function ScientificReview({ scientificData, onChange , onSubmit }
             console.log('Local storage: role  not found.');
         }
     }, []);
-
-
+    useEffect(() => {
+        const isValidRole = (signUserRole, sectionAssigned) => {
+            if (signUserRole === 'erc-head' || signUserRole === 'erc-members') {
+                return true;
+            }
+            if (signUserRole === 'researchers') {
+                return !sectionAssigned.includes('scientificReview');
+            }
+            return false;
+        };
+        if (sectionAssigned.includes('scientificReview')) {
+            setAssigned(true)
+        }
+        const checkBtn = isValidRole(signUserRole, sectionAssigned);
+        setIsButtonEnabled(checkBtn);
+    }, [signUserRole, sectionAssigned]);
     const handleScientificDataChange = (event) => {
         const { name, value, type, files } = event.target;
         if (type === 'radio') {
@@ -29,6 +43,15 @@ export default function ScientificReview({ scientificData, onChange , onSubmit }
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Scientific Review (Synopsis)  </h1>
                 {scientificData.answer1}
                 <header className='bg-white shadow-sm my-5 p-10'>
+                {
+                    signUserRole === 'researchers' && (
+                        <>
+                            <p className='flex justify-end text-epsilon'>
+                                {assigned ? 'Assigned' : 'Not Assigned'}
+                            </p>
+                        </>
+                    )
+                }
                     <section className='mb-4 w-full md:w-[50%] '>
                         <label htmlFor="supervisorName" className='text-zeta  font-semibold '>Supervisor </label>
                         <input
@@ -87,7 +110,6 @@ export default function ScientificReview({ scientificData, onChange , onSubmit }
                         <p className="mt-5 mb-2 w-full md:w-[50%] text-zeta  font-semibold ">
                             Name the beneficiary group clearly identified that will benefit from the information generated in your research
                         </p>
-                       
                         <div className="relative w-full md:w-[50%]">
                             <div
                                 className={` ${scientificData.answer4.length >= scientificData.answer4Limit ? 'text-red-600' : ''
@@ -768,15 +790,14 @@ export default function ScientificReview({ scientificData, onChange , onSubmit }
                             </div>
                         </section>
                     </section>
-
-                    {signUserRole === 'researchers' && (<>
                     <button
                     onClick={onSubmit}
-                    className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                    disabled={isButtonEnabled}
+                    className={` ${isButtonEnabled === true && 'hidden'} mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
+                >
                         <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                         Save
                     </button>
-                    </>)}
                 </header>
             </div>
         </>

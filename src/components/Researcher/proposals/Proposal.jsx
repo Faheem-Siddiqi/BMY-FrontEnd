@@ -5,28 +5,19 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
-export default function Proposal({ assignProposal, role, MemberproposalId }) {
-    const [savingStatus, setSavingStatus] = useState({
-        Information: false,  
-        ScientificReview: false,
-        EthicalReview: false,
-        Consent: false
-    });
-    useEffect(() => {
-        Object.entries(savingStatus).forEach(([section, isSaving]) => {
-            if (isSaving) {
-                toast(`${section} is saving...`, {
-                    icon: '⏳', // Emoji for loading or saving
-                });
-            }
-        });
-    }, [savingStatus]);
-    const updateSavingStatus = (section, status) => {
-        setSavingStatus(prevState => ({
-            ...prevState,
-            [section]: status
-        }));
-    };
+export default function Proposal({ proposalData, assignProposal, role }) {
+    console.log(proposalData.id)
+    const hasMissingQuestions =
+        !proposalData ||
+        !proposalData.sections ||
+        !proposalData.sections.information ||
+        !proposalData.sections.information.questions ||
+        !proposalData.sections.consent ||
+        !proposalData.sections.consent.questions ||
+        !proposalData.sections.scientificReview ||
+        !proposalData.sections.scientificReview.questions ||
+        !proposalData.sections.ethicalReview ||
+        !proposalData.sections.ethicalReview.questions;
     const [ethicalData, setEthicalData] = useState({
         table1Answers: {
             table1a: '',
@@ -81,6 +72,216 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         ethicalRisk: 0,
         benefitScore: 0,
     });
+    const [consentData, setConsentData] = useState({
+        question1: '',
+        question2: '',
+        question3: '',
+        question4: '',
+    });
+    const [informationData, setInformationData] = useState({
+        question1: '',
+        question2: [
+        ],
+        question3: '',
+    });
+    const [scientificData, setScientificData] = useState({
+        supervisorName: '',
+        applicantName: '',
+        researchTitle: '',
+        startDate: '',
+        endDate: '',
+        answer4: '',
+        answer4Limit: 250,
+        answer5: '',
+        answer5Limit: 800,
+        answer6: '',
+        answer6Limit: 100,
+        answer7: '',
+        answer7Limit: 100,
+        researchObjectives: '',
+        mainVariable: '',
+        operationalDefinition: '',
+        answer11: '',
+        answer12: '',
+        answer13: '',
+        answer14a: '',
+        answer14b: '',
+        answer14c: '',
+        answer14d: '',
+        answer14e: '',
+        answer14f: '',
+        answer14g: '',
+        answer15a: '',
+        answer15b: '',
+        answer15c: '',
+        answer15d: '',
+        answer15e: '',
+        answer15f: '',
+        answer15g: '',
+        answer16a: '',
+        answer16b: '',
+        answer16c: '',
+        answer16d: '',
+        answer16e: '',
+        answer16f: '',
+        answer16g: '',
+        answer16h: '',
+        answer17: '',
+        answer18: '',
+        answer19: '',
+        answer20: '',
+        answer21: '',
+        answer22: '',
+        onlineQuestionnaires: ''
+    });
+    const [savingStatus, setSavingStatus] = useState({
+        Information: false,
+        ScientificReview: false,
+        EthicalReview: false,
+        Consent: false
+    });
+    useEffect(() => {
+        const informationSection = proposalData?.sections?.information || { questions: {} };
+        const consentSection = proposalData?.sections?.consent || { questions: {} };
+        const scientificReviewSection = proposalData?.sections?.scientificReview || { questions: {} };
+        const ethicalReviewSection = proposalData?.sections?.ethicalReview || { questions: {} };
+        setInformationData({
+            question1: informationSection.questions?.["Proposal Contact Email"] || '',
+            question2: informationSection.questions?.["Your research topic fulfills which of these criteria"]
+                ? informationSection.questions?.["Your research topic fulfills which of these criteria"]
+                    .split(' -- ')
+                    .map(item => item.trim())
+                    .filter(item => item !== '')
+                : [],
+            question3: informationSection.questions?.["Name the beneficiary group clearly identified that will benefit from the information generated in your research"] || ''
+        });
+        // Update scientific data
+        setScientificData(prevState => ({
+            ...prevState,
+            supervisorName: scientificReviewSection?.questions?.["Supervisor Name"] || '',
+            applicantName: scientificReviewSection?.questions?.["Applicant Name"] || '',
+            researchTitle: scientificReviewSection?.questions?.["Research Title"] || '',
+            startDate: scientificReviewSection?.questions?.["Start Date"] || '',
+            endDate: scientificReviewSection?.questions?.["End Date"] || '',
+            answer4: scientificReviewSection?.questions?.['Name the beneficiary group clearly identified that will benefit from the information generated in your research'] || '',
+            answer5: scientificReviewSection?.questions?.['Add literature review findings on this topic from most relevant articles (those closely matching with yours in terms of variables studied), share what information is already available with them, methodology used by researchers, and on which population it was studied and in how much past. Provide URL link to all studies mentioned.'] || '',
+            answer6: scientificReviewSection?.questions?.['What information remained missing in other researches that you will cover in your project/ Research Gap found through literature review (evidence/ temporal/ methodology/ population gap)'] || '',
+            answer7: scientificReviewSection?.questions?.['Explain the rationale/ intended value of covering this research gap, detailing why the topic is of interest, benefit or relevance in your setting. Explain in your own words.'] || '',
+            researchObjectives: scientificReviewSection?.questions?.['Objectives of Research'] || '',
+            mainVariable: scientificReviewSection?.questions?.['Main Variable under Study'] || '',
+            operationalDefinition: scientificReviewSection?.questions?.['Operational Definition of Variable'] || '',
+            answer11: scientificReviewSection?.questions?.["Study Design"] || '',
+            answer12: scientificReviewSection?.questions?.["Type of Analysis"] || 'N/A',
+            answer13: scientificReviewSection?.questions?.["Sample Size"] || 'N/A',
+            answer14a: scientificReviewSection?.questions?.["For the case-control study, the sample size was calculated using an online OpenEpi sample size calculator. Keeping the ratio of controls to cases as"] || 'N/A',
+            answer14b: scientificReviewSection?.questions?.["Proportion of controls with exposure as"] || 'N/A',
+            answer14c: scientificReviewSection?.questions?.["Both proportions reported by a researcher from article title and URL:"] || 'N/A',
+            answer14d: scientificReviewSection?.questions?.["Confidence limits"] || 'N/A',
+            answer14e: scientificReviewSection?.questions?.["Percentage of test"] || 'N/A',
+            answer14f: scientificReviewSection?.questions?.["Sample size came out to be"] || 'N/A',
+            answer15a: scientificReviewSection?.questions?.["For cohort study, sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as"] || 'N/A',
+            answer15b: scientificReviewSection?.questions?.["Percent of Unexposed with Outcome"] || 'N/A',
+            answer15c: scientificReviewSection?.questions?.["Percent of exposed with Outcome"] || 'N/A',
+            answer15d: scientificReviewSection?.questions?.["Both proportions reported by a researcher from article title and URL:"] || 'N/A',
+            answer15e: scientificReviewSection?.questions?.["Confidence limits"] || 'N/A',
+            answer15f: scientificReviewSection?.questions?.["Percentage of test"] || 'N/A',
+            answer15g: scientificReviewSection?.questions?.["Sample size came out to be"] || 'N/A',
+            answer16a: scientificReviewSection?.questions?.["For before-after comparison study, sample size was calculated using online OpenEpi sample size calculator. Keeping Mean value for group 1 as"] || 'N/A',
+            answer16b: scientificReviewSection?.questions?.["Mean value for group 2"] || 'N/A',
+            answer16c: scientificReviewSection?.questions?.["SD value for group 1"] || 'N/A',
+            answer16d: scientificReviewSection?.questions?.["SD for group 2"] || 'N/A',
+            answer16e: scientificReviewSection?.questions?.["Reported by a researcher from article title and URL:"] || 'N/A',
+            answer16f: scientificReviewSection?.questions?.["Confidence level"] || 'N/A',
+            answer16g: scientificReviewSection?.questions?.["Percentage power of test"] || 'N/A',
+            answer16h: scientificReviewSection?.questions?.["Sample size came out to"] || 'N/A',
+            answer17: scientificReviewSection?.questions?.["Non-Random Sampling Methods"] || 'N/A',
+            answer18: scientificReviewSection?.questions?.["Random Sampling Methods"] || 'N/A',
+            answer19: scientificReviewSection?.questions?.["Sample inclusion exclusion criteria and sampling technique in detail for quantitative research"] || 'N/A',
+            answer20: scientificReviewSection?.questions?.["Sample inclusion-exclusion criteria and sampling methods in detail for interviews"] || 'N/A',
+            answer21: scientificReviewSection?.questions?.["Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.)"] || 'N/A',
+            answer22: scientificReviewSection?.questions?.["Data collection procedures and tools"] || 'N/A',
+            onlineQuestionnaires: scientificReviewSection?.questions?.["Online questionnaires/ google forms"] || 'N/A',
+        }));
+        setConsentData({
+            question1: consentSection?.questions?.["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || '',
+            question2: consentSection?.questions?.["From where additional IRB approval is required"] || '',
+            question3: consentSection?.questions?.["Have the research team and data collectors got the relevant training?"] || '',
+            question4: consentSection?.questions?.["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you"] || ''
+        });
+        setEthicalData(prevState => ({
+            ...prevState,
+            table1Answers: {
+                ...prevState.table1Answers,
+                table1a: ethicalReviewSection?.questions?.["Is there any contact with potentially harmful items or substances?"] || '',
+                table1b: ethicalReviewSection?.questions?.["Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?"] || '',
+                table1c: ethicalReviewSection?.questions?.["Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?"] || '',
+                table1d: ethicalReviewSection?.questions?.["Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?"] || '',
+                table1e: ethicalReviewSection?.questions?.["Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?"] || '',
+                table1f: ethicalReviewSection?.questions?.["Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?"] || '',
+                table1g: ethicalReviewSection?.questions?.["Are any of the above risks to participants more than what they experience in everyday life?"] || '',
+            },
+            question1: ethicalReviewSection?.questions?.["In case of any such risk, is the participant informed about risks in detail at the time of informed consent?"] || '',
+            table1InnerScore: ethicalReviewSection?.questions?.["Risk"] || 0,
+            table2Answers: {
+                ...prevState.table2Answers,
+                table2a: ethicalReviewSection?.questions?.["In case of any risk to the special group, have you assigned a member to monitor those risks?"] || '',
+                table2b: ethicalReviewSection?.questions?.["Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?"] || '',
+                table2c: ethicalReviewSection?.questions?.["Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?"] || '',
+            },
+            table3Answers: {
+                ...prevState.table3Answers,
+                table3a: ethicalReviewSection?.questions?.["With questionnaires, will you give participants the option of omitting ethicalReviewSection.questions they don’t want to answer?"] || '',
+                table3b: ethicalReviewSection?.questions?.["Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?"] || '',
+                table3c: ethicalReviewSection?.questions?.["People with impaired decision making capacity"] || '',
+                table3d: ethicalReviewSection?.questions?.["Children under 16"] || '',
+                table3e: ethicalReviewSection?.questions?.["Medically vulnerable"] || '',
+                table3f: ethicalReviewSection?.questions?.["Prisoners"] || '',
+                table3g: ethicalReviewSection?.questions?.["Economically or educationally disadvantaged"] || '',
+            },
+            table4Answers: {
+                ...prevState.table4Answers,
+                table4a: ethicalReviewSection?.questions?.["Racial or ethnic minorities"] || '',
+                table4b: ethicalReviewSection?.questions?.["Institutionalized persons (correctional facilities, nursing homes, or mental health)"] || '',
+            },
+            question2: ethicalReviewSection?.questions?.["Are you considering special care for taking informed consent, with no coercion?"] || '',
+            question3: ethicalReviewSection?.questions?.["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
+            table5Answers: {
+                ...prevState.table5Answers,
+                table5a: ethicalReviewSection?.questions?.["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training'"] || '',
+                table5b: ethicalReviewSection?.questions?.["Contact with harmful agents or risk of physical injury"] || '',
+                table5c: ethicalReviewSection?.questions?.["Contact with infectious patients and risk to health"] || '',
+                table5d: ethicalReviewSection?.questions?.["Traveling in unsafe areas and risk of accidents/violence"] || '',
+                table5e: ethicalReviewSection?.questions?.["Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)"] || '',
+                table5f: ethicalReviewSection?.questions?.["Industry funded research with conditions of not disclosing risks to patients"] || '',
+                table5g: ethicalReviewSection?.questions?.["Research findings having the potential to expose big industry/mafia trends"] || '',
+            },
+            table6Answers: {
+                ...prevState.table6Answers,
+                table6a: ethicalReviewSection?.questions?.["New knowledge gained and scientific development"] || 'N/A',
+                table6b: ethicalReviewSection?.questions?.["Trainings/ educational interventions for participants"] || 'Moderate gains',
+                table6c: ethicalReviewSection?.questions?.["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || 'Minor gains',
+            },
+            ethicalRisk: ethicalReviewSection?.questions?.["Ethical Risk"] || 0,
+            table6Score: ethicalReviewSection?.questions?.["Benefit Score"] || 0,
+        }));
+        // Update consent data
+        // Update information data
+    }, [proposalData, hasMissingQuestions]);
+    useEffect(() => {
+        Object.entries(savingStatus).forEach(([section, isSaving]) => {
+            if (isSaving) {
+                toast(`${section} is saving...`, {
+                    icon: '⏳', // Emoji for loading or saving
+                });
+            }
+        });
+    }, [savingStatus]);
+    const updateSavingStatus = (section, status) => {
+        setSavingStatus(prevState => ({
+            ...prevState,
+            [section]: status
+        }));
+    };
     // Define updateState to update state based on previous state
     const updateState = (updates) => {
         setEthicalData(prevState => ({ ...prevState, ...updates }));
@@ -173,70 +374,8 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         ethicalData.table5Score,
         ethicalData.table6Score
     ]);
-    const [scientificData, setScientificData] = useState({
-        supervisorName: '',
-        applicantName: '',
-        researchTitle: '',
-        startDate: '',
-        endDate: '',
-        answer4: '',
-        answer4Limit: 250,
-        answer5: '',
-        answer5Limit: 800,
-        answer6: '',
-        answer6Limit: 100,
-        answer7: '',
-        answer7Limit: 100,
-        researchObjectives: '',
-        mainVariable: '',
-        operationalDefinition: '',
-        answer11: '',
-        answer12: '',
-        answer13: '',
-        answer14a: '',
-        answer14b: '',
-        answer14c: '',
-        answer14d: '',
-        answer14e: '',
-        answer14f: '',
-        answer14g: '',
-        answer15a: '',
-        answer15b: '',
-        answer15c: '',
-        answer15d: '',
-        answer15e: '',
-        answer15f: '',
-        answer15g: '',
-        answer16a: '',
-        answer16b: '',
-        answer16c: '',
-        answer16d: '',
-        answer16e: '',
-        answer16f: '',
-        answer16g: '',
-        answer16h: '',
-        answer17: '',
-        answer18: '',
-        answer19: '',
-        answer20: '',
-        answer21: '',
-        answer22: '',
-        onlineQuestionnaires: ''
-    });
-    const [consentData, setConsentData] = useState({
-        question1: '',
-        question2: '',
-        question3: '',
-        question4: '',
-    });
-    const [informationData, setInformationData] = useState({
-        question1: '',
-        question2: [
-        ],
-        question3: '',
-    });
     const [sectionAssigned, setSectionAssigned] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchMemberAssignSection = async () => {
             try {
@@ -251,153 +390,13 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                 }
                 const result = await response.json();
                 if (result.success) {
-
-                    
                     setLoading(false)
-                    //  console.log(result)
-                    const formattedSections = result.assignedSections.map(alotedSection => ({
-                        id: alotedSection.proposalId,
-                        section: alotedSection.section ? alotedSection.section : '',
-                        questions: alotedSection.questions ? alotedSection.questions : '',
+                    const assignedSections = result.assignedSections.map(section => ({
+                        sectionsAssigned: section.section || [],
                     }));
-                    const informationIndex = formattedSections.findIndex(item => item.section === 'information');
-                    const scientificReviewindex = formattedSections.findIndex(item => item.section === 'scientificReview');
-                    const ethicalReviewindex = formattedSections.findIndex(item => item.section === 'ethicalReview');
-                    const consentIndex = formattedSections.findIndex(item => item.section === 'consent');
-                    if (informationIndex !== -1) {
-                        const Questions = formattedSections[informationIndex].questions;
-                        setInformationData({
-                            question1: Questions["Proposal Contact Email"] || '',
-                            question2: Questions["Your research topic fulfills which of these criteria"]
-                                ? Questions["Your research topic fulfills which of these criteria"]
-                                    .split(' -- ')
-                                    .map(item => item.trim())
-                                    .filter(item => item !== '')
-                                : [],
-                            question3: Questions["Name the beneficiary group clearly identified that will benefit from the information generated in your research"] || ''
-                        });
-                    }
-                    if (scientificReviewindex !== -1) {
-                        const Questions = formattedSections[scientificReviewindex].questions;
-                        setScientificData(prevState => ({
-                            ...prevState,
-                            supervisorName: Questions["Supervisor Name"] || '',
-                            applicantName: Questions["Applicant Name"] || '',
-                            researchTitle: Questions["Research Title"] || '',
-                            startDate: Questions["Start Date "] || '',
-                            endDate: Questions["End Date"] || '',
-                            answer4: Questions['Name the beneficiary group clearly identified that will benefit from the information generated in your research'] || '',
-                            answer5: Questions['Add literature review findings on this topic from most relevant articles (those closely matching with yours in terms of variables studied), share what information is already available with them, methodology used by researchers, and on which population it was studied and in how much past. Provide URL link to all studies mentioned.'] || '',
-                            answer6: Questions['What information remained missing in other researches that you will cover in your project/ Research Gap found through literature review (evidence/ temporal/ methodology/ population gap)'] || '',
-                            answer7: Questions['Explain the rationale/ intended value of covering this research gap, detailing why the topic is of interest, benefit or relevance in your setting. Explain in your own words.'] || '',
-                            researchObjectives: Questions['Objectives of Research'] || '',
-                            mainVariable: Questions['Main Variable under Study'] || '',
-                            operationalDefinition: Questions['Operational Definition of Variable'] || '',
-                            answer11: Questions["Study Design"] || '',
-                            answer12: Questions["Type of Analysis"] || 'N/A',
-                            answer13: Questions["Sample Size"] || 'N/A',
-                            answer14a: Questions["For the case-control study, the sample size was calculated using an online OpenEpi sample size calculator. Keeping the ratio of controls to cases as"] || 'N/A',
-                            answer14b: Questions["Proportion of controls with exposure as"] || 'N/A',
-                            answer14c: Questions["Both proportions reported by a researcher from article title and URL:"] || 'N/A',
-                            answer14d: Questions["Confidence limits"] || 'N/A',
-                            answer14e: Questions["Percentage of test"] || 'N/A',
-                            answer14f: Questions["Sample size came out to be"] || 'N/A',
-                            answer15a: Questions["For cohort study, sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as"] || 'N/A',
-                            answer15b: Questions["Percent of Unexposed with Outcome"] || 'N/A',
-                            answer15c: Questions["Percent of exposed with Outcome"] || 'N/A',
-                            answer15d: Questions["Both proportions reported by a researcher from article title and URL:"] || 'N/A',
-                            answer15e: Questions["Confidence limits"] || 'N/A',
-                            answer15f: Questions["Percentage of test"] || 'N/A',
-                            answer15g: Questions["Sample size came out to be"] || 'N/A',
-                            answer16a: Questions["For before-after comparison study, sample size was calculated using online OpenEpi sample size calculator. Keeping Mean value for group 1 as"] || 'N/A',
-                            answer16b: Questions["Mean value for group 2"] || 'N/A',
-                            answer16c: Questions["SD value for group 1"] || 'N/A',
-                            answer16d: Questions["SD for group 2"] || 'N/A',
-                            answer16e: Questions["Reported by a researcher from article title and URL:"] || 'N/A',
-                            answer16f: Questions["Confidence level "] || 'N/A',
-                            answer16g: Questions["Percentage power of test"] || 'N/A',
-                            answer16h: Questions["Sample size came out to"] || 'N/A',
-                            answer17: Questions["Non-Random Sampling Methods"] || 'N/A',
-                            answer18: Questions["Random Sampling Methods"] || 'N/A',
-                            answer19: Questions["Sample inclusion exclusion criteria and sampling technique in detail for quantitative research"] || 'N/A',
-                            answer20: Questions["Sample inclusion-exclusion criteria and sampling methods in detail for interviews"] || 'N/A',
-                            answer21: Questions["Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.)"] || 'N/A',
-                            answer22: Questions["Data collection procedures and tools"] || 'N/A',
-                            onlineQuestionnaires: Questions["Online questionnaires/ google forms"] || 'N/A',
-                        }));
-                    }
-                    if (consentIndex !== -1) {
-                        const Questions = formattedSections[consentIndex].questions
-                        setConsentData({
-                            question1: Questions["Will the project require approval by any other ethics committee other than the BMY Ethics Committee?"] || '',
-                            question2: Questions["From where additional IRB approval is required"] || '',
-                            question3: Questions["Have the research team and data collectors got the relevant training?"] || '',
-                            question4: Questions["Are there any financial or other interests to the researcher(s) or department arising from this study, known to you?"] || '',
-                        });
-                    }
-                    if (ethicalReviewindex !== -1) {
-                        const Questions = formattedSections[ethicalReviewindex].questions
-                        setEthicalData(prevState => ({
-                            ...prevState,
-                            table1Answers: {
-                                ...prevState.table1Answers,
-                                table1a: Questions["Is there any contact with potentially harmful items or substances?"] || '',
-                                table1b: Questions["Is there any risk of emotional disturbance of participant with any sensitive question in your proforma?"] || '',
-                                table1c: Questions["Is there a risk of breach of privacy (e.g. subjects' names, initials, or hospital numbers, pictures going to be published in manuscripts) without informed consent?"] || '',
-                                table1d: Questions["Is there any risk of social stigma for the community (such as high prevalence of a disease with stigma) if data is published with name of that community (geographical/ religious/ ethnic group etc)?"] || '',
-                                table1e: Questions["Is there any economic risk/ effect on career (such as employee feedback/ medical diagnosis are shared) for participant if data is disclosed outside research team?"] || '',
-                                table1f: Questions["Is there any chance of disclosure requirements for participants details? For example, research outside the usual legal and ethical reporting, CR research for reporting harmful diseases and ethical issue regarding for research outside institutions disclosing personal info to research sponsors (pharma company) or other regulatory agencies/ community enterprise?"] || '',
-                                table1g: Questions["Are any of the above risks to participants more than what they experience in everyday life?"] || '',
-                            },
-                            table2Answers: {
-                                ...prevState.table2Answers,
-                                table2a: Questions["Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?"] || '',
-                                table2b: Questions["With questionnaires, will you give participants the option of omitting questions they don’t want to answer?"] || '',
-                                table2c: Questions["Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?"] || '',
-                            },
-                            table3Answers: {
-                                ...prevState.table3Answers,
-                                table3a: Questions["People with impaired decision making capacity"] || '',
-                                table3b: Questions["Children under 16"] || '',
-                                table3c: Questions["Medically vulnerable"] || '',
-                                table3d: Questions["Prisoners"] || '',
-                                table3e: Questions["Economically or educationally disadvantaged"] || '',
-                                table3f: Questions["Racial or ethnic minorities"] || '',
-                                table3g: Questions["Institutionalized persons (correctional facilities, nursing homes, or mental health)"] || '',
-                            },
-                            table4Answers: {
-                                ...prevState.table4Answers,
-                                table4a: Questions["Are you considering special care for taking informed consent, with no coercion?"] || '',
-                                table4b: Questions["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
-                            },
-                            table5Answers: {
-                                ...prevState.table5Answers,
-                                table5a: Questions["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training"] || '',
-                                table5b: Questions["Contact with harmful agents or risk of physical injury"] || '',
-                                table5c: Questions["Contact with infectious patients and risk to health"] || '',
-                                table5d: Questions["Traveling in unsafe areas and risk of accidents/violence"] || '',
-                                table5e: Questions["Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)"] || '',
-                                table5f: Questions["Industry funded research with conditions of not disclosing risks to patients"] || '',
-                                table5g: Questions["Research findings having the potential to expose big industry/mafia trends"] || '',
-                            },
-                            table6Answers: {
-                                ...prevState.table6Answers,
-                                table6a: Questions["New knowledge gained and scientific development"] || '',
-                                table6b: Questions["Trainings/ educational interventions for participants"] || '',
-                                table6c: Questions["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || '',
-                                table6d: Questions["Traveling in unsafe areas and risk of accidents/violence"] || '',
-                                table6e: Questions["Risk of facing improper behavior by approaching some risky community (drug abusers/mentally challenged/persons involved in risky behaviors)"] || '',
-                                table6f: Questions["Industry funded research with conditions of not disclosing risks to patients"] || '',
-                                table6g: Questions["Research findings having the potential to expose big industry/mafia trends"] || '',
-                            },
-                            ethicalRisk: Questions["Ethical Risk"] || 0,
-                            table6Score: Questions["Benefit Score"] || 0,
-                            table1InnerScore: Questions["Risk"] || 0,
-                            question1: Questions["In case of any such risk, is the participant informed about risks in detail at the time of informed consent?"] || '',
-                            question2: Questions["In case of any risk to the special group, have you assigned a member to monitor those risks?"] || '',
-                            question3: Questions["Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?"] || '',
-                        }));
-                    }
+                    const uniqueSections = new Set(assignedSections.map(item => item.sectionsAssigned));
+                    const uniqueSectionsArray = Array.from(uniqueSections);
+                    setSectionAssigned(uniqueSectionsArray)
                 } else {
                     toast.error('Failed to load proposal details.');
                 }
@@ -410,17 +409,13 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         fetchMemberAssignSection()
     }, []);
     //************************     Information Component 
-    //Values-Required
-    //Checkbox update
     const handleUpdateInformationData = (updatedData) => {
         setInformationData(updatedData);
     };
-    // Update
     const handleInformationChange = (e) => {
         const { name, value } = e.target;
         setInformationData(prevState => ({ ...prevState, [name]: value }));
     };
-    // Submission
     const handleInformationSubmission = async () => {
         try {
             updateSavingStatus('Information', true);
@@ -439,7 +434,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                         .join(', ')
                 : '';
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": proposalData?.id,
                 "section": "information",
                 "questions": {
                     "Proposal Contact Email": informationData?.question1 ?? '',
@@ -477,7 +472,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         try {
             updateSavingStatus('EthicalReview', true);
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": proposalData?.id,
                 "section": "ethicalReview",
                 'questions': {
                     "Is there any contact with potentially harmful items or substances?": ethicalData?.table1Answers?.table1a ?? '',
@@ -535,6 +530,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             } else {
                 updateSavingStatus('EthicalReview', false);
                 toast.error(result.message || "Failed to update data.");
+                console.log(result.message || "Failed to update data.");
             }
         } catch (error) {
             updateSavingStatus('EthicalReview', false);
@@ -548,7 +544,6 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     const handleScientificDataSubmission = async () => {
         updateSavingStatus('ScientificReview', true);
         try {
-           
             const questions = {
                 "Supervisor Name": scientificData?.supervisorName ?? '',
                 "Applicant Name": scientificData?.applicantName ?? '',
@@ -596,7 +591,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
                 "Online questionnaires/ google forms": scientificData?.onlineQuestionnaires ?? 'N/A',
             };
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": proposalData?.id,
                 "section": "scientificReview",
                 "questions": questions
             };
@@ -640,15 +635,13 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         updateSavingStatus('Consent', false);
         try {
             const payload = {
-                "proposalId": MemberproposalId,
+                "proposalId": proposalData?.id,
                 "section": "consent",
                 "questions": {
-
                     "Will the project require approval by any other ethics committee other than the BMY Ethics Committee?": consentData?.question1 || '',
                     "From where additional IRB approval is required": consentData?.question2 || '',
                     "Have the research team and data collectors got the relevant training?": consentData?.question3 || '',
                     "Are there any financial or other interests to the researcher(s) or department arising from this study, known to you": consentData?.question4 || ''
-
                 }
             };
             const raw = JSON.stringify(payload);
@@ -682,7 +675,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
         'ethicalReview',
         'consent'
     ];
-    const [clickedSection, setClickedSection] = useState(assignProposal);
+    const [clickedSection, setClickedSection] = useState('information');
     const handleButtonClick = (section) => {
         setClickedSection(section);
     };
@@ -691,6 +684,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             case 'information':
                 return (
                     <Information
+                    sectionAssigned={sectionAssigned}
                         formData={informationData}
                         onInputChange={handleInformationChange}
                         onSubmit={handleInformationSubmission}
@@ -700,6 +694,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             case 'scientificReview':
                 return (
                     <ScientificReview
+                    sectionAssigned={sectionAssigned}
                         scientificData={scientificData}
                         onChange={ScientificReviewChange}
                         onSubmit={handleScientificDataSubmission}
@@ -708,6 +703,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             case 'ethicalReview':
                 return (
                     <EthicalReview
+                    sectionAssigned={sectionAssigned}
                         ethicalData={ethicalData}
                         updateState={updateState}
                         onSubmit={handleEthicalSectionSubmission}
@@ -716,6 +712,7 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             case 'consent':
                 return (
                     <Consent
+                    sectionAssigned={sectionAssigned}
                         formData={consentData}
                         onInputChange={handleConsentChange}
                         onSubmit={handleConsentSubmission}
@@ -725,7 +722,8 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
             default:
                 return (
                     <Information
-                    savingStatus={savingStatus}
+                       sectionAssigned={sectionAssigned}
+                        savingStatus={savingStatus}
                         formData={informationData}
                         onInputChange={handleInformationChange}
                         onSubmit={handleInformationSubmission}
@@ -739,24 +737,27 @@ export default function Proposal({ assignProposal, role, MemberproposalId }) {
     }
     return (
         <>
-            <Toaster 
+            <Toaster
             />
-            {!assignProposal && (
-                <div className="md:my-10 my-5">
-                    <div className="flex flex-wrap gap-5 text-xl text-epsilon">
-                        {sections.map((section, index) => (
+            <div className="md:my-10 my-5">
+                <div className="flex flex-wrap gap-5 text-xl text-epsilon">
+                    {sections.map((section, index) => (
+                        <div className='flex flex-col'>
                             <button
                                 key={index}
                                 onClick={() => handleButtonClick(section)}
-                                className={`py-1 px-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ${clickedSection === section ? 'bg-epsilon-dark' : ''}`}
+                                className={`py-1 px-3 rounded-md group relative overflow-hidden bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon  ${clickedSection === section ? 'bg-zeta hover:from-zeta' : ''}`}
                             >
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                                {section}
+                                {section === 'information' && 'Information'}
+                                {section === 'scientificReview' && 'Scientific Review'}
+                                {section === 'consent' && 'Consent'}
+                                {section === 'ethicalReview' && 'Ethical Review'}
                             </button>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
-            )}
+            </div>
             <div>
                 {renderSection()}
             </div>

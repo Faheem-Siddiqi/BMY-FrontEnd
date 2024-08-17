@@ -26,10 +26,7 @@ export default function ResearcherProposal() {
         }
         var result = await response.json();
         if (result.success) {
-
-
-       
-
+     
           const formattedPreviousProposal = [];
           (result.acceptedProposals || []).forEach(proposal => {
             const sections = proposal.sections || {};
@@ -46,19 +43,15 @@ export default function ResearcherProposal() {
               approvalErcMember: proposal.approvalMember || {},
               ercMembers: proposal.assignedErcMember || [],
               acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
-              
-
             };
             //  console.log(formattedProposal)
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
           setFormattedPreviousProposal(formattedPreviousProposal)
-          
           if ((result.notAcceptedProposals.length === 0 || !result.notAcceptedProposals[0].title)) {
             setShowNoActiveProposal(true)
           }
-
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
             const section = result.notAcceptedProposals[0]?.sections;
             console.log(section)
@@ -114,41 +107,22 @@ export default function ResearcherProposal() {
               </>)}
             </section>
             <section className='md:my-10 my-5'>
-              {showNotAssigned &&
-                !showNoActive && (<>
-                  <h2 className='text-xl font-bold'>
-                    Assigned Sections
-                  </h2>
-                  <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                    <h1 className='font-semibold  mb-3 flex items-center gap-2' >
-                      <ImFilesEmpty className='text-2xl ' />
-                      No Section assigned yet</h1>
-                    <p>The Team Lead hasn’t assigned any section yet</p>
-                  </header>
-                </>)}
-              {!showNotAssigned && !showNoActive && (<>
+              {!showNoActive && (<>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                  <h1 className='font-semibold pb-3 flex items-center gap-2' >
-                    <ImFilesEmpty className='text-2xl ' />
-                    Assigned Section
-                  </h1>
-                  <br />
                   <Link
                     to='/proposal-section'
                     className=" py-3 px-7   rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">
                     <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                    View My Section
+                    View Proposal
                   </Link>
                 </header>
               </>)}
             </section>
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
-
               {previousProposals && previousProposals.length > 0 ? (
                 <Table
                   className='w-[99%] '
-
                   rowData={previousProposals.map(proposal => ({
                     PropossalID: proposal.id,
                     GroupLead: proposal.leadName,
@@ -158,13 +132,11 @@ export default function ResearcherProposal() {
                     title: proposal.title,
                     approvalErcMember: proposal.approvalErcMember || {},
                     ercMembers: proposal.ercMembers,
-                    acceptedAt:proposal.acceptedAt,
-
+                    acceptedAt: proposal.acceptedAt,
                   }))}
                   header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                   rowRenderComponent='previousProposalsRow'
                 />
-
               ) : (
                 <p>No previous proposals</p>
               )}

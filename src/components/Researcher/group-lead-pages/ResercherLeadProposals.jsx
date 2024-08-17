@@ -31,9 +31,19 @@ export default function ResercherLeadProposals() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
-   console.log(result)
+            console.log(result)
             const formattedProposal = {
               id: result.notAcceptedProposals?.[0]?._id || ' ',
+              cretaedAt: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 && result.notAcceptedProposals[0].createdAt
+                ? (() => {
+                  const date = new Date(result.notAcceptedProposals[0].createdAt);
+                  // const day = date.getDate().toString().padStart(2, '0');
+                  const number = result.notAcceptedProposals[0].proposalId ? result.notAcceptedProposals[0].proposalId : 'N/A'
+                  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                  const year = date.getFullYear();
+                  return `${number}-${month}-${year}`;
+                })()
+                : 'N/A',
               title: result.notAcceptedProposals?.[0]?.title || ' ',
               status: result.notAcceptedProposals?.[0]?.status || ' ',
               lead: result.notAcceptedProposals?.[0]?.creator?.fullname || ' ',
@@ -54,17 +64,13 @@ export default function ResercherLeadProposals() {
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
                 acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
-      
               };
             });
-
             // console.log(formattedPreviousProposal)
             setFormattedPreviousProposal(formattedPreviousProposal);
-            
             //  console.log('formattedPreviousProposal')
             // console.log(formattedPreviousProposal[0].id)
             // console.log('formattedPreviousProposal')
-        
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
             toast.error('Failed to load proposal details.');
@@ -76,7 +82,6 @@ export default function ResercherLeadProposals() {
         if (isMounted) {
           setLoading(false);
         }
-       
       }
     };
     const fetchLeadsTeam = async () => {
@@ -128,7 +133,6 @@ export default function ResercherLeadProposals() {
   if (loading) {
     return <Loader />;
   }
-
   console.log(previousProposals[1])
   // console.log(previousProposals[0])
   return (
@@ -180,8 +184,11 @@ export default function ResercherLeadProposals() {
                   <h1 className='text-lg mb-2 font-semibold italic font-Satoshi-Black'>{proposalDetail.title}</h1>
                   <div>
                     <span className='font-bold my-2'>Proposal Id</span>
-                    <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
-                      BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
+                    <span className='mx-2 my-2 text-epsilon'>
+                      BMY-
+                      <span>
+                        {proposalDetail.cretaedAt || 'N/A'}
+                      </span>
                     </span>
                   </div>
                   <div>
@@ -210,12 +217,11 @@ export default function ResercherLeadProposals() {
               </>
             )}
             <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
-           
             {previousProposals.length > 0 ? (
               <Table
                 className='w-[99%]'
                 rowData={previousProposals.map(proposal => ({
-                  PropossalID: proposal.ProposalID ,
+                  PropossalID: proposal.ProposalID,
                   GroupLead: proposal.leadName,
                   EthicalRisk: proposal.riskScore,
                   BenefitScore: proposal.benefitScore,
@@ -223,7 +229,7 @@ export default function ResercherLeadProposals() {
                   title: proposal.title,
                   approvalErcMember: proposal.approvalMember,
                   ercMembers: proposal.ercMembers,
-                  acceptedAt:proposal.acceptedAt,
+                  acceptedAt: proposal.acceptedAt,
                 }))}
                 header={['Proposal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                 rowRenderComponent='previousProposalsRow'

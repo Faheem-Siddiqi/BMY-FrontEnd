@@ -33,6 +33,19 @@ export default function MemberProposal() {
                         id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
                             ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
                             : ' ',
+                        cretaedAt: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 && result.notAcceptedProposals[0].createdAt
+                            ? (() => {
+                                const date = new Date(result.notAcceptedProposals[0].createdAt);
+                                // const day = date.getDate().toString().padStart(2, '0');
+                                const number = result.notAcceptedProposals[0].proposalId ? result.notAcceptedProposals[0].proposalId : 'N/A'
+                                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                                const year = date.getFullYear();
+                                return `${number}-${month}-${year}`;
+                            })()
+                            : 'N/A',
+                        sections: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+                            ? (result.notAcceptedProposals[0].sections ? result.notAcceptedProposals[0].sections : {})
+                            : ' ',
                         title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
                             ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ')
                             : ' ',
@@ -52,17 +65,8 @@ export default function MemberProposal() {
                                 : [])
                             : [],
                     };
-                    // const formattedProposal = {
-                    //     id: result.notAcceptedProposals[0]._id,
-                    //     title: result.notAcceptedProposals[0].title || ' ',
-                    //     status: result.notAcceptedProposals[0].status || ' ',
-                    //     lead: result.notAcceptedProposals[0].creator.fullname || ' ',
-                    //     reviews: Array.isArray(result.notAcceptedProposals[0].reviews) && result.notAcceptedProposals[0].reviews.length > 0
-                    //         ? result.notAcceptedProposals[0].reviews
-                    //         : [],
-                    // };
                     setProposalDetail(formattedProposal);
-                    //console.log(proposalDetail)
+                    // console.log(formattedProposal)
                 } else {
                     toast.error('No proposals found.');
                 }
@@ -111,20 +115,23 @@ export default function MemberProposal() {
                         <div className="flex flex-col gap-5 md:justify-between justify-start md:items-center items-start md:flex-row">
                             <h1 className='text-xl  md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
                             <div
-                             onClick={() => window.history.back()}
-                            className='group flex items-center cursor-pointer gap-1'>
+                                onClick={() => window.history.back()}
+                                className='group flex items-center cursor-pointer gap-1'>
                                 <MdOutlineKeyboardBackspace className=' group-hover:-translate-x-1  duration-500 ' />
                                 <button
                                     className='font-semibold'
-                                   > Go Back</button>
+                                > Go Back</button>
                             </div>
                         </div>
                         <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 w-full'>
                             <h1 className='text-lg  italics mb-2 italic font-Satoshi-Black'>{proposalDetail.title}</h1>
                             <div>
                                 <span className='font-bold my-2'> Proposal Id</span>
-                                <span className='mx-2 my-2 text-epsilon w-[10px] truncate'>
-                                    BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
+                                <span className='mx-2 my-2 text-epsilon'>
+                                    BMY-
+                                    <span>
+                                        {proposalDetail.cretaedAt || 'N/A'}
+                                    </span>
                                 </span>
                             </div>
                             <div>
@@ -136,7 +143,7 @@ export default function MemberProposal() {
                             </div>
                         </header>
                         <div>
-                            {sectionAssigned && sectionAssigned.length > 0 ? (
+                            {/* {sectionAssigned && sectionAssigned.length > 0 ? (
                                 sectionAssigned.map((section, index) => (
                                     <Proposal
                                         key={index}
@@ -144,14 +151,18 @@ export default function MemberProposal() {
                                         MemberproposalId={proposalDetail.id}
                                     />
                                 ))
-                            ) : (
-                                <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                                    <h1 className='font-semibold  mb-3 flex items-center gap-2' >
-                                        <ImFilesEmpty className='text-2xl ' />
-                                        No Section assigned yet</h1>
-                                    <p>The Team Lead hasn’t assigned any section yet</p>
-                                </header>
-                            )}
+                            )
+                                : (
+                                    <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
+                                        <h1 className='font-semibold  mb-3 flex items-center gap-2' >
+                                            <ImFilesEmpty className='text-2xl ' />
+                                            No Section assigned yet</h1>
+                                        <p>The Team Lead hasn’t assigned any section yet</p>
+                                    </header>
+                                )} */}
+                            <Proposal
+                                proposalData={proposalDetail}
+                            />
                         </div>
                     </div>
                 </section>

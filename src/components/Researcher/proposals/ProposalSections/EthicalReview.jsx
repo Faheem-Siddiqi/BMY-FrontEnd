@@ -8,9 +8,9 @@ import Table3 from '../EthicalReviewTables.jsx/Table3.jsx';
 import Table4 from './../EthicalReviewTables.jsx/Table4';
 import Table5 from '../EthicalReviewTables.jsx/Table5.jsx';
 import Table6 from '../EthicalReviewTables.jsx/Table6.jsx';
-
-export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit }) {
-
+export default function EthicalReview({ ethicalData, updateState, risk, onSubmit, sectionAssigned }) {
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [assigned, setAssigned] = useState(false)
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
@@ -20,11 +20,35 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
             console.log('Local storage: role  not found.');
         }
     }, []);
-   
+    useEffect(() => {
+        const isValidRole = (signUserRole, sectionAssigned) => {
+            if (signUserRole === 'erc-head' || signUserRole === 'erc-members') {
+                return true;
+            }
+            if (signUserRole === 'researchers') {
+                return !sectionAssigned.includes('ethicalReview');
+            }
+            return false;
+        };
+        if (sectionAssigned.includes('ethicalReview')) {
+            setAssigned(true)
+        }
+        const checkBtn = isValidRole(signUserRole, sectionAssigned);
+        setIsButtonEnabled(checkBtn);
+    }, [signUserRole, sectionAssigned]);
     return (
         <div className='WorkSans-Regular'>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Ethical Review</h1>
             <header className='bg-white shadow-sm my-5 p-10'>
+                {
+                    signUserRole === 'researchers' && (
+                        <>
+                            <p className='flex justify-end text-epsilon'>
+                                {assigned ? 'Assigned' : 'Not Assigned'}
+                            </p>
+                        </>
+                    )
+                }
                 <Table1
                     table1answers={ethicalData.table1Answers}
                     question1={ethicalData.question1}
@@ -67,7 +91,6 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                     <input
                         type='text'
                         name='ethicalRisk'
-                    
                         onChange={(e) => updateState({ ethicalRisk: e.target.value })}
                         value={ethicalData.ethicalRisk}
                         id='Ethical-Risk'
@@ -83,8 +106,6 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                 />
                 <section className='mb-4 w-full md:w-[50%] '>
                     <label htmlFor="research-title" className='text-zeta font-semibold '>Benefit Score</label>
-                 
-                
                     <input
                         value={ethicalData.table6Score}
                         type='text'
@@ -94,17 +115,14 @@ export default function EthicalReview({ ethicalData, updateState, risk ,onSubmit
                         className=' mt-2 border rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
                     />
                 </section>
-
-
-                {signUserRole === 'researchers' && (<>
                 <button
-                onClick={onSubmit}
-                    className="mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
+                    onClick={onSubmit}
+                    disabled={isButtonEnabled}
+                    className={` ${isButtonEnabled === true && 'hidden'} mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
+                >
                     <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                     Save
                 </button>
-
-            </>)}
             </header>
         </div>
     );
