@@ -4,7 +4,6 @@ import Table from '../../Common/Table.jsx';
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 

@@ -85,7 +85,7 @@ export default function ErcMemberViewProposal() {
             const responseText = await response.text();
             if (response.ok) {
                 const data = JSON.parse(responseText);
-                toast.success('Proposal successfully submitted to ERC head');
+                toast.success('Proposal Successfully Submitted');
                 return data;
             } else {
                 const errorData = JSON.parse(responseText);
