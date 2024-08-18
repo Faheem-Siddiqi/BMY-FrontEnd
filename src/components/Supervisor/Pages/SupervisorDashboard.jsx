@@ -8,14 +8,12 @@ import { Link } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
-
 export default function SupervisorDashboard() {
   const [loading, setLoading] = useState(true);
   const [researchers, setResearchers] = useState([]);
   const [proposalInfo, setProposalInfo] = useState([]);
   const [ercHead, setErcHead] = useState({});
   const [ercMembers, setErcMembers] = useState([]);
-
   useEffect(() => {
     const fetchResearcherTeam = async () => {
       try {
@@ -43,7 +41,6 @@ export default function SupervisorDashboard() {
         setLoading(false);
       }
     };
-
     const fetchProposals = async () => {
       setLoading(true);
       try {
@@ -60,8 +57,18 @@ export default function SupervisorDashboard() {
           const proposalInfo = result.proposals.map(proposal => ({
             proposalid: proposal._id,
             mainSupervisorId: proposal.supervisorId ? proposal.supervisorId._id : '',
+            createdAt: proposal.createdAt
+            ? (() => {
+              const date = new Date(proposal.createdAt);
+              const number = proposal.proposalId || 'N/A';
+              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+              const year = date.getFullYear();
+              return `${number}-${month}-${year}`;
+            })()
+            : 'N/A',
           }));
           setProposalInfo(proposalInfo);
+          console.log(proposalInfo)
         }
       } catch (error) {
         console.error(error);
@@ -69,7 +76,6 @@ export default function SupervisorDashboard() {
         setLoading(false);
       }
     };
-
     const fetchErcPanel = async () => {
       setLoading(true);
       try {
@@ -90,16 +96,13 @@ export default function SupervisorDashboard() {
         setLoading(false);
       }
     };
-
     fetchProposals();
     fetchErcPanel();
     fetchResearcherTeam();
   }, []);
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <div className="flex xl:flex-row flex-col font-WorkSans-Regular">
@@ -107,18 +110,6 @@ export default function SupervisorDashboard() {
         <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
           <UserNavbar />
           <div className='xl:m-10 m-5'>
-            <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Dashboard</h1>
-            <div className="flex md:flex-col flex-col md:flex-row gap-5">
-              <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
-                <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Updates</h1>
-                <div className='flex gap-1 items-center'>
-                  <p className='my-2'>BMY-124 Submitted</p>
-                  <FaCheck className='bg-epsilon p-1 rounded-full text-xl text-white' />
-                  <IoTimerOutline className='bg-epsilon p-1 text-2xl rounded-full text-white' />
-                </div>
-                <p className='my-2'>The Proposal has been submitted, keep an eye on Notifications for Approval Status.</p>
-              </header>
-            </div>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>My Researchers</h1>
             <p className='my-2'>Team 1</p>
             <div>
@@ -175,7 +166,7 @@ export default function SupervisorDashboard() {
                       <p>
                         Proposal:
                         <span className='mx-1 text-epsilon w-[10px] truncate'>
-                          BMY-{proposal.proposalid ? proposal.proposalid.slice(-4) : 'N/A'}
+                        BMY-{proposal.createdAt}
                         </span>
                       </p>
                     </h1>

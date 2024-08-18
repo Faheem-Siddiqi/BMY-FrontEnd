@@ -31,11 +31,17 @@ export default function EditProfile() {
     let isMounted = true; // Flag to prevent state updates on unmounted components
     const fetchUserDetails = async () => {
       setLoading(true); // Show loader during data fetching
+
       try {
+        const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Cookie", `token=${getCookie("token")}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
+          headers: myHeaders,
           redirect: "follow",
           credentials: "include",
+          
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');

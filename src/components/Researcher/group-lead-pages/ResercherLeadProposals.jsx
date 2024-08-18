@@ -8,16 +8,20 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png';
 import Loader from '../../layout/Loader.jsx';
+
 export default function ResercherLeadProposals() {
   const [loading, setLoading] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [leadTeam, setLeadTeam] = useState([]);
   const [supervisorCheck, setSupervisorCheck] = useState(false);
   const [researchersCheck, setResearcherCheck] = useState(false);
   const [proposalCheck, setProposalCheck] = useState(false);
   const [previousProposals, setFormattedPreviousProposal] = useState([]);
   const [proposalDetail, setProposalDetail] = useState({});
+
   useEffect(() => {
     let isMounted = true;
+
     const fetchProposal = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-group-lead`, {
@@ -31,24 +35,22 @@ export default function ResercherLeadProposals() {
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
-            console.log(result)
-            const formattedProposal = {
-              id: result.notAcceptedProposals?.[0]?._id || ' ',
-              cretaedAt: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 && result.notAcceptedProposals[0].createdAt
-                ? (() => {
-                  const date = new Date(result.notAcceptedProposals[0].createdAt);
-                  // const day = date.getDate().toString().padStart(2, '0');
-                  const number = result.notAcceptedProposals[0].proposalId ? result.notAcceptedProposals[0].proposalId : 'N/A'
-                  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-                  const year = date.getFullYear();
-                  return `${number}-${month}-${year}`;
-                })()
-                : 'N/A',
-              title: result.notAcceptedProposals?.[0]?.title || ' ',
-              status: result.notAcceptedProposals?.[0]?.status || ' ',
-              lead: result.notAcceptedProposals?.[0]?.creator?.fullname || ' ',
+            const formattedProposal = result.notAcceptedProposals?.[0] || {};
+            const formattedProposalDetail = {
+              id: formattedProposal._id || ' ',
+              cretaedAt: formattedProposal.createdAt ? (() => {
+                const date = new Date(formattedProposal.createdAt);
+                const number = formattedProposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })() : 'N/A',
+              title: formattedProposal.title || ' ',
+              status: formattedProposal.status || ' ',
+              lead: formattedProposal.creator?.fullname || ' ',
             };
-            setProposalDetail(formattedProposal);
+            setProposalDetail(formattedProposalDetail);
+
             const formattedPreviousProposal = result.acceptedProposals.map(proposal => {
               const sections = proposal.sections || {};
               const ethicalReview = sections.ethicalReview || {};
@@ -63,14 +65,10 @@ export default function ResercherLeadProposals() {
                 benefitScore: questions['Benefit Score'] || 0,
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
-                acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
+                acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toISOString().split('T')[0]) : 'N/A'
               };
             });
-            // console.log(formattedPreviousProposal)
             setFormattedPreviousProposal(formattedPreviousProposal);
-            //  console.log('formattedPreviousProposal')
-            // console.log(formattedPreviousProposal[0].id)
-            // console.log('formattedPreviousProposal')
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
             toast.error('Failed to load proposal details.');
@@ -78,12 +76,9 @@ export default function ResercherLeadProposals() {
         }
       } catch (error) {
         toast.error(`Error: ${error.message}`);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
       }
     };
+
     const fetchLeadsTeam = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
@@ -118,23 +113,29 @@ export default function ResercherLeadProposals() {
         }
       } catch (error) {
         toast.error('An error occurred while fetching user details.');
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
       }
     };
-    fetchProposal();
-    fetchLeadsTeam();
+
+    const fetchData = async () => {
+      await fetchProposal();
+      await fetchLeadsTeam();
+      if (isMounted) {
+        setDataLoaded(true);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
     return () => {
       isMounted = false;
     };
   }, []);
+
   if (loading) {
     return <Loader />;
   }
-  console.log(previousProposals[1])
-  // console.log(previousProposals[0])
+
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -167,7 +168,7 @@ export default function ResercherLeadProposals() {
               </header>
             )}
             {
-              !proposalCheck && !supervisorCheck && !researchersCheck && (
+              dataLoaded && !proposalCheck && !supervisorCheck && !researchersCheck && (
                 <header className='bg-white shadow-sm my-5 p-16'>
                   <Link to='/create-new-proposal'>
                     <div className='h-[40vh] md:w-[60%] w-full mx-auto bg-lightEpsilon border-2 border-dashed flex flex-col items-center justify-center border-epsilon p-10 rounded-md'>
@@ -221,21 +222,23 @@ export default function ResercherLeadProposals() {
               <Table
                 className='w-[99%]'
                 rowData={previousProposals.map(proposal => ({
-                  PropossalID: proposal.ProposalID,
+                  ProposalID: proposal.ProposalID,
                   GroupLead: proposal.leadName,
-                  EthicalRisk: proposal.riskScore,
+                  Supervisor: proposal.mainSupervisor,
+                  Title: proposal.title,
+                  RiskScore: proposal.riskScore,
                   BenefitScore: proposal.benefitScore,
-                  sections: proposal.sections,
-                  title: proposal.title,
-                  approvalErcMember: proposal.approvalMember,
-                  ercMembers: proposal.ercMembers,
-                  acceptedAt: proposal.acceptedAt,
+                  ApprovalMember: proposal.approvalMember,
+                  ERCMembers: proposal.ercMembers,
+                  AcceptedAt: proposal.acceptedAt
                 }))}
-                header={['Proposal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
-                rowRenderComponent='previousProposalsRow'
+                header={['Proposal ID', 'Group Lead', 'Supervisor', 'Title', 'Risk Score', 'Benefit Score', 'Approval Member', 'ERC Members', 'Accepted At']}
+                rowRenderComponent='PreviousProposalTableRow'
               />
             ) : (
-              <p>No previous proposals</p>
+              <header className='bg-white shadow-sm my-5 p-10'>
+                <h1 className='text-lg mb-2 font-semibold'>No Previous Proposals</h1>
+              </header>
             )}
           </div>
         </section>

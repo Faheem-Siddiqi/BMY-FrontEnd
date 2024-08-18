@@ -54,7 +54,7 @@ export default function ResearcherProposal() {
           }
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
             const section = result.notAcceptedProposals[0]?.sections;
-            console.log(section)
+           
             if (!section || Object.keys(section).length === 0) {
               setShowNotAssign(true);
             }
@@ -62,7 +62,7 @@ export default function ResearcherProposal() {
           else {
             setShowNoActiveProposal(true)
           }
-          // console.log(fromattedProposal)
+     
         } else {
           console.log('Failed to load proposal details.');
         }

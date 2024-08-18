@@ -1,40 +1,48 @@
-import React, { useState, useEffect } from 'react'
-import Sidebar from '../../layout/Sidebar.jsx'
-import { MdFileDownloadDone } from "react-icons/md";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
+import Sidebar from '../../layout/Sidebar.jsx';
+import { MdFileDownloadDone, MdOutlineKeyboardBackspace } from 'react-icons/md';
 import DiscussionModal from '../proposals/proposal-reviews/DiscussionModal.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import ProposalForLead from '../proposals/ProposalForLead.jsx';
 import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import EditableProposal from '../proposals/EditableProposal.jsx';
+
 export default function LeadProposalPage() {
-  const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false)
-  const [LeadDataToggle, setLeadDataToggle] = useState(false)
-  const [loading, setLoading] = useState(false);
+  const [toggle, setToggle] = useState(true);
+  const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
+  const [LeadDataToggle, setLeadDataToggle] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [proposalDetail, setProposalDetail] = useState({});
+  const [mainSupervisor, setMainSupervisor] = useState({});
+
   const updateLeadsDataToggle = (newValue) => {
     setLeadDataToggle(newValue);
   };
-  const [mainSupervisor, setMainSupervisor] = useState({})
+
+  const toggleState = () => {
+    setToggle(prevState => !prevState);
+  };
+
+  // Fetch lead team data
   useEffect(() => {
     let isMounted = true;
+
     const fetchLeadTeam = async () => {
-      setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
           redirect: "follow",
           credentials: "include",
         });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
-            const mainSup = result?.team?.supervisors !== undefined ? result.team.supervisors : '';
-            setMainSupervisor(mainSup)
+            const mainSup = result?.team?.supervisors ?? [];
+            setMainSupervisor(mainSup);
           } else {
             toast.error("Failed to load user details.");
           }
@@ -44,14 +52,16 @@ export default function LeadProposalPage() {
           toast.error("An error occurred while fetching user details.");
         }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
+
     fetchLeadTeam();
-    return () => {
-      isMounted = false;
-    };
+
+    return () => { isMounted = false; };
   }, []);
+
+  // Fetch proposal data
   useEffect(() => {
     const fetchProposals = async () => {
       try {
@@ -61,48 +71,28 @@ export default function LeadProposalPage() {
           redirect: 'follow',
           credentials: 'include',
         });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
         const result = await response.json();
         if (result.success) {
+          const proposal = result.notAcceptedProposals?.[0] ?? {};
           const formattedProposal = {
-            id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
-              : ' ',
-            cretaedAt: result.notAcceptedProposals && result.notAcceptedProposals.length > 0 && result.notAcceptedProposals[0].createdAt
+            id: proposal._id || ' ',
+            cretaedAt: proposal.createdAt
               ? (() => {
-                const date = new Date(result.notAcceptedProposals[0].createdAt);
-                // const day = date.getDate().toString().padStart(2, '0');
-                const number = result.notAcceptedProposals[0].proposalId ? result.notAcceptedProposals[0].proposalId : 'N/A'
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-                const year = date.getFullYear();
-                return `${number}-${month}-${year}`;
-              })()
+                  const date = new Date(proposal.createdAt);
+                  const number = proposal.proposalId || 'N/A';
+                  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                  const year = date.getFullYear();
+                  return `${number}-${month}-${year}`;
+                })()
               : 'N/A',
-            title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ')
-              : ' ',
-            status: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (result.notAcceptedProposals[0].status ? result.notAcceptedProposals[0].status : ' ')
-              : ' ',
-            lead: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (result.notAcceptedProposals[0].creator && result.notAcceptedProposals[0].creator.fullname
-                ? result.notAcceptedProposals[0].creator.fullname
-                : ' ')
-              : ' ',
-            sections: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (result.notAcceptedProposals[0].sections && result.notAcceptedProposals[0].sections
-                ? result.notAcceptedProposals[0].sections
-                : ' ')
-              : ' ',
-            reviews: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
-              ? (Array.isArray(result.notAcceptedProposals[0].reviews)
-                ? (result.notAcceptedProposals[0].reviews.length > 0
-                  ? result.notAcceptedProposals[0].reviews
-                  : [])
-                : [])
-              : [],
+            title: proposal.title || ' ',
+            status: proposal.status || ' ',
+            lead: proposal.creator?.fullname || ' ',
+            sections: proposal.sections || ' ',
+            reviews: Array.isArray(proposal.reviews) ? proposal.reviews : [],
           };
           setProposalDetail(formattedProposal);
         } else {
@@ -114,31 +104,50 @@ export default function LeadProposalPage() {
         setLoading(false);
       }
     };
+
     fetchProposals();
-  }, [LeadDataToggle]);
+  }, [LeadDataToggle, toggle]);
+
+  // Check if sections are undefined
+  useEffect(() => {
+    const checkSections = () => {
+      if (!proposalDetail?.sections) {
+        setSectionQnasUndefine(true);
+        return;
+      }
+      const { sections } = proposalDetail;
+      const isUndefined =
+        !sections.information?.questions ||
+        !sections.consent?.questions ||
+        !sections.ethicalReview?.questions ||
+        !sections.scientificReview?.questions;
+
+      setSectionQnasUndefine(isUndefined);
+    };
+    checkSections();
+  }, [proposalDetail, undefineSectionQuestions, toggle]);
+
+  // Submit proposal to supervisor
   async function submitProposalToSupervisor() {
     try {
-      // Validate that proposalDetail and mainSupervisor are defined
-      if (!proposalDetail || !proposalDetail.id || !mainSupervisor || !mainSupervisor[0] || !mainSupervisor[0]._id) {
+      if (!proposalDetail?.id || !mainSupervisor?.[0]?._id) {
         throw new Error("Both proposalId and supervisorId are required");
       }
-      // Make the fetch request with the request body directly
-      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-supervisor`
-        , {
-          method: 'PATCH',
-          redirect: 'follow',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            proposalId: proposalDetail.id,
-            supervisorId: mainSupervisor[0]._id,
-          }),
-        });
+
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-supervisor`, {
+        method: 'PATCH',
+        redirect: 'follow',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          proposalId: proposalDetail.id,
+          supervisorId: mainSupervisor[0]._id,
+        }),
+      });
+
       const responseText = await response.text();
-      console.log("Response Status:", response.status);
-      console.log("Response Text:", responseText);
       if (response.ok) {
         const data = JSON.parse(responseText);
         toast.success('Proposal successfully submitted to supervisor');
@@ -153,11 +162,11 @@ export default function LeadProposalPage() {
       throw error;
     }
   }
-  // console.log('proposalDetail')
-  // console.log(proposalDetail)
+
   if (loading) {
     return <Loader />;
   }
+
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -194,7 +203,8 @@ export default function LeadProposalPage() {
                 <button
                   disabled={undefineSectionQuestions}
                   onClick={submitProposalToSupervisor}
-                  className={`${undefineSectionQuestions ? ('cursor-not-allowed') : ('cursor-pointer')} w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out `}>
+                  className={`w-fit py-2 px-6 rounded-md group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ${undefineSectionQuestions ? 'cursor-not-allowed' : 'cursor-pointer'
+                    }`}>
                   <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                     <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
                       Submit
@@ -209,8 +219,9 @@ export default function LeadProposalPage() {
                 {mainSupervisor && mainSupervisor[0] && mainSupervisor[0].fullname ? mainSupervisor[0].fullname : 'Not Available'}
               </span></p>
             </header>
-            <ProposalForLead LeadproposalData={proposalDetail}
-              setSectionQnasUndefine={setSectionQnasUndefine}
+            <EditableProposal
+            sectionCheckToggle={toggleState}
+              proposalData={proposalDetail}
             />
           </div>
         </section>

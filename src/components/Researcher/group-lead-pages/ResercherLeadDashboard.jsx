@@ -60,6 +60,18 @@ export default function ResercherLeadDashboard() {
             id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
               ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
               : ' ',
+            createdAt: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
+              ? (result.notAcceptedProposals[0].createdAt
+                ? (() => {
+                  const date = new Date(result.notAcceptedProposals[0].createdAt);
+                  const number = result.notAcceptedProposals[0].proposalId || 'N/A';
+                  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                  const year = date.getFullYear();
+                  return `${number}-${month}-${year}`;
+                })()
+                : 'N/A')
+              : 'N/A',
+
             title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
               ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ')
               : ' ',
@@ -120,31 +132,31 @@ export default function ResercherLeadDashboard() {
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Dashboard</h1>
             <section>
               <div className="flex md:flex flex-col md:flex-row gap-5">
-               
-              {proposalDetail?.id?.trim() && (
+
+                {proposalDetail?.id?.trim() && (
                   <>
-                <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
-
-              
-  <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Active Proposal</h1>
+                    <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
 
 
-                  <div className='mt-4'>
-                    <span className='font-bold '> Proposal Id</span>
-                    <span className='mx-2 my-2 text-epsilon '>
-                    BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
-                    </span>
-                  </div>
-                  <div className='mb-3'>
-                  {proposalDetail.status || 'N/A'}
-                  
-                  </div>
-                  <Link to='/group-lead-proposal' className='text-epsilon '>View Details.</Link>
-                </header>
+                      <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Active Proposal</h1>
 
-</>)
 
-}
+                      <div className='mt-4'>
+                        <span className='font-bold '> Proposal Id</span>
+                        <span className='mx-2 my-2 text-epsilon '>
+                          BMY-{proposalDetail.createdAt}
+                        </span>
+                      </div>
+                      <div className='mb-3'>
+                        {proposalDetail.status || 'N/A'}
+
+                      </div>
+                      <Link to='/group-lead-proposal' className='text-epsilon '>View Details.</Link>
+                    </header>
+
+                  </>)
+
+                }
                 <header className='bg-white shadow-sm md:my-5 mb-5 px-5 py-5 md:py-10 md:w-[35%]'>
                   <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Supervisor</h1>
                   {supervisors.length > 0 ? (
@@ -169,16 +181,16 @@ export default function ResercherLeadDashboard() {
 
 
             {!proposalDetail?.id?.trim() && (
-                  <>
-            <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Proposal</h1>
-            <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-              <h1 className='font-semibold flex items-center gap-2'>
-                <ImFilesEmpty className='text-2xl' />
-                No Active Proposal
-              </h1>
-            </header>
+              <>
+                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Proposal</h1>
+                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                  <h1 className='font-semibold flex items-center gap-2'>
+                    <ImFilesEmpty className='text-2xl' />
+                    No Active Proposal
+                  </h1>
+                </header>
 
-            </>)}
+              </>)}
             <div className='flex justify-end text-nuetral-600'>
               <Link
                 to='/group-lead-proposal'

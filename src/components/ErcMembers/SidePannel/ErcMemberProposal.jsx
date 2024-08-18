@@ -3,18 +3,19 @@ import Sidebar from '../../layout/Sidebar.jsx';
 import Table from '../../Common/Table.jsx';
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
-import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
+import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
+
 export default function ErcMemberProposal() {
-  const [loading, setLoading] = useState(false)
-  const [noActive, setNoActive] = useState(false)
-  const [proposalInfo, setProposalInfo] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [noActive, setNoActive] = useState(false);
+  const [proposalInfo, setProposalInfo] = useState([]);
   const [previousProposals, setFormattedPreviousProposal] = useState(null);
+
   useEffect(() => {
     const fetchProposals = async () => {
-      setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-to-erc-member`, {
           method: 'GET',
@@ -29,20 +30,26 @@ export default function ErcMemberProposal() {
         if (Array.isArray(result.proposals) && result.proposals.length > 0) {
           const proposalInfo = result.proposals.map(proposal => ({
             proposalid: proposal._id,
+            createdAt: proposal.createdAt
+            ? (() => {
+              const date = new Date(proposal.createdAt);
+              const number = proposal.proposalId || 'N/A';
+              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+              const year = date.getFullYear();
+              return `${number}-${month}-${year}`;
+            })()
+            : 'N/A',
           }));
           setProposalInfo(proposalInfo);
         } else {
           setNoActive(true);
         }
-      }
-      catch (error) {
-        console.log(error.message);
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        console.error(error.message);
       }
     };
+
     const fetchPreviousProposals = async () => {
-      setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-ercmember`, {
           method: 'GET',
@@ -53,18 +60,21 @@ export default function ErcMemberProposal() {
           throw new Error('Failed to fetch previous proposals');
         }
         const result = await response.json();
-        // console.log(result)
         setFormattedPreviousProposal(result.proposals || []);
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         setFormattedPreviousProposal([]);  // Set to an empty array on error
-      } finally {
-        setLoading(false);
       }
     };
-    fetchProposals();
-    fetchPreviousProposals()
+
+    const fetchData = async () => {
+      await Promise.all([fetchProposals(), fetchPreviousProposals()]);
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
   if (loading) {
     return <Loader />;
   }
@@ -87,7 +97,7 @@ export default function ErcMemberProposal() {
                         Proposal:
                       </span>
                       <span className='mx-1 text-epsilon w-[10px] truncate'>
-                        BMY-{proposal.proposalid ? proposal.proposalid.slice(-4) : 'N/A'}
+                      BMY-{proposal.createdAt}
                       </span>
                     </Link>
                   </h1>

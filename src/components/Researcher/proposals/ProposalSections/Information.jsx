@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 export default function Information({ formData, onInputChange, onSubmit, updateFormData, sectionAssigned }) {
     const [selectedCriteria, setSelectedCriteria] = useState([]);
     const [signUserRole, setSignUserRole] = useState('');
+    const [readOnly,setReadOnly]=useState(false)
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [assigned, setAssigned] = useState(false)
     useEffect(() => {
@@ -17,7 +18,12 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
     }, [formData.question2]);
     useEffect(() => {
         const isValidRole = (signUserRole, sectionAssigned) => {
+
+
+
+
             if (signUserRole === 'erc-head' || signUserRole === 'erc-members') {
+                setReadOnly(true)
                 return true;
             }
             if (signUserRole === 'researchers') {
@@ -59,6 +65,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <label className='text-zeta font-semibold' htmlFor="question1">Email</label>
                         <div className='w-full md:w-[50%] h-fit relative'>
                             <input
+                             disabled={readOnly}
                                 name='question1'
                                 id='question1'
                                 value={formData.question1}
@@ -75,6 +82,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
                                     type="checkbox"
+                                    disabled={readOnly}
                                     name="Addressing research question on right time as community/decision makers are looking for the answers"
                                     checked={selectedCriteria.includes('Addressing research question on right time as community/decision makers are looking for the answers')}
                                     onChange={handleCriteriaChange}
@@ -84,6 +92,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                             </label>
                             <label className="flex my-3 items-center text-[0.89rem]">
                                 <input
+                                 disabled={readOnly}
                                     type="checkbox"
                                     name="Feasible (have manpower, budget, time for data collection and writing)"
                                     checked={selectedCriteria.includes('Feasible (have manpower, budget, time for data collection and writing)')}
@@ -99,6 +108,7 @@ export default function Information({ formData, onInputChange, onSubmit, updateF
                         <section className='mb-4'>
                             <div className='w-full md:w-[50%] h-fit relative'>
                                 <input
+                                 disabled={readOnly}
                                     name='question3'
                                     id='question3'
                                     value={formData.question3}

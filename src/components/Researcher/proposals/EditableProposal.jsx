@@ -5,8 +5,17 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
-export default function Proposal({ proposalData, assignProposal, role }) {
-    // console.log(proposalData.id)
+export default function EditableProposal({ sectionCheckToggle, proposalData }) {
+    console.log(proposalData)
+    const [signUserRole, setSignUserRole] = useState('');
+    useEffect(() => {
+        const SignUserRole = localStorage.getItem('role');
+        if (SignUserRole) {
+            setSignUserRole(SignUserRole);
+        } else {
+            console.log('Local storage: role  not found.');
+        }
+    }, []);
     const hasMissingQuestions =
         !proposalData ||
         !proposalData.sections ||
@@ -374,40 +383,8 @@ export default function Proposal({ proposalData, assignProposal, role }) {
         ethicalData.table5Score,
         ethicalData.table6Score
     ]);
-    const [sectionAssigned, setSectionAssigned] = useState([]);
+    // const [sectionAssigned, setSectionAssigned] = useState([]);
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        const fetchMemberAssignSection = async () => {
-            try {
-                setLoading(true)
-                const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-section-researcher`, {
-                    method: 'GET',
-                    redirect: 'follow',
-                    credentials: 'include',
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const result = await response.json();
-                if (result.success) {
-                    setLoading(false)
-                    const assignedSections = result.assignedSections.map(section => ({
-                        sectionsAssigned: section.section || [],
-                    }));
-                    const uniqueSections = new Set(assignedSections.map(item => item.sectionsAssigned));
-                    const uniqueSectionsArray = Array.from(uniqueSections);
-                    setSectionAssigned(uniqueSectionsArray)
-                } else {
-                    toast.error('Failed to load proposal details.');
-                }
-            } catch (error) {
-                toast.error(`Error: ${error.message}`);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchMemberAssignSection()
-    }, []);
     //************************     Information Component 
     const handleUpdateInformationData = (updatedData) => {
         setInformationData(updatedData);
@@ -452,11 +429,14 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 redirect: "follow",
                 credentials: 'include',
             };
-            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section-by-grouplead-supervisor`, requestOptions);
             const result = await response.json();
             if (response.ok) {
                 updateSavingStatus('Information', false);
                 toast.success("Data updated successfully!");
+                if (signUserRole === 'group-lead') {
+                    sectionCheckToggle()
+                }
             } else {
                 updateSavingStatus('Information', false);
                 toast.error(result.message || "Failed to update data.");
@@ -522,11 +502,14 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 redirect: "follow",
                 credentials: 'include',
             };
-            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section-by-grouplead-supervisor`, requestOptions);
             const result = await response.json();
             if (response.ok) {
                 updateSavingStatus('EthicalReview', false);
                 toast.success("Data updated successfully!");
+                if (signUserRole === 'group-lead') {
+                    sectionCheckToggle()
+                }
             } else {
                 updateSavingStatus('EthicalReview', false);
                 toast.error(result.message || "Failed to update data.");
@@ -605,11 +588,16 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 redirect: "follow",
                 credentials: 'include',
             };
-            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section-by-grouplead-supervisor`, requestOptions);
             const result = await response.json();
             if (response.ok) {
                 updateSavingStatus('ScientificReview', false);
                 toast.success("Data updated successfully!");
+                if (signUserRole === 'group-lead') {
+                    if (signUserRole === 'group-lead') {
+                        sectionCheckToggle()
+                    }
+                }
             } else {
                 updateSavingStatus('ScientificReview', false);
                 console.log(result.message)
@@ -654,11 +642,14 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 redirect: "follow",
                 credentials: 'include',
             };
-            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section`, requestOptions);
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-section-by-grouplead-supervisor`, requestOptions);
             const result = await response.json();
             if (response.ok) {
                 updateSavingStatus('Consent', false);
                 toast.success("Data updated successfully!");
+                if (signUserRole === 'group-lead') {
+                    sectionCheckToggle()
+                }
             } else {
                 updateSavingStatus('Consent', false);
                 toast.error(result.message || "Failed to update data.");
@@ -684,7 +675,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'information':
                 return (
                     <Information
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={['none']}
                         formData={informationData}
                         onInputChange={handleInformationChange}
                         onSubmit={handleInformationSubmission}
@@ -694,7 +685,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'scientificReview':
                 return (
                     <ScientificReview
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={['none']}
                         scientificData={scientificData}
                         onChange={ScientificReviewChange}
                         onSubmit={handleScientificDataSubmission}
@@ -703,7 +694,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'ethicalReview':
                 return (
                     <EthicalReview
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={['none']}
                         ethicalData={ethicalData}
                         updateState={updateState}
                         onSubmit={handleEthicalSectionSubmission}
@@ -712,7 +703,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'consent':
                 return (
                     <Consent
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={['none']}
                         formData={consentData}
                         onInputChange={handleConsentChange}
                         onSubmit={handleConsentSubmission}
@@ -722,7 +713,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             default:
                 return (
                     <Information
-                       sectionAssigned={sectionAssigned}
+                        sectionAssigned={['none']}
                         savingStatus={savingStatus}
                         formData={informationData}
                         onInputChange={handleInformationChange}

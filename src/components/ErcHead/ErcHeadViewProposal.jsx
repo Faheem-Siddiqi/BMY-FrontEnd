@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../layout/Sidebar.jsx';
 import UserNavbar from '../layout/Navs/UserNavbar.jsx';
-import { MdOutlineKeyboardBackspace, MdFileDownloadDone } from "react-icons/md";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import DiscussionModal from '../Researcher/proposals/proposal-reviews/DiscussionModal.jsx';
 import AssignERCs from './AssignERCs.jsx';
 import ProposalForLead from '../Researcher/proposals/ProposalForLead.jsx';
@@ -9,55 +9,51 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
+
 export default function ErcHeadViewProposal() {
-    const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false)
-    const [ErcHeadDataToggle, setHeadDataToggle] = useState(false)
+    const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
+    const [ErcHeadDataToggle, setHeadDataToggle] = useState(false);
+    const [ercMembers, setErcMembers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [proposalDetail, setProposalDetail] = useState({});
+    const { proposalId } = useParams();
+
     const updateHeadDataToggle = (newValue) => {
         setHeadDataToggle(newValue);
     };
-    const [ercMembers, setErcMembers] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [proposalDetail, setProposalDetail] = useState({});
-    const { proposalId } = useParams();
+
     useEffect(() => {
         const fetchAllErcs = async () => {
-            setLoading(true);
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/getAllErcMembers`, {
                     method: "GET",
                     redirect: "follow",
                     credentials: 'include'
                 });
-                if (!response.ok) {
-                    setLoading(false);
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 const result = await response.json();
                 if (result.success) {
-                    // console.log(result)
                     setErcMembers(result?.ercMembers ?? []);
-                    setLoading(false);
                 } else {
-                    toast.error("Failed to load user details.");
+                    toast.error("Failed to load ERC members.");
                 }
             } catch (error) {
+                toast.error(`Error fetching ERC members: ${error.message}`);
             }
         };
+
         const fetchProposalById = async () => {
             if (!proposalId) {
-                toast.error('Proposal ID is Missing. Make sure you dont change url');
+                toast.error('Proposal ID is Missing. Make sure you don\'t change the URL.');
                 return;
             }
             try {
-                setLoading(true);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-id/${proposalId}`, {
                     method: 'GET',
                     redirect: 'follow',
                     credentials: 'include',
                 });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 const result = await response.json();
                 if (result.success) {
                     const proposal = result.proposal || {};
@@ -74,21 +70,22 @@ export default function ErcHeadViewProposal() {
                     toast.error('Proposal not found.');
                 }
             } catch (error) {
-                toast.error(`Error: ${error.message}`);
+                toast.error(`Error fetching proposal: ${error.message}`);
             } finally {
                 setLoading(false);
             }
         };
+
+        // Fetch data when component mounts or when proposalId or ErcHeadDataToggle changes
         fetchProposalById();
         fetchAllErcs();
     }, [proposalId, ErcHeadDataToggle]);
+
     async function handleApprove() {
         try {
-            // Validate that proposalDetail is defined
             if (!proposalId) {
-                toast.error('Proposal ID is Missing. Make sure you dont change url');
-                console.log('proposal id is undefinded')
-                throw new Error("Proposal ID is required");
+                toast.error('Proposal ID is Missing. Make sure you don\'t change the URL.');
+                return;
             }
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-erc-head`, {
                 method: 'PATCH',
@@ -101,23 +98,19 @@ export default function ErcHeadViewProposal() {
                     proposalId: proposalDetail.id,
                 }),
             });
-            const responseText = await response.text();
-            console.log("Response Status:", response.status);
-            console.log("Response Text:", responseText);
             if (response.ok) {
-                const data = JSON.parse(responseText);
+                const data = await response.json();
                 toast.success('Proposal successfully submitted to ERC head');
                 return data;
             } else {
-                const errorData = JSON.parse(responseText);
+                const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to submit proposal');
             }
         } catch (error) {
             toast.error(`Error submitting proposal: ${error.message}`);
-            console.error(`Error submitting proposal: ${error.message}`);
-            throw error;
         }
     }
+
     if (loading) {
         return <Loader />;
     }

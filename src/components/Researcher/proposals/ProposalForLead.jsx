@@ -278,8 +278,6 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             answer22: scientificReviewSection?.questions?.["Data collection procedures and tools"] || 'N/A',
             onlineQuestionnaires: scientificReviewSection?.questions?.["Online questionnaires/ google forms"] || 'N/A',
         }));
-
-
         if (hasMissingQuestions) {
             setSectionQnasUndefine(true)
         }
@@ -293,7 +291,7 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
         'Ethical Review',
         'Consent'
     ];
-    const [clickedSection, setClickedSection] = useState('information');
+    const [clickedSection, setClickedSection] = useState('Information');
     const handleButtonClick = (section) => {
         setClickedSection(section);
     };
@@ -302,30 +300,35 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             case 'information':
                 return (
                     <Information
+                    sectionAssigned={['none']}
                         formData={informationData}
                     />
                 );
             case 'Scientific Review':
                 return (
                     <ScientificReview
+                    sectionAssigned={['none']}
                         scientificData={scientificData}
                     />
                 )
             case 'Ethical Review':
                 return (
                     <EthicalReview
+                    sectionAssigned={['none']}
                         ethicalData={ethicalData}
                     />
                 );
             case 'Consent':
                 return (
                     <Consent
+                    sectionAssigned={['none']}
                         formData={consentData}
                     />
                 );
             default:
                 return (
                     <Information
+                    sectionAssigned={['none']}
                         formData={informationData}
                     />
                 );
@@ -343,7 +346,7 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
                         <button
                             key={index}
                             onClick={() => handleButtonClick(section)}
-                            className={`py-1 px-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ${clickedSection === section ? 'bg-epsilon-dark' : ''}`}
+                            className={`py-1 px-3 rounded-md group relative overflow-hidden bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon  ${clickedSection === section ? 'bg-zeta hover:from-zeta' : ''}`}
                         >
                             <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                             {section}
