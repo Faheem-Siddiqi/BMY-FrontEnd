@@ -4,7 +4,6 @@ import Table from '../../Common/Table.jsx';
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 
 export default function ErcMemberProposal() {
