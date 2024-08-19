@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Notifications from './Notifications.jsx';
+import { getCookie } from 'cookies-next';
 import { CgLogOut } from 'react-icons/cg';
 import { TiEdit } from 'react-icons/ti';
 import toast from 'react-hot-toast';
@@ -13,9 +14,14 @@ export default function UserNavbar() {
   // Handle logout
   const handleLogout = async () => {
     try {
-      // Perform the logout request
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/logout`, {
         method: 'GET',
+        headers: myHeaders,
         credentials: 'include',
       });
       const result = await response.json();
@@ -37,9 +43,15 @@ export default function UserNavbar() {
     let isMounted = true;
     const fetchUserDetails = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (!response.ok) {

@@ -35,9 +35,9 @@ export default function EditProfile() {
       try {
         const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-//myHeaders.append("Cookie", `token=${getCookie("token")}`);
-        const token = getCookie("token");
+const token = getCookie("token");
 myHeaders.append("Authorization", `Bearer ${token}`);
+
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           headers: myHeaders,
@@ -100,11 +100,17 @@ myHeaders.append("Authorization", `Bearer ${token}`);
       const file = files[0];
       if (file) {
         try {
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          const token = getCookie("token");
+          myHeaders.append("Authorization", `Bearer ${token}`);
+
           const formData = new FormData();
           formData.append("filename", file);
           const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
             method: "POST",
             body: formData,
+            headers: myHeaders,
             redirect: "follow"
           });
           const result = await response.json();
@@ -131,14 +137,15 @@ myHeaders.append("Authorization", `Bearer ${token}`);
   //PUT RESQUEST FOR PERSONAL  INFORMATION
   const handlePersonalInformationSubmission = async () => {
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
       const SignUser = getCookie('role');
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-          "Cookie": SignUser
-        },
+        headers: myHeaders,
         credentials: 'include',
         body: JSON.stringify({
           fullname: personalInformation.fullName,
@@ -167,11 +174,15 @@ myHeaders.append("Authorization", `Bearer ${token}`);
   //PUT RESQUEST FOR AFFILIATION COMPONENT
   const handleAffiliationInformationSubmission = async () => {
     try {
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: myHeaders,
         credentials: 'include',
         body: JSON.stringify({
           experience: {
@@ -207,9 +218,15 @@ myHeaders.append("Authorization", `Bearer ${token}`);
         try {
           const formData = new FormData();
           formData.append("filename", file);
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          const token = getCookie("token");
+          myHeaders.append("Authorization", `Bearer ${token}`);
+
           const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
             method: "POST",
             body: formData,
+            headers: myHeaders,
             redirect: "follow"
           });
           const result = await response.json();
@@ -236,11 +253,14 @@ myHeaders.append("Authorization", `Bearer ${token}`);
   //PUT RESQUEST FOR SIGNATURE COMPONENT
   const handleSignatureSubmission = async () => {
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: myHeaders,
         credentials: 'include',
         body: JSON.stringify({
           signature: signatureInformation.userSignature,

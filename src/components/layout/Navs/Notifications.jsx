@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IoNotifications } from "react-icons/io5";
-import { MdCheckCircle } from "react-icons/md";
+import { getCookie } from 'cookies-next';
 import { FaBoxOpen } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { toast } from 'react-toastify';
@@ -9,13 +9,16 @@ export default function Notifications() {
     const [notifications, setNotifications] = useState([]);
     const markAsSeen = async (notificationId) => {
         try {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
+
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/notifications/mark-as-seen`, {
                 method: 'PATCH',
                 redirect: 'follow',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: myHeaders,
                 body: JSON.stringify({ notificationId }),
             });
             if (!response.ok) {
@@ -37,10 +40,16 @@ export default function Notifications() {
     };
     useEffect(() => {
         const fetchNotifications = async () => {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
+
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/notifications/get-user-notifications`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (response.status === 404) {
