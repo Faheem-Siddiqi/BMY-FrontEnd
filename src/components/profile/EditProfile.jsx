@@ -35,7 +35,9 @@ export default function EditProfile() {
       try {
         const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", `token=${getCookie("token")}`);
+//myHeaders.append("Cookie", `token=${getCookie("token")}`);
+        const token = getCookie("token");
+myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           headers: myHeaders,
