@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import profileImage from '../../../assets/images/Profile.png';
 import Sidebar from '../../layout/Sidebar';
 import { ImFilesEmpty } from "react-icons/im";
-import { IoTimerOutline } from "react-icons/io5";
 import { MdOutlineGroupOff } from "react-icons/md";
 import { Link } from 'react-router-dom';
-import { FaCheck } from "react-icons/fa6";
+import { getCookie } from "cookies-next";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
+
 export default function SupervisorDashboard() {
   const [loading, setLoading] = useState(true);
   const [researchers, setResearchers] = useState([]);
@@ -17,9 +17,14 @@ export default function SupervisorDashboard() {
   useEffect(() => {
     const fetchResearcherTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getSupervisorTeams`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {
@@ -44,9 +49,14 @@ export default function SupervisorDashboard() {
     const fetchProposals = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-proposals-supervisor`, {
           method: 'GET',
           redirect: "follow",
+          headers: myHeaders,
           credentials: 'include'
         });
         if (!response.ok) {
@@ -58,14 +68,14 @@ export default function SupervisorDashboard() {
             proposalid: proposal._id,
             mainSupervisorId: proposal.supervisorId ? proposal.supervisorId._id : '',
             createdAt: proposal.createdAt
-            ? (() => {
-              const date = new Date(proposal.createdAt);
-              const number = proposal.proposalId || 'N/A';
-              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-              const year = date.getFullYear();
-              return `${number}-${month}-${year}`;
-            })()
-            : 'N/A',
+              ? (() => {
+                const date = new Date(proposal.createdAt);
+                const number = proposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })()
+              : 'N/A',
           }));
           setProposalInfo(proposalInfo);
           console.log(proposalInfo)
@@ -79,8 +89,13 @@ export default function SupervisorDashboard() {
     const fetchErcPanel = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/get-erc-panel`, {
           method: 'GET',
+          headers: myHeaders,
           redirect: "follow",
         });
         if (!response.ok) {
@@ -166,7 +181,7 @@ export default function SupervisorDashboard() {
                       <p>
                         Proposal:
                         <span className='mx-1 text-epsilon w-[10px] truncate'>
-                        BMY-{proposal.createdAt}
+                          BMY-{proposal.createdAt}
                         </span>
                       </p>
                     </h1>

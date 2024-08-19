@@ -3,14 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import Loader from "../layout/Loader";
+import { getCookie } from "cookies-next";
+
 export default function ResetPassword() {
   const [requiredError, setRequiredError] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false); // New state for loading
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
@@ -20,10 +22,10 @@ export default function ResetPassword() {
     e.preventDefault();
     setRequiredError(false);
     setSubmitError('');
-    setLoading(true); // Set loading to true when starting request
+    setLoading(true);
     if (!password || !confirmPassword) {
       setRequiredError(true);
-      setLoading(false); // Reset loading state
+      setLoading(false);
       return;
     }
     if (password !== confirmPassword) {
@@ -37,11 +39,13 @@ export default function ResetPassword() {
       return;
     }
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/setnewpassword`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: myHeaders,
         body: JSON.stringify({
           workemail: email,
           password,
@@ -59,13 +63,13 @@ export default function ResetPassword() {
     } catch (error) {
       setSubmitError('An unexpected error occurred');
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      {loading && <Loader />} {/* Show loader when loading is true */}
+      {loading && <Loader />}
       <div className="flex items-center justify-center my-10">
         <div className="w-full max-w-4xl p-7 md:p-20 shadow-sm bg-iota rounded-box flex flex-col items-center gap-5">
           <div className='font-CormorantGaramond-Regular items-center justify-center flex flex-col w-fit mb-4'>

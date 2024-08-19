@@ -7,15 +7,15 @@ const ResearcherTableRow = ({ id, profileImage, name, email, institution, design
         requestId: id,
         status,
       });
-      // Send the request
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/respond-to-request`,
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/respond-to-request`,
         {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: myHeaders,
           body: payload,
         }
       );

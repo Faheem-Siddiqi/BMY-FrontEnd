@@ -7,6 +7,7 @@ import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import EditableProposal from '../proposals/EditableProposal.jsx';
+import { getCookie } from "cookies-next";
 
 export default function LeadProposalPage() {
   const [toggle, setToggle] = useState(true);
@@ -15,29 +16,27 @@ export default function LeadProposalPage() {
   const [loading, setLoading] = useState(true);
   const [proposalDetail, setProposalDetail] = useState({});
   const [mainSupervisor, setMainSupervisor] = useState({});
-
   const updateLeadsDataToggle = (newValue) => {
     setLeadDataToggle(newValue);
   };
-
   const toggleState = () => {
     setToggle(prevState => !prevState);
   };
-
-  // Fetch lead team data
   useEffect(() => {
     let isMounted = true;
-
     const fetchLeadTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
-
         if (!response.ok) throw new Error('Network response was not ok');
-
         const result = await response.json();
         if (isMounted) {
           if (result.success) {
@@ -55,25 +54,24 @@ export default function LeadProposalPage() {
         if (isMounted) setLoading(false);
       }
     };
-
     fetchLeadTeam();
-
     return () => { isMounted = false; };
   }, []);
-
-  // Fetch proposal data
   useEffect(() => {
     const fetchProposals = async () => {
       try {
         setLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-group-lead`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
-
         if (!response.ok) throw new Error('Network response was not ok');
-
         const result = await response.json();
         if (result.success) {
           const proposal = result.notAcceptedProposals?.[0] ?? {};
@@ -81,12 +79,12 @@ export default function LeadProposalPage() {
             id: proposal._id || ' ',
             cretaedAt: proposal.createdAt
               ? (() => {
-                  const date = new Date(proposal.createdAt);
-                  const number = proposal.proposalId || 'N/A';
-                  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                  const year = date.getFullYear();
-                  return `${number}-${month}-${year}`;
-                })()
+                const date = new Date(proposal.createdAt);
+                const number = proposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })()
               : 'N/A',
             title: proposal.title || ' ',
             status: proposal.status || ' ',
@@ -104,10 +102,8 @@ export default function LeadProposalPage() {
         setLoading(false);
       }
     };
-
     fetchProposals();
   }, [LeadDataToggle, toggle]);
-
   // Check if sections are undefined
   useEffect(() => {
     const checkSections = () => {
@@ -121,32 +117,30 @@ export default function LeadProposalPage() {
         !sections.consent?.questions ||
         !sections.ethicalReview?.questions ||
         !sections.scientificReview?.questions;
-
       setSectionQnasUndefine(isUndefined);
     };
     checkSections();
   }, [proposalDetail, undefineSectionQuestions, toggle]);
-
   // Submit proposal to supervisor
   async function submitProposalToSupervisor() {
     try {
       if (!proposalDetail?.id || !mainSupervisor?.[0]?._id) {
         throw new Error("Both proposalId and supervisorId are required");
       }
-
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-supervisor`, {
         method: 'PATCH',
         redirect: 'follow',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: myHeaders,
         body: JSON.stringify({
           proposalId: proposalDetail.id,
           supervisorId: mainSupervisor[0]._id,
         }),
       });
-
       const responseText = await response.text();
       if (response.ok) {
         const data = JSON.parse(responseText);
@@ -162,11 +156,9 @@ export default function LeadProposalPage() {
       throw error;
     }
   }
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -220,7 +212,7 @@ export default function LeadProposalPage() {
               </span></p>
             </header>
             <EditableProposal
-            sectionCheckToggle={toggleState}
+              sectionCheckToggle={toggleState}
               proposalData={proposalDetail}
             />
           </div>

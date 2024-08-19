@@ -5,19 +5,24 @@ import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
+import { getCookie } from "cookies-next";
 
 export default function ErcMemberProposal() {
   const [loading, setLoading] = useState(true);
   const [noActive, setNoActive] = useState(false);
   const [proposalInfo, setProposalInfo] = useState([]);
   const [previousProposals, setFormattedPreviousProposal] = useState(null);
-
   useEffect(() => {
     const fetchProposals = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-to-erc-member`, {
           method: 'GET',
           redirect: "follow",
+          headers: myHeaders,
           credentials: 'include'
         });
         if (!response.ok) {
@@ -29,14 +34,14 @@ export default function ErcMemberProposal() {
           const proposalInfo = result.proposals.map(proposal => ({
             proposalid: proposal._id,
             createdAt: proposal.createdAt
-            ? (() => {
-              const date = new Date(proposal.createdAt);
-              const number = proposal.proposalId || 'N/A';
-              const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-              const year = date.getFullYear();
-              return `${number}-${month}-${year}`;
-            })()
-            : 'N/A',
+              ? (() => {
+                const date = new Date(proposal.createdAt);
+                const number = proposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })()
+              : 'N/A',
           }));
           setProposalInfo(proposalInfo);
         } else {
@@ -46,12 +51,16 @@ export default function ErcMemberProposal() {
         console.error(error.message);
       }
     };
-
     const fetchPreviousProposals = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-ercmember`, {
           method: 'GET',
           redirect: "follow",
+          headers: myHeaders,
           credentials: 'include'
         });
         if (!response.ok) {
@@ -64,15 +73,12 @@ export default function ErcMemberProposal() {
         setFormattedPreviousProposal([]);  // Set to an empty array on error
       }
     };
-
     const fetchData = async () => {
       await Promise.all([fetchProposals(), fetchPreviousProposals()]);
       setLoading(false);
     };
-
     fetchData();
   }, []);
-
   if (loading) {
     return <Loader />;
   }
@@ -95,7 +101,7 @@ export default function ErcMemberProposal() {
                         Proposal:
                       </span>
                       <span className='mx-1 text-epsilon w-[10px] truncate'>
-                      BMY-{proposal.createdAt}
+                        BMY-{proposal.createdAt}
                       </span>
                     </Link>
                   </h1>

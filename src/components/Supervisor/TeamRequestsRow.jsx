@@ -1,5 +1,7 @@
 import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
+
 const TeamRequestsRow = ({ requestId, teamId, profileImage, name, email, institution, members }) => {
   const handleRequest = async (status, requestId, teamId) => {
     try {
@@ -8,14 +10,16 @@ const TeamRequestsRow = ({ requestId, teamId, profileImage, name, email, institu
         teamId,
         status,
       });
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/respond-to-supervisor-request`
         , {
           method: "PATCH",
           credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: myHeaders,
           body: payload,
         });
       console.log('Response Status:', response.status);

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
-
+import { getCookie } from "cookies-next";
 export default function ResercherLeadDashboard() {
   const [loading, setLoading] = useState(false);
   const [researchers, setResearchers] = useState([]);
@@ -18,9 +18,14 @@ export default function ResercherLeadDashboard() {
     const fetchLeadTeam = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (!response.ok) {
@@ -39,14 +44,17 @@ export default function ResercherLeadDashboard() {
         setLoading(false);
       }
     };
-
-
     const fetchProposals = async () => {
       try {
         setLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-group-lead`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
         if (!response.ok) {
@@ -54,8 +62,6 @@ export default function ResercherLeadDashboard() {
         }
         const result = await response.json();
         if (result.success) {
-
-
           const formattedProposal = {
             id: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
               ? (result.notAcceptedProposals[0]._id ? result.notAcceptedProposals[0]._id : ' ')
@@ -71,7 +77,6 @@ export default function ResercherLeadDashboard() {
                 })()
                 : 'N/A')
               : 'N/A',
-
             title: result.notAcceptedProposals && result.notAcceptedProposals.length > 0
               ? (result.notAcceptedProposals[0].title ? result.notAcceptedProposals[0].title : ' ')
               : ' ',
@@ -97,11 +102,7 @@ export default function ResercherLeadDashboard() {
               : [],
           };
           setProposalDetail(formattedProposal);
-
-
         }
-
-
         else {
           toast.error('No proposals found.');
         }
@@ -112,16 +113,11 @@ export default function ResercherLeadDashboard() {
       }
     };
     fetchProposals();
-
     fetchLeadTeam();
   }, []);
-
-
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <div className="flex xl:flex-row flex-col font-WorkSans-Regular">
@@ -132,15 +128,10 @@ export default function ResercherLeadDashboard() {
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Dashboard</h1>
             <section>
               <div className="flex md:flex flex-col md:flex-row gap-5">
-
                 {proposalDetail?.id?.trim() && (
                   <>
                     <header className='bg-white shadow-sm my-5 px-5 py-5 md:py-10 md:w-[35%]'>
-
-
                       <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Active Proposal</h1>
-
-
                       <div className='mt-4'>
                         <span className='font-bold '> Proposal Id</span>
                         <span className='mx-2 my-2 text-epsilon '>
@@ -149,27 +140,20 @@ export default function ResercherLeadDashboard() {
                       </div>
                       <div className='mb-3'>
                         {proposalDetail.status || 'N/A'}
-
                       </div>
                       <Link to='/group-lead-proposal' className='text-epsilon '>View Details.</Link>
                     </header>
-
                   </>)
-
                 }
                 <header className='bg-white shadow-sm md:my-5 mb-5 px-5 py-5 md:py-10 md:w-[35%]'>
                   <h1 className='text-lg md:text-2xl font-bold font-Satoshi-Black'>Supervisor</h1>
                   {supervisors.length > 0 ? (
                     supervisors.map((supervisor, index) => (
                       <>
-
                         <div key={index}>
                           <p className=' mt-3'>{supervisor.fullname}</p>
                           <p className='text-sm'>{supervisor.workemail}</p>
                         </div>
-
-
-
                       </>
                     ))
                   ) : (
@@ -178,8 +162,6 @@ export default function ResercherLeadDashboard() {
                 </header>
               </div>
             </section>
-
-
             {!proposalDetail?.id?.trim() && (
               <>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Proposal</h1>
@@ -189,7 +171,6 @@ export default function ResercherLeadDashboard() {
                     No Active Proposal
                   </h1>
                 </header>
-
               </>)}
             <div className='flex justify-end text-nuetral-600'>
               <Link
@@ -199,7 +180,6 @@ export default function ResercherLeadDashboard() {
               </Link>
             </div>
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Team</h1>
-
             {researchers.length > 0 ? (
               <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                 <div>
@@ -227,7 +207,6 @@ export default function ResercherLeadDashboard() {
                 </h1>
               </header>
             )}
-
             <div className='flex justify-end text-nuetral-600'>
               <Link
                 to='/group-lead-team'

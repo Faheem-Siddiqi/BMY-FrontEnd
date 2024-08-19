@@ -6,20 +6,26 @@ import { Link } from 'react-router-dom';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 import Loader from '../../layout/Loader.jsx';
 import toast, { Toaster } from "react-hot-toast";
-export default function ResercherLeadTeam() {
+import { getCookie } from "cookies-next";
 
+export default function ResercherLeadTeam() {
     const [loading, setLoading] = useState(false);
-    const[leadTeam,setLeadTeam] = useState([])
-    const[Team,setTeam] = useState([])
+    const [leadTeam, setLeadTeam] = useState([])
+    const [Team, setTeam] = useState([])
     const [showCreateTeam, setShowCreateTeam] = useState(false)
     useEffect(() => {
-        let isMounted = true; // Flag to prevent state updates on unmounted components
+        let isMounted = true;
         const fetchLeadTeam = async () => {
-            setLoading(true); // Show loader during data fetching
+            setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (!response.ok) {
@@ -31,11 +37,10 @@ export default function ResercherLeadTeam() {
                     if (result.success) {
                         console.log(result)
                         setLoading(false);
-            
                         if (result.team.researchers.length === 0) {
                             setShowCreateTeam(true)
                         }
-                        else{
+                        else {
                             setLeadTeam(result.team.researchers)
                             setTeam(result)
                         }
@@ -59,8 +64,7 @@ export default function ResercherLeadTeam() {
     }
     return (
         <>
-   <Toaster position="top-center" reverseOrder={false} />
-        
+            <Toaster position="top-center" reverseOrder={false} />
             <div className="flex  xl:flex-row flex-col   font-Satoshi-Black  ">
                 <Sidebar pageName='group-lead-team' />
                 <section className=' w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
@@ -80,12 +84,10 @@ export default function ResercherLeadTeam() {
                         {!showCreateTeam && (<>
                             <p className='font-semibold my-2'>
                                 {leadTeam.length}{' '}
-                                   {  leadTeam.length ===1 ? 'Member' : 'Members'}
-                                   
-                                   </p>
+                                {leadTeam.length === 1 ? 'Member' : 'Members'}
+                            </p>
                             <CurrentMembers
-                            
-                            myMembers={Team}/>
+                                myMembers={Team} />
                             <Link
                                 to='/add-team-members'
                                 className="my-5 py-4 px-7  font-semibold rounded-md group relative overflow-hidden  bg-epsilon  text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon ">

@@ -7,7 +7,9 @@ import { IoPersonAddSharp } from "react-icons/io5";
 import UserNavbar from './../layout/Navs/UserNavbar';
 import Loader from '../layout/Loader.jsx';
 import { toast, ToastContainer } from 'react-toastify';
+import { getCookie } from "cookies-next";
 import 'react-toastify/dist/ReactToastify.css';
+
 export default function Admin() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -30,9 +32,14 @@ export default function Admin() {
     useEffect(() => {
         const fetchNotApprovedUsers = async () => {
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/admin/get-not-approved-users`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (response.status === 404) {
@@ -72,13 +79,15 @@ export default function Admin() {
     const addErcHead = async () => {
         if (!displayEmail) return;
         try {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/admin/approve-erc-head`, {
                 method: 'PATCH',
                 redirect: 'follow',
+                headers: myHeaders,
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify({ workemail: displayEmail }),
             });
             const responseText = await response.text();

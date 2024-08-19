@@ -1,6 +1,3 @@
-
-
-
 import Sidebar from '../../layout/Sidebar.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
@@ -8,8 +5,10 @@ import Proposal from '../proposals/Proposal.jsx';
 import { ImFilesEmpty } from "react-icons/im";
 import toast from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx'
+import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from 'react';
 import DiscussionModal from '../proposals/proposal-reviews/DiscussionModal.jsx'
+
 export default function MemberProposal() {
     const [memberDataToggle, setMemberDataToggle] = useState(false);
     const [sectionAssigned, setSectionAssigned] = useState([]);
@@ -22,9 +21,14 @@ export default function MemberProposal() {
         const fetchProposal = async () => {
             setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-researchers`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) {
@@ -35,7 +39,6 @@ export default function MemberProposal() {
                     const proposal = result.notAcceptedProposals && result.notAcceptedProposals.length > 0
                         ? result.notAcceptedProposals[0]
                         : {};
-                    
                     const formattedProposal = {
                         id: proposal._id || ' ',
                         cretaedAt: proposal.createdAt ? (() => {
@@ -63,9 +66,14 @@ export default function MemberProposal() {
         };
         const fetchAssignSection = async () => {
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-section-researcher`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) {
@@ -120,7 +128,6 @@ export default function MemberProposal() {
                             </div>
                         </header>
                         <div>
-                            
                             <Proposal
                                 proposalData={proposalDetail}
                             />

@@ -6,6 +6,8 @@ import UserNavbar from '../../layout/Navs/UserNavbar.jsx'
 import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
+
 export default function ResearcherSupervisor() {
     const [showNoSupervisor, setNoSupervisor] = useState(false);
     const [supervisors, setSupervisor] = useState([]);
@@ -18,9 +20,14 @@ export default function ResearcherSupervisor() {
             hasFetched = true;
             setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getResearcherTeam`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (!response.ok) {

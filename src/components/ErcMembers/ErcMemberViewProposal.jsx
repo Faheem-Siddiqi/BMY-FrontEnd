@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
+import { getCookie } from "cookies-next";
+
 export default function ErcMemberViewProposal() {
     const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
     const [ErcMemDataToggle, setMemberDataToggle] = useState(false);
@@ -25,9 +27,14 @@ export default function ErcMemberViewProposal() {
             }
             setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-id/${proposalId}`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) {
@@ -71,13 +78,15 @@ export default function ErcMemberViewProposal() {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 return;
             }
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/accept`, {
                 method: 'PATCH',
                 redirect: 'follow',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: myHeaders,
                 body: JSON.stringify({
                     proposalId: proposalDetail.id,
                 }),

@@ -25,25 +25,21 @@ export default function EditProfile() {
   const [signatureInformation, setSignatureInformation] = useState({
     userSignature: "",
   });
-  // GET METHOD FOR CHILD COMPONENTS
   const navigate = useNavigate();
   useEffect(() => {
-    let isMounted = true; // Flag to prevent state updates on unmounted components
+    let isMounted = true;
     const fetchUserDetails = async () => {
-      setLoading(true); // Show loader during data fetching
-
+      setLoading(true);
       try {
         const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-const token = getCookie("token");
-myHeaders.append("Authorization", `Bearer ${token}`);
-
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           headers: myHeaders,
           redirect: "follow",
           credentials: "include",
-          
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -104,7 +100,6 @@ myHeaders.append("Authorization", `Bearer ${token}`);
           myHeaders.append("Content-Type", "application/json");
           const token = getCookie("token");
           myHeaders.append("Authorization", `Bearer ${token}`);
-
           const formData = new FormData();
           formData.append("filename", file);
           const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
@@ -141,7 +136,6 @@ myHeaders.append("Authorization", `Bearer ${token}`);
       myHeaders.append("Content-Type", "application/json");
       const token = getCookie("token");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
       const SignUser = getCookie('role');
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
@@ -174,12 +168,10 @@ myHeaders.append("Authorization", `Bearer ${token}`);
   //PUT RESQUEST FOR AFFILIATION COMPONENT
   const handleAffiliationInformationSubmission = async () => {
     try {
-
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       const token = getCookie("token");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
         headers: myHeaders,
@@ -222,7 +214,6 @@ myHeaders.append("Authorization", `Bearer ${token}`);
           myHeaders.append("Content-Type", "application/json");
           const token = getCookie("token");
           myHeaders.append("Authorization", `Bearer ${token}`);
-
           const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
             method: "POST",
             body: formData,
@@ -257,7 +248,6 @@ myHeaders.append("Authorization", `Bearer ${token}`);
       myHeaders.append("Content-Type", "application/json");
       const token = getCookie("token");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/updateprofile`, {
         method: 'PUT',
         headers: myHeaders,

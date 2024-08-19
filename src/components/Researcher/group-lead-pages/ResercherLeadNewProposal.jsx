@@ -1,12 +1,13 @@
 import React from 'react'
 import Sidebar from '../../layout/Sidebar.jsx'
-import { Link } from 'react-router-dom';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from './../../layout/Loader';
+import { getCookie } from "cookies-next";
+
 export default function ResercherLeadNewProposal() {
     const [title, setTitle] = useState('');
     const [loading, setLoading] = useState(false);
@@ -14,13 +15,15 @@ export default function ResercherLeadNewProposal() {
     const handleNextClick = async () => {
         setLoading(true);
         try {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/create-proposal`
                 , {
                     method: 'POST',
                     credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: myHeaders,
                     body: JSON.stringify({ title }),
                 });
             const result = await response.json();

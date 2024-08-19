@@ -6,6 +6,8 @@ import { ImFilesEmpty } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
+import { getCookie } from "cookies-next";
+
 export default function ResearcherProposal() {
   const [loading, setLoading] = useState(true);
   const [showNoActive, setShowNoActiveProposal] = useState(false)
@@ -14,9 +16,14 @@ export default function ResearcherProposal() {
   useEffect(() => {
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-researchers`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
         if (!response.ok) {
@@ -26,7 +33,6 @@ export default function ResearcherProposal() {
         }
         var result = await response.json();
         if (result.success) {
-     
           const formattedPreviousProposal = [];
           (result.acceptedProposals || []).forEach(proposal => {
             const sections = proposal.sections || {};
@@ -54,7 +60,6 @@ export default function ResearcherProposal() {
           }
           if (result.notAcceptedProposals && result.notAcceptedProposals.length > 0) {
             const section = result.notAcceptedProposals[0]?.sections;
-           
             if (!section || Object.keys(section).length === 0) {
               setShowNotAssign(true);
             }
@@ -62,7 +67,6 @@ export default function ResearcherProposal() {
           else {
             setShowNoActiveProposal(true)
           }
-     
         } else {
           console.log('Failed to load proposal details.');
         }

@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { Toaster } from 'react-hot-toast';
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
+import { getCookie } from "cookies-next";
+
 export default function AssignERCs({ members }) {
     const { proposalId } = useParams();
     const [loading, setLoading] = useState(false);
@@ -20,13 +22,12 @@ export default function AssignERCs({ members }) {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearchTerm(searchTerm);
-        }, 300); // Adjust the delay as needed
+        }, 300);
         return () => {
             clearTimeout(handler);
         };
     }, [searchTerm]);
     useEffect(() => {
-        // Check if the current displayEmail is in the list of members
         const selectedMember = members.find(member => member.workemail === displayEmail);
         if (selectedMember) {
             setIsValidEmail(true);
@@ -65,13 +66,15 @@ export default function AssignERCs({ members }) {
                 console.log('ERC Member ID is invalid');
                 throw new Error("Valid ERC Member is required");
             }
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/assign-to-erc-member`, {
                 method: 'PATCH',
                 redirect: 'follow',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: myHeaders,
                 body: JSON.stringify({
                     proposalId: proposalId,
                     ercMemberId: selectedMemberId,
@@ -95,8 +98,6 @@ export default function AssignERCs({ members }) {
             console.error(`Error assigning proposal: ${error.message}`);
             throw error;
         }
-
-      
     }
     if (loading) {
         return <Loader />;
@@ -136,7 +137,7 @@ export default function AssignERCs({ members }) {
                                 className='border rounded-md block py-2 bg-lightBackground border-stone-300 px-2 w-full outline-none'
                                 type="text"
                                 placeholder='Enter Email'
-                                value={displayEmail || searchTerm} 
+                                value={displayEmail || searchTerm}
                                 onChange={handleInputChange}
                                 list="erc-members"
                             />

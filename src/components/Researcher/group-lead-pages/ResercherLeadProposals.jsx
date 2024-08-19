@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png';
 import Loader from '../../layout/Loader.jsx';
+import { getCookie } from "cookies-next";
 
 export default function ResercherLeadProposals() {
   const [loading, setLoading] = useState(true);
@@ -18,15 +19,18 @@ export default function ResercherLeadProposals() {
   const [proposalCheck, setProposalCheck] = useState(false);
   const [previousProposals, setFormattedPreviousProposal] = useState([]);
   const [proposalDetail, setProposalDetail] = useState({});
-
   useEffect(() => {
     let isMounted = true;
-
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-group-lead`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
         if (!response.ok) {
@@ -50,7 +54,6 @@ export default function ResercherLeadProposals() {
               lead: formattedProposal.creator?.fullname || ' ',
             };
             setProposalDetail(formattedProposalDetail);
-
             const formattedPreviousProposal = result.acceptedProposals.map(proposal => {
               const sections = proposal.sections || {};
               const ethicalReview = sections.ethicalReview || {};
@@ -78,12 +81,16 @@ export default function ResercherLeadProposals() {
         toast.error(`Error: ${error.message}`);
       }
     };
-
     const fetchLeadsTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
         if (!response.ok) {
@@ -115,7 +122,6 @@ export default function ResercherLeadProposals() {
         toast.error('An error occurred while fetching user details.');
       }
     };
-
     const fetchData = async () => {
       await fetchProposal();
       await fetchLeadsTeam();
@@ -124,18 +130,14 @@ export default function ResercherLeadProposals() {
         setLoading(false);
       }
     };
-
     fetchData();
-
     return () => {
       isMounted = false;
     };
   }, []);
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

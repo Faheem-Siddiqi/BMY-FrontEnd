@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar';
-import profileImage from '../../../assets/images/Profile.png';
-import { LuCrown } from "react-icons/lu";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { MdAdd } from "react-icons/md";
 import Table from '../../Common/Table';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
@@ -11,7 +7,8 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 import { PiEmptyBold } from "react-icons/pi";
 import DefaultImage from '../../../assets/images/Profile.png';
-import { useNavigate } from 'react-router-dom'; // Added for navigation
+import { useNavigate } from 'react-router-dom';
+import { getCookie } from "cookies-next";
 
 export default function SupervisorTeam() {
   const [owners, setOwners] = useState([]);
@@ -20,16 +17,19 @@ export default function SupervisorTeam() {
   const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
   const [Groups, setGroups] = useState([]);
   const navigate = useNavigate(); // Initialize navigate for routing
-
   useEffect(() => {
     let isMounted = true;
-    
     const fetchUserDetails = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (!response.ok) {
@@ -43,23 +43,27 @@ export default function SupervisorTeam() {
             fetchResearcherTeam();
           } else {
             toast.error("Failed to load user details.");
-            setLoading(false); // Set loading to false if there's an error
+            setLoading(false); 
           }
         }
       } catch (error) {
         if (isMounted) {
           console.error(error);
           toast.error("No Requests Found");
-          setLoading(false); // Set loading to false if there's an error
+          setLoading(false); 
         }
       }
     };
-
     const fetchResearcherTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/getSupervisorsRequests`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (!response.ok) {
@@ -90,18 +94,15 @@ export default function SupervisorTeam() {
         }
       } finally {
         if (isMounted) {
-          setLoading(false); // Ensure loading is set to false after data fetching
+          setLoading(false); 
         }
       }
     };
-
     fetchUserDetails();
-    
     return () => {
       isMounted = false;
     };
-  }, [supervisorId, navigate]); // Added dependencies
-
+  }, [supervisorId, navigate]); 
   const members = Groups[currentTeamIndex] || [];
   const nextTeam = () => {
     if (currentTeamIndex < Groups.length - 1) {
@@ -113,11 +114,9 @@ export default function SupervisorTeam() {
       setCurrentTeamIndex(currentTeamIndex - 1);
     }
   };
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

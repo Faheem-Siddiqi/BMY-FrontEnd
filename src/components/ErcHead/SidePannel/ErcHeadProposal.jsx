@@ -5,42 +5,44 @@ import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
-import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
+
 export default function ErcHeadProposal() {
   const [loading, setLoading] = useState(false);
-  const [proposalInfo, setProposalInfo] = useState(null);  
-  const [previousProposals, setFormattedPreviousProposal] = useState(null); 
+  const [proposalInfo, setProposalInfo] = useState(null);
+  const [previousProposals, setFormattedPreviousProposal] = useState(null);
   useEffect(() => {
     const fetchProposals = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-submitted-to-erc-head`, {
           method: 'GET',
           redirect: "follow",
+          headers: myHeaders,
           credentials: 'include'
         });
         if (!response.ok) {
           throw new Error('Failed to fetch proposals');
         }
         const result = await response.json();
-
         const formattedProposals = (Array.isArray(result.proposals) && result.proposals.length > 0)
           ? result.proposals
-              .filter(proposal => proposal && proposal.status === 'submitted to erc head')
-              .map(proposal => ({
-                proposalid: proposal._id,
-                status: proposal.status
-              }))
+            .filter(proposal => proposal && proposal.status === 'submitted to erc head')
+            .map(proposal => ({
+              proposalid: proposal._id,
+              status: proposal.status
+            }))
           : [];
-
         setProposalInfo(formattedProposals);
-
-       
-    //  console.log(formattedProposals)
+        //  console.log(formattedProposals)
       } catch (error) {
         console.log(error.message);
-        setProposalInfo([]);  
+        setProposalInfo([]);
       } finally {
         setLoading(false);
       }
@@ -48,9 +50,14 @@ export default function ErcHeadProposal() {
     const fetchPreviousProposals = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-erchead`, {
           method: 'GET',
           redirect: "follow",
+          headers: myHeaders,
           credentials: 'include'
         });
         if (!response.ok) {
@@ -83,7 +90,7 @@ export default function ErcHeadProposal() {
           <div className="xl:m-10 m-5">
             <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Proposal</h1>
             {proposalInfo === null ? (
-              <Loader />  
+              <Loader />
             ) : proposalInfo.length > 0 ? (
               <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                 {proposalInfo.map(proposal => (
@@ -109,7 +116,7 @@ export default function ErcHeadProposal() {
             <section className="my-5 md:my-10">
               <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Previous Proposals</h1>
               {previousProposals === null ? (
-                <Loader />  
+                <Loader />
               ) : previousProposals.length > 0 ? (
                 <Table
                   className='w-[99%]'

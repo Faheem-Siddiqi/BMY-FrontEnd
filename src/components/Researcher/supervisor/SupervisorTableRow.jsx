@@ -1,5 +1,7 @@
 import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
+
 const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, institution, designation }) => {
     const handleRequest = async (supervisorId, teamId) => {
         try {
@@ -7,15 +9,17 @@ const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, i
                 teamId: teamId,
                 supervisorId: supervisorId,
             });
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             // Send the request
             const response = await fetch(
                 `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/request-to-add-supervisor`,
                 {
                     method: "POST",
-                    credentials: "include", 
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    credentials: "include",
+                    headers: myHeaders,
                     body: payload,
                 }
             );
@@ -53,12 +57,12 @@ const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, i
                 <td className='px-4'>{designation}</td>
                 <td className='px-4'>
                     <div className='flex gap-2'>
-                        <button 
+                        <button
                             onClick={() => handleRequest(supervisorId, teamId)}
                             className='bg-epsilon text-white rounded px-2 py-1'
                         >
                             Send Request
-                        </button>                
+                        </button>
                     </div>
                 </td>
             </tr>

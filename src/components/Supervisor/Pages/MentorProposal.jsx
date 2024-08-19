@@ -8,21 +8,24 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
-
+import { getCookie } from "cookies-next";
 export default function MentorProposal() {
     const [loading, setLoading] = useState(true);
     const [proposalDetail, setProposalDetail] = useState({});
     const [loginUserid, setLoginUserId] = useState('');
     const [SupervisorDataToggle, setSupervisorToggle] = useState(false);
     const { proposalId } = useParams();
-
     useEffect(() => {
-        // Fetch user details and proposal data in parallel
         const fetchUserDetails = async () => {
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -36,16 +39,20 @@ export default function MentorProposal() {
                 toast.error(`Error fetching user details: ${error.message}`);
             }
         };
-
         const fetchProposalById = async () => {
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 return;
             }
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-id/${proposalId}`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -78,24 +85,24 @@ export default function MentorProposal() {
                 setLoading(false); // Ensure loading is set to false after data fetching
             }
         };
-
         fetchUserDetails();
         fetchProposalById();
     }, [proposalId, SupervisorDataToggle]);
-
     const handleApprove = async () => {
         try {
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 throw new Error("Proposal ID is required");
             }
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-erc-head`, {
                 method: 'PATCH',
                 redirect: 'follow',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: myHeaders,
                 body: JSON.stringify({ proposalId: proposalDetail.id }),
             });
             const responseText = await response.text();
@@ -112,11 +119,9 @@ export default function MentorProposal() {
             console.error(`Error submitting proposal: ${error.message}`);
         }
     };
-
     if (loading) {
         return <Loader />; // Show loader while data is being fetched
     }
-
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />

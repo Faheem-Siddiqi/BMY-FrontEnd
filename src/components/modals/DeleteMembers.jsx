@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import toast, { Toaster } from 'react-hot-toast';
-
+import { getCookie } from "cookies-next";
 export default function DeleteMembers({ ownerId, memberId, memberName, onDelete }) {
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
   const handleDelete = async () => {
-    const myHeaders = new Headers({
-      "Content-Type": "application/json",
-    });
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: JSON.stringify({
-        ownerId,
-        researcherId: memberId
-      }),
-      redirect: "follow",
-    };
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify({
+          ownerId,
+          researcherId: memberId
+        }),
+        redirect: "follow",
+      };
       setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/remove-researcher`, requestOptions);
       const result = await response.json();
@@ -37,14 +37,12 @@ export default function DeleteMembers({ ownerId, memberId, memberName, onDelete 
       toast.error("An error occurred while removing the member.");
     }
   };
-
   function openModal() {
     setIsOpen(true);
   }
   function closeModal() {
     setIsOpen(false);
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />

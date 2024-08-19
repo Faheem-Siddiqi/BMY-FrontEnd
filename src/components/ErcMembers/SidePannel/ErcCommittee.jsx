@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Sidebar from '../../layout/Sidebar.jsx';
 import profileImage from '../../../assets/images/Profile.png';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { MdOutlineGroupOff } from 'react-icons/md';
+import { getCookie } from "cookies-next";
 import toast from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
+
 export default function ErcCommittee() {
   const [loading, setLoading] = useState(true);
   const [accepted, setAccepted] = useState([])
@@ -32,9 +31,14 @@ export default function ErcCommittee() {
   useEffect(() => {
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/fetch-all-proposals-ercmember`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {
@@ -51,18 +55,18 @@ export default function ErcCommittee() {
           const formattedAcceptedProposals = (result?.data?.accepted || []).map(accepted => ({
             id: accepted?.proposal?._id || 'N/A',
             cretaedAt: accepted?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(accepted?.proposal?.createdAt);
                 const number = accepted?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
+              : 'N/A',
             title: accepted?.proposal?.title || 'Untitled',
             ownerFullname: accepted?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: accepted?.proposal?.creator?.workemail || 'No Email',
-            ownerPfp: accepted?.proposal?.creator?.pfp || '',  
+            ownerPfp: accepted?.proposal?.creator?.pfp || '',
             supervisors: Array.isArray(accepted.team?.supervisors) ? accepted.team.supervisors : [],
             researchers: Array.isArray(accepted?.team?.researchers) ? accepted.team.researchers : [],
             ercMembers: Array.isArray(accepted?.proposal?.assignedErcMember) ? accepted.proposal.assignedErcMember : [],
@@ -72,14 +76,14 @@ export default function ErcCommittee() {
           const formattedUnAcceptedProposals = (result?.data?.["not submitted"] || []).map(unAccepted => ({
             id: unAccepted?.proposal?._id || 'N/A',
             cretaedAt: unAccepted?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(unAccepted?.proposal?.createdAt);
                 const number = unAccepted?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
+              : 'N/A',
             title: unAccepted?.proposal?.title || 'Untitled',
             ownerFullname: unAccepted?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: unAccepted?.proposal?.creator?.workemail || 'No Email',
@@ -92,14 +96,14 @@ export default function ErcCommittee() {
           const supervisor = (result?.data?.["submitted to supervisor"] || []).map(supervisor => ({
             id: supervisor?.proposal?._id || 'N/A',
             cretaedAt: supervisor?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(supervisor?.proposal?.createdAt);
                 const number = supervisor?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
+              : 'N/A',
             title: supervisor?.proposal?.title || 'Untitled',
             ownerFullname: supervisor?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: supervisor?.proposal?.creator?.workemail || 'No Email',
@@ -112,14 +116,14 @@ export default function ErcCommittee() {
           const ercHead = (result?.data?.["submitted to erc head"] || []).map(head => ({
             id: head?.proposal?._id || 'N/A',
             cretaedAt: head?.proposal?.createdAt
-            ? (() => {
-              const date = new Date(head?.proposal?.createdAt);
-              const number = head?.proposal?.proposalId || 'N/A';
-              const month = (date.getMonth() + 1).toString().padStart(2, '0');
-              const year = date.getFullYear();
-              return `${number}-${month}-${year}`;
-            })()
-            : 'N/A',
+              ? (() => {
+                const date = new Date(head?.proposal?.createdAt);
+                const number = head?.proposal?.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })()
+              : 'N/A',
             title: head?.proposal?.title || 'Untitled',
             ownerFullname: head?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: head?.proposal?.creator?.workemail || 'No Email',
@@ -162,21 +166,21 @@ export default function ErcCommittee() {
               >
                 <option className='text-left' disabled>Select Status</option>
                 <option className='text-left' value="ercHead">ERC Team</option>
-                <option selected={true}   className='text-left' value="accepted">Approved</option>
+                <option selected={true} className='text-left' value="accepted">Approved</option>
               </select>
             </div>
             {arrayToDisplay.length > 0 ? (
-                  arrayToDisplay.map((proposal, index) => (
-                    <>
-            <header key={index} className='bg-white shadow-sm my-5 p-10'>
-              <div id='members' className="flex  flex-col">
+              arrayToDisplay.map((proposal, index) => (
+                <>
+                  <header key={index} className='bg-white shadow-sm my-5 p-10'>
+                    <div id='members' className="flex  flex-col">
                       {/* id */}
                       <p className=''>
                         <span className='font-bold'>
                           Proposal:
                         </span>
                         <span className='mx-1 text-epsilon w-[10px] truncate'>
-                        BMY-{proposal.cretaedAt}
+                          BMY-{proposal.cretaedAt}
                         </span>
                       </p>
                       {/* title */}
@@ -271,13 +275,13 @@ export default function ErcCommittee() {
                       )}
                       <div className='flex md:gap-10 gap-5 flex-wrap'>
                       </div>
-              </div>
-            </header>
-             </>
-                  ))
-                ) : (
-                  <p className='text-center text-gray-500'>ERC Panel not found</p>
-                )}
+                    </div>
+                  </header>
+                </>
+              ))
+            ) : (
+              <p className='text-center text-gray-500'>ERC Panel not found</p>
+            )}
           </div>
         </section>
       </div>

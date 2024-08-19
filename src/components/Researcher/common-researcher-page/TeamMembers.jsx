@@ -7,20 +7,25 @@ import Loader from '../../layout/Loader.jsx';
 import DefaultImage from '../../../assets/images/Profile.png';
 import toast from 'react-hot-toast';
 import Fellows from '../group-members/Fellows.jsx';
+import { getCookie } from "cookies-next";
 
 export default function TeamMembers() {
   const [noTeam, setNoTeam] = useState(false);
   const [team, setTeam] = useState(null); 
-  const [loading, setLoading] = useState(true); // Initialize loading as true
+  const [loading, setLoading] = useState(true); 
   const [groupLeads, setGroupLeads] = useState([]);
-
   useEffect(() => {
-    let isMounted = true; // Flag to prevent state updates on unmounted components
+    let isMounted = true; 
     const fetchResearcherTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getResearcherTeam`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {
@@ -50,11 +55,15 @@ export default function TeamMembers() {
         if (isMounted) setLoading(false);
       }
     };
-
     const fetchAllLeads = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getAllGroupLeads`, {
           method: "GET",
+          headers: myHeaders,
           redirect: "follow",
         });
         if (!response.ok) {
@@ -82,19 +91,15 @@ export default function TeamMembers() {
         }
       }
     };
-
     fetchResearcherTeam();
     fetchAllLeads();
-
     return () => {
       isMounted = false;
     };
   }, []);
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <div className="flex xl:flex-row flex-col min-h-[100vh] font-Satoshi-Black overflow">

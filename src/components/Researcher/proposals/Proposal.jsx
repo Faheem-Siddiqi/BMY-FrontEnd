@@ -5,8 +5,9 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
+import { getCookie } from "cookies-next";
+
 export default function Proposal({ proposalData, assignProposal, role }) {
-    // console.log(proposalData.id)
     const hasMissingQuestions =
         !proposalData ||
         !proposalData.sections ||
@@ -380,9 +381,14 @@ export default function Proposal({ proposalData, assignProposal, role }) {
         const fetchMemberAssignSection = async () => {
             try {
                 setLoading(true)
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-assigned-section-researcher`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) {
@@ -443,11 +449,13 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -513,11 +521,13 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -596,11 +606,13 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 "questions": questions
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -645,11 +657,13 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -684,7 +698,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'information':
                 return (
                     <Information
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={sectionAssigned}
                         formData={informationData}
                         onInputChange={handleInformationChange}
                         onSubmit={handleInformationSubmission}
@@ -694,7 +708,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'scientificReview':
                 return (
                     <ScientificReview
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={sectionAssigned}
                         scientificData={scientificData}
                         onChange={ScientificReviewChange}
                         onSubmit={handleScientificDataSubmission}
@@ -703,7 +717,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'ethicalReview':
                 return (
                     <EthicalReview
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={sectionAssigned}
                         ethicalData={ethicalData}
                         updateState={updateState}
                         onSubmit={handleEthicalSectionSubmission}
@@ -712,7 +726,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             case 'consent':
                 return (
                     <Consent
-                    sectionAssigned={sectionAssigned}
+                        sectionAssigned={sectionAssigned}
                         formData={consentData}
                         onInputChange={handleConsentChange}
                         onSubmit={handleConsentSubmission}
@@ -722,7 +736,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             default:
                 return (
                     <Information
-                       sectionAssigned={sectionAssigned}
+                        sectionAssigned={sectionAssigned}
                         savingStatus={savingStatus}
                         formData={informationData}
                         onInputChange={handleInformationChange}

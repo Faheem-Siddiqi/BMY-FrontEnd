@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getCookie } from "cookies-next";
 
 export default function OTP() {
   const [otp, setOtp] = useState('');
@@ -11,22 +12,21 @@ export default function OTP() {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
-
   const handleTime = async () => {
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/forgetpassword`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: myHeaders,
           body: JSON.stringify({ workemail: email }),
         }
       );
-
       const data = await response.json();
-
       if (response.ok) {
         setSuccessMessage("OTP sent again to your email.");
       } else {
@@ -47,31 +47,28 @@ export default function OTP() {
       });
     }, 1000);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
     setSubmitError('');
     setSuccessMessage('');
     setVerifying(true); // Set verifying to true when submitting
-
     if (!otp) {
       setShowRequireError(true);
       setVerifying(false); // Reset verifying state
       return;
     }
-
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/verifyCode`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: myHeaders,
         body: JSON.stringify({ resetPasswordToken: otp }),
       });
-
       const data = await response.json();
-
       if (response.ok) {
         setSuccessMessage("OTP verified");
         setTimeout(() => {
@@ -86,7 +83,6 @@ export default function OTP() {
       setVerifying(false); // Reset verifying state in the finally block
     }
   };
-
   return (
     <>
       <div className="flex items-center justify-center my-10">

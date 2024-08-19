@@ -6,19 +6,18 @@ import { CgLogOut } from 'react-icons/cg';
 import { TiEdit } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png'
+
 export default function UserNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [shouldShowBanner, setShouldShowBanner] = useState(false);
   const [profilePic, setProfilePic] = useState('')
-  // Handle logout
   const handleLogout = async () => {
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       const token = getCookie("token");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/logout`, {
         method: 'GET',
         headers: myHeaders,
@@ -38,7 +37,6 @@ export default function UserNavbar() {
       toast.error('An error occurred during logout');
     }
   };
-  // fetching user image
   useEffect(() => {
     let isMounted = true;
     const fetchUserDetails = async () => {
@@ -47,7 +45,6 @@ export default function UserNavbar() {
         myHeaders.append("Content-Type", "application/json");
         const token = getCookie("token");
         myHeaders.append("Authorization", `Bearer ${token}`);
-
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
           method: "GET",
           redirect: "follow",

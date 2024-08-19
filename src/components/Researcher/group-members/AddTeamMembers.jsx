@@ -7,22 +7,26 @@ import Table from '../../Common/Table.jsx';
 import { MdOutlineKeyboardBackspace, MdOutlineGroupOff } from "react-icons/md";
 import Loader from '../../layout/Loader.jsx';
 import toast from 'react-hot-toast';
+import { getCookie } from "cookies-next";
 
 export default function AddTeamMembers() {
   const [membersRequesting, setMembersRequesting] = useState([]);
   const [filterMembersRequesting, setFilterMembersRequesting] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-
   useEffect(() => {
     let isMounted = true;
-    
     const fetchLeadTeam = async () => {
       setLoading(true);
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (!response.ok) {
@@ -40,7 +44,6 @@ export default function AddTeamMembers() {
               designation: request.researcher.experience?.designation || 'No Data Available',
               status: request.status || 'No Status Available'
             }));
-
             setMembersRequesting(formattedLeads);
           } else {
             toast.error("Failed to load user details.");
@@ -54,13 +57,11 @@ export default function AddTeamMembers() {
         setLoading(false);
       }
     };
-    
     fetchLeadTeam();
     return () => {
       isMounted = false;
     };
   }, []);
-
   useEffect(() => {
     const filteredLeads = membersRequesting.filter(member =>
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,17 +69,13 @@ export default function AddTeamMembers() {
     );
     setFilterMembersRequesting(filteredLeads);
   }, [searchQuery, membersRequesting]);
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
   if (loading) {
     return <Loader />;
   }
-
   const noRequest = membersRequesting.length === 0;
-
   return (
     <>
       <header className="flex xl:flex-row flex-col h-[100vh] font-Satoshi-Black">
@@ -105,7 +102,6 @@ export default function AddTeamMembers() {
                 <p className='font-semibold my-2'>All Researchers Available</p>
               )}
             </header>
-
             {!noRequest && (
               <div className='xl:m-10 m-5'>
                 <div className="flex md:justify-end my-5">

@@ -5,6 +5,8 @@ import EthicalReview from './ProposalSections/EthicalReview.jsx';
 import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
+import { getCookie } from "cookies-next";
+
 export default function EditableProposal({ sectionCheckToggle, proposalData }) {
     console.log(proposalData)
     const [signUserRole, setSignUserRole] = useState('');
@@ -420,11 +422,13 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -493,11 +497,13 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -579,11 +585,13 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
                 "questions": questions
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',
@@ -633,11 +641,13 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
                 }
             };
             const raw = JSON.stringify(payload);
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const requestOptions = {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: myHeaders,
                 body: raw,
                 redirect: "follow",
                 credentials: 'include',

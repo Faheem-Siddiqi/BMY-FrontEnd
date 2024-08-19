@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DefautImage from '../../../assets/images/Profile.png';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
 const AssignResearcherTableRow = ({ researcherId, proposalId, profileImage, name, email }) => {
   const [section, setSection] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,11 +16,13 @@ const AssignResearcherTableRow = ({ researcherId, proposalId, profileImage, name
     }
     setLoading(true);
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/assign-section-to-researcher`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: myHeaders,
         credentials: 'include',
         redirect: "follow",
         body: JSON.stringify({
@@ -38,7 +41,7 @@ const AssignResearcherTableRow = ({ researcherId, proposalId, profileImage, name
     } catch (error) {
       toast.error('An error occurred while assigning the section.');
     } finally {
-      setLoading(false); 
+      setLoading(false);
       // setTimeout(() => {
       //   window.location.reload();
       // }, 1000);

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Sidebar from '../../layout/Sidebar';
 import profileImage from '../../../assets/images/Profile.png';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { MdOutlineGroupOff } from 'react-icons/md';
+import { getCookie } from "cookies-next";
 import toast from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
+
 export default function AllTeams() {
   const [loading, setLoading] = useState(true);
   const [accepted, setAccepted] = useState([])
@@ -32,9 +31,14 @@ export default function AllTeams() {
   useEffect(() => {
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/fetch-all-proposals-erchead`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {
@@ -49,17 +53,16 @@ export default function AllTeams() {
         if (result.success) {
           console.log(result)
           const formattedAcceptedProposals = (result?.data?.accepted || []).map(accepted => ({
-
             id: accepted?.proposal?._id || 'N/A',
             cretaedAt: accepted?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(accepted?.proposal?.createdAt);
                 const number = accepted?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
+              : 'N/A',
             title: accepted?.proposal?.title || 'Untitled',
             ownerFullname: accepted?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: accepted?.proposal?.creator?.workemail || 'No Email',
@@ -72,17 +75,15 @@ export default function AllTeams() {
           setAccepted(formattedAcceptedProposals)
           const formattedUnAcceptedProposals = (result?.data?.["not submitted"] || []).map(unAccepted => ({
             id: unAccepted?.proposal?._id || 'N/A',
-
             cretaedAt: unAccepted?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(unAccepted?.proposal?.createdAt);
                 const number = unAccepted?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
-
+              : 'N/A',
             title: unAccepted?.proposal?.title || 'Untitled',
             ownerFullname: unAccepted?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: unAccepted?.proposal?.creator?.workemail || 'No Email',
@@ -94,18 +95,15 @@ export default function AllTeams() {
           setNotSubmit(formattedUnAcceptedProposals)
           const supervisor = (result?.data?.["submitted to supervisor"] || []).map(supervisor => ({
             id: supervisor?.proposal?._id || 'N/A',
-
             cretaedAt: supervisor?.proposal?.createdAt
-            ? (() => {
+              ? (() => {
                 const date = new Date(supervisor?.proposal?.createdAt);
                 const number = supervisor?.proposal?.proposalId || 'N/A';
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
-            : 'N/A',
-
-
+              : 'N/A',
             title: supervisor?.proposal?.title || 'Untitled',
             ownerFullname: supervisor?.proposal?.creator?.fullname || 'N/A',
             ownerEmail: supervisor?.proposal?.creator?.workemail || 'No Email',

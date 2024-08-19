@@ -9,6 +9,7 @@ import Loader from '../../layout/Loader.jsx';
 import { MdOutlineGroupOff } from "react-icons/md";
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
 // Debounce function to delay input handling
 const useDebounce = (value, delay) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -38,9 +39,14 @@ export default function Supervisor() {
             hasFetched = true;
             setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getOwnerTeam`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: "include",
                 });
                 if (!response.ok) {
@@ -72,8 +78,13 @@ export default function Supervisor() {
         const fetchAllSupervisors = async () => {
             setLoading(true);
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/getAllSupervisors`, {
                     method: "GET",
+                    headers: myHeaders,
                     redirect: "follow",
                 });
                 if (!response.ok) {
@@ -83,7 +94,7 @@ export default function Supervisor() {
                 const result = await response.json();
                 if (isMounted) {
                     if (result.success) {
-                        console.log('result')
+                        // console.log('result')
                         // console.log(result.supervisors);
                         const formattedSupervisors = result.supervisors.map(supervisors => ({
                             id: supervisors._id,

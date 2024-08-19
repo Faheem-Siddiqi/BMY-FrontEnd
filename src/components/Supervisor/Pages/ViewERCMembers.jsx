@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { getCookie } from "cookies-next";
 import Sidebar from '../../layout/Sidebar';
 import profileImage from '../../../assets/images/Profile.png';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { MdOutlineGroupOff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import Loader from '../../layout/Loader.jsx';
+
 export default function ERCMembers() {
   const [loading, setLoading] = useState(true);
   const [accepted, setAccepted] = useState([])
@@ -32,9 +31,14 @@ export default function ERCMembers() {
   useEffect(() => {
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/fetch-all-proposals-supervisor`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {

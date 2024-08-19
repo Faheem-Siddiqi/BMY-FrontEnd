@@ -1,28 +1,29 @@
 import React from 'react';
+import { getCookie } from "cookies-next";
 import toast, { Toaster } from 'react-hot-toast';
+
 const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, designation }) => {
   const handleRequest = async (leadId) => {
     try {
-     
       const payload = JSON.stringify({
         ownerId: leadId,
       });
-      // Send the request
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/request-to-join`,
         {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-           
-          },
+          headers: myHeaders,
           body: payload,
         }
       );
       // Parse the response
       const data = await response.json();
-      console.log(data.message)
+      // console.log(data.message)
       if (response.ok) {
         toast.success("Request sent successfully!");
       } else {
@@ -56,7 +57,7 @@ const ResercherLeadTableRow = ({ id, profileImage, name, email, institution, des
           <div className='flex gap-2'>
             <button
               onClick={() => handleRequest(id)} // Pass the id as an argument
-            className='bg-epsilon text-white rounded px-2 py-1'
+              className='bg-epsilon text-white rounded px-2 py-1'
             >
               Send Request
             </button>

@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
+import { getCookie } from "cookies-next";
 
 export default function ErcHeadViewProposal() {
     const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
@@ -17,17 +18,20 @@ export default function ErcHeadViewProposal() {
     const [loading, setLoading] = useState(true);
     const [proposalDetail, setProposalDetail] = useState({});
     const { proposalId } = useParams();
-
     const updateHeadDataToggle = (newValue) => {
         setHeadDataToggle(newValue);
     };
-
     useEffect(() => {
         const fetchAllErcs = async () => {
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/teams/getAllErcMembers`, {
                     method: "GET",
                     redirect: "follow",
+                    headers: myHeaders,
                     credentials: 'include'
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -41,16 +45,20 @@ export default function ErcHeadViewProposal() {
                 toast.error(`Error fetching ERC members: ${error.message}`);
             }
         };
-
         const fetchProposalById = async () => {
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL.');
                 return;
             }
             try {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                const token = getCookie("token");
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-id/${proposalId}`, {
                     method: 'GET',
                     redirect: 'follow',
+                    headers: myHeaders,
                     credentials: 'include',
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -75,25 +83,25 @@ export default function ErcHeadViewProposal() {
                 setLoading(false);
             }
         };
-
         // Fetch data when component mounts or when proposalId or ErcHeadDataToggle changes
         fetchProposalById();
         fetchAllErcs();
     }, [proposalId, ErcHeadDataToggle]);
-
     async function handleApprove() {
         try {
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL.');
                 return;
             }
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            myHeaders.append("Authorization", `Bearer ${token}`);
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/submit-to-erc-head`, {
                 method: 'PATCH',
                 redirect: 'follow',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: myHeaders,
                 body: JSON.stringify({
                     proposalId: proposalDetail.id,
                 }),
@@ -110,7 +118,6 @@ export default function ErcHeadViewProposal() {
             toast.error(`Error submitting proposal: ${error.message}`);
         }
     }
-
     if (loading) {
         return <Loader />;
     }

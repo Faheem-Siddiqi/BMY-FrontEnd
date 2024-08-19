@@ -2,25 +2,24 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./../layout/Navs/Navbar";
 import Footer from "../layout/Footer.jsx";
+import { getCookie } from "cookies-next";
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [showRequireError, setShowRequireError] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(false);
     setSubmitError("");
     setSuccessMessage("");
-    setLoading(true); // Set loading to true when starting request
-
+    setLoading(true); 
     if (!email) {
       setShowRequireError(true);
-      setLoading(false); // Set loading to false when request ends
+      setLoading(false); 
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -28,21 +27,20 @@ export default function ForgetPassword() {
       setLoading(false); // Set loading to false when request ends
       return;
     }
-
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const token = getCookie("token");
+      myHeaders.append("Authorization", `Bearer ${token}`);
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/forgetpassword`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: myHeaders,
           body: JSON.stringify({ workemail: email }),
         }
       );
-
       const data = await response.json();
-
       if (response.ok) {
         setSuccessMessage(data.message);
         navigate("/forget-password-otp", { state: { email } });
@@ -52,10 +50,9 @@ export default function ForgetPassword() {
     } catch (error) {
       setSubmitError("An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Set loading to false when request ends
+      setLoading(false); 
     }
   };
-
   return (
     <>
       <Navbar />

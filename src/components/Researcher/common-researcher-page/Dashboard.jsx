@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import DefaultImage from '../../../assets/images/Profile.png';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
+import { getCookie } from "cookies-next";
+
 export default function SupervisorDashboard() {
   const [loading, setLoading] = useState(true);
   const [noTeam, setNoTeam] = useState(false);
@@ -18,9 +20,14 @@ export default function SupervisorDashboard() {
   useEffect(() => {
     const fetchResearcherTeam = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/team/getResearcherTeam`, {
           method: "GET",
           redirect: "follow",
+          headers: myHeaders,
           credentials: "include",
         });
         if (response.status === 404) {
@@ -51,9 +58,14 @@ export default function SupervisorDashboard() {
     };
     const fetchProposal = async () => {
       try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/by-researchers`, {
           method: 'GET',
           redirect: 'follow',
+          headers: myHeaders,
           credentials: 'include',
         });
         if (!response.ok) {
