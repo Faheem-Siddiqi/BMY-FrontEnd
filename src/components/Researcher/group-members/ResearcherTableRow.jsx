@@ -1,5 +1,6 @@
 import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
 const ResearcherTableRow = ({ id, profileImage, name, email, institution, designation }) => {
   const handleRequest = async (status) => {
     try {
