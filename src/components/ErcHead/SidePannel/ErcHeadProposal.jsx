@@ -30,11 +30,23 @@ export default function ErcHeadProposal() {
           throw new Error('Failed to fetch proposals');
         }
         const result = await response.json();
+
+        // console.log(result)
         const formattedProposals = (Array.isArray(result.proposals) && result.proposals.length > 0)
           ? result.proposals
             .filter(proposal => proposal && proposal.status === 'submitted to erc head')
             .map(proposal => ({
               proposalid: proposal._id,
+
+              createdAt: proposal.createdAt
+              ? (() => {
+                const date = new Date(proposal.createdAt);
+                const number = proposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+              })()
+              : 'N/A',
               status: proposal.status
             }))
           : [];
@@ -99,7 +111,8 @@ export default function ErcHeadProposal() {
                     <Link to={`/head-evaluate-proposal/${proposal.proposalid}`}>
                       <span className='font-bold'> Proposal:</span>
                       <span className='mx-1 text-epsilon w-[10px] truncate'>
-                        BMY-{proposal.proposalid.slice(-4)}
+                        { }
+                        BMY-{proposal.createdAt}
                       </span>
                     </Link>
                   </h1>
