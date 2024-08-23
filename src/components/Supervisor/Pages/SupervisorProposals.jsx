@@ -6,6 +6,7 @@ import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
 import { Toaster } from 'react-hot-toast';
+import { getCookie } from "cookies-next";
 
 export default function SupervisorProposals() {
   const [loading, setLoading] = useState(true);
@@ -16,16 +17,21 @@ export default function SupervisorProposals() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetching proposals and previous proposals concurrently
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const [proposalsResponse, previousProposalsResponse] = await Promise.all([
           fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-proposals-supervisor`, {
             method: 'GET',
+            headers:myHeaders,
             redirect: "follow",
             credentials: 'include'
           }),
           fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-supervisor`, {
             method: 'GET',
             redirect: "follow",
+            headers:myHeaders,
             credentials: 'include'
           })
         ]);
