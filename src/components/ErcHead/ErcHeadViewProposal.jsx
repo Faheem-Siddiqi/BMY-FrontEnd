@@ -10,8 +10,8 @@ import { Toaster } from 'react-hot-toast';
 import Loader from '../layout/Loader.jsx';
 import { useParams } from 'react-router-dom';
 import { getCookie } from "cookies-next";
-
 export default function ErcHeadViewProposal() {
+    
     const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
     const [ErcHeadDataToggle, setHeadDataToggle] = useState(false);
     const [ercMembers, setErcMembers] = useState([]);
@@ -64,9 +64,19 @@ export default function ErcHeadViewProposal() {
                 if (!response.ok) throw new Error('Network response was not ok');
                 const result = await response.json();
                 if (result.success) {
+                    console.log(result)
                     const proposal = result.proposal || {};
                     const formattedProposal = {
                         id: proposal._id || 'N/A',
+                        createdAt: proposal.createdAt
+                        ? (() => {
+                          const date = new Date(proposal.createdAt);
+                          const number = proposal.proposalId || 'N/A';
+                          const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                          const year = date.getFullYear();
+                          return `${number}-${month}-${year}`;
+                        })()
+                        : 'N/A',
                         title: proposal.title || 'No title',
                         status: proposal.status || 'Unknown',
                         lead: proposal.creator?.workemail || 'Unknown',
@@ -143,7 +153,7 @@ export default function ErcHeadViewProposal() {
                                 {proposalDetail.title}</h1>
                             <span className='font-bold my-2'> Proposal Id</span>
                             <span className='mx-2 my-2 font-normal text-epsilon'>
-                                BMY-{proposalDetail.id ? proposalDetail.id.slice(-4) : 'N/A'}
+                            BMY-{proposalDetail.createdAt}
                             </span>
                             <div className='my-2'>
                                 <span className='font-bold'>Lead:</span>
