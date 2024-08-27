@@ -9,7 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png';
 import Loader from '../../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
-
 export default function ResercherLeadProposals() {
   const [loading, setLoading] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -54,6 +53,7 @@ export default function ResercherLeadProposals() {
               lead: formattedProposal.creator?.fullname || ' ',
             };
             setProposalDetail(formattedProposalDetail);
+            // console.log(result)
             const formattedPreviousProposal = result.acceptedProposals.map(proposal => {
               const sections = proposal.sections || {};
               const ethicalReview = sections.ethicalReview || {};
@@ -68,9 +68,17 @@ export default function ResercherLeadProposals() {
                 benefitScore: questions['Benefit Score'] || 0,
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
+                BMYid: proposal.createdAt ? (() => {
+                  const date = new Date(proposal.createdAt);
+                  const number = proposal.proposalId || 'N/A';
+                  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                  const year = date.getFullYear();
+                  return `${number}-${month}-${year}`;
+                })() : 'N/A',
                 acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toISOString().split('T')[0]) : 'N/A'
               };
             });
+            // console.log(previousProposals)
             setFormattedPreviousProposal(formattedPreviousProposal);
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
@@ -227,15 +235,17 @@ export default function ResercherLeadProposals() {
                   ProposalID: proposal.ProposalID,
                   GroupLead: proposal.leadName,
                   Supervisor: proposal.mainSupervisor,
-                  Title: proposal.title,
-                  RiskScore: proposal.riskScore,
+                  title: proposal.title,
+                  EthicalRisk: proposal.riskScore,
+                  sections: proposal.sections,
                   BenefitScore: proposal.benefitScore,
-                  ApprovalMember: proposal.approvalMember,
-                  ERCMembers: proposal.ercMembers,
-                  AcceptedAt: proposal.acceptedAt
+                  approvalErcMember: proposal.approvalMember,
+                  ercMembers: proposal.ercMembers,
+                  acceptedAt: proposal.acceptedAt,
+                  BMYid: proposal.BMYid,
                 }))}
-                header={['Proposal ID', 'Group Lead', 'Supervisor', 'Title', 'Risk Score', 'Benefit Score', 'Approval Member', 'ERC Members', 'Accepted At']}
-                rowRenderComponent='PreviousProposalTableRow'
+                header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
+                rowRenderComponent='previousProposalsRow'
               />
             ) : (
               <header className='bg-white shadow-sm my-5 p-10'>

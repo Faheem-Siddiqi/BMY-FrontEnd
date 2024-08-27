@@ -59,7 +59,7 @@ export default function ResercherLeadNewProposal() {
                     <UserNavbar />
                     <div className='xl:m-10 m-5  '>
                         <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '> Proposal </h1>
-                        <section className=' w-full   shadow-sm my-5 p-10 bg-white'>
+                        <section className=' w-full shadow-sm my-5 p-10 bg-white'>
                             <label htmlFor="proposal-title" className='text-zeta  font-semibold '>Proposal Title </label>
                             <input
                                 type='text'

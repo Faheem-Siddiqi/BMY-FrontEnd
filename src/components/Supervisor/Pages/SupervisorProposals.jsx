@@ -7,13 +7,12 @@ import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
 import { Toaster } from 'react-hot-toast';
 import { getCookie } from "cookies-next";
-
 export default function SupervisorProposals() {
   const [loading, setLoading] = useState(true);
   const [noActive, setNoActive] = useState(false);
   const [proposalInfo, setProposalInfo] = useState([]);
+  const [showNo, setShowNo] = useState(false)
   const [previousProposals, setFormattedPreviousProposal] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,31 +23,26 @@ export default function SupervisorProposals() {
         const [proposalsResponse, previousProposalsResponse] = await Promise.all([
           fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-proposals-supervisor`, {
             method: 'GET',
-            headers:myHeaders,
+            headers: myHeaders,
             redirect: "follow",
             credentials: 'include'
           }),
           fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-all-accepted-proposals-supervisor`, {
             method: 'GET',
             redirect: "follow",
-            headers:myHeaders,
+            headers: myHeaders,
             credentials: 'include'
           })
         ]);
-
         if (!proposalsResponse.ok || !previousProposalsResponse.ok) {
           setNoActive(true);
           throw new Error('Failed to fetch proposals');
         }
-
         const [proposalsResult, previousProposalsResult] = await Promise.all([
           proposalsResponse.json(),
           previousProposalsResponse.json()
         ]);
-
         const proposals = proposalsResult.proposals || [];
-        const previousProposals = previousProposalsResult.proposals || [];
-
         if (Array.isArray(proposals) && proposals.length > 0) {
           const proposalInfo = proposals.map(proposal => ({
             proposalid: proposal._id,
@@ -56,7 +50,7 @@ export default function SupervisorProposals() {
               ? (() => {
                 const date = new Date(proposal.createdAt);
                 const number = proposal.proposalId || 'N/A';
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
               })()
@@ -67,8 +61,29 @@ export default function SupervisorProposals() {
         } else {
           setNoActive(true);
         }
-
-        setFormattedPreviousProposal(previousProposals);
+        // console.log(previousProposalsResult)
+        const formattedPreviousProposal = previousProposalsResult.proposals.map(proposal => ({
+          id: proposal._id || null,
+          leadName: proposal.creator?.fullname || 'Unknown',
+          sections: proposal.sections || {},
+          title: proposal.title || 'N/A',
+          riskScore: (proposal?.sections?.ethicalReview?.questions?.['Ethical Score'] || 0),
+          benefitScore: (proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] || 0),
+          approvalErcMember: proposal.approvalMember || {},
+          ercMembers: proposal.assignedErcMember || [],
+          BMYid: proposal.createdAt ? (() => {
+            const date = new Date(proposal.createdAt);
+            const number = proposal.proposalId || 'N/A';
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${number}-${month}-${year}`;
+          })() : 'N/A',
+          acceptedAt: proposal.acceptedAt ? (() => {
+            const date = new Date(proposal.acceptedAt);
+            return date.toString() !== 'Invalid Date' ? date.toISOString().split('T')[0] : 'N/A';
+          })() : 'N/A'
+        }));
+        setFormattedPreviousProposal(formattedPreviousProposal);
       } catch (error) {
         console.log(error.message);
         setNoActive(true);
@@ -76,14 +91,11 @@ export default function SupervisorProposals() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
-
   if (loading) {
     return <Loader />;
   }
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -125,15 +137,18 @@ export default function SupervisorProposals() {
                   className='w-[99%] '
                   rowData={(previousProposals || []).map(proposal => ({
                     PropossalID: proposal?._id || '',
-                    GroupLead: proposal?.creator?.fullname || '',
+                    GroupLead: proposal?.leadName || 'N/A',
                     EthicalRisk: proposal?.sections?.ethicalReview?.questions['Benefit Score'] || 0,
                     BenefitScore: proposal?.sections?.ethicalReview?.questions['Ethical Risk'] || 0,
                     sections: proposal?.sections || {},
                     title: proposal?.title || '',
-                    // approvalErcMember: proposal?.approvalMember || {},
-                    // ercMembers: proposal?.assignedErcMember || [],
+                    sections: proposal.sections,
+                    approvalErcMember: proposal.approvalErcMember || {},
+                    ercMembers: proposal.assignedErcMember,
+                    acceptedAt: proposal.acceptedAt,
+                    BMYid: proposal.BMYid,
                   }))}
-                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action',]}
+                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                   rowRenderComponent='previousProposalsRow'
                 />
               ) : (

@@ -1,8 +1,7 @@
-import { SlEnvolopeLetter } from "react-icons/sl";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 import React from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
 import defaultSign from '../../assets/images/signature.png';
-
 pdfMake.fonts = {
     Roboto: {
         normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
@@ -11,19 +10,16 @@ pdfMake.fonts = {
         bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
     },
 };
-
-const Audit = ({ title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
+const Audit = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
     const Approval = {
         signature: approvalErcMember?.signature || defaultSign,
         fullname: approvalErcMember?.fullname || 'fullname',
         designation: approvalErcMember?.experience?.designation || 'N/A',
         institution: approvalErcMember?.experience?.company || 'N/A',
     };
-
     const ProjectTitle = typeof title === 'string' ? title : 'Default Title';
     const groupLeadName = typeof GroupLead === 'string' ? GroupLead : 'Default Name';
     const protocolNumber = typeof PropossalID === 'string' ? PropossalID : '0000';
-
     const generatePDF = async () => {
         const docDefinition = {
             pageMargins: [30, 30, 30, 50], // Left, Top, Right, Bottom
@@ -47,7 +43,7 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember, acceptedAt })
                 {
                     text: [
                         { text: 'Protocol Number: ', fontSize: 11, bold: true },
-                        { text: `BMY-${protocolNumber.slice(-4)}`, fontSize: 11 },
+                        { text: `BMY-${BMYid}`, fontSize: 11 },
                     ],
                     margin: [0, 0, 0, 10] // Add margin after this block
                 },
@@ -79,8 +75,8 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember, acceptedAt })
                     margin: [0, 10, 10, 30]
                 },
                 {
-                    image: Approval.signature, 
-                    width: 100, 
+                    image: Approval.signature,
+                    width: 100,
                     alignment: 'right',
                     margin: [0, 0, 0, 5]
                 },
@@ -144,17 +140,14 @@ const Audit = ({ title, GroupLead, PropossalID, approvalErcMember, acceptedAt })
                 alignment: 'center'
             })
         };
-
         pdfMake.createPdf(docDefinition).download('audit_letter.pdf');
     };
-
     return (
         <div>
             <button onClick={generatePDF}>
-                <SlEnvolopeLetter className="text-xl duration-300 hover:text-epsilon" />
+                <FaCloudDownloadAlt className="text-2xl mt-2 duration-300 text-epsilon" />
             </button>
         </div>
     );
 };
-
 export default Audit;

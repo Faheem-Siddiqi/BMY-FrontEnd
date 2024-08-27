@@ -120,7 +120,7 @@ export default function MentorProposal() {
         }
     };
     if (loading) {
-        return <Loader />; // Show loader while data is being fetched
+        return <Loader />; 
     }
     return (
         <>

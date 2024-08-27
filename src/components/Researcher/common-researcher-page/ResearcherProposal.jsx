@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
-
 export default function ResearcherProposal() {
   const [loading, setLoading] = useState(true);
   const [showNoActive, setShowNoActiveProposal] = useState(false)
@@ -48,9 +47,16 @@ export default function ResearcherProposal() {
               benefitScore: questions['Benefit Score'] || 0,
               approvalErcMember: proposal.approvalMember || {},
               ercMembers: proposal.assignedErcMember || [],
+              BMYid: proposal.createdAt ? (() => {
+                const date = new Date(proposal.createdAt);
+                const number = proposal.proposalId || 'N/A';
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${number}-${month}-${year}`;
+            })() : 'N/A',
               acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
             };
-            //  console.log(formattedProposal)
+              // console.log(formattedProposal)
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
@@ -137,6 +143,7 @@ export default function ResearcherProposal() {
                     approvalErcMember: proposal.approvalErcMember || {},
                     ercMembers: proposal.ercMembers,
                     acceptedAt: proposal.acceptedAt,
+                    BMYid: proposal.BMYid,
                   }))}
                   header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                   rowRenderComponent='previousProposalsRow'

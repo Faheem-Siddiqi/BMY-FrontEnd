@@ -3,8 +3,8 @@ import Proposal from '../../letters/Proposal.jsx';
 import { ImFilesEmpty } from "react-icons/im";
 import Audit from '../../letters/Audit.jsx'
 import Approval from '../../letters/Approval.jsx'
-const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers , acceptedAt}) => {
-   
+import MOM from '../../letters/MOM.jsx'
+const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers, acceptedAt }) => {
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
@@ -22,11 +22,11 @@ const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, 
         <tr className='w-full font-Satoshi-Black'>
             <td className='p-4 flex items-center'>
                 <ImFilesEmpty className='text-' />
-                <span className='mx-2 my-2  '>
-                    BMY-{PropossalID ? PropossalID.slice(-4) : 'N/A'}
+                <span className='mx-2 my-2 text-epsilon '>
+                   BMY-{BMYid || 'N/A'}
                 </span>
             </td>
-            <td className='p-4'>{GroupLead}</td>
+            <td className='p-4 '>{GroupLead}</td>
             <td className='p-4'>{EthicalRisk}</td>
             <td className='p-4'>{BenefitScore}</td>
             <td className='p-4'>
@@ -37,45 +37,64 @@ const ProposalsTableRow = ({ PropossalID, GroupLead, EthicalRisk, BenefitScore, 
                     />
                 </div>
             </td>
-            {( signUserRole === 'researchers' || signUserRole === 'group-lead') && (
-                <>
-                    <td className='p-4'>
-                        <div className='flex  items-center   border-epsilon border py-1 px-2   w-fit  rounded gap-2'>
+            <>
+                <td className='p-4'>
+                    <div className='flex  items-center   border-epsilon border py-1 px-2  w-fit  rounded gap-2'>
+                        {
+                            selectedOption === 'option2' && (
+                                <Approval
+                                    title={title}
+                                    GroupLead={GroupLead}
+                                    PropossalID={PropossalID}
+                                    approvalErcMember={approvalErcMember}
+                                    acceptedAt={acceptedAt}
+                                    BMYid={BMYid}
+                                />
+                            ) }
                             {
-                                selectedOption === 'option2' ? (
-                                    <Approval
-                                        title={title}
-                                        GroupLead={GroupLead}
-                                        PropossalID={PropossalID}
-                                        approvalErcMember={approvalErcMember}
-                                        acceptedAt={acceptedAt}
-                                    />
-                                ) : (
-                                    <Audit
-                                        title={title}
-                                        GroupLead={GroupLead}
-                                        PropossalID={PropossalID}
-                                        approvalErcMember={approvalErcMember}
-                                        acceptedAt={acceptedAt}
-                                    />
-                                )
-                            }
-                            <select
-                                className='w-fit  px-2 bg-transparent outline-none bg-none'
-                                name="options"
-                                id="options"
-                                value={selectedOption}
-                                onChange={handleChange}
-                            >
-                                <option value="option1">Audit</option>
-                                <option value="option2">Approval</option>
-                                <option value="option3">MOM</option>
-                                <option value="option4">
-                                    Approval</option>
-                            </select>
-                        </div>
-                    </td>
-                </>)}
+                            selectedOption === 'option1' &&
+                            (
+                                <Audit
+                                    title={title}
+                                    GroupLead={GroupLead}
+                                    PropossalID={PropossalID}
+                                    approvalErcMember={approvalErcMember}
+                                    acceptedAt={acceptedAt}
+                                    BMYid={BMYid}
+                                />
+                            )
+                        }
+
+
+{
+                            selectedOption === 'option3' &&
+                            (
+                                <MOM
+                                    title={title}
+                                    GroupLead={GroupLead}
+                                    PropossalID={PropossalID}
+                                    approvalErcMember={approvalErcMember}
+                                    acceptedAt={acceptedAt}
+                                    BMYid={BMYid}
+                                    ercMembers={ercMembers}
+                                />
+                            )
+                        }
+                        <select
+                            className='w-fit  bg-transparent outline-none bg-none'
+                            name="options"
+                            id="options"
+                            value={selectedOption}
+                            onChange={handleChange}
+                        >
+                            <option value="option1">Audit</option>
+                            <option value="option2">Approval</option>
+                            <option value="option3">MOM</option>
+                            <option value="option4">Synopsis</option>
+                        </select>
+                    </div>
+                </td>
+            </>
         </tr>
     );
 };
