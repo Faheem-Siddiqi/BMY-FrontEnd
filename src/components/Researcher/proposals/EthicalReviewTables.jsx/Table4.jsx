@@ -15,7 +15,7 @@ export default function Table4({
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
-                Ethical considerations for special care and risk assessment
+                If you have included these special groups in your study:
             </p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>
@@ -56,39 +56,46 @@ export default function Table4({
                 </tbody>
             </table>
             {/* question-2 */}
-            <section className='my-5 md:w-[50%]'>
-                <p className="mb-2 text-zeta font-semibold">
-                    In case of any risk to the special group, have you assigned a member to monitor those risks?
-                </p>
-                <div className="border rounded-md block p-5">
-                    <div className="mb-2">
-                        <label className="flex items-center">
-                            <input
-                                type="radio"
-                                value="Yes"
-                                checked={question2 === 'Yes'}
-                                onChange={onQuestion2Change}
-                                className="mr-2"
-                            />
-                            Yes
-                        </label>
-                    </div>
-                    <div className="mb-2">
-                        <label className="flex items-center">
-                            <input
-                                type="radio"
-                                value="No"
-                                checked={question2 === 'No'}
-                                onChange={onQuestion2Change}
-                                className="mr-2"
-                            />
-                            No
-                        </label>
-                    </div>
-                </div>
-            </section>
+            {!(
+                table4Answers.table4a === "Yes" &&
+                table4Answers.table4b === "Yes"
+            ) && (
+                    <>
+                        <section className='my-5 md:w-[80%]'>
+                            <p className="mb-2 text-zeta font-semibold">
+                                In case of any risk to the special group, have you assigned a member to monitor those risks?
+                            </p>
+                            <div className="border rounded-md block p-5">
+                                <div className="mb-2">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            value="Yes"
+                                            checked={question2 === 'Yes'}
+                                            onChange={onQuestion2Change}
+                                            className="mr-2"
+                                        />
+                                        Yes
+                                    </label>
+                                </div>
+                                <div className="mb-2">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            value="No"
+                                            checked={question2 === 'No'}
+                                            onChange={onQuestion2Change}
+                                            className="mr-2"
+                                        />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </>
+                )}
             {/* Question-3 */}
-            <section className='my-5 md:w-[50%]'>
+            <section className='my-5 md:w-[80%]'>
                 <p className="mb-2 text-zeta font-semibold">
                     Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?
                 </p>

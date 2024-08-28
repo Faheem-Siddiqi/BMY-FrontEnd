@@ -6,8 +6,8 @@ import Consent from './Consent.jsx';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
-
 export default function Proposal({ proposalData, assignProposal, role }) {
+    // console.log(proposalData)
     const hasMissingQuestions =
         !proposalData ||
         !proposalData.sections ||
@@ -44,15 +44,17 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             table3c: '',
             table3d: '',
             table3e: '',
-            table3f: 'Yes',
+            table3f: '',
             table3g: '',
         },
         table4Answers: {
-            table4a: '',
-            table4b: '',
+            table4a: 'N/A',
+            table4b: 'N/A',
         },
         question2: '',
         question3: '',
+        question4: '',
+        question5: '',
         table4Score: 0,
         table5Answers: {
             table5a: 'Yes',
@@ -75,7 +77,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
     });
     const [consentData, setConsentData] = useState({
         question1: '',
-        question2: '',
+        question2: 'N/A',
         question3: '',
         question4: '',
     });
@@ -246,6 +248,8 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             },
             question2: ethicalReviewSection?.questions?.["Are you considering special care for taking informed consent, with no coercion?"] || '',
             question3: ethicalReviewSection?.questions?.["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
+            question4: ethicalReviewSection?.questions?.["What level of confidentiality is provided to maintain privacy of patient information?"] || '',
+            question5: ethicalReviewSection?.questions?.["What steps will you take to ensure security of data?"] || '',
             table5Answers: {
                 ...prevState.table5Answers,
                 table5a: ethicalReviewSection?.questions?.["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training'"] || '',
@@ -365,8 +369,9 @@ export default function Proposal({ proposalData, assignProposal, role }) {
         const totalRisk = ethicalData.table1Score +
             ethicalData.table2Score +
             ethicalData.table4Score +
-            ethicalData.table5Score +
-            ethicalData.table6Score;
+            ethicalData.table5Score
+        // +
+        // ethicalData.table6Score;
         updateState({ ethicalRisk: totalRisk });
     }, [
         ethicalData.table1Score,
@@ -494,6 +499,8 @@ export default function Proposal({ proposalData, assignProposal, role }) {
                     "In case of any such risk, is the participant informed about risks in detail at the time of informed consent?": ethicalData?.question1 ?? '',
                     "In case of any risk to the special group, have you assigned a member to monitor those risks?": ethicalData?.question2 ?? '',
                     "Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?": ethicalData?.question3 ?? '',
+                    "What level of confidentiality is provided to maintain privacy of patient information?": ethicalData?.question4 ?? '',
+                    "What steps will you take to ensure security of data?": ethicalData?.question5 ?? '',
                     'Is there a power differential between researchers and participants (researchers in a position of authority/ influencing decisions of participants care where they may readily give consent for data collection)?': ethicalData?.table2Answers?.table2a ?? '',
                     'With questionnaires, will you give participants the option of omitting questions they don’t want to answer?': ethicalData?.table2Answers?.table2b ?? '',
                     'Will you tell participants that their data will be treated with full confidentiality and if published, it will not be identifiable as theirs?': ethicalData?.table2Answers?.table2c ?? '',

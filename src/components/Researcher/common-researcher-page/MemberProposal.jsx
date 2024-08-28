@@ -2,7 +2,6 @@ import Sidebar from '../../layout/Sidebar.jsx';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Proposal from '../proposals/Proposal.jsx';
-import { ImFilesEmpty } from "react-icons/im";
 import toast from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx'
 import { getCookie } from "cookies-next";

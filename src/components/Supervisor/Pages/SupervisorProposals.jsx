@@ -112,7 +112,7 @@ export default function SupervisorProposals() {
                     <ImFilesEmpty className='text-2xl' />
                     <Link to={`/mentor-proposal/${proposal.proposalid}`}>
                       Proposal:
-                      <span className='mx-1 text-epsilon w-[10px] truncate'>
+                      <span className='mx-1 text-epsilon '>
                         { }
                         BMY-{proposal.createdAt}
                       </span>

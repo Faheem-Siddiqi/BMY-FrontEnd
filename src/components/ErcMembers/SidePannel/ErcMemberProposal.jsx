@@ -6,7 +6,6 @@ import { ImFilesEmpty } from "react-icons/im";
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import Loader from '../../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
-
 export default function ErcMemberProposal() {
   const [loading, setLoading] = useState(true);
   const [noActive, setNoActive] = useState(false);
@@ -67,7 +66,29 @@ export default function ErcMemberProposal() {
           throw new Error('Failed to fetch previous proposals');
         }
         const result = await response.json();
-        setFormattedPreviousProposal(result.proposals || []);
+       const formattedPreviousProposal = result.proposals.map(proposal => ({
+          id: proposal._id || null,
+          leadName: proposal.creator?.fullname || 'Unknown',
+          sections: proposal.sections || {},
+          title: proposal.title || 'N/A',
+          riskScore: (proposal?.sections?.ethicalReview?.questions?.['Ethical Score'] || 0),
+          benefitScore: (proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] || 0),
+          approvalErcMember: proposal.approvalMember || {},
+          ercMembers: proposal.assignedErcMember || [],
+          BMYid: proposal.createdAt ? (() => {
+            const date = new Date(proposal.createdAt);
+            const number = proposal.proposalId || 'N/A';
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${number}-${month}-${year}`;
+          })() : 'N/A',
+          acceptedAt: proposal.acceptedAt ? (() => {
+            const date = new Date(proposal.acceptedAt);
+            return date.toString() !== 'Invalid Date' ? date.toISOString().split('T')[0] : 'N/A';
+          })() : 'N/A'
+        }));
+        setFormattedPreviousProposal(formattedPreviousProposal);
+        console.log(formattedPreviousProposal)
       } catch (error) {
         console.error(error.message);
         setFormattedPreviousProposal([]);  // Set to an empty array on error
@@ -124,14 +145,19 @@ export default function ErcMemberProposal() {
                 <Table
                   className='w-[99%]'
                   rowData={previousProposals.map(proposal => ({
-                    PropossalID: proposal?._id || '',
-                    GroupLead: proposal?.creator?.fullname || '',
+                    PropossalID: proposal?.id || '',
+                    GroupLead: proposal?.leadName || 'N/A',
                     EthicalRisk: proposal?.sections?.ethicalReview?.questions['Benefit Score'] || 0,
                     BenefitScore: proposal?.sections?.ethicalReview?.questions['Ethical Risk'] || 0,
                     sections: proposal?.sections || {},
                     title: proposal?.title || '',
+                    sections: proposal.sections,
+                    approvalErcMember: proposal.approvalErcMember || {},
+                    ercMembers: proposal.ercMembers,
+                    acceptedAt: proposal.acceptedAt,
+                    BMYid: proposal.BMYid,
                   }))}
-                  header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action']}
+                header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}
                   rowRenderComponent='previousProposalsRow'
                 />
               ) : (

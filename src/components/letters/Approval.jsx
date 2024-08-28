@@ -10,7 +10,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
     },
 };
 const Approval = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
-    console.log(approvalErcMember);
+ 
     const Approval = {
         signature: approvalErcMember?.signature || '', // URL to the signature image
         fullname: approvalErcMember?.fullname || 'fullname',

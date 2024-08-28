@@ -15,6 +15,7 @@ export default function Table1({
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold">
                 Ethical consideration in risk exposure for participants
+             
             </p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>
@@ -65,7 +66,8 @@ export default function Table1({
                     ))}
                 </tbody>
             </table>
-            <section className='my-4 w-full md:w-[50%]'>
+            {/* score hidden */}
+            <section className='my-4 hidden w-full md:w-[50%]'>
                 <label htmlFor="risk-score" className='text-zeta font-semibold'>Risk Score </label>
                 <input
                     type='text'
@@ -77,7 +79,21 @@ export default function Table1({
                     placeholder='Risk Score'
                 />
             </section>
-            <section className='my-5 md:w-[50%]'>
+
+
+            {(
+        table1answers.table1a === "Yes" ||
+        table1answers.table1b === "Yes" ||
+        table1answers.table1c === "Yes" ||
+        table1answers.table1d === "Yes" ||
+        table1answers.table1e === "Yes" ||
+        table1answers.table1f === "Yes" ||
+        table1answers.table1g === "Yes"
+      ) && (
+
+             <>
+            
+            <section className='my-5 md:w-[80%]'>
                 <p className="mb-2 text-zeta font-semibold">
                     In case of any such risk, is the participant informed about risks in detail at the time of informed consent?
                 </p>
@@ -110,6 +126,10 @@ export default function Table1({
                     </div>
                 </div>
             </section>
+            </>)
+            
+            }
+          
         </section>
     );
 }

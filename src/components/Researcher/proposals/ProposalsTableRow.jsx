@@ -23,7 +23,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
             <td className='p-4 flex items-center'>
                 <ImFilesEmpty className='text-' />
                 <span className='mx-2 my-2 text-epsilon '>
-                   BMY-{BMYid || 'N/A'}
+                    BMY-{BMYid || 'N/A'}
                 </span>
             </td>
             <td className='p-4 '>{GroupLead}</td>
@@ -50,8 +50,8 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                                     acceptedAt={acceptedAt}
                                     BMYid={BMYid}
                                 />
-                            ) }
-                            {
+                            )}
+                        {
                             selectedOption === 'option1' &&
                             (
                                 <Audit
@@ -64,9 +64,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                                 />
                             )
                         }
-
-
-{
+                        {
                             selectedOption === 'option3' &&
                             (
                                 <MOM

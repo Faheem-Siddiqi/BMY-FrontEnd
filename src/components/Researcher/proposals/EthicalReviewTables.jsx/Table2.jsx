@@ -8,7 +8,7 @@ export default function Table2({ handleTable2AnswerChange, table2Answers }) {
     return (
         <section className='mb-4 overflow-x-scroll'>
             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
-                Other Ethical considerations in informed consent
+                Other Ethical considerations in informed consent:
             </p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>

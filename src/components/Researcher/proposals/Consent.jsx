@@ -112,20 +112,22 @@ export default function Consent({ formData, onInputChange, onSubmit, sectionAssi
                         </div>
                     </div>
                 </section>
-                <section className='mb-4 w-full md:w-[50%]'>
-                    <label htmlFor="question2" className='text-zeta font-semibold'>
-                        From where additional IRB approval is required
-                    </label>
-                    <input
-                        type='text'
-                        id='question2'
-                        name='question2'
-                        value={answer2}
-                        onChange={(e) => handleOptionChange('question2', setAnswer2)(e)}
-                        className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
-                        placeholder='Add Details'
-                    />
-                </section>
+                {formData.question1 === 'Yes' && (<>
+                    <section className='mb-4 w-full md:w-[50%]'>
+                        <label htmlFor="question2" className='text-zeta font-semibold'>
+                            From where additional IRB approval is required
+                        </label>
+                        <input
+                            type='text'
+                            id='question2'
+                            name='question2'
+                            value={answer2}
+                            onChange={(e) => handleOptionChange('question2', setAnswer2)(e)}
+                            className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full outline-none'
+                            placeholder='Add Details'
+                        />
+                    </section>
+                </>)}
                 <section className='my-5 md:w-[50%]'>
                     <p className="mb-2 text-zeta font-semibold">
                         Have the research team and data collectors got the relevant training?
@@ -201,7 +203,7 @@ export default function Consent({ formData, onInputChange, onSubmit, sectionAssi
                             onChange={handleCheckboxChange}
                             className="mr-2 mt-1"
                         />
-                        <p className={` ${isButtonEnabled === true && 'hidden'} mb-2 text-zeta `}>
+                        <p className={` ${isButtonEnabled === true && 'hidden'} text-sm mb-2 text-zeta `}>
                             I undertake to carry out this research in accordance with the BMY Health Pakistan ERC policy and will inform the committee of any changes to the protocol of this project, will submit proofs of genuine data collection, and will publish ethically.
                         </p>
                     </label>
@@ -209,7 +211,7 @@ export default function Consent({ formData, onInputChange, onSubmit, sectionAssi
                 <button
                     onClick={onSubmit}
                     disabled={isButtonEnabled}
-                    className={` ${isButtonEnabled === true && 'hidden'} mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
+                    className={` ${isButtonEnabled === true && 'hidden'} ${iAgree === false ? ('cursor-not-allowed'): ('cursor-pointer')}   mt-6 px-8 py-3 rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon`}
                 >
                     <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                     Save

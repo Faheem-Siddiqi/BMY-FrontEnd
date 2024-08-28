@@ -70,20 +70,37 @@ export default function EthicalReview({ ethicalData, updateState, risk, onSubmit
                         table3Answers: { ...ethicalData.table3Answers, [id]: e.target.value }
                     })}
                 />
-                <Table4
-                    table4Answers={ethicalData.table4Answers}
-                    question2={ethicalData.question2}
-                    question3={ethicalData.question3}
-                    onAnswerChange={(e, id) => updateState({
-                        table4Answers: { ...ethicalData.table4Answers, [id]: e.target.value }
-                    })}
-                    onQuestion2Change={(e) => updateState({ question2: e.target.value })}
-                    onQuestion3Change={(e) => updateState({ question3: e.target.value })}
-                />
+                {(
+                    ethicalData.table3Answers.table3a === "Yes" ||
+                    ethicalData.table3Answers.table3b === "Yes" ||
+                    ethicalData.table3Answers.table3c === "Yes" ||
+                    ethicalData.table3Answers.table3d === "Yes" ||
+                    ethicalData.table3Answers.table3e === "Yes" ||
+                    ethicalData.table3Answers.table3f === "Yes" ||
+                    ethicalData.table3Answers.table3g === "Yes"
+                ) && (
+                        <>
+                            <Table4
+                                table4Answers={ethicalData.table4Answers}
+                                question2={ethicalData.question2}
+                                question3={ethicalData.question3}
+                                onAnswerChange={(e, id) => updateState({
+                                    table4Answers: { ...ethicalData.table4Answers, [id]: e.target.value }
+                                })}
+                                onQuestion2Change={(e) => updateState({ question2: e.target.value })}
+                                onQuestion3Change={(e) => updateState({ question3: e.target.value })}
+                            />
+                        </>)}
                 <Table5
                     table5Answers={ethicalData.table5Answers}
                     onAnswerChange={(e, id) => updateState({
                         table5Answers: { ...ethicalData.table5Answers, [id]: e.target.value }
+                    })}
+                />
+                <Table6
+                    answers={ethicalData.table6Answers}
+                    onAnswerChange={(id, selectedValue) => updateState({
+                        table6Answers: { ...ethicalData.table6Answers, [id]: selectedValue }
                     })}
                 />
                 <section className='mb-4 w-full md:w-[50%] '>
@@ -98,12 +115,174 @@ export default function EthicalReview({ ethicalData, updateState, risk, onSubmit
                         readOnly
                     />
                 </section>
-                <Table6
-                    answers={ethicalData.table6Answers}
-                    onAnswerChange={(id, selectedValue) => updateState({
-                        table6Answers: { ...ethicalData.table6Answers, [id]: selectedValue }
-                    })}
-                />
+                <section className='my-5 md:w-[80%]'>
+                    <p className="mb-2 text-zeta font-semibold">
+                        What level of confidentiality is provided to maintain privacy of patient information?
+                    </p>
+                    <div className="border rounded-md block p-5">
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Anonymous data collection (no patients IDs collected); highest level of confidentiality"
+                                    name='question4'
+                                    checked={ethicalData.question4 === 'Anonymous data collection (no patients IDs collected); highest level of confidentiality'}
+                                    onChange={(e) => updateState({ question4: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Anonymous data collection (no patients IDs collected); highest level of confidentiality
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Anonymized data (removing direct identifiers after data collection irreversibly) without keeping a list of codes"
+                                    name='question4'
+                                    checked={ethicalData.question4 === 'Anonymized data (removing direct identifiers after data collection irreversibly) without keeping a list of codes'}
+                                    onChange={(e) => updateState({ question4: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Anonymized data (removing direct identifiers after data collection irreversibly) without keeping a list of codes
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Coding (converting patient IDs into codes after data collection) in data entry"
+                                    name='question4'
+                                    checked={ethicalData.question4 === 'Coding (converting patient IDs into codes after data collection) in data entry'}
+                                    onChange={(e) => updateState({ question4: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Coding (converting patient IDs into codes after data collection) in data entry
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Indirectly identifying information (date of birth, place of residence) but ensuring not to combine indirect identifiers to identify someone later"
+                                    name='question4'
+                                    checked={ethicalData.question4 === 'Indirectly identifying information (date of birth, place of residence) but ensuring not to combine indirect identifiers to identify someone later'}
+                                    onChange={(e) => updateState({ question4: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Indirectly identifying information (date of birth, place of residence) but ensuring not to combine indirect identifiers to identify someone later
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Collecting directly identifying information (name, NIC, registration number, or hospital IDs, for studies that maybe requiring follow up for further inquiry sometimes) but without including personal data in analysis and publishing"
+                                    name='question4'
+                                    checked={ethicalData.question4 === 'Collecting directly identifying information (name, NIC, registration number, or hospital IDs, for studies that maybe requiring follow up for further inquiry sometimes) but without including personal data in analysis and publishing'}
+                                    onChange={(e) => updateState({ question4: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Collecting directly identifying information (name, NIC, registration number, or hospital IDs, for studies that maybe requiring follow up for further inquiry sometimes) but without including personal data in analysis and publishing
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <section className='my-5 md:w-[80%]'>
+                    <p className="mb-2 text-zeta font-semibold">
+                        What steps will you take to ensure security of data?
+                    </p>
+                    <div className="border rounded-md block p-5">
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Secure passwords"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'Secure passwords'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Secure passwords
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Password protected computers"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'Password protected computers'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Password protected computers
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Password protected files"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'Password protected files'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Password protected files
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Data encryption"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'Data encryption'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Data encryption
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="Automatic log off computers"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'Automatic log off computers'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                Automatic log off computers
+                            </label>
+                        </div>
+                        {/* option */}
+                        <div className="mb-2">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="None"
+                                    name='question5'
+                                    checked={ethicalData.question5 === 'None'}
+                                    onChange={(e) => updateState({ question5: e.target.value })}
+                                    className="mr-2"
+                                />
+                                None
+                            </label>
+                        </div>
+                    </div>
+                </section>
                 <section className='mb-4 w-full md:w-[50%] '>
                     <label htmlFor="research-title" className='text-zeta font-semibold '>Benefit Score</label>
                     <input

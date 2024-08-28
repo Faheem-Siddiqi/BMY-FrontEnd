@@ -7,7 +7,6 @@ import { AppContextProvider } from './AppContext.jsx';
 import { Route, Routes } from 'react-router-dom';
 // General Components
 import Home from './components/Home.jsx';
-import Loader from './components/layout/Loader.jsx';
 import PageNotFound from './components/PageNotFound.jsx';
 // Registration Components
 import Login from './components/registration/Login.jsx';
@@ -80,37 +79,33 @@ function App() {
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="*" element={<PageNotFound />} />
-
+          
           {/* admin */}
-          <Route path="/admin" element={signUserRole === 'admin' ? <Admin /> : <Unauthorized />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<Adminlogin />} />
-         
-
+          
           {/* researchers */}
-          <Route path="/researcher-team" element={signUserRole === 'researchers' ? <TeamMembers /> : <Unauthorized />} />
+          <Route path="/researcher-team" element={<TeamMembers />} />
+          <Route path="/researcher-proposal" element={<ResearcherProposal />} />
+          <Route path="/proposal-section" element={<MemberProposalPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/supervisor" element={<ResearcherSupervisor />} />
 
-          <Route path="/researcher-proposal" element={signUserRole === 'researchers' ? <ResearcherProposal /> : <Unauthorized />} />
-          <Route path="/proposal-section" element={signUserRole === 'researchers' ? <MemberProposalPage /> : <Unauthorized />} />
-          <Route path="/dashboard" element={signUserRole === 'researchers' ? <Dashboard /> : <Unauthorized />} />
-          <Route path="/supervisor" element={signUserRole === 'researchers' ? <ResearcherSupervisor /> : <Unauthorized />} />
-        
           {/* group-lead */}
-
-          <Route path="/add-team-members" element={signUserRole === 'group-lead' ? <AddTeamMembers /> : <Unauthorized />} />
-          <Route path="/group-lead-team" element={signUserRole === 'group-lead' ? <ResercherLeadTeam /> : <Unauthorized />} />
-          <Route path="/group-lead-proposal" element={signUserRole === 'group-lead' ? <ResercherLeadProposals /> : <Unauthorized />} />
-          <Route path="/group-lead-dashboard" element={signUserRole === 'group-lead' ? <ResearcherDashboard /> : <Unauthorized />} />
-          <Route path="/create-new-proposal" element={signUserRole === 'group-lead' ? <ResercherLeadNewProposal /> : <Unauthorized />} />
-          <Route path="/lead-proposal" element={signUserRole === 'group-lead' ? <ResearcherLeadProposalPage /> : <Unauthorized />} />
+          <Route path="/add-team-members" element={<AddTeamMembers />} />
+          <Route path="/group-lead-team" element={<ResercherLeadTeam />} />
+          <Route path="/group-lead-proposal" element={<ResercherLeadProposals />} />
+          <Route path="/group-lead-dashboard" element={<ResearcherDashboard />} />
+          <Route path="/create-new-proposal" element={<ResercherLeadNewProposal />} />
+          <Route path="/lead-proposal" element={<ResearcherLeadProposalPage />} />
           <Route path="/supervisor-details" element={<Supervisor />} />
 
-        
           {/* supervisor */}
-          <Route path="/supervisor-dashboard"  element={signUserRole === 'supervisor' ? <SupervisorDashboard /> : <Unauthorized />}  />
-          <Route path="/supervisor-teams" element={signUserRole === 'supervisor' ? <SupervisorTeam /> : <Unauthorized />}/>
-          <Route path="/supervisor-proposal" element={signUserRole === 'supervisor' ? <SupervisorProposals /> : <Unauthorized />}/>
-          <Route path="/view-erc-team"  element={signUserRole === 'supervisor' ? <ViewERCMembers/> : <Unauthorized />} />
-          <Route path="/mentor-proposal/:proposalId" element= {signUserRole === 'supervisor' ? <MentorProposal/> : <Unauthorized />}  />
+          <Route path="/supervisor-dashboard" element={<SupervisorDashboard />} />
+          <Route path="/supervisor-teams" element={<SupervisorTeam />} />
+          <Route path="/supervisor-proposal" element={<SupervisorProposals />} />
+          <Route path="/view-erc-team" element={<ViewERCMembers />} />
+          <Route path="/mentor-proposal/:proposalId" element={<MentorProposal />} />
 
           {/* Erc Members */}
           <Route path="/erc-member-dashboard" element={<ErcMemberDashboard />} />
@@ -118,14 +113,13 @@ function App() {
           <Route path="/assigned-teams" element={<AssignedTeams />} />
           <Route path="/evaluate-proposal/:proposalId" element={<ErcMemberViewProposal />} />
           <Route path="/erc-panel" element={<ErcCommittee />} />
-       
+
           {/* Erc Head */}
           <Route path="/erc-head-dashboard" element={<ErcHeadDashboard />} />
           <Route path="/all-proposals" element={<ErcHeadProposal />} />
           <Route path="/all-bmy-teams" element={<ErcHeadTeam />} />
           <Route path="/head-evaluate-proposal/:proposalId" element={<ErcHeadViewProposal />} />
           <Route path="/all-researchers-teams" element={<AllTeams />} />
-        
         </Routes>
       </AppContextProvider>
     </>
