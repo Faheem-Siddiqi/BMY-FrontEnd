@@ -75,7 +75,7 @@ const MOM = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, ercMembe
               // Data Row
               [
                 { text: `${title}`, fontSize: 11 },
-                { text: `${BMYid}`, fontSize: 11 },
+                { text: `BMY-${BMYid}`, fontSize: 11 },
                 { text: `${groupLeadName}`, fontSize: 11 },
                 { text: 'Approved', fontSize: 11 }
               ]

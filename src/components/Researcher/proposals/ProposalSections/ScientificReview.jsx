@@ -324,7 +324,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                             </section>
                         )}
                     {
-                        // yha pr wo ai ga jina chata show na ho
+                        // Not to Include
                         (
  scientificData.answer11 !== 'Qualitative study (detailed interviews)'
  &&
@@ -345,8 +345,8 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                               <input
                                                 className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
-                                                name='answer14a'
-                                                value={scientificData.answer14a}
+                                                name='answer23a'
+                                                value={scientificData.answer23a}
                                                 onChange={handleScientificDataChange}
                                             />
                                             , (write 1000000 if the population size is unknown), prevalence of “outcome of interest” as 
@@ -354,26 +354,43 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                             <input
                                                 className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
-                                                name='answer14a'
-                                                value={scientificData.answer14a}
+                                                name='answer23b'
+                                                value={scientificData.answer23b}
                                                 onChange={handleScientificDataChange}
                                             />
 
                                              %, as reported by a researcher from article title and URL: <input
                                                 className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
-                                                name='answer14a'
-                                                value={scientificData.answer14a}
+                                                name='answer23c'
+                                                value={scientificData.answer23c}
                                                 onChange={handleScientificDataChange}
-                                            />, absolute precision as Type a Label sample size came out to be  
+                                            />, absolute precision as 
+                                            
                                             <input
                                             className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
                                             type="text"
-                                            name='answer14a'
-                                            value={scientificData.answer14a}
+                                            name='answer23d'
+                                            value={scientificData.answer23d}
                                             onChange={handleScientificDataChange}
                                         />
-                                        , for a confidence level of Type a Label.
+                                            
+                                             sample size came out to be  
+                                            <input
+                                            className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                            type="text"
+                                            name='answer23e'
+                                            value={scientificData.answer23e}
+                                            onChange={handleScientificDataChange}
+                                        />
+                                        , for a confidence level of 
+                                           <input
+                                            className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                            type="text"
+                                            name='answer23f'
+                                            value={scientificData.answer23f}
+                                            onChange={handleScientificDataChange}
+                                        />
                             </section>
                         )}
                     {/* Question-14 labels section */}

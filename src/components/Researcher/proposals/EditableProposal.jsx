@@ -146,6 +146,14 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
         answer20: '',
         answer21: '',
         answer22: '',
+
+        answer23a: '',
+        answer23b: '',
+        answer23c: '',
+        answer23d: '',
+        answer23e: '',
+        answer23f: '',
+    
         onlineQuestionnaires: ''
     });
     const [savingStatus, setSavingStatus] = useState({
@@ -214,6 +222,14 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
             answer20: scientificReviewSection?.questions?.["Sample inclusion-exclusion criteria and sampling methods in detail for interviews"] || 'N/A',
             answer21: scientificReviewSection?.questions?.["Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.)"] || 'N/A',
             answer22: scientificReviewSection?.questions?.["Data collection procedures and tools"] || 'N/A',
+           
+            answer23a: scientificReviewSection?.questions?.["For cross sectional survey, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping estimated population size as"] || 'N/A',
+            answer23b: scientificReviewSection?.questions?.["Prevalence of “outcome of interest” as"] || 'N/A',
+            answer23c: scientificReviewSection?.questions?.["Reported by a researcher from article title and URL"] || 'N/A',
+            answer23d: scientificReviewSection?.questions?.["Absolute precision as"] || 'N/A',
+            answer23e: scientificReviewSection?.questions?.["Sample size came out to be"] || 'N/A',
+            answer23f: scientificReviewSection?.questions?.["For a confidence level of"] || 'N/A',
+
             onlineQuestionnaires: scientificReviewSection?.questions?.["Online questionnaires/ google forms"] || 'N/A',
         }));
         setConsentData({

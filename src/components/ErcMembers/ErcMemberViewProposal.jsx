@@ -14,6 +14,7 @@ export default function ErcMemberViewProposal() {
     const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
     const [ErcMemDataToggle, setMemberDataToggle] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingApproval,setLoadingApproval] =useState(false)
     const [proposalDetail, setProposalDetail] = useState({});
     const { proposalId } = useParams();
     const updateMemberDataToggle = (newValue) => {
@@ -74,6 +75,8 @@ export default function ErcMemberViewProposal() {
     }, [proposalId, ErcMemDataToggle]);
     async function handleApprove() {
         try {
+
+            setLoadingApproval(true)
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 return;
@@ -93,16 +96,20 @@ export default function ErcMemberViewProposal() {
             });
             const responseText = await response.text();
             if (response.ok) {
+              
                 const data = JSON.parse(responseText);
+                setLoadingApproval(false)
                 toast.success('Proposal Successfully Submitted');
                 return data;
             } else {
                 const errorData = JSON.parse(responseText);
                 throw new Error(errorData.message || 'Failed to submit proposal');
+                setLoadingApproval(false)
             }
         } catch (error) {
             toast.error(`Error submitting proposal: ${error.message}`);
             console.error(`Error submitting proposal: ${error.message}`);
+            setLoadingApproval(false)
             throw error;
         }
     }
@@ -152,14 +159,15 @@ export default function ErcMemberViewProposal() {
                             <div className='flex md:flex-row flex-col mt-5 gap-5 md:gap-3 md:items-center'>
                                 <button
                                     onClick={handleApprove}
-                                    className="  w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
+                                    disabled={loadingApproval}
+                                    className="w-fit py-2 px-6 rounded-md  group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out ">
                                     <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                                         <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
-                                            Approve
+                                        {loadingApproval ? ('Approving'): ('Approve')} 
                                         </span>
                                     </span>
-                                    <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Approve</span>
-                                    <span className="invisible relative"> x Approve </span>
+                                    <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">{loadingApproval ? ('Approving'): ('Approve')} </span>
+                                    <span className="invisible relative"> x  {loadingApproval ? ('Approving'): ('Approve')} </span>
                                 </button>
                                 <DiscussionModal memberData={proposalDetail} memberDataToggle={updateMemberDataToggle} />
                             </div>
