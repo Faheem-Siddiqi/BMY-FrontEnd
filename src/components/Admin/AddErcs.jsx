@@ -5,6 +5,7 @@ import { MdAssignmentAdd } from "react-icons/md";
 import CreateSvg from '../../assets/svgs/CreateSvg.jsx'
 import Modal from 'react-modal';
 export default function AddErcs() {
+    const [loading,setLoading]=useState(false)
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [displayEmail, setDisplayEmail] = useState("");
@@ -93,7 +94,7 @@ export default function AddErcs() {
                         </div>
                         <div className="flex gap-5 md:flex-row mt-5 flex-col">
                             <button
-                                htmlFor='profile-image'
+                                
                                 className="py-[0.6rem] px-5 h-fit rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
                                 Add

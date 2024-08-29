@@ -107,9 +107,10 @@ export default function ErcMemberViewProposal() {
                 setLoadingApproval(false)
             }
         } catch (error) {
+            setLoadingApproval(false)
             toast.error(`Error submitting proposal: ${error.message}`);
             console.error(`Error submitting proposal: ${error.message}`);
-            setLoadingApproval(false)
+         
             throw error;
         }
     }

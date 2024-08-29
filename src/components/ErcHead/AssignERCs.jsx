@@ -56,14 +56,17 @@ export default function AssignERCs({ members }) {
     };
     async function handleAssign() {
         try {
+            setLoading(true)
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 console.log('Proposal ID is undefined');
+                setLoading(false)
                 throw new Error("Proposal ID is required");
             }
             if (!selectedMemberId) {
                 toast.error('Please select a valid ERC Member from the list');
                 console.log('ERC Member ID is invalid');
+                setLoading(false)
                 throw new Error("Valid ERC Member is required");
             }
             const myHeaders = new Headers();
@@ -81,27 +84,29 @@ export default function AssignERCs({ members }) {
                 }),
             });
             const responseText = await response.text();
+           
             console.log("Response Status:", response.status);
             console.log("Response Text:", responseText);
             if (response.ok) {
+                setLoading(false)
                 const data = JSON.parse(responseText);
                 toast.success('Proposal successfully assigned to ERC member');
                 closeModal()
                 return data;
             } else {
+                setLoading(false)
                 closeModal()
                 const errorData = JSON.parse(responseText);
                 throw new Error(errorData.message || 'Failed to assign proposal to ERC member');
             }
         } catch (error) {
+            setLoading(false)
             toast.error(`Error assigning proposal: ${error.message}`);
             console.error(`Error assigning proposal: ${error.message}`);
             throw error;
         }
     }
-    if (loading) {
-        return <Loader />;
-    }
+
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />
@@ -160,7 +165,7 @@ export default function AssignERCs({ members }) {
                                 disabled={!isValidEmail}
                                 className={`py-[0.6rem] px-5 h-fit rounded-md group relative overflow-hidden ${isValidEmail ? 'bg-epsilon text-white' : 'bg-gray-400 text-white cursor-not-allowed'} transition-all duration-300 ease-out`}>
                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                                Add
+                                { loading ? ('Assigning') : ('Assign')}
                             </button>
                             <button
                                 onClick={closeModal}

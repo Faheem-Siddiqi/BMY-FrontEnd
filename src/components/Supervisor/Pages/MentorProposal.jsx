@@ -12,6 +12,7 @@ import { getCookie } from "cookies-next";
 export default function MentorProposal() {
     const [loading, setLoading] = useState(true);
     const [proposalDetail, setProposalDetail] = useState({});
+    const [loadingApproval,setLoadingApproval] =useState(false)
     const [loginUserid, setLoginUserId] = useState('');
     const [SupervisorDataToggle, setSupervisorToggle] = useState(false);
     const { proposalId } = useParams();
@@ -90,6 +91,8 @@ export default function MentorProposal() {
     }, [proposalId, SupervisorDataToggle]);
     const handleApprove = async () => {
         try {
+
+            setLoadingApproval(true)
             if (!proposalId) {
                 toast.error('Proposal ID is Missing. Make sure you don\'t change the URL');
                 throw new Error("Proposal ID is required");
@@ -107,14 +110,17 @@ export default function MentorProposal() {
             });
             const responseText = await response.text();
             if (response.ok) {
+                setLoadingApproval(false)
                 const data = JSON.parse(responseText);
                 toast.success('Proposal successfully submitted to ERC head');
                 return data;
             } else {
+                setLoadingApproval(false)
                 const errorData = JSON.parse(responseText);
                 throw new Error(errorData.message || 'Failed to submit proposal');
             }
         } catch (error) {
+            setLoadingApproval(false)
             toast.error(`Error submitting proposal: ${error.message}`);
             console.error(`Error submitting proposal: ${error.message}`);
         }
@@ -171,10 +177,10 @@ export default function MentorProposal() {
                                         onClick={handleApprove}
                                         className="w-fit py-2 px-6 rounded-md group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out">
                                         <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                                            <MdFileDownloadDone className='text-2xl' /> <span className='mx-2'>Approve</span>
+                                            <MdFileDownloadDone className='text-2xl' /> <span className='mx-2'> {loadingApproval ? ('Approving'): ('Approve')} </span>
                                         </span>
-                                        <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilon transition-all duration-300 group-hover:translate-x-full">Approve</span>
-                                        <span className="invisible relative">x Approve</span>
+                                        <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilon transition-all duration-300 group-hover:translate-x-full"> {loadingApproval ? ('Approving'): ('Approve')} </span>
+                                        <span className="invisible relative">x  {loadingApproval ? ('Approving'): ('Approve')} </span>
                                     </button>
                                 )}
                                 <DiscussionModal memberData={proposalDetail} memberDataToggle={setSupervisorToggle} />
