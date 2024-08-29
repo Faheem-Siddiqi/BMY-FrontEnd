@@ -11,6 +11,19 @@ import pdfMake from 'pdfmake/build/pdfmake';
 };
 const Approval = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
  
+
+    let hyphenIndex = BMYid.indexOf('-');
+    let meetingNumber = BMYid.substring(0, hyphenIndex);
+    
+    const suffix =
+    meetingNumber % 10 === 1 && meetingNumber % 100 !== 11
+      ? 'st'
+      : meetingNumber % 10 === 2 && meetingNumber % 100 !== 12
+      ? 'nd'
+      : meetingNumber % 10 === 3 && meetingNumber % 100 !== 13
+      ? 'rd'
+      : 'th';
+    
     const Approval = {
         signature: approvalErcMember?.signature || '', // URL to the signature image
         fullname: approvalErcMember?.fullname || 'fullname',
@@ -37,9 +50,9 @@ const Approval = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acc
                 {
                     text: [
                         { text: 'Date: ', fontSize: 11, bold: true },
-                        { text: `${acceptedAt} : `, fontSize: 11 },
+                        { text: `${acceptedAt}`, fontSize: 11 },
                     ],
-                    margin: [0, 0, 0, 10] // Add margin after this block
+                    margin: [0, 0, 0, 10] 
                 },
                 {
                     text: [
@@ -67,7 +80,7 @@ const Approval = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acc
                     text: [
                         { text: `The project titled `, fontSize: 11 },
                         { text: ProjectTitle, fontSize: 11, bold: true },
-                        { text: `  was approved in the eleventh meeting of ERC at BMY Health after expedited review. The project was approved with consensus on compliance with research ethics. This approval is valid for two months. In case the project is extended beyond two months, review will be required again. This initial approval is the first step of research ethics screening. In case of violation of ethics, ERC can terminate the project at any stage. The project will have to remain under continuous monitoring of ERC for two months and project leaders will have to maintain liaison with ERC to report at following steps.\n\n`, fontSize: 11 },
+                        { text: `  was approved in the ${meetingNumber}${suffix} meeting of ERC at BMY Health after expedited review. The project was approved with consensus on compliance with research ethics. This approval is valid for two months. In case the project is extended beyond two months, review will be required again. This initial approval is the first step of research ethics screening. In case of violation of ethics, ERC can terminate the project at any stage. The project will have to remain under continuous monitoring of ERC for two months and project leaders will have to maintain liaison with ERC to report at following steps.\n\n`, fontSize: 11 },
                         {
                             text: [
                                 { text: '  1. After data collection, project leaders will submit proofs of genuine data collection to ERC, including videos/ pictures of data collection, links to data collection forms, and data sheets.\n\n', fontSize: 11, margin: [0, 0, 0, 10] },
