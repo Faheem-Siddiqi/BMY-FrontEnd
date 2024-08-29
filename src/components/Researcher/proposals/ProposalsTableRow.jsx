@@ -85,10 +85,10 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                             value={selectedOption}
                             onChange={handleChange}
                         >
-                            <option value="option1">Audit</option>
+                            {/* <option value="option1">Audit</option> */}
                             <option value="option2">Approval</option>
                             <option value="option3">MOM</option>
-                            <option value="option4">Synopsis</option>
+                            {/* <option value="option4">Synopsis</option> */}
                         </select>
                     </div>
                 </td>
