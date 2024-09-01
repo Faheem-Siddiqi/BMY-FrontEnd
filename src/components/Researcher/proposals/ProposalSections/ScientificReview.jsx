@@ -254,6 +254,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                 "Longitudinal study (follow-up of 1 group for disease incidence; descriptive)",
                                 "Before-after comparison study for 1 group which undergoes an exposure",
                                 "Qualitative study (detailed interviews)",
+                                "Cross-sectional study for finding association between variables",
                                 "Mixed-methods study (Interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)"
                             ].map((option, index) => (
                                 <div className="mb-2" key={index}>
@@ -337,7 +338,11 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
  scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
  &&
  scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
-                        )
+                      
+ &&
+ scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
+               
+)
                         && (
                             <section className='my-5 p-5 md:leading-[2rem] md:w-[80%] border rounded-md block '>
                                 For cross sectional survey, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping estimated population size as
@@ -418,6 +423,8 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                         scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
                                         &&
                                         scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
+&&
+                                        scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
                                     )
                                     && (
                                         <div className="">
@@ -479,7 +486,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                     &&
                                     (
                                         <div className="">
-                                            For cohort study, sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as
+                                            Sample size was calculated using online OpenEpi sample size calculator. Keeping ratio of Unexposed/Exposed as
                                             <input
                                                 className="outline-none px-2 w-[150px] border-b text-epsilon border-epsilon"
                                                 type="text"
@@ -543,6 +550,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                         scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
                                         &&
                                         scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+
+  &&
+                                        scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
+                                        
                                     )
                                     && (
                                         <div className="">
@@ -809,9 +820,11 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                         &&
                         scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
                         &&
+                        scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
+                        &&
                         (
                             <section className="mb-4">
-                                <p className="mt-5 mb-2  text-zeta font-semibold   w-full ">
+                                <p className="mt-5 mb-2  text-zeta font-semibold  w-full ">
                                     Sample inclusion-exclusion criteria and sampling methods in detail for interviews
                                 </p>
                                 <div className="w-full md:w-[50%] ">
