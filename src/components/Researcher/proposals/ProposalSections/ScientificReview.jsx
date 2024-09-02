@@ -3,6 +3,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [assigned, setAssigned] = useState(false)
     const [signUserRole, setSignUserRole] = useState('');
+
+
+
+
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
         if (SignUserRole) {
@@ -107,15 +111,16 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                     </section>
                     {/* Question-4*/}
                     <section className="mb-4">
-                        <p className="mt-5 mb-2 w-full text-zeta  font-semibold ">
+                        <p className="mt-5 mb-2 w-full text-zeta font-semibold ">
                             Name the beneficiary group clearly identified that will benefit from the information generated in your research.
                         </p>
                         <div className="relative w-full md:w-[50%]">
                             <div
-                                className={` ${scientificData.answer4.length >= scientificData.answer4Limit ? 'text-red-600' : ''
-                                    } border-stone-300 z-10 absolute right-4 top-1`}
+className={` bg-white ${
+    scientificData.answer4.split(/\s+/).length >= scientificData.answer4Limit ? 'text-red-600' : ''
+  } border-stone-300 z-10 absolute right-4 top-1`} 
                             >
-                                {scientificData.answer4.length} / {scientificData.answer4Limit}
+                                { scientificData.answer4.split(/\s+/).length} / {scientificData.answer4Limit}
                             </div>
                             <textarea
                                 name="answer4"
@@ -123,7 +128,8 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                 className="border rounded-md block py-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
-                                maxLength={scientificData.answer4Limit}
+                              
+                                // maxLength={scientificData.answer4Limit}
                                 placeholder="Add Details"
                                 onChange={handleScientificDataChange}
                             ></textarea>
@@ -136,10 +142,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                         </p>
                         <div className="relative  md:w-[50%] ">
                             <div
-                                className={` ${scientificData.answer5.length >= scientificData.answer5Limit ? 'text-red-600' : ''
+                                className={`bg-white ${scientificData.answer5.split(/\s+/).length >= scientificData.answer5Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
-                                {scientificData.answer5.length} / {scientificData.answer5Limit}
+                                {scientificData.answer5.split(/\s+/).length} / {scientificData.answer5Limit}
                             </div>
                             <textarea
                                 name="answer5"
@@ -147,7 +153,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                 className="border rounded-md block py-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
-                                maxLength={scientificData.answer5Limit}
+                                // maxLength={scientificData.answer5Limit}
                                 placeholder="Add Details"
                                 onChange={handleScientificDataChange}
                             ></textarea>
@@ -160,10 +166,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                         </p>
                         <div className="relative md:w-[50%]">
                             <div
-                                className={` ${scientificData.answer6.length >= scientificData.answer6Limit ? 'text-red-600' : ''
+                                className={`bg-white ${scientificData.answer6.split(/\s+/).length >= scientificData.answer6Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
-                                {scientificData.answer6.length} / {scientificData.answer6Limit}
+                                {scientificData.answer6.split(/\s+/).length} / {scientificData.answer6Limit}
                             </div>
                             <textarea
                                 name="answer6"
@@ -171,7 +177,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                 className="border rounded-md block py-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
-                                maxLength={scientificData.answer6Limit}
+                                // maxLength={scientificData.answer6Limit}
                                 placeholder="Add Details"
                                 onChange={handleScientificDataChange}
                             ></textarea>
@@ -184,10 +190,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                         </p>
                         <div className="relative md:w-[50%] ">
                             <div
-                                className={` ${scientificData.answer7.length >= scientificData.answer7Limit ? 'text-red-600' : ''
+                                className={`bg-white ${scientificData.answer7.split(/\s+/).length >= scientificData.answer7Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
-                                {scientificData.answer7.length} / {scientificData.answer7Limit}
+                                {scientificData.answer7.split(/\s+/).length} / {scientificData.answer7Limit}
                             </div>
                             <textarea
                                 name="answer7"
@@ -196,7 +202,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                                 className="border rounded-md block py-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
-                                maxLength={scientificData.answer7Limit}
+                                // maxLength={scientificData.answer7Limit}
                                 placeholder="Add Details"
                             ></textarea>
                         </div>

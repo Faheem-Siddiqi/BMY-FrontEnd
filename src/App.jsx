@@ -53,6 +53,7 @@ import LearnMore from './components/registration/LearnMore.jsx';
 import Prop from './components/letters/Proposal.jsx'
 import Adminlogin from './components/Admin/Adminlogin.jsx'
 import Unauthorized from './components/Unauthorized.jsx';
+import AuditForm from './components/Researcher/AuditForm.jsx';
 function App() {
   const [signUserRole, setSignUserRole] = useState('none');
   useEffect(() => {
@@ -79,6 +80,9 @@ function App() {
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="*" element={<PageNotFound />} />
+
+
+          <Route path="/audit-form" element={<AuditForm/>} />
           
           {/* admin */}
           <Route path="/admin" element={<Admin />} />
