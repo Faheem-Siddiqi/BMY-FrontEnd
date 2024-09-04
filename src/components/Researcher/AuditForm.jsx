@@ -11,7 +11,7 @@ export default function AuditForm() {
                 <Sidebar pageName='' />
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                     <UserNavbar />
-                    <div className='xl:m-10 m-5'>
+                    <div className='xl:m-10 '>
                         <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
                         <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                             <section className='mb-4 w-full md:w-[100%]'>
@@ -19,7 +19,7 @@ export default function AuditForm() {
                                     htmlFor="question2"
                                     className='text-zeta   font-semibold'>
                                     <h2 className='text-md'>
-                                        1. Please upload your manuscript  with the following specifications:
+                                        1. Please upload your manuscript. Also include the following sections along with manucript:
                                     </h2>
                                     <div className='my-3 text-sm'>
                                         <h3>First page:</h3>
@@ -40,12 +40,14 @@ export default function AuditForm() {
                                         </ul>
                                     </div>
                                 </label>
+
+                              
                                 <input
                                     type='file'
                                     id=''
                                     name=''
                                     accept='.doc,.docx'
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-[90%] md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 />
                             </section>
@@ -115,7 +117,7 @@ export default function AuditForm() {
                                     id=''
                                     name=''
                                     rows={4}
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>
@@ -131,7 +133,7 @@ export default function AuditForm() {
                                     rows={4}
                                     id=''
                                     name=''
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2  w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>
@@ -147,7 +149,7 @@ export default function AuditForm() {
                                     rows={4}
                                     id=''
                                     name=''
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>

@@ -48,8 +48,8 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             table3g: '',
         },
         table4Answers: {
-            table4a: 'N/A',
-            table4b: 'N/A',
+            table4a: '',
+            table4b: '',
         },
         question2: '',
         question3: '',
@@ -57,19 +57,19 @@ export default function Proposal({ proposalData, assignProposal, role }) {
         question5: '',
         table4Score: 0,
         table5Answers: {
-            table5a: 'Yes',
+            table5a: '',
             table5b: '',
             table5c: '',
-            table5d: 'Yes',
+            table5d: '',
             table5e: '',
             table5f: '',
             table5g: '',
         },
         table5Score: 0,
         table6Answers: {
-            table6a: 'N/A',
-            table6b: 'Moderate gains',
-            table6c: 'Minor gains',
+            table6a: '',
+            table6b: '',
+            table6c: '',
         },
         table6Score: 0,
         ethicalRisk: 0,
@@ -77,7 +77,7 @@ export default function Proposal({ proposalData, assignProposal, role }) {
     });
     const [consentData, setConsentData] = useState({
         question1: '',
-        question2: 'N/A',
+        question2: '',
         question3: '',
         question4: '',
     });

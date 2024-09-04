@@ -80,9 +80,9 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
         },
         table5Score: 0,
         table6Answers: {
-            table6a: 'N/A',
-            table6b: 'Moderate gains',
-            table6c: 'Minor gains',
+            table6a: '',
+            table6b: '',
+            table6c: '',
         },
         table6Score: 0,
         ethicalRisk: 0,
@@ -194,6 +194,10 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             },
             question2: ethicalReviewSection?.questions?.["Are you considering special care for taking informed consent, with no coercion?"] || '',
             question3: ethicalReviewSection?.questions?.["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
+            question4: ethicalReviewSection?.questions?.["What level of confidentiality is provided to maintain privacy of patient information?"] || '',
+            question5: ethicalReviewSection?.questions?.["What steps will you take to ensure security of data?"] || '',
+           
+           
             table5Answers: {
                 ...prevState.table5Answers,
                 table5a: ethicalReviewSection?.questions?.["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training'"] || '',
@@ -276,6 +280,13 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             answer20: scientificReviewSection?.questions?.["Sample inclusion-exclusion criteria and sampling methods in detail for interviews"] || 'N/A',
             answer21: scientificReviewSection?.questions?.["Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.)"] || 'N/A',
             answer22: scientificReviewSection?.questions?.["Data collection procedures and tools"] || 'N/A',
+            answer23a: scientificReviewSection?.questions?.["For cross sectional survey, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping estimated population size as"] || 'N/A',
+            answer23b: scientificReviewSection?.questions?.["Prevalence of “outcome of interest” as"] || 'N/A',
+            answer23c: scientificReviewSection?.questions?.["Reported by a researcher from article title and URL"] || 'N/A',
+            answer23d: scientificReviewSection?.questions?.["Absolute precision as"] || 'N/A',
+            answer23e: scientificReviewSection?.questions?.["Sample size came out to be"] || 'N/A',
+            answer23f: scientificReviewSection?.questions?.["For a confidence level of"] || 'N/A',
+
             onlineQuestionnaires: scientificReviewSection?.questions?.["Online questionnaires/ google forms"] || 'N/A',
         }));
         if (hasMissingQuestions) {

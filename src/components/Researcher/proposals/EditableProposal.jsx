@@ -54,7 +54,7 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
             table3c: '',
             table3d: '',
             table3e: '',
-            table3f: 'Yes',
+            table3f: '',
             table3g: '',
         },
         table4Answers: {
@@ -68,19 +68,19 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
 
         table4Score: 0,
         table5Answers: {
-            table5a: 'Yes',
+            table5a: '',
             table5b: '',
             table5c: '',
-            table5d: 'Yes',
+            table5d: '',
             table5e: '',
             table5f: '',
             table5g: '',
         },
         table5Score: 0,
         table6Answers: {
-            table6a: 'N/A',
-            table6b: 'Moderate gains',
-            table6c: 'Minor gains',
+            table6a: '',
+            table6b: '',
+            table6c: '',
         },
         table6Score: 0,
         ethicalRisk: 0,
@@ -602,7 +602,14 @@ export default function EditableProposal({ sectionCheckToggle, proposalData }) {
                 "Sample inclusion-exclusion criteria and sampling methods in detail for interviews": scientificData?.answer20 ?? 'N/A',
                 "Place/s for data collection (give all available details including organization/ forum name, location, city, country etc.)": scientificData?.answer21 ?? 'N/A',
                 "Data collection procedures and tools": scientificData?.answer22 ?? 'N/A',
-                "Online questionnaires/ google forms": scientificData?.onlineQuestionnaires ?? 'N/A',
+
+                "For cross sectional survey, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping estimated population size as": scientificData?.answer23a ?? 'N/A',
+                "Prevalence of “outcome of interest” as": scientificData?.answer23b ?? 'N/A',
+                "Reported by a researcher from article title and URL": scientificData?.answer23c ?? 'N/A',
+                "Absolute precision as": scientificData?.answer23d ?? 'N/A',
+                "Sample size came out to be": scientificData?.answer23e ?? 'N/A',
+                "For a confidence level of": scientificData?.answer23f ?? 'N/A',
+                  "Online questionnaires/ google forms": scientificData?.onlineQuestionnaires ?? 'N/A',
             };
             const payload = {
                 "proposalId": proposalData?.id,
