@@ -5,8 +5,8 @@ import UserNavbar from '../layout/Navs/UserNavbar';
 import React, { useState } from 'react';
 const AuthorshipTable = () => {
     const data = [
-        { name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-        { name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+        { name: 'JohnDoe', email: 'john@example.com', role: 'Admin' },
+        { name: 'Jane Smith', email: 'jane@example.com Lorem ipsum, dolor sit amet consectetur adipisicing elit. In obcaecati eveniet dignissimos quasi et a officiis harum aut aperiam amet voluptates eum accusamus impedit velit tenetur, quod, animi eligendi dolores', role: 'User' },
         { name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor' },
       ];
 
@@ -115,35 +115,28 @@ const AuthorshipTable = () => {
                                 </form>
 
 
-                                <table class="  md:w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden  my-5">
-			<thead class="text-white">
-				
-                
-            {rows.map((row, index) => ( <>
-                <tr class="bg-zeta flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-					<th class="p-3 text-left">Author Position	</th>
-					<th class="p-3 text-left">Author Name	</th>
-                    <th class="p-3 text-left">Justification	</th>
-                    <th class="p-3 text-left w-[180px]">Confidence Percent	</th>
-					<th class="p-3 text-left" width="110px">Actions</th>
-				</tr>
-            
-            </>))}
-              
-				
-               
-			</thead>
-			<tbody class="flex-1 sm:flex-none">
+                        
+<div className="overflow-x-auto">
+      <table className="min-w-full border    border-collapse hidden md:table">
+        <thead className="bg-zeta border-zeta border-collapse text-white border ">
+          <tr>
+            <th className="py-2 px-4 w-[16%]  text-left">Author Position</th>
+            <th className="py-2 px-4  w-[25%]  text-left">Author Name</th>
+            <th className="py-2 px-4  w-[31%]  text-left">Justification</th>
+            <th className="py-2 px-4 w-[15%]    text-left">Confidence % </th>
+            <th className="py-2 px-4 w-[10%]   text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index} className="">
+              <td className="py-2 px-4 border border-zeta border-opacity-15  border-collapse ">{row.name}</td>
+              <td className="py-2 px-4 border border-zeta  border-opacity-15 border-collapse">{row.email}</td>
+              <td className="py-2 px-4  border border-zeta border-opacity-15  border-collapse">{row.role}</td>
+              <td className="py-2 px-4  border border-zeta border-opacity-15  border-collapse">{row.role}</td>
+              <td className="py-2 px-4  border border-zeta border-opacity-15 border-collapse items-center  flex flex-row  ">
 
-
-            {rows.map((row, index) => (
-                                                <tr key={index} className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                                                    <td className="border-grey-light border hover:bg-gray-100 p-3">{row.position}</td>
-                                                    <td className="border-grey-light border hover:bg-gray-100 p-3">{row.name}</td>
-                                                    <td className="border-grey-light border hover:bg-gray-100 p-3">{row.justification}</td>
-                                                    <td className="border-grey-light border hover:bg-gray-100 p-3">{row.confidence}</td>
-                                                    <td className="border-grey-light border hover:bg-gray-100 p-3">
-                                                        <button
+              <button
                                                             onClick={() => handleEditRow(index)}
                                                             className="bg-epsilon text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
                                                         >
@@ -155,28 +148,9 @@ const AuthorshipTable = () => {
                                                         >
                                                             <FaTrash className='m-1 text-[14px]' />
                                                         </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
 
-
-
-
-<div className="overflow-x-auto">
-      <table className="min-w-full border   border-collapse hidden md:table">
-        <thead className="bg-zeta border-zeta text-white border ">
-          <tr>
-            <th className="py-2 px-4  text-left">use this table instead of bottom</th>
-            <th className="py-2 px-4  text-left">Email</th>
-            <th className="py-2 px-4   text-left">Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index} className="">
-              <td className="py-2 px-4 border border-zeta border-opacity-15  border-collapse ">{row.name}</td>
-              <td className="py-2 px-4 border border-zeta  border-opacity-15 border-collapse">{row.email}</td>
-              <td className="py-2 px-4  border border-zeta border-opacity-15  border-collapse">{row.role}</td>
+                
+              </td>
             </tr>
           ))}
         </tbody>
@@ -185,50 +159,36 @@ const AuthorshipTable = () => {
       {/* Mobile View */}
       <div className="block md:hidden">
         {data.map((row, index) => (
-          <div key={index} className="border-t py-4">
-            <div className="flex justify-between">
-              <span className="font-semibold ">Name:</span>
-              <span>{row.name}</span>
+          <div key={index} className="px-4 mb-10">
+            <div className="flex ">
+              <span className="w-[35%] font-semibold bg-zeta rounded-tl p-2 text-white "> Position</span>
+              <span className='w-[65%] border  rounded-tr px-1 '>{row.name}</span>
             </div>
-            <div className="flex justify-between mt-2">
-              <span className="font-semibold">Email:</span>
-              <span>{row.email}</span>
+            <div className="flex   ">
+              <span className=" w-[35%] font-semibold p-2 bg-zeta text-white"> Name</span>
+              <span className='w-[65%] border  px-1'>{row.email}</span>
             </div>
-            <div className="flex justify-between mt-2">
-              <span className="font-semibold">Role:</span>
-              <span>{row.role}</span>
+            <div className="flex  ">
+              <span className=" w-[35%] font-semibold bg-zeta  p-2 text-white">Justification</span>
+              <span className='w-[65%] border  px-1'>{row.role}</span>
+            </div>
+
+            <div className="flex  ">
+              <span className=" w-[35%] font-semibold bg-zeta  p-2 text-white">Confidence </span>
+              <span className='w-[65%] border  px-1'>{row.role}</span>
+            </div>
+
+            <div className="flex  ">
+              <span className=" w-[35%] font-semibold bg-zeta rounded-bl p-2 text-white">Action</span>
+              <span className='w-[65%] border px-1'>{row.role}</span>
             </div>
           </div>
         ))}
       </div>
     </div>
- <br /><br />
-				{/* <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-					<td class="border-grey-light border hover:bg-gray-100 p-3">John Covv</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 truncate">contato@johncovv.com</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-				</tr>
-				<tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-					<td class="border-grey-light border hover:bg-gray-100 p-3">Michael Jackson</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 truncate">m_jackson@mail.com</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-				</tr>
-                <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                    <td class="border-grey-light border hover:bg-gray-100 p-3">Julia</td>
-                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">julia@mail.com</td>
-                    <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-                </tr>
-                <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                  <td class="border-grey-light border hover:bg-gray-100 p-3">Martin Madrazo</td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">martin.madrazo@mail.com</td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-                </tr> */}
-			</tbody>
-		</table>
-
         
 
-        
+        <br /><br />
 
                                 <div className='max-w-full  md:px-0  px-5  overflow-scroll'>
                                     <table className=" border-collapse border w-full border-gray-300">
