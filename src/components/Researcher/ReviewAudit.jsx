@@ -38,8 +38,8 @@ export default function ReviewAudit() {
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                     <UserNavbar />
                     <div className='xl:m-10 '>
-                        <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
-                        <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                        <h1 className='text-xl  md:bg-transparent bg-white md:mx-0 mx-5  md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
+                        <header className='bg-white shadow-sm md:my-5 p-5 md:p-10'>
                             <section className='mb-4 w-full md:w-[100%]'>
                                 <label
                                     htmlFor="question2"
@@ -170,7 +170,7 @@ export default function ReviewAudit() {
                                 </label>
                                 <section className='pr-4 my-5'>
                                     <div className=' flex flex-col gap-5 h-[70vh] overflow-auto pr-1'>
-                                        <section className='md:h-[70vh] bg-epsilon bg-opacity-50 p-5'>
+                                        <section className='md:h-[70vh] h-[50vh] bg-epsilon bg-opacity-50 p-5'>
                                             <p>Name</p>
                                             <p>Designation</p>
                                             <div className='max-w-full overflow-scroll'>
@@ -186,14 +186,14 @@ export default function ReviewAudit() {
                                         </thead>
                                         <tbody>
                                        
-                                                <tr className=" ]">
-                                                    <td className="border  max-w-[20%] p-2">{`row.position`}</td>
+                                                <tr className=" ">
+                                                    <td className="  max-w-[20%] p-2">{`row.position`}</td>
                                                     <td className="border max-w-[20%] p-2">{`row.name`}</td>
                                                     <td className="border  max-w-[23%] p-2">{`row.justification`}</td>
                                                     <td className="border  max-w-[20%]  p-2">{`row.confidence`}</td>
                                                    
                                                 </tr>
-                                                <tr className=" ]">
+                                                <tr className=" ">
                                                     <td className="border  max-w-[20%] p-2">{`row.position`}</td>
                                                     <td className="border max-w-[20%] p-2">{`row.name`}</td>
                                                     <td className="border  max-w-[23%] p-2">{`row.justification`}</td>
@@ -262,7 +262,18 @@ export default function ReviewAudit() {
                                             <li key={index} className="flex items-center justify-between p-2 border-b border-gray-300">
                                                 <span>{index + 1}.  {item}</span>
                                                 <div>
-                                                    
+                                                <button
+                                                            onClick={() => handleEditItem(index)}
+                                                            className="bg-epsilon text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
+                                                        >
+                                                            <FaEdit className='m-1 text-[14px]' />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteItem(index)}
+                                                            className="bg-red-500 text-white rounded-md w-fit hover:bg-red-600 duration-300 mr-2"
+                                                        >
+                                                            <FaTrash className='m-1 text-[14px]' />
+                                                        </button> 
                                                     
                                                 </div>
                                             </li>
