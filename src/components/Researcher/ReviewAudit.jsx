@@ -38,7 +38,7 @@ export default function ReviewAudit() {
                 <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
                     <UserNavbar />
                     <div className='xl:m-10 '>
-                        <h1 className='text-xl  md:bg-transparent bg-white md:mx-0 mx-5  md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
+                        <h1 className='text-xl md:bg-transparent bg-white md:p-0 px-5 pt-5 w-full  md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
                         <header className='bg-white shadow-sm md:my-5 p-5 md:p-10'>
                             <section className='mb-4 w-full md:w-[100%]'>
                                 <label
@@ -232,7 +232,7 @@ export default function ReviewAudit() {
                                     </div>
                                 </section>
                             </section>
-                            <section className='mb-4 w-full md:w-[100%]'>
+                            <section className='mb-4 w-full'>
                                 <label
                                     htmlFor="question2"
                                     className='text-zeta   font-semibold'>
