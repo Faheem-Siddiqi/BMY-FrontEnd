@@ -54,6 +54,8 @@ import Prop from './components/letters/Proposal.jsx'
 import Adminlogin from './components/Admin/Adminlogin.jsx'
 import Unauthorized from './components/Unauthorized.jsx';
 import AuditForm from './components/Researcher/AuditForm.jsx';
+import ReviewAudit from './components/Researcher/ReviewAudit.jsx';
+import AuthorshipTable from './components/Researcher/AuthorshipTable.jsx';
 function App() {
   const [signUserRole, setSignUserRole] = useState('none');
   useEffect(() => {
@@ -83,7 +85,8 @@ function App() {
 
 
           <Route path="/audit-form" element={<AuditForm/>} />
-          
+          <Route path="/review-audit-form" element={<ReviewAudit/>} />
+          <Route path="/authorship-table" element={<AuthorshipTable/>} />
           {/* admin */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<Adminlogin />} />

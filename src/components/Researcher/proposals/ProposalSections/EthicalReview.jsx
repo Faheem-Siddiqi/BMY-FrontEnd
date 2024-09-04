@@ -9,7 +9,7 @@ import Table4 from './../EthicalReviewTables.jsx/Table4';
 import Table5 from '../EthicalReviewTables.jsx/Table5.jsx';
 import Table6 from '../EthicalReviewTables.jsx/Table6.jsx';
 export default function EthicalReview({ ethicalData, updateState, risk, onSubmit, sectionAssigned }) {
-
+f
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [assigned, setAssigned] = useState(false)
     const [signUserRole, setSignUserRole] = useState('');
