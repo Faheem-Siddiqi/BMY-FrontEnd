@@ -3,7 +3,6 @@ import React from 'react';
 import CountUp from 'react-countup';
 import ScrollTrigger from "react-scroll-trigger";
 export default function Counter() {
-  
   const [counterOn, setCounterOn] = useState(true);
   return (
     <>
