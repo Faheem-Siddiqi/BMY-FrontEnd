@@ -84,7 +84,8 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                         }
 
 {
-                            selectedOption === 'nothing' &&
+                            selectedOption === 'nothing' ||  selectedOption === ''
+                              &&
                             (<MdAttachEmail  className='text-2xl text-epsilon'/>                             
                             )
                         }
