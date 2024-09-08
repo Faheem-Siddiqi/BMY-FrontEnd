@@ -16,7 +16,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
             console.log('Local storage: role  not found.');
         }
     }, []);
-    const [selectedOption, setSelectedOption] = useState('option1');
+    const [selectedOption, setSelectedOption] = useState('nothing');
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
@@ -84,7 +84,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                         }
 
 {
-                            selectedOption === 'nothing' ||  selectedOption === ''
+                            selectedOption === 'nothing' 
                               &&
                             (<MdAttachEmail  className='text-2xl text-epsilon'/>                             
                             )
