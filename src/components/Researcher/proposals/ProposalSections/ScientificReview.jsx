@@ -3,10 +3,6 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [assigned, setAssigned] = useState(false)
     const [signUserRole, setSignUserRole] = useState('');
-
-
-
-
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
         if (SignUserRole) {
@@ -116,11 +112,10 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                         </p>
                         <div className="relative w-full md:w-[50%]">
                             <div
-className={` bg-white ${
-    scientificData.answer4.split(/\s+/).length >= scientificData.answer4Limit ? 'text-red-600' : ''
-  } border-stone-300 z-10 absolute right-4 top-1`} 
+                                className={` bg-stone-100 ${scientificData.answer4.split(/\s+/).length >= scientificData.answer4Limit ? 'text-red-600' : ''
+                                    } border-stone-300 z-10 absolute right-4 top-1`}
                             >
-                                { scientificData.answer4.split(/\s+/).length} / {scientificData.answer4Limit}
+                                {scientificData.answer4.split(/\s+/).length} / {scientificData.answer4Limit}
                             </div>
                             <textarea
                                 name="answer4"
@@ -128,7 +123,6 @@ className={` bg-white ${
                                 className="border rounded-md block py-5 bg-lightBackground border-stone-300 px-3 w-full outline-none"
                                 rows="4"
                                 cols="50"
-                              
                                 // maxLength={scientificData.answer4Limit}
                                 placeholder="Add Details"
                                 onChange={handleScientificDataChange}
@@ -142,7 +136,7 @@ className={` bg-white ${
                         </p>
                         <div className="relative  md:w-[50%] ">
                             <div
-                                className={`bg-white ${scientificData.answer5.split(/\s+/).length >= scientificData.answer5Limit ? 'text-red-600' : ''
+                                className={`bg-stone-100 ${scientificData.answer5.split(/\s+/).length >= scientificData.answer5Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
                                 {scientificData.answer5.split(/\s+/).length} / {scientificData.answer5Limit}
@@ -166,7 +160,7 @@ className={` bg-white ${
                         </p>
                         <div className="relative md:w-[50%]">
                             <div
-                                className={`bg-white ${scientificData.answer6.split(/\s+/).length >= scientificData.answer6Limit ? 'text-red-600' : ''
+                                className={`bg-stone-100 ${scientificData.answer6.split(/\s+/).length >= scientificData.answer6Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
                                 {scientificData.answer6.split(/\s+/).length} / {scientificData.answer6Limit}
@@ -190,7 +184,7 @@ className={` bg-white ${
                         </p>
                         <div className="relative md:w-[50%] ">
                             <div
-                                className={`bg-white ${scientificData.answer7.split(/\s+/).length >= scientificData.answer7Limit ? 'text-red-600' : ''
+                                className={`bg-stone-100 ${scientificData.answer7.split(/\s+/).length >= scientificData.answer7Limit ? 'text-red-600' : ''
                                     } border-stone-300 z-10 absolute right-4 top-1 `}
                             >
                                 {scientificData.answer7.split(/\s+/).length} / {scientificData.answer7Limit}
@@ -253,14 +247,14 @@ className={` bg-white ${
                         </p>
                         <div className="border rounded-md block p-5">
                             {[
-                                "Cross-sectional survey (information of a group recorded just once, without following-up on them)",
-                                "Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)",
+                                "Descriptive cross-sectional survey (information of a group recorded just once, without following-up on them)",
+                                "Cross-sectional study for finding association between variables",
+                                "Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)",
                                 "Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)",
                                 "Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)",
                                 "Longitudinal study (follow-up of 1 group for disease incidence; descriptive)",
                                 "Before-after comparison study for 1 group which undergoes an exposure",
                                 "Qualitative study (detailed interviews)",
-                                "Cross-sectional study for finding association between variables",
                                 "Mixed-methods study (Interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)"
                             ].map((option, index) => (
                                 <div className="mb-2" key={index}>
@@ -280,7 +274,7 @@ className={` bg-white ${
                         </div>
                     </section>
                     {/* Question-12 */}
-                    {scientificData.answer11 === 'Cross-sectional survey (information of a group recorded just once, without following-up on them)' && (
+                    {scientificData.answer11 === 'Descriptive cross-sectional survey (information of a group recorded just once, without following-up on them)' && (
                         <section className='my-5 md:w-[80%]'>
                             <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
                                 Type of Analysis
@@ -318,7 +312,7 @@ className={` bg-white ${
                     }
                     {/* Question-13 */}
                     {
-                        scientificData.answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)'
+                        scientificData.answer11 !== 'Descriptive cross-sectional survey (information of a group recorded just once, without following-up on them)'
                         && (
                             <section className='my-4 w-full md:w-[50%]'>
                                 <label htmlFor="answer13" className='text-zeta  font-semibold '>Sample Size</label>
@@ -331,85 +325,140 @@ className={` bg-white ${
                             </section>
                         )}
                     {
+                        (
+                            scientificData.answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+                        )
+                        && (
+                            <section className='my-5 p-5 md:leading-[2rem] md:w-[80%] border rounded-md block '>
+                                For case control study, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping ratio of controls to cases as
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24a'
+                                    value={scientificData.answer24a}
+                                    onChange={handleScientificDataChange}
+                                />
+                                , proportion of controls with exposure as
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24b'
+                                    value={scientificData.answer24b}
+                                    onChange={handleScientificDataChange}
+                                />
+                                and proportion of cases with exposure  <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24c'
+                                    value={scientificData.answer24c}
+                                    onChange={handleScientificDataChange}
+                                />, both proportions reported by a researcher from article title and url
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24d'
+                                    value={scientificData.answer24d}
+                                    onChange={handleScientificDataChange}
+                                />
+                                confidence limit as
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24e'
+                                    value={scientificData.answer24e}
+                                    onChange={handleScientificDataChange}
+                                />
+                                %, power of test
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24f'
+                                    value={scientificData.answer24f}
+                                    onChange={handleScientificDataChange}
+                                />,
+                                sample size comes out to be
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer24g'
+                                    value={scientificData.answer24g}
+                                    onChange={handleScientificDataChange}
+                                />
+                            </section>
+                        )}
+                    {
                         // Not to Include
                         (
- scientificData.answer11 !== 'Qualitative study (detailed interviews)'
- &&
- scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
-&&
- scientificData.answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
-&&
- scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
- &&
- scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
- &&
- scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
-                      
- &&
- scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
-               
-)
+                            scientificData.answer11 !== 'Qualitative study (detailed interviews)'
+                            &&
+                            scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
+                            &&
+                            scientificData.answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+                            &&
+                            scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+                            &&
+                            scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+                            &&
+                            scientificData.answer11 !== 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
+                            &&
+                            scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
+                        )
                         && (
                             <section className='my-5 p-5 md:leading-[2rem] md:w-[80%] border rounded-md block '>
                                 For cross sectional survey, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping estimated population size as
-                                
-                                              <input
-                                                className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                                type="text"
-                                                name='answer23a'
-                                                value={scientificData.answer23a}
-                                                onChange={handleScientificDataChange}
-                                            />
-                                            , (write 1000000 if the population size is unknown), prevalence of “outcome of interest” as 
-                                            
-                                            <input
-                                                className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                                type="text"
-                                                name='answer23b'
-                                                value={scientificData.answer23b}
-                                                onChange={handleScientificDataChange}
-                                            />
-
-                                             %, as reported by a researcher from article title and URL: <input
-                                                className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                                type="text"
-                                                name='answer23c'
-                                                value={scientificData.answer23c}
-                                                onChange={handleScientificDataChange}
-                                            />, absolute precision as 
-                                            
-                                            <input
-                                            className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                            type="text"
-                                            name='answer23d'
-                                            value={scientificData.answer23d}
-                                            onChange={handleScientificDataChange}
-                                        />
-                                            
-                                             sample size came out to be  
-                                            <input
-                                            className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                            type="text"
-                                            name='answer23e'
-                                            value={scientificData.answer23e}
-                                            onChange={handleScientificDataChange}
-                                        />
-                                        , for a confidence level of 
-                                           <input
-                                            className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
-                                            type="text"
-                                            name='answer23f'
-                                            value={scientificData.answer23f}
-                                            onChange={handleScientificDataChange}
-                                        />
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23a'
+                                    value={scientificData.answer23a}
+                                    onChange={handleScientificDataChange}
+                                />
+                                , (write 1000000 if the population size is unknown), prevalence of “outcome of interest” as
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23b'
+                                    value={scientificData.answer23b}
+                                    onChange={handleScientificDataChange}
+                                />
+                                %, as reported by a researcher from article title and URL: <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23c'
+                                    value={scientificData.answer23c}
+                                    onChange={handleScientificDataChange}
+                                />, absolute precision as
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23d'
+                                    value={scientificData.answer23d}
+                                    onChange={handleScientificDataChange}
+                                />
+                                sample size came out to be
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23e'
+                                    value={scientificData.answer23e}
+                                    onChange={handleScientificDataChange}
+                                />
+                                , for a confidence level of
+                                <input
+                                    className="outline-none my-1 px-2 w-[150px] border-b text-epsilon border-epsilon"
+                                    type="text"
+                                    name='answer23f'
+                                    value={scientificData.answer23f}
+                                    onChange={handleScientificDataChange}
+                                />
                             </section>
                         )}
                     {/* Question-14 labels section */}
                     {
-// yha pr wo ain ga  jo ka honga jin ma complete hide chie 
+                        // yha pr wo ain ga  jo ka honga jin ma complete hide chie 
                         scientificData.answer11 !== 'Qualitative study (detailed interviews)'
                         &&
-                        scientificData.answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
+                        scientificData.answer11 !== 'Descriptive cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
                         scientificData.answer11 !== 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)'
                         &&
                         scientificData.answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
@@ -418,18 +467,18 @@ className={` bg-white ${
                         &&
                         scientificData.answer11 !== 'Mixed-methods study (Interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
                         &&
-                        scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'       
+                        scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                         &&
                         (
                             <section className="my-5 md:leading-[2rem] md:w-[80%] border rounded-md block p-5">
                                 {
                                     (
-                                        scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
+                                        scientificData.answer11 !== 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
                                         &&
                                         scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
                                         &&
                                         scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
-&&
+                                        &&
                                         scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
                                     )
                                     && (
@@ -488,7 +537,7 @@ className={` bg-white ${
                                 {
                                     scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
                                     &&
-                                      scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
+                                    scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                                     &&
                                     (
                                         <div className="">
@@ -553,13 +602,11 @@ className={` bg-white ${
                                 {/* Question-16 labels section */}
                                 {
                                     (
-                                        scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
+                                        scientificData.answer11 !== 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
                                         &&
                                         scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
-
-  &&
+                                        &&
                                         scientificData.answer11 !== 'Cross-sectional study for finding association between variables'
-                                        
                                     )
                                     && (
                                         <div className="">
@@ -635,12 +682,20 @@ className={` bg-white ${
                     {
                         (scientificData.answer12 === 'Calculating frequencies in sample and other descriptive analysis only, no inferential analysis'
                             ||
-                            scientificData.answer11 === 'Before-after comparison study for 1 group which undergoes an exposure.'
-                            ||
                             scientificData.answer11 === 'Qualitative study (detailed interviews)'
-                            ||
-                            scientificData.answer11 === 'Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
                         )
+                        &&
+                        scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure'
+                        &&
+                        scientificData.answer11 !== 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+                        &&
+                        scientificData.answer11 !== 'Mixed-methods study (interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)'
+                        &&
+                        scientificData.answer11 !== 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
+                        &&
+                        scientificData.answer11 !== 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
+                        &&
+                        scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                         &&
                         (
                             <section className=' my-5  md:w-[80%]'>
@@ -707,14 +762,16 @@ className={` bg-white ${
                     {
                         (
                             scientificData.answer11 !== 'Qualitative study (detailed interviews)' &&
-                            scientificData.answer11 !== 'Before-after comparison study for 1 group which undergoes an exposure' &&
                             scientificData.answer11 !== 'Mixed-methods study (Interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)' &&
                             scientificData.answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' ||
                             scientificData.answer11 === 'Cross-sectional survey (information of a group recorded just once without following-up on them)' ||
-                            scientificData.answer11 === 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence' ||
                             scientificData.answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                             ||
+                            scientificData.answer11 === 'Before-after comparison study for 1 group which undergoes an exposure'
+                            ||
                             scientificData.answer11 === 'Longitudinal study (follow-up of 1 group for disease incidence; descriptive)'
+                            ||
+                            scientificData.answer11 === 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
                             ||
                             scientificData.answer11 === 'Retrospective cohort study (Records of exposure already recorded in past, and study starts with finding disease outcome in 2 groups)'
                         )
@@ -815,8 +872,8 @@ className={` bg-white ${
                                 </div>
                             </section>)}
                     {/* question-20*/}
-                    {scientificData.answer11 !== 'Cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
-                        scientificData.answer11 !== 'Prospective Cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
+                    {scientificData.answer11 !== 'Descriptive cross-sectional survey (information of a group recorded just once, without following-up on them)' &&
+                        scientificData.answer11 !== 'Prospective cohort study (starting with 2 groups exposed and unexposed, and following-up for comparing their disease incidence)'
                         &&
                         scientificData.answer11 !== 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                         &&

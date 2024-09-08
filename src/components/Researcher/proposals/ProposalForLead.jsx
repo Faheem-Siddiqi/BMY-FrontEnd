@@ -136,6 +136,19 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
         answer20: '',
         answer21: '',
         answer22: '',
+        answer23a: '',
+        answer23b: '',
+        answer23c: '',
+        answer23d: '',
+        answer23e: '',
+        answer23f: '',
+        answer24a: '',
+        answer24b: '',
+        answer24c: '',
+        answer24d: '',
+        answer24e: '',
+        answer24f: '',
+        answer24g: '',
         onlineQuestionnaires: ''
     });
     const [consentData, setConsentData] = useState({
@@ -196,8 +209,6 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             question3: ethicalReviewSection?.questions?.["Are the Risks to these participants (as mentioned in first table) less/ or at least not more than daily life risk?"] || '',
             question4: ethicalReviewSection?.questions?.["What level of confidentiality is provided to maintain privacy of patient information?"] || '',
             question5: ethicalReviewSection?.questions?.["What steps will you take to ensure security of data?"] || '',
-           
-           
             table5Answers: {
                 ...prevState.table5Answers,
                 table5a: ethicalReviewSection?.questions?.["Qualitative research on sensitive topics which may disturb young/vulnerable/female data collectors without provision of counseling and training'"] || '',
@@ -210,9 +221,9 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             },
             table6Answers: {
                 ...prevState.table6Answers,
-                table6a: ethicalReviewSection?.questions?.["New knowledge gained and scientific development"] || 'N/A',
-                table6b: ethicalReviewSection?.questions?.["Trainings/ educational interventions for participants"] || 'Moderate gains',
-                table6c: ethicalReviewSection?.questions?.["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || 'Minor gains',
+                table6a: ethicalReviewSection?.questions?.["New knowledge gained and scientific development"] || '',
+                table6b: ethicalReviewSection?.questions?.["Trainings/ educational interventions for participants"] || '',
+                table6c: ethicalReviewSection?.questions?.["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || '',
             },
             ethicalRisk: ethicalReviewSection?.questions?.["Ethical Risk"] || 0,
             table6Score: ethicalReviewSection?.questions?.["Benefit Score"] || 0,
@@ -286,7 +297,13 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             answer23d: scientificReviewSection?.questions?.["Absolute precision as"] || 'N/A',
             answer23e: scientificReviewSection?.questions?.["Sample size came out to be"] || 'N/A',
             answer23f: scientificReviewSection?.questions?.["For a confidence level of"] || 'N/A',
-
+            answer24a: scientificReviewSection?.questions?.["For case control study, sample size was calculated using online OpenEpi sample size calculator for proportion. Keeping ratio of controls to cases as"] || 'N/A',
+            answer24b: scientificReviewSection?.questions?.["For case control study, Proportion of controls with exposure as"] || 'N/A',
+            answer24c: scientificReviewSection?.questions?.["For case control study, Proportion of cases with exposure as"] || 'N/A',
+            answer24d: scientificReviewSection?.questions?.["For case control study, Both proportions reported by a researcher from article title and url"] || 'N/A',
+            answer24e: scientificReviewSection?.questions?.["Both proportions reported by a researcher with confidence limit as"] || 'N/A',
+            answer24f: scientificReviewSection?.questions?.["%, power of test"] || 'N/A',
+            answer24g: scientificReviewSection?.questions?.["For case control study sample size comes out to be"] || 'N/A',
             onlineQuestionnaires: scientificReviewSection?.questions?.["Online questionnaires/ google forms"] || 'N/A',
         }));
         if (hasMissingQuestions) {
@@ -311,35 +328,35 @@ export default function ProposalForLead({ LeadproposalData, setSectionQnasUndefi
             case 'information':
                 return (
                     <Information
-                    sectionAssigned={['none']}
+                        sectionAssigned={['none']}
                         formData={informationData}
                     />
                 );
             case 'Scientific Review':
                 return (
                     <ScientificReview
-                    sectionAssigned={['none']}
+                        sectionAssigned={['none']}
                         scientificData={scientificData}
                     />
                 )
             case 'Ethical Review':
                 return (
                     <EthicalReview
-                    sectionAssigned={['none']}
+                        sectionAssigned={['none']}
                         ethicalData={ethicalData}
                     />
                 );
             case 'Consent':
                 return (
                     <Consent
-                    sectionAssigned={['none']}
+                        sectionAssigned={['none']}
                         formData={consentData}
                     />
                 );
             default:
                 return (
                     <Information
-                    sectionAssigned={['none']}
+                        sectionAssigned={['none']}
                         formData={informationData}
                     />
                 );
