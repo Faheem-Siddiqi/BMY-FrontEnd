@@ -76,12 +76,7 @@ export default function LearnMore() {
                             Read More
                         </Link>
                     </div>
-                    <div>
-                        <p className='my-3 text-xl font-bold'>ERC Online Application</p>
-                        <Link to='https://docs.google.com/forms/d/e/1FAIpQLSfmEnvuc4vV1ciG8kcdjw8j8CRgk-oJb403KwwtaIX12w2QdA/viewform' className="bg-zeta text-white px-4 py-2 rounded ">
-                            Read More
-                        </Link>
-                    </div>
+                 
                 </div>
             </div>
             <div className=" text-[#092b09] p-8 rounded-lg shadow-md">

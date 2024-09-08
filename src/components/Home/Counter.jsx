@@ -33,7 +33,7 @@ export default function Counter() {
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg  border border-opacity-15 text-center">
               <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
-                  <CountUp start={0} end={110} duration={2} delay={0} />
+                  <CountUp start={0} end={69} duration={2} delay={0} />
                 )}
                 +
               </h2>
@@ -42,7 +42,7 @@ export default function Counter() {
             <div className="bg-white p-6  min-h-[15rem] rounded-lg shadow-lg  border border-opacity-15 text-center">
               <h2 className="text-7xl my-5 font-bold text-green-600 font-WorkSans-Regular">
                 {counterOn && (
-                  <CountUp start={0} end={110} duration={2} delay={0} />
+                  <CountUp start={0} end={5} duration={2} delay={0} />
                 )}
               </h2>
               <p className="my-5 text-gray-600 font-Satoshi-Black">Research Internship Batches Facilitated</p>
