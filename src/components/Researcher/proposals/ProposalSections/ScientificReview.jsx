@@ -764,7 +764,7 @@ export default function ScientificReview({ scientificData, onChange, onSubmit, s
                             scientificData.answer11 !== 'Qualitative study (detailed interviews)' &&
                             scientificData.answer11 !== 'Mixed-methods study (Interviews for quality of variable AS WELL AS close ended questionnaire surveys for quantity of variable)' &&
                             scientificData.answer12 === 'Estimating prevalence, and/or relating variables using test of significance (inferential analysis)' ||
-                            scientificData.answer11 === 'Cross-sectional survey (information of a group recorded just once without following-up on them)' ||
+                            scientificData.answer11 === 'Cross-sectional study for finding association between variables' ||
                             scientificData.answer11 === 'Case-control study (starting with 2 groups cases and controls, and recalling past history of exposures)'
                             ||
                             scientificData.answer11 === 'Before-after comparison study for 1 group which undergoes an exposure'
