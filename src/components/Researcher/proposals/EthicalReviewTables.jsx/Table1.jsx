@@ -93,7 +93,7 @@ export default function Table1({
 
              <>
             
-            <section className='my-5 md:w-[80%]'>
+            <section className='mt-5 '>
                 <p className="mb-2 text-zeta font-semibold">
                     In case of any such risk, is the participant informed about risks in detail at the time of informed consent?
                 </p>

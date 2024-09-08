@@ -14,8 +14,8 @@ export default function Table3({ table3Answers,  handleTable3AnswerChange }) {
 
     return (
         <section className='mb-4 overflow-x-scroll'>
-            <p className="mb-2 text-zeta font-semibold w-full md:w-[50%]">
-                Ethical considerations for specific populations
+            <p className="mb-2 text-zeta font-semibold w-full ">
+                Ethical considerations in subject selection. Does your study participants include any of the following group?
             </p>
             <table className='w-full text-center border border-epsilon'>
                 <thead>

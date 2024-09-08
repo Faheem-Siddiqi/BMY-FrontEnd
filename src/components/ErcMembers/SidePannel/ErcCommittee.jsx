@@ -164,9 +164,9 @@ export default function ErcCommittee() {
                 value={selectedValue}
                 onChange={(e) => setSelectedValue(e.target.value)}
               >
-                <option className='text-left' disabled>Select Status</option>
+                <option className='text-left' >Select Status</option>
                 <option className='text-left' value="ercHead">ERC Team</option>
-                <option selected={true} className='text-left' value="accepted">Approved</option>
+                <option  className='text-left' value="accepted">Approved</option>
               </select>
             </div>
             {arrayToDisplay.length > 0 ? (

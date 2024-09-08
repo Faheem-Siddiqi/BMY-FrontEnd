@@ -95,7 +95,7 @@ export default function Table4({
                     </>
                 )}
             {/* Question-3 */}
-            <section className='my-5 md:w-[80%]'>
+            <section className='mt-5'>
                 <p className="mb-2 text-zeta font-semibold">
                     Is the research excluding groups such as elderly, women, pregnant, language barrier from research without scientific evidence of these groups being at risk in given scenario of your research?
                 </p>

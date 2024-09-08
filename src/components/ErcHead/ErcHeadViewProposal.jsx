@@ -84,6 +84,9 @@ export default function ErcHeadViewProposal() {
                         reviews: Array.isArray(proposal.reviews) ? proposal.reviews : [],
                     };
                     setProposalDetail(formattedProposal);
+                    // console.log('console')
+                    // console.log(formattedProposal)
+                    // console.log('console')
                 } else {
                     toast.error('Proposal not found.');
                 }

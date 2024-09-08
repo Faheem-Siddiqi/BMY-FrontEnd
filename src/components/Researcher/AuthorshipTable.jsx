@@ -8,9 +8,7 @@ const AuthorshipTable = () => {
         { name: 'JohnDoe', email: 'john@example.com', role: 'Admin' },
         { name: 'Jane Smith', email: 'jane@example.com Lorem ipsum, dolor sit amet consectetur adipisicing elit. In obcaecati eveniet dignissimos quasi et a officiis harum aut aperiam amet voluptates eum accusamus impedit velit tenetur, quod, animi eligendi dolores', role: 'User' },
         { name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor' },
-      ];
-
-
+    ];
     const [rows, setRows] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
     const [form, setForm] = useState({
@@ -20,7 +18,7 @@ const AuthorshipTable = () => {
         confidence: '',
     });
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         setForm({ ...form, [name]: value });
     };
     const handleAddRow = () => {
@@ -114,104 +112,33 @@ const AuthorshipTable = () => {
                                     </button>
                                 </form>
 
-
-                        
-<div className="overflow-x-auto">
-      <table className="min-w-full border    border-collapse hidden md:table">
-        <thead className="bg-zeta border-zeta border-collapse text-white border ">
-          <tr>
-            <th className="py-2 px-4 w-[16%]  text-left">Author Position</th>
-            <th className="py-2 px-4  w-[25%]  text-left">Author Name</th>
-            <th className="py-2 px-4  w-[31%]  text-left">Justification</th>
-            <th className="py-2 px-4 w-[15%]    text-left">Confidence % </th>
-            <th className="py-2 px-4 w-[10%]   text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index} className="">
-              <td className="py-2 px-4 border border-zeta border-opacity-15  border-collapse ">{row.name}</td>
-              <td className="py-2 px-4 border border-zeta  border-opacity-15 border-collapse">{row.email}</td>
-              <td className="py-2 px-4  border border-zeta border-opacity-15  border-collapse">{row.role}</td>
-              <td className="py-2 px-4  border border-zeta border-opacity-15  border-collapse">{row.role}</td>
-              <td className="py-2 px-4  border border-zeta border-opacity-15 border-collapse items-center  flex flex-row  ">
-
-              <button
-                                                            onClick={() => handleEditRow(index)}
-                                                            className="bg-epsilon text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
-                                                        >
-                                                            <FaEdit className='m-1 text-[14px]' />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleDeleteRow(index)}
-                                                            className="bg-red-500 text-white rounded-md w-fit hover:bg-red-600 duration-300 mr-2"
-                                                        >
-                                                            <FaTrash className='m-1 text-[14px]' />
-                                                        </button>
-
-                
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Mobile View */}
-      <div className="block md:hidden">
-        {data.map((row, index) => (
-          <div key={index} className="px-4 mb-10">
-            <div className="flex ">
-              <span className="w-[35%] font-semibold bg-zeta rounded-tl p-2 text-white "> Position</span>
-              <span className='w-[65%] border  rounded-tr px-1 '>{row.name}</span>
-            </div>
-            <div className="flex   ">
-              <span className=" w-[35%] font-semibold p-2 bg-zeta text-white"> Name</span>
-              <span className='w-[65%] border  px-1'>{row.email}</span>
-            </div>
-            <div className="flex  ">
-              <span className=" w-[35%] font-semibold bg-zeta  p-2 text-white">Justification</span>
-              <span className='w-[65%] border  px-1'>{row.role}</span>
-            </div>
-
-            <div className="flex  ">
-              <span className=" w-[35%] font-semibold bg-zeta  p-2 text-white">Confidence </span>
-              <span className='w-[65%] border  px-1'>{row.role}</span>
-            </div>
-
-            <div className="flex  ">
-              <span className=" w-[35%] font-semibold bg-zeta rounded-bl p-2 text-white">Action</span>
-              <span className='w-[65%] border px-1'>{row.role}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-        
-
-        <br /><br />
-
-                                <div className='max-w-full  md:px-0  px-5  overflow-scroll'>
-                                    <table className=" border-collapse border w-full border-gray-300">
-                                        <thead>
-                                            <tr className="bg-epsilon text-white">
-                                                <th className="border border-gray-300 p-2  max-w-[20%] text-left">Author Position</th>
-                                                <th className="border border-gray-300 p-2   max-w-[20%] text-left">Author Name</th>
-                                                <th className="border border-gray-300 p-2  max-w-[20%] text-left">Justification</th>
-                                                <th className="border border-gray-300 p-2  max-w-[20%]  text-left">Confidence Percent </th>
-                                                <th className="border border-gray-300 p-2  max-w-[20%] text-left">Actions</th>
+                                {rows.length > 0  && (<>
+                             
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full border    border-collapse hidden md:table">
+                                        <thead className="bg-zeta border-zeta border-collapse text-white border ">
+                                            <tr>
+                                                <th className="py-2 px-4 w-[16%]  text-left">Author Position</th>
+                                                <th className="py-2 px-4  w-[25%]  text-left">Author Name</th>
+                                                <th className="py-2 px-4  w-[31%]  text-left">Justification</th>
+                                                <th className="py-2 px-4 w-[15%]    text-left">Confidence % </th>
+                                                <th className="py-2 px-4 w-[10%]   text-left">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+
+
                                             {rows.map((row, index) => (
-                                                <tr key={index} className="odd:bg-gray-50 ]">
-                                                    <td className="border border-gray-300  max-w-[20%] p-2">{row.position}</td>
-                                                    <td className="border border-gray-300 max-w-[20%] p-2">{row.name}</td>
-                                                    <td className="border border-gray-300  max-w-[23%] p-2">{row.justification}</td>
-                                                    <td className="border border-gray-300  max-w-[20%]  p-2">{row.confidence}</td>
-                                                    <td className="border border-gray-300 max-w-[17%]  p-2">
+                                                <tr key={index} className="">
+                                                    <td className="py-2 px-4  border   ">{row.position}</td>
+                                                    <td className="py-2 px-4 border ">{row.name}</td>
+                                                    <td className="py-2 px-4  border">{row.justification}</td>
+                                                    <td className="py-2 px-4  border ">{row.confidence}</td>
+                                                    <td className="py-2 px-4    border  ">
+                                                        <div className=' items-center  flex flex-row'>
                                                         <button
                                                             onClick={() => handleEditRow(index)}
-                                                            className="bg-epsilon text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
+                                                            className="bg-epsilon  text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
                                                         >
                                                             <FaEdit className='m-1 text-[14px]' />
                                                         </button>
@@ -221,12 +148,55 @@ const AuthorshipTable = () => {
                                                         >
                                                             <FaTrash className='m-1 text-[14px]' />
                                                         </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    {/* Mobile View */}
+                                    <div className="block md:hidden ">
+                                        {rows.map((row, index) => (
+                                            <div key={index} className="px-4 mb-10">
+                                                <div className="flex gap-1 ">
+                                                    <span className="w-[35%]  bg-zeta rounded-tl p-2 text-white "> Position</span>
+                                                    <span className='w-[65%] border  rounded-tr px-1 '>{row.position}</span>
+                                                </div>
+                                                <div className="flex   ">
+                                                    <span className=" w-[35%]  p-2 bg-zeta text-white"> Name</span>
+                                                    <span className='w-[65%] border  px-1'>{row.name}</span>
+                                                </div>
+                                                <div className="flex  ">
+                                                    <span className=" w-[35%]  bg-zeta  p-2 text-white">Justification</span>
+                                                    <span className='w-[65%] border  px-1'>{row.justification}</span>
+                                                </div>
+                                                <div className="flex  ">
+                                                    <span className=" w-[35%]  bg-zeta  p-2 text-white">Confidence </span>
+                                                    <span className='w-[65%] border  px-1'>{row.confidence}</span>
+                                                </div>
+                                                <div className="flex  ">
+                                                    <span className=" w-[35%]  bg-zeta rounded-bl p-2 text-white">Action</span>
+                                                    <span className=' items-center  mx-1 flex flex-row'>
+                                                        <button
+                                                            onClick={() => handleEditRow(index)}
+                                                            className="bg-epsilon  text-white rounded-md w-fit hover:bg-zeta duration-300 mr-2"
+                                                        >
+                                                            <FaEdit className='m-1 text-[14px]' />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteRow(index)}
+                                                            className="bg-red-500 text-white rounded-md w-fit hover:bg-red-600 duration-300 mr-2"
+                                                        >
+                                                            <FaTrash className='m-1 text-[14px]' />
+                                                        </button>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
+                                </>)}
+                            
                                 <h2 className='text-md mt-5  md:px-0  px-5  font-bold text-zeta'>
                                     Justification
                                 </h2>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Proposal from '../../letters/Proposal.jsx';
 import { ImFilesEmpty } from "react-icons/im";
+import { MdAttachEmail } from "react-icons/md";
 import Audit from '../../letters/Audit.jsx'
 import Approval from '../../letters/Approval.jsx'
 import MOM from '../../letters/MOM.jsx'
+
 const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers, acceptedAt }) => {
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
@@ -39,9 +41,11 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
             </td>
             <>
                 <td className='p-4'>
-                    <div className='flex  items-center   border-epsilon border py-1 px-2  w-fit  rounded gap-2'>
-                        {
-                            selectedOption === 'option2' && (
+
+              
+                    <div className='flex  items-center justify-center gap-2  w-fit  rounded '>
+                    {
+                            selectedOption === 'approvalLetter' && (
                                 <Approval
                                     title={title}
                                     GroupLead={GroupLead}
@@ -52,7 +56,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                                 />
                             )}
                         {
-                            selectedOption === 'option1' &&
+                            selectedOption === 'auditLetter' &&
                             (
                                 <Audit
                                     title={title}
@@ -65,7 +69,7 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                             )
                         }
                         {
-                            selectedOption === 'option3' &&
+                            selectedOption === 'momLetter' &&
                             (
                                 <MOM
                                     title={title}
@@ -78,18 +82,23 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                                 />
                             )
                         }
-                        <select
-                            className='w-fit  bg-transparent outline-none bg-none'
-                            name="options"
-                            id="options"
-                            value={selectedOption}
-                            onChange={handleChange}
-                        >
-                            {/* <option value="option1">Audit</option> */}
-                            <option value="option2">Approval</option>
-                            <option value="option3">MOM</option>
-                            {/* <option value="option4">Synopsis</option> */}
-                        </select>
+
+{
+                            selectedOption === 'nothing' &&
+                            (<MdAttachEmail  className='text-2xl text-epsilon'/>                             
+                            )
+                        }
+
+                
+<select 
+ value={selectedOption}
+ onChange={handleChange}
+ className="select select-info  border-epsilon border rounded  w-fit outline-none bg-transparent">
+<option className='' value="nothing">Select Letter</option>
+<option value="approvalLetter">Approval</option>
+<option value="momLetter">MOM</option>
+</select>
+                        
                     </div>
                 </td>
             </>

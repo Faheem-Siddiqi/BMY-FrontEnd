@@ -164,7 +164,7 @@ export default function ErcHeadTeam() {
                 value={selectedValue}
                 onChange={(e) => setSelectedValue(e.target.value)}
               >
-                <option className='text-left' disabled>Select Status</option>
+                   <option className='text-left' >Select Status</option>
                 <option className='text-left' value="notSubmit">Member</option>
                 <option className='text-left' value="supervisor">Supervisor</option>
                 <option className='text-left' value="ercHead">ERC Team</option>
