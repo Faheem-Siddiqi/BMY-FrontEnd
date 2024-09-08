@@ -288,9 +288,9 @@ export default function Proposal({ proposalData, assignProposal, role }) {
             },
             table6Answers: {
                 ...prevState.table6Answers,
-                table6a: ethicalReviewSection?.questions?.["New knowledge gained and scientific development"] || 'N/A',
-                table6b: ethicalReviewSection?.questions?.["Trainings/ educational interventions for participants"] || 'Moderate gains',
-                table6c: ethicalReviewSection?.questions?.["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || 'Minor gains',
+                table6a: ethicalReviewSection?.questions?.["New knowledge gained and scientific development"] || '',
+                table6b: ethicalReviewSection?.questions?.["Trainings/ educational interventions for participants"] || '',
+                table6c: ethicalReviewSection?.questions?.["Early disease diagnosis/ screening of disease that helps patient in getting timely treatment. For such benefit research should include a step of informing patients of their diagnosis after data collection."] || '',
             },
             ethicalRisk: ethicalReviewSection?.questions?.["Ethical Risk"] || 0,
             table6Score: ethicalReviewSection?.questions?.["Benefit Score"] || 0,
