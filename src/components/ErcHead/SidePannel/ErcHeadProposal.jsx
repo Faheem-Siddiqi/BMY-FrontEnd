@@ -158,8 +158,8 @@ export default function ErcHeadProposal() {
                   rowData={previousProposals.map(proposal => ({
                     PropossalID: proposal?._id || '',
                     GroupLead: proposal?.leadName || 'N/A',
-                    EthicalRisk: proposal?.sections?.ethicalReview?.questions['Benefit Score'] || 0,
-                    BenefitScore: proposal?.sections?.ethicalReview?.questions['Ethical Risk'] || 0,
+                    EthicalRisk: proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] ?? 0,
+                    BenefitScore: proposal?.sections?.ethicalReview?.questions?.['Ethical Risk'] ?? 0,
                     sections: proposal?.sections || {},
                     title: proposal?.title || '',
                     sections: proposal.sections,
