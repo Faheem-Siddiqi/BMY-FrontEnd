@@ -91,44 +91,47 @@ export default function EditProfile() {
   const dataUpdateFail = () => toast.error("Data Update Failed");
   // HANDLE PARENT AND LOCAL STATE CHANGES FOR PEROSONAL INFORMATION COMPONENT. USING ASYC SINCE WE NEED URL FOR IMAGE
   const handlePersonalInformation = async (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      const file = files[0];
-      if (file) {
-        try {
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
-          const token = getCookie("token");
-          myHeaders.append("Authorization", `Bearer ${token}`);
-          const formData = new FormData();
-          formData.append("filename", file);
-          const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
-            method: "POST",
-            body: formData,
-            headers: myHeaders,
-            redirect: "follow"
-          });
-          const result = await response.json();
-          if (response.ok) {
-            const fileUrl = result.url;
-            setPersonalInformation((prevState) => ({
-              ...prevState,
-              profileImg: fileUrl,
-            }));
-          } else {
-            console.error('Error uploading file:', result.message || 'Unknown error');
-          }
-        } catch (error) {
-          console.error('Error uploading file:', error);
+  const { name, value, type, files } = e.target;
+  if (type === "file") {
+    const file = files[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("filename", file);
+
+        const token = getCookie("token");
+
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile?filename`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Authorization": `Bearer ${token}`,  // Only include the Authorization header
+          },
+          credentials: "include",  // If you're using cookies or need credentials
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          const fileUrl = result.url;
+          setPersonalInformation((prevState) => ({
+            ...prevState,
+            profileImg: fileUrl,
+          }));
+        } else {
+          console.error('Error uploading file:', result.message || 'Unknown error');
         }
+      } catch (error) {
+        console.error('Error uploading file:', error);
       }
-    } else {
-      setPersonalInformation((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
     }
-  };
+  } else {
+    setPersonalInformation((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+};
+
   //PUT RESQUEST FOR PERSONAL  INFORMATION
   const handlePersonalInformationSubmission = async () => {
     try {
