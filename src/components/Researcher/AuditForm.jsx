@@ -38,21 +38,24 @@ export default function AuditForm() {
             
             if (file) {
                 try {
-                    const token = getCookie("token");
-                    const myHeaders = new Headers();
-                    myHeaders.append("Content-Type", "application/json");
+                 
                  
                     myHeaders.append("Authorization", `Bearer ${token}`);
                     const filesData = new FormData();
                     filesData.append("file", file);
-    
+                    const token = getCookie("token");
+                    const myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
                     // Fetch request
                     const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile`, {
                         method: "POST",
                         body: filesData,
-                        headers: myHeaders
+                        headers: myHeaders,
+                        redirect: "follow"
+
                     });
     
+
                     const result = await response.json();
     
                     if (response.ok && result.success) {
@@ -66,10 +69,12 @@ export default function AuditForm() {
                             [name]: fileUrl
                         }));
                     } else {
+                        console.log('Error uploading file:', result.message || 'Unknown error');
                         toast.error(result.message || 'File upload failed.');
                     }
                 } catch (error) {
                     toast.error(`Error: ${error.message}`);
+                    console.log('Error uploading file:', result.message || 'Unknown error');
                 }
             }
         } else {
