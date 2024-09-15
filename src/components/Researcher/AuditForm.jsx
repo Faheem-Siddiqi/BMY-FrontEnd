@@ -34,13 +34,15 @@ export default function AuditForm() {
     
         if (type === 'file') {
             const file = files[0];
-            console.log('File change detected');
+           
             
             if (file) {
                 try {
                     const token = getCookie("token");
-    
-                    // Create FormData instance
+                    const myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
+                 
+                    myHeaders.append("Authorization", `Bearer ${token}`);
                     const filesData = new FormData();
                     filesData.append("file", file);
     
@@ -48,9 +50,7 @@ export default function AuditForm() {
                     const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile`, {
                         method: "POST",
                         body: filesData,
-                        headers: {
-                            Authorization: token ? `Bearer ${token}` : ''
-                        }
+                        headers: myHeaders
                     });
     
                     const result = await response.json();
@@ -300,9 +300,9 @@ export default function AuditForm() {
                                     {fetchMembers.map((user, index) => (
                                         <>
                                             <div key={index} className="my-2 bg-stone-50 w-full  p-2 ">
-                                                <h2>Email: {user.fullname}</h2>
-                                                <p>Email:  {user.workemail}</p>
-                                                <p>Role:   {user.role}</p>
+                                            <h2>Name: {user.fullname || 'Not provided'}</h2>
+            <p>Email: {user.workemail || 'Not provided'}</p>
+            <p>Role: {user.role || 'Not specified'}</p>
                                             </div>
                                         </>
                                     ))}
