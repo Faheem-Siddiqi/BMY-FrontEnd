@@ -53,10 +53,11 @@ export default function ResearcherProposal() {
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
                 return `${number}-${month}-${year}`;
-            })() : 'N/A',
+              })() : 'N/A',
               acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
             };
-              // console.log(formattedProposal)
+            // console.log(result)
+            // console.log(formattedProposal)
             // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
@@ -128,6 +129,25 @@ export default function ResearcherProposal() {
                 </header>
               </>)}
             </section>
+            {previousProposals && previousProposals.length > 0 && (
+              <>
+                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
+                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                  ADD 3 month condition
+                  {previousProposals.map(proposal => (
+                    <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                      <ImFilesEmpty className='text-2xl' />
+                      <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                        <span className='font-bold'>Opinion For Proposal:</span>
+                        <span className='mx-1 text-epsilon'>
+                          BMY-{proposal.BMYid}
+                        </span>
+                      </Link>
+                    </div>
+                  ))}
+                </header>
+              </>
+            )}
             <section className='md:my-10 my-5'>
               <h1 className='font-semibold text-xl my-2'>Previous Proposals</h1>
               {previousProposals && previousProposals.length > 0 ? (

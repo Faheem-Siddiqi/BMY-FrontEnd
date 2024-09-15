@@ -23,8 +23,8 @@ export default function MentorProposal() {
                 myHeaders.append("Content-Type", "application/json");
                 const token = getCookie("token");
                 myHeaders.append("Authorization", `Bearer ${token}`);
-                const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
-                    method: "GET",
+                const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/addAuthorshipEntry`, {
+                    method: "PATCH",
                     redirect: "follow",
                     headers: myHeaders,
                     credentials: "include",

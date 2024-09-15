@@ -82,11 +82,12 @@ function App() {
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="*" element={<PageNotFound />} />
+{/* Authorship */}
 
-
-          <Route path="/audit-form" element={<AuditForm/>} />
+<Route path="/authorship-opinion-table/:proposalId" element={<AuthorshipTable />} />
+          <Route path="/audit-form/:proposalId" element={<AuditForm/>} />
           <Route path="/review-audit-form" element={<ReviewAudit/>} />
-          <Route path="/authorship-table" element={<AuthorshipTable/>} />
+          {/* <Route path="/authorship-table" element={<AuthorshipTable/>} /> */}
           {/* admin */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<Adminlogin />} />

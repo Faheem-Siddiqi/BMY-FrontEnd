@@ -1,19 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../layout/Sidebar.jsx';
-import { ImFilesEmpty } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import UserNavbar from '../layout/Navs/UserNavbar.jsx';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
+import Loader from '../layout/Loader.jsx'
+import { getCookie } from "cookies-next";
+import { useParams } from 'react-router-dom';
 export default function AuditForm() {
+    const { proposalId } = useParams();
+    const [fetchMembers, setFetchMembers] = useState([])
+    const [loading, setLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
+
+
+
+    const [formData, setFormData] = useState({
+        manuscript: null,
+        dataFile: null,
+        plagiarismReport: null,
+        aiDetectionReport: null,
+        informedConsent: '',
+        dataPrivacy: '',
+        harmRecorded: ''
+    });
+
+
+
+
+    // Assuming you are using react-toastify for notifications
+
+    const handleChange = async (e) => {
+        const { name, type, files, value } = e.target;
+    
+        if (type === 'file') {
+            const file = files[0];
+            console.log('File change detected');
+            
+            if (file) {
+                try {
+                    const token = getCookie("token");
+    
+                    // Create FormData instance
+                    const filesData = new FormData();
+                    filesData.append("file", file);
+    
+                    // Fetch request
+                    const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/uploadFile`, {
+                        method: "POST",
+                        body: filesData,
+                        headers: {
+                            Authorization: token ? `Bearer ${token}` : ''
+                        }
+                    });
+    
+                    const result = await response.json();
+    
+                    if (response.ok && result.success) {
+                        const fileUrl = result.url;
+                        alert(fileUrl);
+                        console.log(fileUrl);
+    
+                        // Update state
+                        setFormData(prevState => ({
+                            ...prevState,
+                            [name]: fileUrl
+                        }));
+                    } else {
+                        toast.error(result.message || 'File upload failed.');
+                    }
+                } catch (error) {
+                    toast.error(`Error: ${error.message}`);
+                }
+            }
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+    
+        // Log the updated state after a slight delay
+        // Consider using useEffect to monitor formData changes if needed
+    };
+    
+
+    const [fetchingDataLoad, SetFetchingDataLoad] = useState(false);
+    const checkTeamAuthorship = async () => {
+        SetFetchingDataLoad(true)
+        if (!proposalId) {
+            toast.error('Proposal ID is missing.');
+            SetFetchingDataLoad(false);
+            return;
+        }
+        try {
+         
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+            if (token) {
+                myHeaders.append("Authorization", `Bearer ${token}`);
+            }
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/fetch-users-without-authorship-entry`, {
+                method: 'POST',
+                headers: myHeaders,
+                credentials: 'include',
+                body: JSON.stringify({ proposalId })
+            });
+            if (!response.ok) {
+                console.log(response)
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            if (result.success) {
+                setFetchMembers(result.users);
+            } else {
+                toast.error(result.message);
+            }
+        } catch (error) {
+            toast.error(`Error: ${error.message}`);
+            console.log(error)
+        } finally {
+            SetFetchingDataLoad(false);
+        }
+    };
+    useEffect(() => {
+        checkTeamAuthorship();
+    }, [proposalId]);
+    if (fetchingDataLoad) {
+        return (
+            <Loader />)
+    }
     return (
         <>
-
-
-
-
+            <Toaster position="top-center" reverseOrder={false} />
             <div className="flex xl:flex-row flex-col font-WorkSans-Regular">
                 <Sidebar pageName='' />
-                <section className='w-full xl:w-[85%] bg-lightBackground h-screen overflow-y-scroll'>
+                <section className='w-full xl:w-[85%] bg-stone-50 h-screen overflow-y-scroll'>
                     <UserNavbar />
                     <div className='xl:m-10 '>
                         <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
@@ -44,15 +166,15 @@ export default function AuditForm() {
                                         </ul>
                                     </div>
                                 </label>
-
-                              
                                 <input
                                     type='file'
-                                    id=''
-                                    name=''
-                                    accept='.doc,.docx'
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-[90%] md:w-[50%] outline-none'
-                                    placeholder='Add Details'
+                                    id='manuscript'
+                                    name='manuscript'
+                                    value={formData.manuscript}
+                                    onChange={handleChange}
+                                    // accept='.doc,.docx'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 w-[90%] md:w-[50%] outline-none'
+                                    placeholder='Add File'
                                 />
                             </section>
                             <section className='mb-4 w-full md:w-[100%]'>
@@ -65,11 +187,12 @@ export default function AuditForm() {
                                 </label>
                                 <input
                                     type='file'
-                                    id=''
-                                    name=''
-                                    accept='.doc,.docx'
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
-                                    placeholder='Add Details'
+                                    id='dataFile'
+                                    name='dataFile'
+                                    value={formData.dataFile}
+                                    onChange={handleChange}
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 md:w-[50%] outline-none'
+                                    placeholder='Add File'
                                 />
                             </section>
                             <section className='mb-4 w-full md:w-[100%]'>
@@ -82,10 +205,11 @@ export default function AuditForm() {
                                 </label>
                                 <input
                                     type='file'
-                                    id=''
-                                    name=''
-                                    accept='.doc,.docx'
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    id='plagiarismReport'
+                                    onChange={handleChange}
+                                    value={formData.plagiarismReport}
+                                    name='plagiarismReport'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 />
                             </section>
@@ -102,10 +226,11 @@ export default function AuditForm() {
                                 </label>
                                 <input
                                     type='file'
-                                    id=''
-                                    name=''
-                                    accept='.pdf'
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 md:w-[50%] outline-none'
+                                    id='aiDetectionReport'
+                                    onChange={handleChange}
+                                    value={formData.aiDetectionReport}
+                                    name='aiDetectionReport'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 />
                             </section>
@@ -118,10 +243,12 @@ export default function AuditForm() {
                                     </h2>
                                 </label>
                                 <textarea
-                                    id=''
-                                    name=''
+                                     id='informedConsent'
+                                    name='informedConsent'
+                                    value={formData.informedConsent}
+                                    onChange={handleChange}
                                     rows={4}
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full md:w-[50%] outline-none'
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>
@@ -132,12 +259,15 @@ export default function AuditForm() {
                                     <h2 className='text-md'>
                                         6. Inform how was data privacy, and confidentiality ensured as claimed in the proposal submission. Also inform if data is stored in any other places/ shared with someone externally e.g. with any service provider.
                                     </h2>
+                                   
                                 </label>
                                 <textarea
                                     rows={4}
-                                    id=''
-                                    name=''
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2  w-full md:w-[50%] outline-none'
+                                      id='dataPrivacy'
+                                    name='dataPrivacy'
+                                    value={formData.dataPrivacy}
+                                    onChange={handleChange}
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2  w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>
@@ -151,24 +281,41 @@ export default function AuditForm() {
                                 </label>
                                 <textarea
                                     rows={4}
-                                    id=''
-                                    name=''
-                                    className='border mt-2 rounded-md block py-[0.67rem] bg-lightBackground border-stone-300 px-2 w-full md:w-[50%] outline-none'
+                                    id='harmRecorded'
+                                    name='harmRecorded'
+                                    value={formData.harmRecorded}
+                                    onChange={handleChange}
+                                    className='border mt-2 rounded-md block py-[0.67rem] bg-stone-50 px-2 w-full md:w-[50%] outline-none'
                                     placeholder='Add Details'
                                 ></textarea>
                             </section>
-
-                          
-
-
-
-<p className='mt-5'>
-                                Reponse Not Submitted By: <br />
-                                Faheem (researcher)
-
-                            </p>
-                          
-
+                            <div className='mt-5'>
+                                <div className='border-l-2 border-l-epsilon font-semibold md:p-3 p-5 '>
+                                    Disclaimer
+                                    <p className='font-normal'>
+                                        Following Team Members have not submitted the authorship opinion form yet:
+                                    </p>
+                                </div>
+                                <div className='grid gird-cols-1 md:grid-cols-2 w-full my-5  gap-5'>
+                                    {fetchMembers.map((user, index) => (
+                                        <>
+                                            <div key={index} className="my-2 bg-stone-50 w-full  p-2 ">
+                                                <h2>Email: {user.fullname}</h2>
+                                                <p>Email:  {user.workemail}</p>
+                                                <p>Role:   {user.role}</p>
+                                            </div>
+                                        </>
+                                    ))}
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                // onClick={SubmitAuditOpinion}
+                                className={`w-fit flex md:m-0 m-5 font-Satoshi-Black duration-300 text-white py-2 px-4 ${!submitLoading ? 'bg-epsilon hover:bg-zeta' : 'bg-gray-400 cursor-not-allowed'}`}
+                                disabled={submitLoading}
+                            >
+                                {submitLoading ? 'Submitting' : 'Submit'}
+                            </button>
                         </header>
                     </div>
                 </section>

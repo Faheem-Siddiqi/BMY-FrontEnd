@@ -130,6 +130,35 @@ export default function SupervisorProposals() {
               </header>
             </>)}
             {/* */}
+
+
+            {previousProposals && previousProposals.length > 0 && (
+              <>
+                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
+                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                Add 3 Month Condition
+                  {previousProposals.map(proposal => (
+
+                    <>
+                     <div key={proposal.id} className="flex items-center gap-1 mb-3">
+                      <ImFilesEmpty className='text-2xl' />
+                      <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                        <span className='font-bold'>Opinion For Proposal:</span>
+                        <span className='mx-1 text-epsilon'>
+                          BMY-{proposal.BMYid}
+                        </span>
+                      </Link>
+                    </div>          
+                    </>
+                   
+                  ))}
+                  
+                </header>
+              </>
+            )}
+
+
+
             <section className="my-5 md:my-10">
               <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Previous Proposals</h1>
               {previousProposals && previousProposals.length > 0 ? (
