@@ -54,7 +54,7 @@ export default function ResercherLeadProposals() {
               lead: formattedProposal.creator?.fullname || ' ',
             };
             setProposalDetail(formattedProposalDetail);
-            // console.log(result)
+          
             const formattedPreviousProposal = result.acceptedProposals.map(proposal => {
               const sections = proposal.sections || {};
               const ethicalReview = sections.ethicalReview || {};
@@ -69,6 +69,8 @@ export default function ResercherLeadProposals() {
                 benefitScore: questions['Benefit Score'] || 0,
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
+                auditSubmitted: proposal.auditSubmitted || false,
+                showAudit:proposal.showAudit || false,
                 BMYid: proposal.createdAt ? (() => {
                   const date = new Date(proposal.createdAt);
                   const number = proposal.proposalId || 'N/A';
@@ -79,7 +81,7 @@ export default function ResercherLeadProposals() {
                 acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toISOString().split('T')[0]) : 'N/A'
               };
             });
-            // console.log(previousProposals)
+            // console.log(result)
             setFormattedPreviousProposal(formattedPreviousProposal);
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
@@ -221,7 +223,8 @@ export default function ResercherLeadProposals() {
                     email: leadsTeamMember.email,
                     institution: leadsTeamMember.institution,
                     designation: leadsTeamMember.designation,
-                    proposalId: proposalDetail.id
+                    proposalId: proposalDetail.id,
+                    showAudit:proposal.showAudit,
                   }))}
                   header={['Researcher', 'Section', 'Action']}
                   rowRenderComponent='AssignResearcherTableRow'
@@ -256,6 +259,8 @@ export default function ResercherLeadProposals() {
                   Add 3 Month Condition
                   {previousProposals.map(proposal => (
                     <>
+
+                    add condition auditSubmitted is false than only show form
                       <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
                         <ImFilesEmpty className='text-2xl' />
                         <Link to={`/audit-form/${proposal.ProposalID}`}>

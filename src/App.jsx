@@ -82,23 +82,20 @@ function App() {
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="*" element={<PageNotFound />} />
-{/* Authorship */}
-
-<Route path="/authorship-opinion-table/:proposalId" element={<AuthorshipTable />} />
-          <Route path="/audit-form/:proposalId" element={<AuditForm/>} />
-          <Route path="/review-audit-form" element={<ReviewAudit/>} />
+          {/* Authorship */}
+          <Route path="/authorship-opinion-table/:proposalId" element={<AuthorshipTable />} />
+          <Route path="/audit-form/:proposalId" element={<AuditForm />} />
+          <Route path="/review-audit-form" element={<ReviewAudit />} />
           {/* <Route path="/authorship-table" element={<AuthorshipTable/>} /> */}
           {/* admin */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin-login" element={<Adminlogin />} />
-          
           {/* researchers */}
           <Route path="/researcher-team" element={<TeamMembers />} />
           <Route path="/researcher-proposal" element={<ResearcherProposal />} />
           <Route path="/proposal-section" element={<MemberProposalPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/supervisor" element={<ResearcherSupervisor />} />
-
           {/* group-lead */}
           <Route path="/add-team-members" element={<AddTeamMembers />} />
           <Route path="/group-lead-team" element={<ResercherLeadTeam />} />
@@ -107,21 +104,18 @@ function App() {
           <Route path="/create-new-proposal" element={<ResercherLeadNewProposal />} />
           <Route path="/lead-proposal" element={<ResearcherLeadProposalPage />} />
           <Route path="/supervisor-details" element={<Supervisor />} />
-
           {/* supervisor */}
           <Route path="/supervisor-dashboard" element={<SupervisorDashboard />} />
           <Route path="/supervisor-teams" element={<SupervisorTeam />} />
           <Route path="/supervisor-proposal" element={<SupervisorProposals />} />
           <Route path="/view-erc-team" element={<ViewERCMembers />} />
           <Route path="/mentor-proposal/:proposalId" element={<MentorProposal />} />
-
           {/* Erc Members */}
           <Route path="/erc-member-dashboard" element={<ErcMemberDashboard />} />
           <Route path="/assigned-proposals" element={<ErcMemberProposal />} />
           <Route path="/assigned-teams" element={<AssignedTeams />} />
           <Route path="/evaluate-proposal/:proposalId" element={<ErcMemberViewProposal />} />
           <Route path="/erc-panel" element={<ErcCommittee />} />
-
           {/* Erc Head */}
           <Route path="/erc-head-dashboard" element={<ErcHeadDashboard />} />
           <Route path="/all-proposals" element={<ErcHeadProposal />} />

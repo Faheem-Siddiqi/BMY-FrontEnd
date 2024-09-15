@@ -4,9 +4,10 @@ import Sidebar from '../layout/Sidebar';
 import UserNavbar from '../layout/Navs/UserNavbar';
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from "react-hot-toast";
-import Loader from '../layout/Loader.jsx'; // Ensure this is used if needed
+import Loader from '../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
 import { useParams } from 'react-router-dom';
+
 const AuthorshipTable = () => {
     const { proposalId } = useParams();
     const [hasFilled, setHasFilled] = useState(false)
@@ -57,8 +58,95 @@ const AuthorshipTable = () => {
             SetFetchingDataLoad(false);
         }
     };
+
+
+
+    const getUserEntries = async () => {
+        SetFetchingDataLoad(true);
+    
+        if (!proposalId) {
+            toast.error('Proposal ID is missing.');
+            SetFetchingDataLoad(false);
+            return;
+        }
+    
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            const token = getCookie("token");
+    
+            if (token) {
+                myHeaders.append("Authorization", `Bearer ${token}`);
+            }
+    
+            const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/get-user-authorship-entries`, {
+                method: 'POST',
+                headers: myHeaders,
+                credentials: 'include',
+                body: JSON.stringify({ proposalId }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const result = await response.json();
+    
+            if (result.success) {
+                const authorshipEntries = result?.authorshipEntries ?? [];
+    
+             console.log(authorshipEntries)
+                setRows([]);
+    
+                const updateForm = (data) => {
+                    const newRows = [];
+    
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].length > 0) {
+                            const currentItem = data[i][0]; 
+    
+                          
+                            setForm({
+                                position: currentItem.authorPosition ?? '',
+                                name: currentItem.authorName ?? '',
+                                justification: currentItem.justification ?? '',
+                                confidence: currentItem.confidence ?? '',
+                            });
+    
+                            // Add the new entry to the newRows array
+                            newRows.push({
+                                position: currentItem.authorPosition ?? '',
+                                name: currentItem.authorName ?? '',
+                                justification: currentItem.justification ?? '',
+                                confidence: currentItem.confidence ?? '',
+                            });
+                        }
+                    }
+    
+                    // Set rows with new data
+                    setRows(newRows);
+                };
+    
+                // Call updateForm to process the authorship entries
+                updateForm(authorshipEntries);
+    
+                // Update second justification
+                setSecondJustification(result.secondJustification ?? '');
+                console.log(result);
+            } else {
+                toast.error(result.message);
+            }
+        } catch (error) {
+            toast.error(`Error: ${error.message}`);
+        } finally {
+            SetFetchingDataLoad(false);
+        }
+    };
+    
+
     useEffect(() => {
         checkUserAuthorship();
+        getUserEntries();
     }, [proposalId]);
     const HandleAddRowBackend = async () => {
         if (!proposalId) {
@@ -135,8 +223,7 @@ const AuthorshipTable = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success('Opinion Submitted Successfully.');
-              
-                handleAddRow()  
+                handleAddRow()
                 window.location.reload();
             } else {
                 toast.error('Proposal not found.');
@@ -303,12 +390,14 @@ const AuthorshipTable = () => {
                                 <h2 className='text-md mt-5 md:px-0 px-5 font-bold text-zeta'>
                                     Justification
                                 </h2>
+                                <p className='text-sm md:m-0 mx-5'>Add justification for adding more than 10 authors or for removing any author (if required)</p>
                                 <textarea
                                     rows={4}
+                                    disabled={hasFilled}
                                     value={secondJustification}
                                     onChange={(e) => setSecondJustification(e.target.value)}
                                     className='border md:mx-0 p-3 mx-5 mb-5 mt-2 rounded-md py-[0.67rem] border-stone-300 w-[80%] md:w-[50%] outline-none'
-                                    placeholder='Add justification for adding more than 10 authors or for removing any author (if required)'
+                                // placeholder=''
                                 />
                             </div>
                             {!hasFilled && (<>
