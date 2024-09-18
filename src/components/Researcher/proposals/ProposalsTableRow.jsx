@@ -5,8 +5,7 @@ import { MdAttachEmail } from "react-icons/md";
 import Audit from '../../letters/Audit.jsx'
 import Approval from '../../letters/Approval.jsx'
 import MOM from '../../letters/MOM.jsx'
-
-const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, BenefitScore, sections, title, approvalErcMember, ercMembers, acceptedAt }) => {
+const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk,auditApproved, BenefitScore, sections, title, approvalErcMember, ercMembers, acceptedAt }) => {
     const [signUserRole, setSignUserRole] = useState('');
     useEffect(() => {
         const SignUserRole = localStorage.getItem('role');
@@ -41,10 +40,8 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
             </td>
             <>
                 <td className='p-4'>
-
-              
                     <div className='flex  items-center justify-center gap-2  w-fit  rounded '>
-                    {
+                        {
                             selectedOption === 'approvalLetter' && (
                                 <Approval
                                     title={title}
@@ -82,24 +79,24 @@ const ProposalsTableRow = ({ BMYid, PropossalID, GroupLead, EthicalRisk, Benefit
                                 />
                             )
                         }
-
-{
-                            selectedOption === 'nothing' 
-                              &&
-                            (<MdAttachEmail  className='text-2xl text-epsilon'/>                             
+                        {
+                            selectedOption === 'nothing'
+                            &&
+                            (<MdAttachEmail className='text-2xl text-epsilon' />
                             )
                         }
-
-                
-<select 
- value={selectedOption}
- onChange={handleChange}
- className="select select-info  border-epsilon border rounded  w-fit outline-none bg-transparent">
-<option className='' value="nothing">Select Letter</option>
-<option value="approvalLetter">Approval</option>
-<option value="momLetter">MOM</option>
-</select>
+                        <select
+                            value={selectedOption}
+                            onChange={handleChange}
+                            className="select select-info  border-epsilon border rounded  w-fit outline-none bg-transparent">
+                            <option className='' value="nothing">Select Letter</option>
+                            <option value="approvalLetter">Approval</option>
+                            <option value="momLetter">MOM</option> 
+                            {auditApproved === true && (<>
+                                <option value="auditLetter">Audit Letter</option>
+                            </>)}
                         
+                        </select>
                     </div>
                 </td>
             </>

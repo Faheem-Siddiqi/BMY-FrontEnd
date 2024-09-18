@@ -26,7 +26,7 @@ const Table = ({ header, rowData, rowRenderComponent }) => {
         <div className="overflow-x-scroll my-5  border border-opacity-25  rounded-lg">
             <table className="w-full">
                 <thead className=''>
-                    <tr className="bg-epsilon  text-white ">
+                    <tr className="bg-zeta text-white ">
                         {header.map((item, index) => (
                             <th key={index} className="py-4 px-4 font-normal text-left">{item}</th>
                         ))}

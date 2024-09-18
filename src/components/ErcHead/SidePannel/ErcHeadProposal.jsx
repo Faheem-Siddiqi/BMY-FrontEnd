@@ -82,6 +82,7 @@ export default function ErcHeadProposal() {
           leadName: proposal.creator?.fullname || 'Unknown',
           sections: proposal.sections || {},
           title: proposal.title || 'N/A',
+          auditApproved: proposal.auditApproved || false,
           riskScore: (proposal?.sections?.ethicalReview?.questions?.['Ethical Score'] || 0),
           benefitScore: (proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] || 0),
           approvalErcMember: proposal.approvalMember || {},
@@ -166,6 +167,7 @@ export default function ErcHeadProposal() {
                     approvalErcMember: proposal.approvalErcMember || {},
                     ercMembers: proposal.ercMembers,
                     acceptedAt: proposal.acceptedAt,
+                    auditApproved: proposal.auditApproved,
                     BMYid: proposal.BMYid,
                   }))}
                     header={[' Propossal ID', 'Group Lead', 'Ethical Risk', 'Benefit Score', 'Action', 'Letters']}

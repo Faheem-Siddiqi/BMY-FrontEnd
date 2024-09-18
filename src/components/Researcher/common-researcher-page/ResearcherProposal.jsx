@@ -43,6 +43,7 @@ export default function ResearcherProposal() {
               mainSupervisor: proposal.supervisorId || 'Not assigned',
               sections: sections,
               title: proposal.title || 'N/A',
+              auditApproved: proposal.auditApproved || false,
               riskScore: questions['Ethical Risk'] || 0,
               benefitScore: questions['Benefit Score'] || 0,
               approvalErcMember: proposal.approvalMember || {},
@@ -134,17 +135,28 @@ export default function ResearcherProposal() {
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                   ADD 3 month condition
-                  {previousProposals.map(proposal => (
-                    <div key={proposal.id} className="flex items-center mb-3 gap-1">
-                      <ImFilesEmpty className='text-2xl' />
-                      <Link to={`/authorship-opinion-table/${proposal.id}`}>
-                        <span className='font-bold'>Opinion For Proposal:</span>
-                        <span className='mx-1 text-epsilon'>
-                          BMY-{proposal.BMYid}
-                        </span>
-                      </Link>
-                    </div>
-                  ))}
+                  {previousProposals.length > 0 ? (
+                    previousProposals.map(proposal => (
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                          <ImFilesEmpty className='text-2xl' />
+                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                            <span className='font-bold'>Opinion For Proposal:</span>
+                            <span className='mx-1 text-epsilon'>
+                              BMY-{proposal.BMYid}
+                            </span>
+                          </Link>
+                        </div>
+                      ) :
+                        <p className='flex gap-1'>
+                          <ImFilesEmpty className='text-xl' />
+                          No Proposal Available For Opinion</p>
+                    ))
+                  ) : (
+                    <p className='flex gap-1'>
+                      <ImFilesEmpty className='text-xl' />
+                      No Proposal Available For Opinion</p>
+                  )}
                 </header>
               </>
             )}
@@ -159,6 +171,7 @@ export default function ResearcherProposal() {
                     EthicalRisk: proposal.riskScore,
                     BenefitScore: proposal.benefitScore,
                     sections: proposal.sections,
+                    auditApproved: proposal.auditApproved,
                     title: proposal.title,
                     approvalErcMember: proposal.approvalErcMember || {},
                     ercMembers: proposal.ercMembers,

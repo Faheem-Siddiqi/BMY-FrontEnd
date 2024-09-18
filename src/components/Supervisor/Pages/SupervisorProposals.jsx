@@ -67,6 +67,7 @@ export default function SupervisorProposals() {
           leadName: proposal.creator?.fullname || 'Unknown',
           sections: proposal.sections || {},
           title: proposal.title || 'N/A',
+          auditApproved: proposal.auditApproved || false,
           riskScore: (proposal?.sections?.ethicalReview?.questions?.['Ethical Score'] || 0),
           benefitScore: (proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] || 0),
           approvalErcMember: proposal.approvalMember || {},
@@ -136,23 +137,29 @@ export default function SupervisorProposals() {
               <>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                Add 3 Month Condition
-                  {previousProposals.map(proposal => (
-
-                    <>
-                     <div key={proposal.id} className="flex items-center gap-1 mb-3">
-                      <ImFilesEmpty className='text-2xl' />
-                      <Link to={`/authorship-opinion-table/${proposal.id}`}>
-                        <span className='font-bold'>Opinion For Proposal:</span>
-                        <span className='mx-1 text-epsilon'>
-                          BMY-{proposal.BMYid}
-                        </span>
-                      </Link>
-                    </div>          
-                    </>
-                   
-                  ))}
-                  
+                  ADD 3 month condition
+                  {previousProposals.length > 0 ? (
+                    previousProposals.map(proposal => (
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                          <ImFilesEmpty className='text-2xl' />
+                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                            <span className='font-bold'>Opinion For Proposal:</span>
+                            <span className='mx-1 text-epsilon'>
+                              BMY-{proposal.BMYid}
+                            </span>
+                          </Link>
+                        </div>
+                      ) :
+                        <p className='flex gap-1'>
+                          <ImFilesEmpty className='text-xl' />
+                          No Proposal Available For Opinion</p>
+                    ))
+                  ) : (
+                    <p className='flex gap-1'>
+                      <ImFilesEmpty className='text-xl' />
+                      No Proposal Available For Opinion</p>
+                  )}
                 </header>
               </>
             )}
@@ -166,6 +173,7 @@ export default function SupervisorProposals() {
                   className='w-[99%] '
                   rowData={(previousProposals || []).map(proposal => ({
                     PropossalID: proposal?._id || '',
+                    auditApproved: proposal.auditApproved,
                     GroupLead: proposal?.leadName || 'N/A',
                     EthicalRisk: proposal?.sections?.ethicalReview?.questions?.['Benefit Score'] ?? 0,
                     BenefitScore: proposal?.sections?.ethicalReview?.questions?.['Ethical Risk'] ?? 0,

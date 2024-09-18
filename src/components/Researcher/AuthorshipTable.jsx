@@ -366,20 +366,20 @@ const AuthorshipTable = () => {
                                                 {rows.map((row, index) => (
                                                     <div key={index} className="px-4 mb-10">
                                                         <div className="flex">
-                                                            <span className="w-[35%] bg-zeta rounded-tl p-2 text-white">Position</span>
-                                                            <span className='w-[65%] border px-1'>{row.position}</span>
+                                                            <span className="w-[35%] break-all bg-zeta rounded-tl p-2 text-white">Position</span>
+                                                            <span className='w-[65%] break-all border px-1'>{row.position}</span>
                                                         </div>
                                                         <div className="flex">
-                                                            <span className="w-[35%] p-2 bg-zeta text-white">Name</span>
-                                                            <span className='w-[65%] border px-1'>{row.name}</span>
+                                                            <span className="w-[35%] break-all p-2 bg-zeta text-white">Name</span>
+                                                            <span className='w-[65%] break-all border px-1'>{row.name}</span>
                                                         </div>
                                                         <div className="flex">
-                                                            <span className="w-[35%] bg-zeta p-2 text-white">Justification</span>
-                                                            <span className='w-[65%] border px-1'>{row.justification}</span>
+                                                            <span className="w-[35%] break-all bg-zeta p-2 text-white">Justification</span>
+                                                            <span className='w-[65%] break-all border px-1'>{row.justification}</span>
                                                         </div>
                                                         <div className="flex">
-                                                            <span className="w-[35%] bg-zeta p-2 text-white">Confidence</span>
-                                                            <span className='w-[65%] border px-1'>{row.confidence}</span>
+                                                            <span className="w-[35%] break-all bg-zeta p-2 text-white">Confidence</span>
+                                                            <span className='w-[65%] break-all border px-1'>{row.confidence}</span>
                                                         </div>
                                                     </div>
                                                 ))}

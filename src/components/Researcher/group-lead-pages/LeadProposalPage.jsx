@@ -8,13 +8,12 @@ import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import EditableProposal from '../proposals/EditableProposal.jsx';
 import { getCookie } from "cookies-next";
-
 export default function LeadProposalPage() {
   const [toggle, setToggle] = useState(true);
   const [undefineSectionQuestions, setSectionQnasUndefine] = useState(false);
   const [LeadDataToggle, setLeadDataToggle] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [loadingSubmit, setLoadingSubmit]=useState(false)
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [proposalDetail, setProposalDetail] = useState({});
   const [mainSupervisor, setMainSupervisor] = useState({});
   const updateLeadsDataToggle = (newValue) => {
@@ -128,7 +127,6 @@ export default function LeadProposalPage() {
       setLoadingSubmit(true)
       if (!proposalDetail?.id || !mainSupervisor?.[0]?._id) {
         setLoadingSubmit(false)
-        
         throw new Error("Both proposalId and supervisorId are required");
       }
       const myHeaders = new Headers();
@@ -206,11 +204,11 @@ export default function LeadProposalPage() {
                     }`}>
                   <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
                     <MdFileDownloadDone className='text-2xl' />   <span className='mx-2'>
-                    {loadingSubmit ? ('Submiting'):('Submit')} 
+                      {loadingSubmit ? ('Submiting') : ('Submit')}
                     </span>
                   </span>
-                  <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">{loadingSubmit ? ('Submiting'):('Submit')} </span>
-                  <span className="invisible relative"> x {loadingSubmit ? ('Submiting'):('Submit')}  </span>
+                  <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">{loadingSubmit ? ('Submiting') : ('Submit')} </span>
+                  <span className="invisible relative"> x {loadingSubmit ? ('Submiting') : ('Submit')}  </span>
                 </button>
                 <DiscussionModal memberData={proposalDetail} memberDataToggle={updateLeadsDataToggle} />
               </div>

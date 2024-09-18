@@ -10,7 +10,7 @@ pdfMake.fonts = {
         bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
     },
 };
-const Audit = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acceptedAt }) => {
+const Audit = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, acceptedAt , }) => {
     const Approval = {
         signature: approvalErcMember?.signature || defaultSign,
         fullname: approvalErcMember?.fullname || 'fullname',
@@ -36,7 +36,7 @@ const Audit = ({ BMYid, title, GroupLead, PropossalID, approvalErcMember, accept
                 {
                     text: [
                         { text: 'Date: ', fontSize: 11, bold: true },
-                        { text: `${acceptedAt} : `, fontSize: 11 },
+                        { text: `${acceptedAt}`, fontSize: 11 },
                     ],
                     margin: [0, 0, 0, 10] // Add margin after this block
                 },

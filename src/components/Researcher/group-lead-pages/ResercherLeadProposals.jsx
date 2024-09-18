@@ -54,7 +54,6 @@ export default function ResercherLeadProposals() {
               lead: formattedProposal.creator?.fullname || ' ',
             };
             setProposalDetail(formattedProposalDetail);
-          
             const formattedPreviousProposal = result.acceptedProposals.map(proposal => {
               const sections = proposal.sections || {};
               const ethicalReview = sections.ethicalReview || {};
@@ -63,6 +62,8 @@ export default function ResercherLeadProposals() {
                 ProposalID: proposal._id || 'id',
                 leadName: proposal.creator?.fullname || 'Unknown',
                 mainSupervisor: proposal.supervisorId || 'Not assigned',
+                auditForm: proposal.auditForm || {},
+                auditApproved: proposal.auditApproved || false,
                 sections: sections,
                 title: proposal.title || 'N/A',
                 riskScore: questions['Ethical Risk'] || 0,
@@ -70,7 +71,7 @@ export default function ResercherLeadProposals() {
                 approvalMember: proposal.approvalMember || {},
                 ercMembers: proposal.assignedErcMember || [],
                 auditSubmitted: proposal.auditSubmitted || false,
-                showAudit:proposal.showAudit || false,
+                showAudit: proposal.showAudit || false,
                 BMYid: proposal.createdAt ? (() => {
                   const date = new Date(proposal.createdAt);
                   const number = proposal.proposalId || 'N/A';
@@ -81,7 +82,7 @@ export default function ResercherLeadProposals() {
                 acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toISOString().split('T')[0]) : 'N/A'
               };
             });
-            // console.log(result)
+            // console.log(formattedPreviousProposal)
             setFormattedPreviousProposal(formattedPreviousProposal);
             setProposalCheck(result.notAcceptedProposals?.length > 0 || false);
           } else {
@@ -224,7 +225,7 @@ export default function ResercherLeadProposals() {
                     institution: leadsTeamMember.institution,
                     designation: leadsTeamMember.designation,
                     proposalId: proposalDetail.id,
-                    showAudit:proposal.showAudit,
+                    showAudit: proposal.showAudit,
                   }))}
                   header={['Researcher', 'Section', 'Action']}
                   rowRenderComponent='AssignResearcherTableRow'
@@ -235,20 +236,29 @@ export default function ResercherLeadProposals() {
               <>
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                  Add 3 Month Condition
-                  {previousProposals.map(proposal => (
-                    <>
-                      <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
-                        <ImFilesEmpty className='text-2xl' />
-                        <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
-                          <span className='font-bold'>Opinion For Proposal:</span>
-                          <span className='mx-1 text-epsilon'>
-                            BMY-{proposal.BMYid}
-                          </span>
-                        </Link>
-                      </div>
-                    </>
-                  ))}
+                  ADD 3 month condition
+                  {previousProposals.length > 0 ? (
+                    previousProposals.map(proposal => (
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                          <ImFilesEmpty className='text-2xl' />
+                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                            <span className='font-bold'>Opinion For Proposal:</span>
+                            <span className='mx-1 text-epsilon'>
+                              BMY-{proposal.BMYid}
+                            </span>
+                          </Link>
+                        </div>
+                      ) :
+                        <p className='flex gap-1'>
+                          <ImFilesEmpty className='text-xl' />
+                          No Proposal Available For Opinion</p>
+                    ))
+                  ) : (
+                    <p className='flex gap-1'>
+                      <ImFilesEmpty className='text-xl' />
+                      No Proposal Available For Opinion</p>
+                  )}
                 </header>
               </>
             )}
@@ -259,17 +269,26 @@ export default function ResercherLeadProposals() {
                   Add 3 Month Condition
                   {previousProposals.map(proposal => (
                     <>
-
-                    add condition auditSubmitted is false than only show form
-                      <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
-                        <ImFilesEmpty className='text-2xl' />
-                        <Link to={`/audit-form/${proposal.ProposalID}`}>
-                          <span className='font-bold'>Audit Form For Proposal:</span>
-                          <span className='mx-1 text-epsilon'>
-                            BMY-{proposal.BMYid}
-                          </span>
-                        </Link>
-                      </div>
+                      {proposal.auditForm && Object.keys(proposal.auditForm).length === 0 ? (
+                        <div>
+                          <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
+                            <ImFilesEmpty className='text-2xl' />
+                            <Link to={`/audit-form/${proposal.ProposalID}`}>
+                              <span className='font-bold'>Audit Form For Proposal:</span>
+                              <span className='mx-1 text-epsilon'>
+                                BMY-{proposal.BMYid}
+                              </span>
+                            </Link>
+                          </div>
+                        </div>) : (
+                        <p>
+                          <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
+                            <p className='flex gap-1'>
+                              <ImFilesEmpty className='text-xl' />
+                              No Audit Forms Available</p>
+                          </div>
+                        </p>
+                      )}
                     </>
                   ))}
                 </header>
@@ -285,6 +304,7 @@ export default function ResercherLeadProposals() {
                   Supervisor: proposal.mainSupervisor,
                   title: proposal.title,
                   EthicalRisk: proposal.riskScore,
+                  auditApproved: proposal.auditApproved,
                   sections: proposal.sections,
                   BenefitScore: proposal.benefitScore,
                   approvalErcMember: proposal.approvalMember,
