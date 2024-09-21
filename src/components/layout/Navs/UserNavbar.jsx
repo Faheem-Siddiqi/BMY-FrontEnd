@@ -6,7 +6,6 @@ import { CgLogOut } from 'react-icons/cg';
 import { TiEdit } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 import DefaultImage from '../../../assets/images/Profile.png'
-
 export default function UserNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -85,7 +84,7 @@ export default function UserNavbar() {
   }, [location.pathname]);
   return (
     <>
-      <div className="navbar px-4 md:h-20 md:py-0 py-5 bg-iota border-b">
+      <div className="navbar px-4 md:h-20 md:py-0 py-5 bg-iota  ">
         <div className="flex-1">
           {shouldShowBanner && (
             <div className='font-CormorantGaramond-Regular items-center justify-center flex flex-col w-fit'>

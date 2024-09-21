@@ -398,10 +398,10 @@ export default function AuditForm() {
                                     <div className='grid gird-cols-1 md:grid-cols-2 w-full my-5  gap-5'>
                                         {fetchMembers.map((user, index) => (
                                             <>
-                                                <div key={index} className="my-2 bg-stone-50 w-full  p-2 ">
-                                                    <h2>Name: {user.fullname || 'Not provided'}</h2>
-                                                    <p>Email: {user.workemail || 'Not provided'}</p>
-                                                    <p>Role: {user.role || 'Not specified'}</p>
+                                                <div key={index} className="my-2 bg-stone-50 w-full  text-sm p-2 ">
+                                                    <h2> <span className='text-epsilon'>Name</span> {user.fullname || 'Not provided'}</h2>
+                                                    <p><span className='text-epsilon'>Email</span> {user.workemail || 'Not provided'}</p>
+                                                    <p><span className='text-epsilon'>Role</span>  {user.role || 'Not specified'}</p>
                                                 </div>
                                             </>
                                         ))}

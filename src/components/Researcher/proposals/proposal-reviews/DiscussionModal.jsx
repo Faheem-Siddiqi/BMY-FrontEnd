@@ -7,6 +7,8 @@ import { getCookie } from "cookies-next";
 export default function DiscussionModal({ memberData, memberDataToggle }) {
     const [userRole, setUserRole] = useState('');
     const [reviews, setReviews] = useState([]);
+    const [loadReviewAdd, setLoadReviewAdd] = useState(false)
+    const [loadReplyAdd, setLoadReplyAdd] = useState(false)
     const [reply, setReply] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [activeReview, setActiveReview] = useState(null);
@@ -32,6 +34,7 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
             myHeaders.append("Content-Type", "application/json");
             const token = getCookie("token");
             myHeaders.append("Authorization", `Bearer ${token}`);
+            setLoadReviewAdd(true)
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/add-review`, {
                 method: "POST",
                 headers: myHeaders,
@@ -40,14 +43,17 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                 credentials: 'include',
             });
             if (!response.ok) {
+                setLoadReviewAdd(false)
                 throw new Error('Failed to add review');
             }
             const result = await response.json();
             // console.log(result);
             memberDataToggle(prevValue => !prevValue);
+            setLoadReviewAdd(false)
             toast.success("Review added successfully!");
             setReviewText("");
         } catch (error) {
+            setLoadReviewAdd(false)
             console.error("Error adding review:", error);
             toast.error("Something went wrong. Please try again.");
         }
@@ -67,6 +73,7 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
             myHeaders.append("Content-Type", "application/json");
             const token = getCookie("token");
             myHeaders.append("Authorization", `Bearer ${token}`);
+            setLoadReplyAdd(true)
             const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/proposals/reply-to-review`, {
                 method: "POST",
                 headers: myHeaders,
@@ -74,13 +81,16 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                 credentials: 'include',
             });
             if (!response.ok) {
+                setLoadReplyAdd(false)
                 throw new Error('Failed to add reply');
             }
             const result = await response.json();
+            setLoadReplyAdd(false)
             memberDataToggle(prevValue => !prevValue);
             toast.success("Reply added successfully!");
-            setReply(""); // Clear reply input
+            setReply("");
         } catch (error) {
+            setLoadReplyAdd(false)
             console.error("Error adding reply:", error);
             toast.error("Something went wrong. Please try again.");
         }
@@ -139,7 +149,7 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                                                 onClick={handleReview}
                                                 className="my-3 py-2 px-4 font-semibold rounded-md group relative overflow-hidden bg-epsilon text-white transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-epsilon hover:to-epsilon">
                                                 <span className="ease absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform bg-white opacity-10 transition-all duration-700 group-hover:-translate-x-40"></span>
-                                                Add Review
+                                                {!loadReviewAdd ? ('Add Review') : ("Adding")}
                                             </button>
                                         </div>
                                     </div>
@@ -195,10 +205,10 @@ export default function DiscussionModal({ memberData, memberDataToggle }) {
                                                                 onClick={() => handleReplies(review._id)}
                                                                 className="mb-2 py-2 px-5 rounded-md group relative inline-flex items-center justify-center overflow-hidden border border-epsilon font-medium text-epsilon shadow-md transition duration-300 ease-out">
                                                                 <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-epsilon text-white duration-300 group-hover:translate-x-0">
-                                                                    <FaReplyAll className='text-1xl' /> <span className='mx-2'>Reply</span>
+                                                                    <FaReplyAll className='text-1xl' /> <span className='mx-2'>{loadReplyAdd ? ("Replying") : ('Reply')} </span>
                                                                 </span>
-                                                                <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">Reply</span>
-                                                                <span className="invisible relative"> x Reply </span>
+                                                                <span className="ease absolute flex h-full w-full transform items-center justify-center text-epsilontransition-all duration-300 group-hover:translate-x-full">{loadReplyAdd ? ("Replying") : ('Reply')} </span>
+                                                                <span className="invisible relative"> x {loadReplyAdd ? ("Replying") : ('Reply')} </span>
                                                             </button>
                                                         </div>
                                                     </div>

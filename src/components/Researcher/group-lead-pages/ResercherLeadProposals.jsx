@@ -225,7 +225,7 @@ export default function ResercherLeadProposals() {
                     institution: leadsTeamMember.institution,
                     designation: leadsTeamMember.designation,
                     proposalId: proposalDetail.id,
-                    showAudit: proposal.showAudit,
+                    // showAudit: proposal.showAudit,
                   }))}
                   header={['Researcher', 'Section', 'Action']}
                   rowRenderComponent='AssignResearcherTableRow'
@@ -240,9 +240,9 @@ export default function ResercherLeadProposals() {
                   {previousProposals.length > 0 ? (
                     previousProposals.map(proposal => (
                       (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                        <div key={proposal.ProposalID} className="flex items-center mb-3 gap-1">
                           <ImFilesEmpty className='text-2xl' />
-                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                          <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
                             <span className='font-bold'>Opinion For Proposal:</span>
                             <span className='mx-1 text-epsilon'>
                               BMY-{proposal.BMYid}
@@ -252,7 +252,7 @@ export default function ResercherLeadProposals() {
                       ) :
                         <p className='flex gap-1'>
                           <ImFilesEmpty className='text-xl' />
-                          No Proposal Available For Opinion</p>
+                          No Proposal Available dfsd Opinion</p>
                     ))
                   ) : (
                     <p className='flex gap-1'>
@@ -307,6 +307,7 @@ export default function ResercherLeadProposals() {
                   auditApproved: proposal.auditApproved,
                   sections: proposal.sections,
                   BenefitScore: proposal.benefitScore,
+                  showAudit: proposal.showAudit,
                   approvalErcMember: proposal.approvalMember,
                   ercMembers: proposal.ercMembers,
                   acceptedAt: proposal.acceptedAt,
