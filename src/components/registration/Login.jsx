@@ -5,10 +5,9 @@ import Navbar from "./../layout/Navs/Navbar";
 import { setCookie } from 'cookies-next';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-
+import { MdOutlineSecurity } from "react-icons/md";
 // Set the base URL for Axios
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
-
 export default function Login() {
   const navigate = useNavigate();
   const [showRequireError, setShowRequireError] = useState(false);
@@ -16,34 +15,32 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [validating, setValidating] = useState(false)
   // Toast notifications
   const SuccessLogin = () => toast.success("Login Successful");
   const FailLogin = (message) => toast.error(message || "Login failed");
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowRequireError(!email || !password || !role);
     if (!email || !password || !role) return;
-
     try {
+      setValidating(true)
       const response = await axios.post("/api/v1/user/login", { workemail: email, password, role });
       const { token } = response.data;
-
       // Save token and role
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       setCookie('token', token);
-
+      setValidating(false)
       SuccessLogin();
       navigate('/edit-profile');
     } catch (error) {
+      setValidating(false)
       FailLogin(error.response?.data?.message);
       console.error("Login error:", error);
     }
   };
-
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -60,10 +57,8 @@ export default function Login() {
                 <p className="font-light text-lg text-mist">Pakistan</p>
               </div>
               <div className="mb-4 text-primary">
-                {/* Existing SVG and text */}
                 <div className="flex items-center gap-2 mb-4">
                   <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* SVG Path */}
                   </svg>
                   <p>Create and Carry out Research</p>
                 </div>
@@ -142,7 +137,7 @@ export default function Login() {
                     </button>
                   </div>
                 </div>
-                <div className="flex items-center justify-end mb-4">
+                <div className="flex items-center justify-end mb-4 ">
                   <Link
                     to="/forget-password"
                     className="relative text-zeta w-fit block after:block after:content-[''] after:absolute after:h-[1px] after:bg-zeta after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-left"
@@ -153,9 +148,14 @@ export default function Login() {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="bg-epsilon w-full text-white my-2 py-2 px-4 rounded focus:outline-epsilon focus:shadow-outline"
+                  className="bg-epsilon w-full text-white my-2  text-base  py-2 px-4 rounded focus:outline-epsilon focus:shadow-outline"
                 >
-                  Submit
+                  {validating ? (
+                    <div className="flex items-center  justify-center gap-2">
+                      <MdOutlineSecurity className="text-lg" />
+                      Validating
+                    </div>
+                  ) : ('Submit')}
                 </button>
               </div>
               <p className="text-center text-sm font-Satoshi-Black my-3 flex gap-1">
