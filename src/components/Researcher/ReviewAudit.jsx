@@ -213,7 +213,7 @@ export default function ReviewAudit({
                         htmlFor="question2"
                         className='text-zeta   font-semibold'>
                         <h2 className='text-md'>
-                            8. Feedback of Aurthors
+                            8. Feedback of Aurthors:
                         </h2>
                     </label>
                     <section className=' my-5'>
@@ -293,10 +293,10 @@ export default function ReviewAudit({
                         htmlFor="question2"
                         className='text-zeta   font-semibold'>
                         <h2 className='text-md'>
-                            9. Authorship
+                            9. What is your suggestion about authorship as ERC Members?
                         </h2>
                     </label>
-                    <p className='text-sm'>Add Aurthor in Sequence</p>
+                    <p className='text-sm'>Write aurthor sequence below by adding names one by one in sequence</p>
                     <div className="py-5 md:w-[50%] w-full">
                         <div className="flex mb-4">
                             <input
