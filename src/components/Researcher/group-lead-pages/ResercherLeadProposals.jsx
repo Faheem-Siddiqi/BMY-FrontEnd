@@ -4,6 +4,7 @@ import { MdAdd, MdOutlineGroupOff } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
 import Table from '../../Common/Table.jsx';
+import { isBefore, subMonths } from 'date-fns';
 import UserNavbar from '../../layout/Navs/UserNavbar.jsx';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
@@ -14,6 +15,7 @@ export default function ResercherLeadProposals() {
   const [loading, setLoading] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [leadTeam, setLeadTeam] = useState([]);
+  const [loginUserEmail, setLoginUserEmail] = useState('N.A')
   const [supervisorCheck, setSupervisorCheck] = useState(false);
   const [researchersCheck, setResearcherCheck] = useState(false);
   const [proposalCheck, setProposalCheck] = useState(false);
@@ -21,6 +23,29 @@ export default function ResercherLeadProposals() {
   const [proposalDetail, setProposalDetail] = useState({});
   useEffect(() => {
     let isMounted = true;
+    const fetchUserDetails = async () => {
+      try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const token = getCookie("token");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        const response = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/api/v1/user/getuserdetails`, {
+          method: "GET",
+          redirect: "follow",
+          headers: myHeaders,
+          credentials: "include",
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        const result = await response.json();
+        if (result.success) {
+          setLoginUserEmail(result.user?.workemail || 'N/A');
+        } else {
+          toast.error("Failed to load user details.");
+        }
+      } catch (error) {
+        toast.error(`Error fetching user details: ${error.message}`);
+      }
+    };
     const fetchProposal = async () => {
       try {
         const myHeaders = new Headers();
@@ -66,6 +91,7 @@ export default function ResercherLeadProposals() {
                 auditApproved: proposal.auditApproved || false,
                 sections: sections,
                 title: proposal.title || 'N/A',
+                creator: proposal.creator.workemail || 'N/A',
                 riskScore: questions['Ethical Risk'] || 0,
                 benefitScore: questions['Benefit Score'] || 0,
                 approvalMember: proposal.approvalMember || {},
@@ -137,6 +163,7 @@ export default function ResercherLeadProposals() {
     const fetchData = async () => {
       await fetchProposal();
       await fetchLeadsTeam();
+      await fetchUserDetails();
       if (isMounted) {
         setDataLoaded(true);
         setLoading(false);
@@ -225,7 +252,6 @@ export default function ResercherLeadProposals() {
                     institution: leadsTeamMember.institution,
                     designation: leadsTeamMember.designation,
                     proposalId: proposalDetail.id,
-                    // showAudit: proposal.showAudit,
                   }))}
                   header={['Researcher', 'Section', 'Action']}
                   rowRenderComponent='AssignResearcherTableRow'
@@ -238,20 +264,28 @@ export default function ResercherLeadProposals() {
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion</h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                   {
-                    previousProposals.some(proposal => proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                      previousProposals.map(proposal => (
-                        (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                          <div key={proposal.ProposalID} className="flex items-center mb-3 gap-1">
-                            <ImFilesEmpty className='text-2xl' />
-                            <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
-                              <span className='font-bold'>Opinion For Proposal:</span>
-                              <span className='mx-1 text-epsilon'>
-                                BMY-{proposal.BMYid}
-                              </span>
-                            </Link>
-                          </div>
-                        ) : null
-                      ))
+                    previousProposals.some(proposal => {
+                      const acceptedDate = new Date(proposal.acceptedAt); // Parse the acceptedAt date
+                      return (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+                        isBefore(acceptedDate, subMonths(new Date(), 3)); // Check if older than 3 months
+                    }) ? (
+                      previousProposals.map(proposal => {
+                        const acceptedDate = new Date(proposal.acceptedAt); // Parse the acceptedAt date again
+                        return (
+                          (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+                            isBefore(acceptedDate, subMonths(new Date(), 3)) ? ( // Apply the same check in map
+                            <div key={proposal.ProposalID} className="flex items-center mb-3 gap-1">
+                              <ImFilesEmpty className='text-2xl' />
+                              <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
+                                <span className='font-bold'>Opinion For Proposal:</span>
+                                <span className='mx-1 text-epsilon'>
+                                  BMY-{proposal.BMYid}
+                                </span>
+                              </Link>
+                            </div>
+                          ) : null
+                        );
+                      })
                     ) : (
                       <p className='flex gap-1'>
                         <ImFilesEmpty className='text-xl' />
@@ -268,20 +302,34 @@ export default function ResercherLeadProposals() {
                 <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
                   {
-                    previousProposals.some(proposal => proposal.auditForm && Object.keys(proposal.auditForm).length === 0) ? (
-                      previousProposals.map(proposal => (
-                        proposal.auditForm && Object.keys(proposal.auditForm).length === 0 ? (
-                          <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
-                            <ImFilesEmpty className='text-2xl' />
-                            <Link to={`/audit-form/${proposal.ProposalID}`}>
-                              <span className='font-bold'>Audit Form For Proposal:</span>
-                              <span className='mx-1 text-epsilon'>
-                                BMY-{proposal.BMYid}
-                              </span>
-                            </Link>
-                          </div>
-                        ) : null
-                      ))
+                    previousProposals.some(proposal => {
+                      const acceptedDate = new Date(proposal.acceptedAt);
+                      return (
+                        proposal.auditForm &&
+                        Object.keys(proposal.auditForm).length === 0 &&
+                        isBefore(acceptedDate, subMonths(new Date(), 3))
+                        && loginUserEmail === proposal.creator
+                      );
+                    }) ? (
+                      previousProposals.map(proposal => {
+                        const acceptedDate = new Date(proposal.acceptedAt);
+                        return (
+                          proposal.auditForm &&
+                            Object.keys(proposal.auditForm).length === 0 &&
+                            isBefore(acceptedDate, subMonths(new Date(), 3)) && loginUserEmail === proposal.creator ? (
+                            <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
+                              <ImFilesEmpty className='text-2xl' />
+                              <Link to={`/audit-form/${proposal.ProposalID}`}>
+                                {/* {proposal.creator} */}
+                                <span className='font-bold'>Audit Form For Proposal:</span>
+                                <span className='mx-1 text-epsilon'>
+                                  BMY-{proposal.BMYid}
+                                </span>
+                              </Link>
+                            </div>
+                          ) : null
+                        );
+                      })
                     ) : (
                       <p className='flex gap-1'>
                         <ImFilesEmpty className='text-xl' />
@@ -292,6 +340,7 @@ export default function ResercherLeadProposals() {
                 </header>
               </>
             )}
+            {/*  */}
             <h1 className='font-semibold text-xl my-5'>Previous Proposals</h1>
             {previousProposals.length > 0 ? (
               <Table

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import Loader from '../../layout/Loader.jsx';
 import { getCookie } from "cookies-next";
+import { isBefore, subMonths } from 'date-fns';
 export default function ResearcherProposal() {
   const [loading, setLoading] = useState(true);
   const [showNoActive, setShowNoActiveProposal] = useState(false)
@@ -133,21 +134,30 @@ export default function ResearcherProposal() {
                   Authorship Opinion
                 </h1>
                 <header className="bg-white shadow-sm my-5 p-5 md:p-10">
-                  ADD 3 month condition
-                  {previousProposals.some(proposal => proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                    previousProposals.map(proposal => (
-                      (proposal.auditApproved === false || proposal.auditApproved === undefined) && (
-                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
-                          <ImFilesEmpty className="text-2xl" />
-                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
-                            <span className="font-bold">Opinion For Proposal:</span>
-                            <span className="mx-1 text-epsilon">
-                              BMY-{proposal.BMYid}
-                            </span>
-                          </Link>
-                        </div>
-                      )
-                    ))
+                  {previousProposals.some(proposal => {
+                    const acceptedDate = new Date(proposal.acceptedAt);
+                    return (
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+                      isBefore(acceptedDate, subMonths(new Date(), 3))
+                    );
+                  }) ? (
+                    previousProposals.map(proposal => {
+                      const acceptedDate = new Date(proposal.acceptedAt);
+                      return (
+                        (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+                        isBefore(acceptedDate, subMonths(new Date(), 3)) && (
+                          <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                            <ImFilesEmpty className="text-2xl" />
+                            <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                              <span className="font-bold">Opinion For Proposal:</span>
+                              <span className="mx-1 text-epsilon">
+                                BMY-{proposal.BMYid}
+                              </span>
+                            </Link>
+                          </div>
+                        )
+                      );
+                    })
                   ) : (
                     <p className="flex gap-1">
                       <ImFilesEmpty className="text-xl" />

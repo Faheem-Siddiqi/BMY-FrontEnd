@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../layout/Sidebar';
+import { isBefore, subMonths } from 'date-fns';
 import Table from '../../Common/Table';
 import { Link } from 'react-router-dom';
 import { ImFilesEmpty } from "react-icons/im";
@@ -131,36 +132,49 @@ export default function SupervisorProposals() {
               </header>
             </>)}
             {/* */}
+        
+
             {previousProposals && previousProposals.length > 0 && (
-              <>
-                <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">
-                  Authorship Opinion
-                </h1>
-                <header className="bg-white shadow-sm my-5 p-5 md:p-10">
-                  ADD 3 month condition
-                  {previousProposals.some(proposal => proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                    previousProposals.map(proposal => (
-                      (proposal.auditApproved === false || proposal.auditApproved === undefined) && (
-                        <div key={proposal.id} className="flex items-center mb-3 gap-1">
-                          <ImFilesEmpty className="text-2xl" />
-                          <Link to={`/authorship-opinion-table/${proposal.id}`}>
-                            <span className="font-bold">Opinion For Proposal:</span>
-                            <span className="mx-1 text-epsilon">
-                              BMY-{proposal.BMYid}
-                            </span>
-                          </Link>
-                        </div>
-                      )
-                    ))
-                  ) : (
-                    <p className="flex gap-1">
-                      <ImFilesEmpty className="text-xl" />
-                      No Proposal Available For Opinion
-                    </p>
-                  )}
-                </header>
-              </>
-            )}
+  <>
+    <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">
+      Authorship Opinion
+    </h1>
+    <header className="bg-white shadow-sm my-5 p-5 md:p-10">
+      
+      {previousProposals.some(proposal => {
+        const acceptedDate = new Date(proposal.acceptedAt); 
+        return (
+          (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+          isBefore(acceptedDate, subMonths(new Date(), 3)) 
+        );
+      }) ? (
+        previousProposals.map(proposal => {
+          const acceptedDate = new Date(proposal.acceptedAt); 
+          return (
+            (proposal.auditApproved === false || proposal.auditApproved === undefined) &&
+            isBefore(acceptedDate, subMonths(new Date(), 3)) && (
+              <div key={proposal.id} className="flex items-center mb-3 gap-1">
+                <ImFilesEmpty className="text-2xl" />
+                <Link to={`/authorship-opinion-table/${proposal.id}`}>
+                  <span className="font-bold">Opinion For Proposal:</span>
+                  <span className="mx-1 text-epsilon">
+                    BMY-{proposal.BMYid}
+                  </span>
+                </Link>
+              </div>
+            )
+          );
+        })
+      ) : (
+        <p className="flex gap-1">
+          <ImFilesEmpty className="text-xl" />
+          No Proposal Available For Opinion
+        </p>
+      )}
+    </header>
+  </>
+)}
+
             <section className="my-5 md:my-10">
               <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Previous Proposals</h1>
               {previousProposals && previousProposals.length > 0 ? (

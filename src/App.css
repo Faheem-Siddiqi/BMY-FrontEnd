@@ -40,16 +40,13 @@
 }
 .ReactModal__Overlay {
   background-color: #0a1f09a2 !important;
-
 }
-
 input[type=radio] :not(:checked) {
-  background-color: white; 
+  background-color: white;
 }
 input[type=radio] {
-  accent-color: #004700 !important; 
+  accent-color: #004700 !important;
 }
-
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -61,29 +58,31 @@ input[type=radio] {
     transform: scale(1);
   }
 }
-
 .pulse {
   animation: pulse 1.5s infinite;
 }
-
-
-
 @media (min-width: 640px) {
   table {
     display: inline-table !important;
-
   }
-
   thead tr:not(:first-child) {
     display: none;
   }
 }
-
 td:not(:last-child) {
   border-bottom: 0;
 }
-
 th:not(:last-child) {
   border-bottom: 2px solid rgba(0, 0, 0, .1);
 }
 
+
+::-moz-selection { /* Code for Firefox */
+  color: white;
+  background: #50CC4D;
+}
+
+::selection {
+  color: white;
+  background: #50CC4D;
+}

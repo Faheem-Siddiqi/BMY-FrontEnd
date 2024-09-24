@@ -100,9 +100,9 @@ export default function UserNavbar() {
           {!shouldShowBanner && <Notifications />}
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="avatar">
-              <div className="w-10 rounded-full">
+              <div className="w-10 rounded-full  border border-epsilon p-[3px]">
                 <img
-                  className='object-cover'
+                  className='object-cover '
                   alt="Profile"
                   src={profilePic || DefaultImage}
                 />
