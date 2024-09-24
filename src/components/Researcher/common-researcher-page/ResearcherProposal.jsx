@@ -57,9 +57,6 @@ export default function ResearcherProposal() {
               })() : 'N/A',
               acceptedAt: proposal.acceptedAt ? (new Date(proposal.acceptedAt).toString() !== 'Invalid Date' ? new Date(proposal.acceptedAt).toISOString().split('T')[0] : 'N/A') : 'N/A'
             };
-            // console.log(result)
-            // console.log(formattedProposal)
-            // Add the formatted proposal to the array
             formattedPreviousProposal.push(formattedProposal);
           });
           setFormattedPreviousProposal(formattedPreviousProposal)
@@ -132,30 +129,30 @@ export default function ResearcherProposal() {
             </section>
             {previousProposals && previousProposals.length > 0 && (
               <>
-                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
-                <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
+                <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">
+                  Authorship Opinion
+                </h1>
+                <header className="bg-white shadow-sm my-5 p-5 md:p-10">
                   ADD 3 month condition
-                  {previousProposals.length > 0 ? (
+                  {previousProposals.some(proposal => proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
                     previousProposals.map(proposal => (
-                      (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) && (
                         <div key={proposal.id} className="flex items-center mb-3 gap-1">
-                          <ImFilesEmpty className='text-2xl' />
+                          <ImFilesEmpty className="text-2xl" />
                           <Link to={`/authorship-opinion-table/${proposal.id}`}>
-                            <span className='font-bold'>Opinion For Proposal:</span>
-                            <span className='mx-1 text-epsilon'>
+                            <span className="font-bold">Opinion For Proposal:</span>
+                            <span className="mx-1 text-epsilon">
                               BMY-{proposal.BMYid}
                             </span>
                           </Link>
                         </div>
-                      ) :
-                        <p className='flex gap-1'>
-                          <ImFilesEmpty className='text-xl' />
-                          No Proposal Available For Opinion</p>
+                      )
                     ))
                   ) : (
-                    <p className='flex gap-1'>
-                      <ImFilesEmpty className='text-xl' />
-                      No Proposal Available For Opinion</p>
+                    <p className="flex gap-1">
+                      <ImFilesEmpty className="text-xl" />
+                      No Proposal Available For Opinion
+                    </p>
                   )}
                 </header>
               </>

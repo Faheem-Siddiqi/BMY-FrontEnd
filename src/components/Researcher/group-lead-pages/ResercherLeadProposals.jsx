@@ -232,45 +232,45 @@ export default function ResercherLeadProposals() {
                 />
               </>
             )}
+            {/*  */}
             {previousProposals && previousProposals.length > 0 && (
               <>
-                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion </h1>
+                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Authorship Opinion</h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                  ADD 3 month condition
-                  {previousProposals.length > 0 ? (
-                    previousProposals.map(proposal => (
-                      (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
-                        <div key={proposal.ProposalID} className="flex items-center mb-3 gap-1">
-                          <ImFilesEmpty className='text-2xl' />
-                          <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
-                            <span className='font-bold'>Opinion For Proposal:</span>
-                            <span className='mx-1 text-epsilon'>
-                              BMY-{proposal.BMYid}
-                            </span>
-                          </Link>
-                        </div>
-                      ) :
-                        <p className='flex gap-1'>
-                          <ImFilesEmpty className='text-xl' />
-                          No Proposal Available dfsd Opinion</p>
-                    ))
-                  ) : (
-                    <p className='flex gap-1'>
-                      <ImFilesEmpty className='text-xl' />
-                      No Proposal Available For Opinion</p>
-                  )}
+                  {
+                    previousProposals.some(proposal => proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                      previousProposals.map(proposal => (
+                        (proposal.auditApproved === false || proposal.auditApproved === undefined) ? (
+                          <div key={proposal.ProposalID} className="flex items-center mb-3 gap-1">
+                            <ImFilesEmpty className='text-2xl' />
+                            <Link to={`/authorship-opinion-table/${proposal.ProposalID}`}>
+                              <span className='font-bold'>Opinion For Proposal:</span>
+                              <span className='mx-1 text-epsilon'>
+                                BMY-{proposal.BMYid}
+                              </span>
+                            </Link>
+                          </div>
+                        ) : null
+                      ))
+                    ) : (
+                      <p className='flex gap-1'>
+                        <ImFilesEmpty className='text-xl' />
+                        No Proposal Available Opinion
+                      </p>
+                    )
+                  }
                 </header>
               </>
             )}
+            {/*  */}
             {previousProposals && previousProposals.length > 0 && (
               <>
-                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form </h1>
+                <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black'>Audit Form</h1>
                 <header className='bg-white shadow-sm my-5 p-5 md:p-10'>
-                  Add 3 Month Condition
-                  {previousProposals.map(proposal => (
-                    <>
-                      {proposal.auditForm && Object.keys(proposal.auditForm).length === 0 ? (
-                        <div>
+                  {
+                    previousProposals.some(proposal => proposal.auditForm && Object.keys(proposal.auditForm).length === 0) ? (
+                      previousProposals.map(proposal => (
+                        proposal.auditForm && Object.keys(proposal.auditForm).length === 0 ? (
                           <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
                             <ImFilesEmpty className='text-2xl' />
                             <Link to={`/audit-form/${proposal.ProposalID}`}>
@@ -280,17 +280,15 @@ export default function ResercherLeadProposals() {
                               </span>
                             </Link>
                           </div>
-                        </div>) : (
-                        <p>
-                          <div key={proposal.ProposalID} className="flex items-center gap-1 mb-3">
-                            <p className='flex gap-1'>
-                              <ImFilesEmpty className='text-xl' />
-                              No Audit Forms Available</p>
-                          </div>
-                        </p>
-                      )}
-                    </>
-                  ))}
+                        ) : null
+                      ))
+                    ) : (
+                      <p className='flex gap-1'>
+                        <ImFilesEmpty className='text-xl' />
+                        No Audit Forms Available
+                      </p>
+                    )
+                  }
                 </header>
               </>
             )}

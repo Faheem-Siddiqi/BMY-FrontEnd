@@ -10,8 +10,7 @@ import ReviewAudit from '../../Researcher/ReviewAudit.jsx'
 import { getCookie } from "cookies-next";
 export default function ErcMemberProposal() {
   const [loading, setLoading] = useState(true);
-
-  const toggleSelectedAuditProposal=()=>{
+  const toggleSelectedAuditProposal = () => {
     setFormattedPreviousProposal(null)
   }
   const [selectedAuditProposal, setSelectedAuditProposal] = useState({
@@ -77,24 +76,20 @@ export default function ErcMemberProposal() {
           redirect: "follow",
           headers: myHeaders,
           credentials: 'include',
-          
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
         if (result.success) {
-       
           const data = result?.proposals ?? []
           setAuditProposals(data)
-          
         } else {
           toast.error(result.message);
         }
       } catch (error) {
         toast.error(`Error: ${error.message}`);
       } finally {
-     
       }
     };
     const fetchPreviousProposals = async () => {
@@ -146,7 +141,6 @@ export default function ErcMemberProposal() {
       setLoading(false);
     };
     fetchData();
-
   }, []);
   if (loading) {
     return <Loader />;
@@ -183,76 +177,66 @@ export default function ErcMemberProposal() {
                   No Active Proposal</h1>
               </header>
             </>)}
-            {/* */}
-            {(<> <h1 className='text-xl md:text-3xl font-bold font-Satoshi-Black  '>Audit Forms</h1>
-              <header className='bg-white shadow-sm my-5 p-5 md:p-10 '>
-                <header className=''>
-                  {auditProposals.length > 0 ? (
+      {/*  */}
+            {auditProposals.length > 0 && (
+              <>
+                <h1 className="text-xl md:text-3xl font-bold font-Satoshi-Black">Audit Forms</h1>
+                <header className="bg-white shadow-sm my-5 p-5 md:p-10">
+                  {auditProposals.some((proposal) => (proposal.auditApproved === false || proposal.auditApproved === undefined) && proposal.auditForm && Object.keys(proposal.auditForm).length > 0) ? (
                     auditProposals.map((proposal) => (
-                      <>
-                      
-                        {(proposal.auditApproved == false || proposal.auditApproved === undefined) && proposal.auditForm && Object.keys(proposal.auditForm).length > 0
-                          ? <>{
-                            
-                            <div key={proposal._id}>
-                              <div
-                                onClick={() =>
-                                  setSelectedAuditProposal({
-                                    proposaId: proposal._id,
-                                    title: proposal?.title,
-                                    authorshipTable: proposal?.authorshipTable || [],
-                                    auditForm: proposal?.auditForm || {},
-                                    BMYid: proposal?.createdAt
-                                      ? (() => {
-                                        const date = new Date(proposal.createdAt);
-                                        const number = proposal.proposalId || 'N/A';
-                                        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                        const year = date.getFullYear();
-                                        return `${number}-${month}-${year}`;
-                                      })()
-                                      : 'N/A',
-                                  })
-                                }
-                                className='font-semibold cursor-pointer flex items-center gap-2 mb-2' >
-                                <ImFilesEmpty className='text-2xl' />
-                                Audit Requests:
-                                <span className='font-normal text-epsilon cursor-pointer' >BMY-{
-                                  proposal?.createdAt
-                                    ? (() => {
-                                      const date = new Date(proposal.createdAt);
-                                      const number = proposal.proposalId || 'N/A';
-                                      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                      const year = date.getFullYear();
-                                      return `${number}-${month}-${year}`;
-                                    })()
-                                    : 'N/A'
-                                }
-                                </span>
-                              </div>
-                            </div>
-                          }</>
-                          : <p className='flex gap-1'>
-                          <ImFilesEmpty className='text-xl' />
-                          No Audit Request Available For Approval</p>
-                        }
-                      </>
+                      (proposal.auditApproved === false || proposal.auditApproved === undefined) && proposal.auditForm && Object.keys(proposal.auditForm).length > 0 && (
+                        <div
+                          key={proposal._id}
+                          onClick={() =>
+                            setSelectedAuditProposal({
+                              proposaId: proposal._id,
+                              title: proposal?.title,
+                              authorshipTable: proposal?.authorshipTable || [],
+                              auditForm: proposal?.auditForm || {},
+                              BMYid: proposal?.createdAt
+                                ? (() => {
+                                  const date = new Date(proposal.createdAt);
+                                  const number = proposal.proposalId || 'N/A';
+                                  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                  const year = date.getFullYear();
+                                  return `${number}-${month}-${year}`;
+                                })()
+                                : 'N/A',
+                            })
+                          }
+                          className="font-semibold cursor-pointer flex items-center gap-2 mb-2"
+                        >
+                          <ImFilesEmpty className="text-2xl" />
+                          Audit Requests:
+                          <span className="font-normal text-epsilon cursor-pointer">
+                            BMY-
+                            {proposal?.createdAt
+                              ? (() => {
+                                const date = new Date(proposal.createdAt);
+                                const number = proposal.proposalId || 'N/A';
+                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                const year = date.getFullYear();
+                                return `${number}-${month}-${year}`;
+                              })()
+                              : 'N/A'}
+                          </span>
+                        </div>
+                      )
                     ))
-                  )
-                    : (
-                      <p className='flex gap-1'>
-                          <ImFilesEmpty className='text-xl' />
-                          No Audit Request Available For Approval</p>
-                    )
-                  }
+                  ) : (
+                    <p className="flex gap-1">
+                      <ImFilesEmpty className="text-xl" />
+                      No Audit Request Available For Approval
+                    </p>
+                  )}
                 </header>
-              </header>
-        
-            </>)}
+              </>
+            )}
             {selectedAuditProposal.proposaId !== '' && (
               <header className='md:bg-white md:shadow-sm my-5  md:p-10 '>
                 <ReviewAudit
-                toggleSelectedAuditProposal={toggleSelectedAuditProposal}
-                proposalId={selectedAuditProposal.proposaId}
+                  toggleSelectedAuditProposal={toggleSelectedAuditProposal}
+                  proposalId={selectedAuditProposal.proposaId}
                   title={selectedAuditProposal.title}
                   authorshipTable={selectedAuditProposal.authorshipTable}
                   auditForm={selectedAuditProposal.auditForm}

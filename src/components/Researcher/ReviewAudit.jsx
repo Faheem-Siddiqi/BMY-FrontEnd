@@ -86,7 +86,10 @@ export default function ReviewAudit({
                     {`"${title}"`}
                 </h2>
             </div>
-            <hr className='my-2' />
+            <hr className='my-5' />
+            <header className='bg-epsilon bg-opacity-50 p-4 border-l-4 text-justify border-l-epsilon'>
+                Dear member, please note that this form contains highly confidential data and intellectual property owned by someone. Kindly ensure you open the files using a secure internet connection on your personal computer only, and take extra precautions to keep all files secure and remove from your device after completing the audit. Thank you!
+            </header>
             <header className='md:bg-stone-50 md:shadow-sm my-5 md:p-5'>
                 <section className='mb-4 w-full md:w-[100%]'>
                     <label
