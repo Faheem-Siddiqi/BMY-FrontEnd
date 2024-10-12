@@ -7,34 +7,34 @@ export default function LearnMore() {
         {
             cohort: 'Sept 22 Cohort',
             items: [
-                { title: 'Health and Living conditions after Flood in Pakistan, 2022: Experience of one Union Council.', status: 'Published' },
-                { title: 'Assessing Smartphone Addiction Among Pakistani Medical & Engineering University Students: A Cross-Sectional Study.', status: 'Submitted for Publication' },
-                { title: 'Barriers and Enablers in Implementing Cost-Effective NCD Drug Reimbursement through Social Insurance Schemes in Pakistan.', status: 'Submitted for Publication' },
+                { title: 'Health and Living conditions after flood in Pakistan, 2022; Experience of one Union Council.', status: 'Published' },
+                { title: 'Assessing Smartphone Addiction Among Pakistani Medical & Engineering University Students; A Cross Sectional Study.', status: 'Submitted for Publication' },
+                { title: 'Awareness and Barriers in Implementing Cost-Effective WHO Package of Essential Non-communicable Diseases in Pakistan.', status: 'Submitted for Publication' },
             ],
         },
         {
             cohort: 'Jan 23 Cohort',
             items: [
                 { title: 'Socio-developmental outcomes among children in relation to Physical activity.', status: 'Submitted for Publication' },
-                { title: 'Recent Advancements in the Implementation of Assessment using Microfluidic Kidney-on-a-Chip Models in Biomedical Research.', status: 'Submitted for Publication' },
+                { title: 'Recent Advancements in Nephrotoxicity Assessment using Microfluidic Kidney-on-a- Chip Models: A Narrative Review.', status: 'Submitted for Publication' },
             ],
         },
         {
             cohort: 'May 23 Cohort',
             items: [
-                { title: 'Awareness regarding GhATGPT among medical students and trainees.', status: 'Submitted for Publication' },
-                { title: 'Unraveling the Complexities of Non-Invasive Investigations into Multifactorial Determinants.', status: 'Submitted for Publication' },
-                { title: 'Telemedicine as a New Frontier for Open Dialogue among Healthcare Professionals in Pakistan.', status: 'Submitted for Publication' },
-                { title: 'The Role of Phytotherapy in Bridging Traditional and Orthomolecular Differences in Healthcare.', status: 'Published' },
+                { title: 'Awareness regarding ChatGPT among medical students and trainees.', status: 'Submitted for Publication'  },
+                { title: 'Unraveling the Complexities of Narcissism: Investigating its Multifactorial Determinants.', status: 'Submitted for Publication' },
+                { title: 'Knowledge, Attitude and Practice of Organ Donation among Healthcare Professionals in Rawalpindi and Islamabad.', status: 'Submitted for Publication' },
+                { title: 'The Role of Transparency in Building Trust and Organizational Effectiveness in Healthcare.', status: 'Published' },
             ],
         },
         {
             cohort: 'Nov 23 Cohort',
             items: [
-                { title: 'Caring for the care givers: An observational determinants of Happiness among health care workers in Pakistan.', status: 'Manuscript Writing' },
-                { title: 'Investigating the Correlation Between Urban and Lean Psychosis-Vitamin D as a Case Study.', status: 'Manuscript Writing' },
+                { title: 'Caring for the care givers: An examination of determinants of Happiness among health care professionals in Pakistan.', status: 'Manuscript Writing' },
+                { title: 'Association Between Sleep Disturbance and Lean Polycystic Ovarian Syndrome: A Case Control Study.', status: 'Manuscript Writing' },
                 { title: 'Assessing Health and Economic Ramifications of Sleep.', status: 'Manuscript Writing' },
-                { title: 'Healthcare Motivation – Attitudes and Perceptions: What do Employees Think?', status: 'Manuscript Writing' },
+                { title: 'Navigating Antimicrobial Resistance Insights: An In-Depth Analysis Of Healthcare Professionals Knowledge, Attitudes, And Practices, With An Emphasis On Precision Medicine In Pakistan.', status: 'Manuscript Writing' },
             ],
         },
     ];
@@ -87,7 +87,7 @@ export default function LearnMore() {
                         <ul className="space-y-2">
                             {cohort.items.map((item, idx) => (
                                 <li key={idx} className="flex justify-between items-center">
-                                    <span className="text">{idx + 1}. {item.title}</span>
+                                    <span className="text md:w-[85%]">{idx + 1}. {item.title}</span>
                                     <span className="xl:block hidden font-medium">
                                         {item.status === 'Published' && (
                                             <span className="text-green-700">{item.status}</span>
