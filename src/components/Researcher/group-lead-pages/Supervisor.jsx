@@ -178,7 +178,7 @@ export default function Supervisor() {
                                 {supervisors && supervisors.length > 0 ? (
                                     <>
                                         <h1 className='font-semibold text-lg flex items-center gap-2'>
-                                            Supervisors Avaiable
+                                            Supervisors Available
                                         </h1>
                                         <div className="flex md:justify-end my-5">
                                             <div className='w-full md:px-0 px-5 md:w-[30%] h-fit relative'>
@@ -213,7 +213,7 @@ export default function Supervisor() {
                                     <header className='bg-white shadow-sm my-5 p-10'>
                                         <h1 className='font-semibold flex items-center gap-2'>
                                             <MdOutlineGroupOff className='text-2xl' />
-                                            Supervisor Not Avaiable
+                                            Supervisor Not Available
                                         </h1>
                                     </header>
                                 )}
