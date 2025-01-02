@@ -51,6 +51,7 @@ export default function Supervisor() {
                 });
                 if (!response.ok) {
                     setLoading(false);
+                    fetchAllSupervisors();
                     SetShowNoSupervisor(true);
                     return;
                 }
@@ -94,8 +95,7 @@ export default function Supervisor() {
                 const result = await response.json();
                 if (isMounted) {
                     if (result.success) {
-                        // console.log('result')
-                        // console.log(result.supervisors);
+                        
                         const formattedSupervisors = result.supervisors.map(supervisors => ({
                             id: supervisors._id,
                             profileImage: supervisors.pfp ? supervisors.pfp : '',

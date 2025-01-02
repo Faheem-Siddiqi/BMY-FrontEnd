@@ -5,6 +5,11 @@ import { getCookie } from "cookies-next";
 const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, institution, designation }) => {
     const handleRequest = async (supervisorId, teamId) => {
         try {
+            if (!supervisorId || !teamId) {
+                toast.error("Supervisor or its Team ID is missing.");
+                return;
+            }
+
             const payload = JSON.stringify({
                 teamId: teamId,
                 supervisorId: supervisorId,
@@ -55,6 +60,7 @@ const SupervisorTableRow = ({ supervisorId, teamId, profileImage, name, email, i
                 </td>
                 <td className='px-4'>{institution}</td>
                 <td className='px-4'>{designation}</td>
+               
                 <td className='px-4'>
                     <div className='flex gap-2'>
                         <button
